@@ -16,6 +16,9 @@
     "test": "vitest run",
     "change": "beachball change"
   },
+  "beacball": {
+    "access": "public"
+  },
   "keywords": [
     "eve",
     "eve online",
