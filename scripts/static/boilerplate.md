@@ -10,11 +10,11 @@ import { EsiClient } from '@localisprimary/esi'
 // Create client (optionally with auth token)
 const esi = new EsiClient({ token: 'bearer-token' })
 
-// Example: Get all alliances
+// Get all alliances
 const alliances = await esi.getAlliances()
 console.log(alliances.data)
 
-// Example: Get specific alliance info
+// Get specific alliance by ID
 const alliance = await esi.getAlliance({ alliance_id: 123 })
 console.log(alliance.data)
 ```
@@ -36,7 +36,7 @@ interface EsiError {
 }
 ```
 
-All methods are fully typed, ex `getAlliance` will take `GetAllianceParams` and return `GetAllianceResponse`.
+All methods are fully typed: `getAlliance` will take `GetAllianceParams` and return `GetAllianceResponse`.
 
 `Params` types make no distinction between path, query, or body parameters, it's all the same object:
 ```typescript
