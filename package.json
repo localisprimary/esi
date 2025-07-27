@@ -1,6 +1,6 @@
 {
   "name": "@localisprimary/esi",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "type": "module",
   "description": "Auto-generated TypeScript client for EVE Online ESI API",
   "main": "dist/index.js",
@@ -27,7 +27,8 @@
   "author": "Adam Trager <hello@adamtrager.com>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/localisprimary/esi.git"},
+    "url": "https://github.com/localisprimary/esi.git"
+  },
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^24.1.0",

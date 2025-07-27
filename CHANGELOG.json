@@ -1,0 +1,20 @@
+{
+  "name": "@localisprimary/esi",
+  "entries": [
+    {
+      "date": "Sun, 27 Jul 2025 01:02:32 GMT",
+      "version": "1.0.1",
+      "tag": "@localisprimary/esi_v1.0.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "hello@adamtrager.com",
+            "package": "@localisprimary/esi",
+            "commit": "1419ad05cbc8dc8e30000e0ab99e77b18c1b8130",
+            "comment": "Fix extra punctuation in generated readme descriptions"
+          }
+        ]
+      }
+    }
+  ]
+}
