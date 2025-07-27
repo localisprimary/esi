@@ -86,8 +86,8 @@ function generateTypes(schema: OpenAPISchema): string {
   console.log('Generating TypeScript types...')
 
   let types = `// Auto-generated TypeScript types for EVE ESI API
-export interface EsiResponse<T> {
-  data: T;
+export interface EsiResponse<TData> {
+  data: TData;
   status: number;
   headers: Record<string, string>;
 }

@@ -1,6 +1,6 @@
 // Auto-generated TypeScript types for EVE ESI API
-export interface EsiResponse<T> {
-  data: T
+export interface EsiResponse<TData> {
+  data: TData
   status: number
   headers: Record<string, string>
 }
