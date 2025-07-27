@@ -1,6 +1,6 @@
 # @localisprimary/esi
 
-A slightly opinionated TypeScript client library for the EVE Online ESI (EVE Swagger Interface) API.
+A slightly opinionated TypeScript client library for the [EVE Online API](https://developers.eveonline.com/api-explorer).
 
 ## Usage
 
