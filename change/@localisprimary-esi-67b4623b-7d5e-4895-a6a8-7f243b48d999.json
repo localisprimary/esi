@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "Fix extra punctuation in generated readme descriptions",
+  "packageName": "@localisprimary/esi",
+  "email": "hello@adamtrager.com",
+  "dependentChangeType": "patch"
+}
