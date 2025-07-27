@@ -35,9 +35,6 @@ importers:
       eslint-plugin-prettier:
         specifier: ^5.5.3
         version: 5.5.3(eslint-config-prettier@10.1.8(eslint@9.32.0))(eslint@9.32.0)(prettier@3.6.2)
-      happy-dom:
-        specifier: ^18.0.1
-        version: 18.0.1
       prettier:
         specifier: ^3.6.2
         version: 3.6.2
@@ -1647,6 +1644,7 @@ snapshots:
   '@types/node@20.19.9':
     dependencies:
       undici-types: 6.21.0
+    optional: true
 
   '@types/node@24.1.0':
     dependencies:
@@ -1656,7 +1654,8 @@ snapshots:
     dependencies:
       parse-path: 7.1.0
 
-  '@types/whatwg-mimetype@3.0.2': {}
+  '@types/whatwg-mimetype@3.0.2':
+    optional: true
 
   '@typescript-eslint/eslint-plugin@8.38.0(@typescript-eslint/parser@8.38.0(eslint@9.32.0)(typescript@5.8.3))(eslint@9.32.0)(typescript@5.8.3)':
     dependencies:
@@ -2172,6 +2171,7 @@ snapshots:
       '@types/node': 20.19.9
       '@types/whatwg-mimetype': 3.0.2
       whatwg-mimetype: 3.0.0
+    optional: true
 
   has-flag@4.0.0: {}
 
@@ -2531,7 +2531,8 @@ snapshots:
 
   typescript@5.8.3: {}
 
-  undici-types@6.21.0: {}
+  undici-types@6.21.0:
+    optional: true
 
   undici-types@7.8.0: {}
 
@@ -2617,7 +2618,8 @@ snapshots:
       - tsx
       - yaml
 
-  whatwg-mimetype@3.0.0: {}
+  whatwg-mimetype@3.0.0:
+    optional: true
 
   which@2.0.2:
     dependencies:
