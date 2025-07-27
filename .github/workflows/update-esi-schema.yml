@@ -1,0 +1,86 @@
+name: Update ESI Schema
+
+on:
+  schedule:
+    - cron: '30 11 * * *' # Daily at 11:30 UTC
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  update-schema:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: "10.13.1"
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.4.1'
+          cache: 'pnpm'
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Fetch schema and check for changes
+        id: schema-check
+        run: |
+          # Fetch latest schema
+          pnpm fetch-schema
+
+          # Check if repo is dirty (any changes)
+          if git diff --quiet && git diff --cached --quiet; then
+            echo "changed=false" >> $GITHUB_OUTPUT
+            echo "No schema changes detected"
+          else
+            echo "changed=true" >> $GITHUB_OUTPUT
+            echo "Schema changes detected"
+          fi
+
+      - name: Build
+        if: steps.schema-check.outputs.changed == 'true'
+        run: |
+          pnpm generate
+          pnpm test
+          pnpm lint:fix
+          pnpm build
+
+      - name: Close previous automated PRs
+        if: steps.schema-check.outputs.changed == 'true'
+        run: |
+          # Find and close any existing automated ESI schema update PRs
+          gh pr list --state open --author "github-actions[bot]" --search "chore: Update EVE ESI schema" --json number --jq '.[].number' | while read pr_number; do
+            if [ -n "$pr_number" ]; then
+              echo "Closing previous automated PR #$pr_number"
+              gh pr close $pr_number --comment "Superseded by newer ESI schema update"
+            fi
+          done
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create Pull Request
+        if: steps.schema-check.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v5
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: |
+            Update EVE ESI schema
+
+            🤖 Automated update from latest ESI OpenAPI schema
+          title: 'chore: Update EVE ESI schema'
+          body: |
+            ## ESI Schema Update
+
+            This PR contains an automated update to the EVE ESI schema.
+
+          branch: automated/update-esi-schema
+          branch-suffix: timestamp
+          delete-branch: true

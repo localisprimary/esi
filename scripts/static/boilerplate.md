@@ -1,0 +1,57 @@
+# @localisprimary/esi
+
+A slightly opinionated TypeScript client library for the EVE Online ESI (EVE Swagger Interface) API.
+
+## Usage
+
+```typescript
+import { EsiClient } from '@localisprimary/esi'
+
+// Create client (optionally with auth token)
+const esi = new EsiClient({ token: 'bearer-token' })
+
+// Example: Get all alliances
+const alliances = await esi.getAlliances()
+console.log(alliances.data)
+
+// Example: Get specific alliance info
+const alliance = await esi.getAlliance({ alliance_id: 123 })
+console.log(alliance.data)
+```
+
+## Methods
+
+This client provides methods for all EVE ESI endpoints. Methods return a Promise that resolves to an `EsiResponse<T>` object or throws an `EsiError`.
+
+```typescript
+interface EsiResponse<T> {
+  data: T;
+  status: number;
+  headers: Partial<Record<string, string>>;
+}
+
+interface EsiError {
+  error: string;
+  status: number;
+}
+```
+
+All methods are fully typed, ex `getAlliance` will take `GetAllianceParams` and return `GetAllianceResponse`.
+
+`Params` types make no distinction between path, query, or body parameters, it's all the same object:
+```typescript
+const esi = new EsiClient({ token: 'bearer-token' })
+
+// https://esi.evetech.net/characters/{character_id}/mail
+esi.postCharacterMail({
+  // character_id path parameter
+  character_id: 91884358,
+
+  // request body
+  approved_cost: 0,
+  body: "Hello from the ESI!",
+  recipients: [{ recipient_type: 'character', recipient_id: 96135698 }]
+})
+```
+
+{methodsTable}

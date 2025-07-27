@@ -1,0 +1,54 @@
+{
+  "name": "@localisprimary/esi",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "Auto-generated TypeScript client for EVE Online ESI API",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "sideEffects": false,
+  "scripts": {
+    "fetch-schema": "node scripts/fetch-schema.ts",
+    "generate": "node scripts/generate.ts && yarn lint:fix",
+    "build": "rimraf dist && tsc",
+    "lint": "eslint src",
+    "lint:fix": "eslint src --fix",
+    "test": "vitest run",
+    "change": "beachball change"
+  },
+  "keywords": [
+    "eve",
+    "eve online",
+    "esi",
+    "api",
+    "client",
+    "typescript"
+  ],
+  "author": "Adam Trager <hello@adamtrager.com>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/localisprimary/esi.git"},
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^24.1.0",
+    "@typescript-eslint/eslint-plugin": "^8.38.0",
+    "@typescript-eslint/parser": "^8.38.0",
+    "@vitest/ui": "^3.2.4",
+    "beachball": "^2.54.0",
+    "camelcase": "^8.0.0",
+    "eslint": "^9.31.0",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-prettier": "^5.5.3",
+    "happy-dom": "^18.0.1",
+    "prettier": "^3.6.2",
+    "rimraf": "^6.0.1",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "engines": {
+    "node": "^24.4.1"
+  },
+  "packageManager": "pnpm@10.13.1+sha512.37ebf1a5c7a30d5fabe0c5df44ee8da4c965ca0c5af3dbab28c3a1681b70a256218d05c81c9c0dcf767ef6b8551eb5b960042b9ed4300c59242336377e01cfad"
+}
