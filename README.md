@@ -252,3 +252,5 @@ esi.postCharacterMail({
 | [`getWarKillmails`](https://developers.eveonline.com/api-explorer#/operations/GetWarsWarIdKillmails) | Return a list of kills related to a war |
 | [`getWars`](https://developers.eveonline.com/api-explorer#/operations/GetWars) | Return a list of wars |
 
+
+[![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-white.svg)](https://buymeacoffee.com/nfinished)

@@ -55,3 +55,5 @@ esi.postCharacterMail({
 ```
 
 {methodsTable}
+
+[![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-white.svg)](https://buymeacoffee.com/nfinished)
