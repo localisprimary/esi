@@ -25,6 +25,7 @@
     "typescript"
   ],
   "author": "Adam Trager <hello@adamtrager.com>",
+  "funding": "https://buymeacoffee.com/nfinished",
   "repository": {
     "type": "git",
     "url": "https://github.com/localisprimary/esi.git"
