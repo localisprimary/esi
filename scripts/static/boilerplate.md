@@ -42,7 +42,7 @@ All methods are fully typed: `getAlliance` will take `GetAllianceParams` and ret
 ```typescript
 const esi = new EsiClient({ token: 'bearer-token' })
 
-// https://esi.evetech.net/characters/{character_id}/mail
+// POST https://esi.evetech.net/characters/{character_id}/mail
 esi.postCharacterMail({
   // character_id path parameter
   character_id: 91884358,
