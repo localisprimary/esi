@@ -2,6 +2,21 @@
   "name": "@localisprimary/esi",
   "entries": [
     {
+      "date": "Sun, 27 Jul 2025 15:40:19 GMT",
+      "version": "1.0.2",
+      "tag": "@localisprimary/esi_v1.0.2",
+      "comments": {
+        "patch": [
+          {
+            "author": "hello@adamtrager.com",
+            "package": "@localisprimary/esi",
+            "commit": "2386ff752a81363bfb057e10cbff80763f79ac74",
+            "comment": "fix tsconfig build output"
+          }
+        ]
+      }
+    },
+    {
       "date": "Sun, 27 Jul 2025 01:02:32 GMT",
       "version": "1.0.1",
       "tag": "@localisprimary/esi_v1.0.1",
