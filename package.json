@@ -14,8 +14,7 @@
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "test": "vitest run",
-    "change": "beachball change",
-    "release": "beachball publish --access public"
+    "change": "beachball change"
   },
   "keywords": [
     "eve",
