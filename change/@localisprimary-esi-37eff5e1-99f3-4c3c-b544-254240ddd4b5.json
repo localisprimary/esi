@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "Add response header types to EsiResponse",
-  "packageName": "@localisprimary/esi",
-  "email": "hello@adamtrager.com",
-  "dependentChangeType": "patch"
-}

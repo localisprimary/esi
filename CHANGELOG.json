@@ -2,6 +2,21 @@
   "name": "@localisprimary/esi",
   "entries": [
     {
+      "date": "Mon, 28 Jul 2025 19:48:23 GMT",
+      "version": "1.1.0",
+      "tag": "@localisprimary/esi_v1.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "hello@adamtrager.com",
+            "package": "@localisprimary/esi",
+            "commit": "1a507afdda11bfee93ff1a5c598d6e685dd206dc",
+            "comment": "Add response header types to EsiResponse"
+          }
+        ]
+      }
+    },
+    {
       "date": "Sun, 27 Jul 2025 15:40:19 GMT",
       "version": "1.0.2",
       "tag": "@localisprimary/esi_v1.0.2",

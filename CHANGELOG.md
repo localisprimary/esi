@@ -1,8 +1,16 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Sun, 27 Jul 2025 15:40:19 GMT and should not be manually modified. -->
+<!-- This log was last generated on Mon, 28 Jul 2025 19:48:23 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 1.1.0
+
+Mon, 28 Jul 2025 19:48:23 GMT
+
+### Minor changes
+
+- Add response header types to EsiResponse (hello@adamtrager.com)
 
 ## 1.0.2
 
