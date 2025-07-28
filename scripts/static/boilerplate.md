@@ -25,7 +25,7 @@ console.log(alliance.data)
 
 ## Methods
 
-This client provides methods for all EVE ESI endpoints. Methods return a Promise that resolves to an `EsiResponse<T>` object or throws an `EsiError`.
+This client provides methods for all EVE ESI endpoints. Methods return a `Promise` that resolves to an `EsiResponse<T>` or throws an `EsiError`.
 
 ```typescript
 interface EsiResponse<TData, THeaders = Record<string, string>> {
