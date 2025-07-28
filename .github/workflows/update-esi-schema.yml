@@ -44,11 +44,7 @@ jobs:
 
       - name: Build
         if: steps.schema-check.outputs.changed == 'true'
-        run: |
-          pnpm generate
-          pnpm test
-          pnpm lint:fix
-          pnpm build
+        run: pnpm compile
 
       - name: Close previous automated PRs
         if: steps.schema-check.outputs.changed == 'true'
