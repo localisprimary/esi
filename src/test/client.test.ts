@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { EsiClient } from '../client'
+import { EsiClient } from '../../dist'
 
 describe('EsiClient - Live API Tests', () => {
   const client = new EsiClient()

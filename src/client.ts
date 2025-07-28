@@ -10,12 +10,12 @@ export class EsiClient {
     this.token = options.token
   }
 
-  private async request<T>(
+  private async request<TData, THeaders>(
     method: string,
     path: string,
     params?: Record<string, any>,
     body?: any
-  ): Promise<Types.EsiResponse<T>> {
+  ): Promise<Types.EsiResponse<TData, THeaders>> {
     const url = new URL(path, this.baseUrl)
 
     if (params && method === 'GET') {
@@ -52,7 +52,7 @@ export class EsiClient {
     return {
       data,
       status: response.status,
-      headers: Object.fromEntries(response.headers.entries()),
+      headers: Object.fromEntries(response.headers.entries()) as THeaders,
     }
   }
 
@@ -61,14 +61,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetAlliances
    */
-  async getAlliances(): Promise<Types.EsiResponse<Types.GetAlliancesResponse>> {
+  async getAlliances() {
     const path = `/alliances`
-    return this.request<Types.GetAlliancesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetAlliancesResponse,
+      Types.GetAlliancesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -76,16 +74,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceId
    */
-  async getAlliance(
-    params: Types.GetAllianceParams
-  ): Promise<Types.EsiResponse<Types.GetAllianceResponse>> {
+  async getAlliance(params: Types.GetAllianceParams) {
     const path = `/alliances/${params.alliance_id}`
-    return this.request<Types.GetAllianceResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetAllianceResponse,
+      Types.GetAllianceResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -93,17 +87,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceIdContacts
    */
-  async getAllianceContacts(
-    params: Types.GetAllianceContactsParams
-  ): Promise<Types.EsiResponse<Types.GetAllianceContactsResponse>> {
+  async getAllianceContacts(params: Types.GetAllianceContactsParams) {
     const path = `/alliances/${params.alliance_id}/contacts`
     const queryParams = { page: params.page }
-    return this.request<Types.GetAllianceContactsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetAllianceContactsResponse,
+      Types.GetAllianceContactsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -113,14 +103,12 @@ export class EsiClient {
    */
   async getAllianceContactsLabels(
     params: Types.GetAllianceContactsLabelsParams
-  ): Promise<Types.EsiResponse<Types.GetAllianceContactsLabelsResponse>> {
+  ) {
     const path = `/alliances/${params.alliance_id}/contacts/labels`
-    return this.request<Types.GetAllianceContactsLabelsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetAllianceContactsLabelsResponse,
+      Types.GetAllianceContactsLabelsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -128,16 +116,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceIdCorporations
    */
-  async getAllianceCorporations(
-    params: Types.GetAllianceCorporationsParams
-  ): Promise<Types.EsiResponse<Types.GetAllianceCorporationsResponse>> {
+  async getAllianceCorporations(params: Types.GetAllianceCorporationsParams) {
     const path = `/alliances/${params.alliance_id}/corporations`
-    return this.request<Types.GetAllianceCorporationsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetAllianceCorporationsResponse,
+      Types.GetAllianceCorporationsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -147,16 +131,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceIdIcons
    */
-  async getAllianceIcons(
-    params: Types.GetAllianceIconsParams
-  ): Promise<Types.EsiResponse<Types.GetAllianceIconsResponse>> {
+  async getAllianceIcons(params: Types.GetAllianceIconsParams) {
     const path = `/alliances/${params.alliance_id}/icons`
-    return this.request<Types.GetAllianceIconsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetAllianceIconsResponse,
+      Types.GetAllianceIconsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -166,15 +146,13 @@ export class EsiClient {
    */
   async postCharactersAffiliation(
     params: Types.PostCharactersAffiliationParams
-  ): Promise<Types.EsiResponse<Types.PostCharactersAffiliationResponse>> {
+  ) {
     const path = `/characters/affiliation`
     const body = params.body
-    return this.request<Types.PostCharactersAffiliationResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostCharactersAffiliationResponse,
+      Types.PostCharactersAffiliationResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -182,16 +160,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterId
    */
-  async getCharacter(
-    params: Types.GetCharacterParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterResponse>> {
+  async getCharacter(params: Types.GetCharacterParams) {
     const path = `/characters/${params.character_id}`
-    return this.request<Types.GetCharacterResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterResponse,
+      Types.GetCharacterResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -201,14 +175,12 @@ export class EsiClient {
    */
   async getCharacterAgentsResearch(
     params: Types.GetCharacterAgentsResearchParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterAgentsResearchResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/agents_research`
-    return this.request<Types.GetCharacterAgentsResearchResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterAgentsResearchResponse,
+      Types.GetCharacterAgentsResearchResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -216,17 +188,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdAssets
    */
-  async getCharacterAssets(
-    params: Types.GetCharacterAssetsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterAssetsResponse>> {
+  async getCharacterAssets(params: Types.GetCharacterAssetsParams) {
     const path = `/characters/${params.character_id}/assets`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCharacterAssetsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterAssetsResponse,
+      Types.GetCharacterAssetsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -236,15 +204,13 @@ export class EsiClient {
    */
   async postCharacterAssetsLocations(
     params: Types.PostCharacterAssetsLocationsParams
-  ): Promise<Types.EsiResponse<Types.PostCharacterAssetsLocationsResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/assets/locations`
     const body = params.body
-    return this.request<Types.PostCharacterAssetsLocationsResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostCharacterAssetsLocationsResponse,
+      Types.PostCharacterAssetsLocationsResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -252,17 +218,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdAssetsNames
    */
-  async postCharacterAssetsNames(
-    params: Types.PostCharacterAssetsNamesParams
-  ): Promise<Types.EsiResponse<Types.PostCharacterAssetsNamesResponse>> {
+  async postCharacterAssetsNames(params: Types.PostCharacterAssetsNamesParams) {
     const path = `/characters/${params.character_id}/assets/names`
     const body = params.body
-    return this.request<Types.PostCharacterAssetsNamesResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostCharacterAssetsNamesResponse,
+      Types.PostCharacterAssetsNamesResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -270,16 +232,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdAttributes
    */
-  async getCharacterAttributes(
-    params: Types.GetCharacterAttributesParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterAttributesResponse>> {
+  async getCharacterAttributes(params: Types.GetCharacterAttributesParams) {
     const path = `/characters/${params.character_id}/attributes`
-    return this.request<Types.GetCharacterAttributesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterAttributesResponse,
+      Types.GetCharacterAttributesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -287,17 +245,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdBlueprints
    */
-  async getCharacterBlueprints(
-    params: Types.GetCharacterBlueprintsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterBlueprintsResponse>> {
+  async getCharacterBlueprints(params: Types.GetCharacterBlueprintsParams) {
     const path = `/characters/${params.character_id}/blueprints`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCharacterBlueprintsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterBlueprintsResponse,
+      Types.GetCharacterBlueprintsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -305,17 +259,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdCalendar
    */
-  async getCharacterCalendar(
-    params: Types.GetCharacterCalendarParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterCalendarResponse>> {
+  async getCharacterCalendar(params: Types.GetCharacterCalendarParams) {
     const path = `/characters/${params.character_id}/calendar`
     const queryParams = { from_event: params.from_event }
-    return this.request<Types.GetCharacterCalendarResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterCalendarResponse,
+      Types.GetCharacterCalendarResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -325,14 +275,12 @@ export class EsiClient {
    */
   async getCharacterCalendarEventId(
     params: Types.GetCharacterCalendarEventIdParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterCalendarEventIdResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/calendar/${params.event_id}`
-    return this.request<Types.GetCharacterCalendarEventIdResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterCalendarEventIdResponse,
+      Types.GetCharacterCalendarEventIdResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -342,15 +290,13 @@ export class EsiClient {
    */
   async putCharacterCalendarEventId(
     params: Types.PutCharacterCalendarEventIdParams
-  ): Promise<Types.EsiResponse<Types.PutCharacterCalendarEventIdResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/calendar/${params.event_id}`
     const body = { response: params.response }
-    return this.request<Types.PutCharacterCalendarEventIdResponse>(
-      'PUT',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PutCharacterCalendarEventIdResponse,
+      Types.PutCharacterCalendarEventIdResponseHeaders
+    >('PUT', path, undefined, body)
   }
 
   /**
@@ -360,16 +306,12 @@ export class EsiClient {
    */
   async getCharacterCalendarEventAttendees(
     params: Types.GetCharacterCalendarEventAttendeesParams
-  ): Promise<
-    Types.EsiResponse<Types.GetCharacterCalendarEventAttendeesResponse>
-  > {
+  ) {
     const path = `/characters/${params.character_id}/calendar/${params.event_id}/attendees`
-    return this.request<Types.GetCharacterCalendarEventAttendeesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterCalendarEventAttendeesResponse,
+      Types.GetCharacterCalendarEventAttendeesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -377,16 +319,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdClones
    */
-  async getCharacterClones(
-    params: Types.GetCharacterClonesParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterClonesResponse>> {
+  async getCharacterClones(params: Types.GetCharacterClonesParams) {
     const path = `/characters/${params.character_id}/clones`
-    return this.request<Types.GetCharacterClonesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterClonesResponse,
+      Types.GetCharacterClonesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -394,17 +332,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/DeleteCharactersCharacterIdContacts
    */
-  async deleteCharacterContacts(
-    params: Types.DeleteCharacterContactsParams
-  ): Promise<Types.EsiResponse<Types.DeleteCharacterContactsResponse>> {
+  async deleteCharacterContacts(params: Types.DeleteCharacterContactsParams) {
     const path = `/characters/${params.character_id}/contacts`
     const queryParams = { contact_ids: params.contact_ids }
-    return this.request<Types.DeleteCharacterContactsResponse>(
-      'DELETE',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.DeleteCharacterContactsResponse,
+      Types.DeleteCharacterContactsResponseHeaders
+    >('DELETE', path, queryParams, undefined)
   }
 
   /**
@@ -412,17 +346,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContacts
    */
-  async getCharacterContacts(
-    params: Types.GetCharacterContactsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterContactsResponse>> {
+  async getCharacterContacts(params: Types.GetCharacterContactsParams) {
     const path = `/characters/${params.character_id}/contacts`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCharacterContactsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterContactsResponse,
+      Types.GetCharacterContactsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -430,9 +360,7 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdContacts
    */
-  async postCharacterContacts(
-    params: Types.PostCharacterContactsParams
-  ): Promise<Types.EsiResponse<Types.PostCharacterContactsResponse>> {
+  async postCharacterContacts(params: Types.PostCharacterContactsParams) {
     const path = `/characters/${params.character_id}/contacts`
     const queryParams = {
       label_ids: params.label_ids,
@@ -440,12 +368,10 @@ export class EsiClient {
       watched: params.watched,
     }
     const body = params.body
-    return this.request<Types.PostCharacterContactsResponse>(
-      'POST',
-      path,
-      queryParams,
-      body
-    )
+    return this.request<
+      Types.PostCharacterContactsResponse,
+      Types.PostCharacterContactsResponseHeaders
+    >('POST', path, queryParams, body)
   }
 
   /**
@@ -453,9 +379,7 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PutCharactersCharacterIdContacts
    */
-  async putCharacterContacts(
-    params: Types.PutCharacterContactsParams
-  ): Promise<Types.EsiResponse<Types.PutCharacterContactsResponse>> {
+  async putCharacterContacts(params: Types.PutCharacterContactsParams) {
     const path = `/characters/${params.character_id}/contacts`
     const queryParams = {
       label_ids: params.label_ids,
@@ -463,12 +387,10 @@ export class EsiClient {
       watched: params.watched,
     }
     const body = params.body
-    return this.request<Types.PutCharacterContactsResponse>(
-      'PUT',
-      path,
-      queryParams,
-      body
-    )
+    return this.request<
+      Types.PutCharacterContactsResponse,
+      Types.PutCharacterContactsResponseHeaders
+    >('PUT', path, queryParams, body)
   }
 
   /**
@@ -478,14 +400,12 @@ export class EsiClient {
    */
   async getCharacterContactsLabels(
     params: Types.GetCharacterContactsLabelsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterContactsLabelsResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/contacts/labels`
-    return this.request<Types.GetCharacterContactsLabelsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterContactsLabelsResponse,
+      Types.GetCharacterContactsLabelsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -493,17 +413,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContracts
    */
-  async getCharacterContracts(
-    params: Types.GetCharacterContractsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterContractsResponse>> {
+  async getCharacterContracts(params: Types.GetCharacterContractsParams) {
     const path = `/characters/${params.character_id}/contracts`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCharacterContractsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterContractsResponse,
+      Types.GetCharacterContractsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -511,16 +427,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContractsContractIdBids
    */
-  async getCharacterContractBids(
-    params: Types.GetCharacterContractBidsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterContractBidsResponse>> {
+  async getCharacterContractBids(params: Types.GetCharacterContractBidsParams) {
     const path = `/characters/${params.character_id}/contracts/${params.contract_id}/bids`
-    return this.request<Types.GetCharacterContractBidsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterContractBidsResponse,
+      Types.GetCharacterContractBidsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -530,14 +442,12 @@ export class EsiClient {
    */
   async getCharacterContractItems(
     params: Types.GetCharacterContractItemsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterContractItemsResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/contracts/${params.contract_id}/items`
-    return this.request<Types.GetCharacterContractItemsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterContractItemsResponse,
+      Types.GetCharacterContractItemsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -547,14 +457,12 @@ export class EsiClient {
    */
   async getCharacterCorporationhistory(
     params: Types.GetCharacterCorporationhistoryParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterCorporationhistoryResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/corporationhistory`
-    return this.request<Types.GetCharacterCorporationhistoryResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterCorporationhistoryResponse,
+      Types.GetCharacterCorporationhistoryResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -562,17 +470,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdCspa
    */
-  async postCharacterCspa(
-    params: Types.PostCharacterCspaParams
-  ): Promise<Types.EsiResponse<Types.PostCharacterCspaResponse>> {
+  async postCharacterCspa(params: Types.PostCharacterCspaParams) {
     const path = `/characters/${params.character_id}/cspa`
     const body = params.body
-    return this.request<Types.PostCharacterCspaResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostCharacterCspaResponse,
+      Types.PostCharacterCspaResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -580,16 +484,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdFatigue
    */
-  async getCharacterFatigue(
-    params: Types.GetCharacterFatigueParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterFatigueResponse>> {
+  async getCharacterFatigue(params: Types.GetCharacterFatigueParams) {
     const path = `/characters/${params.character_id}/fatigue`
-    return this.request<Types.GetCharacterFatigueResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterFatigueResponse,
+      Types.GetCharacterFatigueResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -597,16 +497,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdFittings
    */
-  async getCharacterFittings(
-    params: Types.GetCharacterFittingsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterFittingsResponse>> {
+  async getCharacterFittings(params: Types.GetCharacterFittingsParams) {
     const path = `/characters/${params.character_id}/fittings`
-    return this.request<Types.GetCharacterFittingsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterFittingsResponse,
+      Types.GetCharacterFittingsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -614,9 +510,7 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdFittings
    */
-  async postCharacterFittings(
-    params: Types.PostCharacterFittingsParams
-  ): Promise<Types.EsiResponse<Types.PostCharacterFittingsResponse>> {
+  async postCharacterFittings(params: Types.PostCharacterFittingsParams) {
     const path = `/characters/${params.character_id}/fittings`
     const body = {
       description: params.description,
@@ -624,12 +518,10 @@ export class EsiClient {
       name: params.name,
       ship_type_id: params.ship_type_id,
     }
-    return this.request<Types.PostCharacterFittingsResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostCharacterFittingsResponse,
+      Types.PostCharacterFittingsResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -637,16 +529,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/DeleteCharactersCharacterIdFittingsFittingId
    */
-  async deleteCharacterFitting(
-    params: Types.DeleteCharacterFittingParams
-  ): Promise<Types.EsiResponse<Types.DeleteCharacterFittingResponse>> {
+  async deleteCharacterFitting(params: Types.DeleteCharacterFittingParams) {
     const path = `/characters/${params.character_id}/fittings/${params.fitting_id}`
-    return this.request<Types.DeleteCharacterFittingResponse>(
-      'DELETE',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.DeleteCharacterFittingResponse,
+      Types.DeleteCharacterFittingResponseHeaders
+    >('DELETE', path, undefined, undefined)
   }
 
   /**
@@ -654,16 +542,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdFleet
    */
-  async getCharacterFleet(
-    params: Types.GetCharacterFleetParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterFleetResponse>> {
+  async getCharacterFleet(params: Types.GetCharacterFleetParams) {
     const path = `/characters/${params.character_id}/fleet`
-    return this.request<Types.GetCharacterFleetResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterFleetResponse,
+      Types.GetCharacterFleetResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -673,16 +557,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdFwStats
    */
-  async getCharacterFwStats(
-    params: Types.GetCharacterFwStatsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterFwStatsResponse>> {
+  async getCharacterFwStats(params: Types.GetCharacterFwStatsParams) {
     const path = `/characters/${params.character_id}/fw/stats`
-    return this.request<Types.GetCharacterFwStatsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterFwStatsResponse,
+      Types.GetCharacterFwStatsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -690,16 +570,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdImplants
    */
-  async getCharacterImplants(
-    params: Types.GetCharacterImplantsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterImplantsResponse>> {
+  async getCharacterImplants(params: Types.GetCharacterImplantsParams) {
     const path = `/characters/${params.character_id}/implants`
-    return this.request<Types.GetCharacterImplantsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterImplantsResponse,
+      Types.GetCharacterImplantsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -707,17 +583,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdIndustryJobs
    */
-  async getCharacterIndustryJobs(
-    params: Types.GetCharacterIndustryJobsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterIndustryJobsResponse>> {
+  async getCharacterIndustryJobs(params: Types.GetCharacterIndustryJobsParams) {
     const path = `/characters/${params.character_id}/industry/jobs`
     const queryParams = { include_completed: params.include_completed }
-    return this.request<Types.GetCharacterIndustryJobsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterIndustryJobsResponse,
+      Types.GetCharacterIndustryJobsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -727,15 +599,13 @@ export class EsiClient {
    */
   async getCharacterKillmailsRecent(
     params: Types.GetCharacterKillmailsRecentParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterKillmailsRecentResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/killmails/recent`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCharacterKillmailsRecentResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterKillmailsRecentResponse,
+      Types.GetCharacterKillmailsRecentResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -743,16 +613,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdLocation
    */
-  async getCharacterLocation(
-    params: Types.GetCharacterLocationParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterLocationResponse>> {
+  async getCharacterLocation(params: Types.GetCharacterLocationParams) {
     const path = `/characters/${params.character_id}/location`
-    return this.request<Types.GetCharacterLocationResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterLocationResponse,
+      Types.GetCharacterLocationResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -762,14 +628,12 @@ export class EsiClient {
    */
   async getCharacterLoyaltyPoints(
     params: Types.GetCharacterLoyaltyPointsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterLoyaltyPointsResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/loyalty/points`
-    return this.request<Types.GetCharacterLoyaltyPointsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterLoyaltyPointsResponse,
+      Types.GetCharacterLoyaltyPointsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -777,20 +641,16 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMail
    */
-  async getCharacterMail(
-    params: Types.GetCharacterMailParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterMailResponse>> {
+  async getCharacterMail(params: Types.GetCharacterMailParams) {
     const path = `/characters/${params.character_id}/mail`
     const queryParams = {
       labels: params.labels,
       last_mail_id: params.last_mail_id,
     }
-    return this.request<Types.GetCharacterMailResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterMailResponse,
+      Types.GetCharacterMailResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -798,9 +658,7 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdMail
    */
-  async postCharacterMail(
-    params: Types.PostCharacterMailParams
-  ): Promise<Types.EsiResponse<Types.PostCharacterMailResponse>> {
+  async postCharacterMail(params: Types.PostCharacterMailParams) {
     const path = `/characters/${params.character_id}/mail`
     const body = {
       approved_cost: params.approved_cost,
@@ -808,12 +666,10 @@ export class EsiClient {
       recipients: params.recipients,
       subject: params.subject,
     }
-    return this.request<Types.PostCharacterMailResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostCharacterMailResponse,
+      Types.PostCharacterMailResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -821,16 +677,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMailLabels
    */
-  async getCharacterMailLabels(
-    params: Types.GetCharacterMailLabelsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterMailLabelsResponse>> {
+  async getCharacterMailLabels(params: Types.GetCharacterMailLabelsParams) {
     const path = `/characters/${params.character_id}/mail/labels`
-    return this.request<Types.GetCharacterMailLabelsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterMailLabelsResponse,
+      Types.GetCharacterMailLabelsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -838,17 +690,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdMailLabels
    */
-  async postCharacterMailLabels(
-    params: Types.PostCharacterMailLabelsParams
-  ): Promise<Types.EsiResponse<Types.PostCharacterMailLabelsResponse>> {
+  async postCharacterMailLabels(params: Types.PostCharacterMailLabelsParams) {
     const path = `/characters/${params.character_id}/mail/labels`
     const body = { color: params.color, name: params.name }
-    return this.request<Types.PostCharacterMailLabelsResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostCharacterMailLabelsResponse,
+      Types.PostCharacterMailLabelsResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -856,16 +704,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/DeleteCharactersCharacterIdMailLabelsLabelId
    */
-  async deleteCharacterMailLabel(
-    params: Types.DeleteCharacterMailLabelParams
-  ): Promise<Types.EsiResponse<Types.DeleteCharacterMailLabelResponse>> {
+  async deleteCharacterMailLabel(params: Types.DeleteCharacterMailLabelParams) {
     const path = `/characters/${params.character_id}/mail/labels/${params.label_id}`
-    return this.request<Types.DeleteCharacterMailLabelResponse>(
-      'DELETE',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.DeleteCharacterMailLabelResponse,
+      Types.DeleteCharacterMailLabelResponseHeaders
+    >('DELETE', path, undefined, undefined)
   }
 
   /**
@@ -873,16 +717,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMailLists
    */
-  async getCharacterMailLists(
-    params: Types.GetCharacterMailListsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterMailListsResponse>> {
+  async getCharacterMailLists(params: Types.GetCharacterMailListsParams) {
     const path = `/characters/${params.character_id}/mail/lists`
-    return this.request<Types.GetCharacterMailListsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterMailListsResponse,
+      Types.GetCharacterMailListsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -892,14 +732,12 @@ export class EsiClient {
    */
   async deleteCharacterMailMailId(
     params: Types.DeleteCharacterMailMailIdParams
-  ): Promise<Types.EsiResponse<Types.DeleteCharacterMailMailIdResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/mail/${params.mail_id}`
-    return this.request<Types.DeleteCharacterMailMailIdResponse>(
-      'DELETE',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.DeleteCharacterMailMailIdResponse,
+      Types.DeleteCharacterMailMailIdResponseHeaders
+    >('DELETE', path, undefined, undefined)
   }
 
   /**
@@ -907,16 +745,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMailMailId
    */
-  async getCharacterMailMailId(
-    params: Types.GetCharacterMailMailIdParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterMailMailIdResponse>> {
+  async getCharacterMailMailId(params: Types.GetCharacterMailMailIdParams) {
     const path = `/characters/${params.character_id}/mail/${params.mail_id}`
-    return this.request<Types.GetCharacterMailMailIdResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterMailMailIdResponse,
+      Types.GetCharacterMailMailIdResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -924,17 +758,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PutCharactersCharacterIdMailMailId
    */
-  async putCharacterMailMailId(
-    params: Types.PutCharacterMailMailIdParams
-  ): Promise<Types.EsiResponse<Types.PutCharacterMailMailIdResponse>> {
+  async putCharacterMailMailId(params: Types.PutCharacterMailMailIdParams) {
     const path = `/characters/${params.character_id}/mail/${params.mail_id}`
     const body = { labels: params.labels, read: params.read }
-    return this.request<Types.PutCharacterMailMailIdResponse>(
-      'PUT',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PutCharacterMailMailIdResponse,
+      Types.PutCharacterMailMailIdResponseHeaders
+    >('PUT', path, undefined, body)
   }
 
   /**
@@ -942,16 +772,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMedals
    */
-  async getCharacterMedals(
-    params: Types.GetCharacterMedalsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterMedalsResponse>> {
+  async getCharacterMedals(params: Types.GetCharacterMedalsParams) {
     const path = `/characters/${params.character_id}/medals`
-    return this.request<Types.GetCharacterMedalsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterMedalsResponse,
+      Types.GetCharacterMedalsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -959,17 +785,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMining
    */
-  async getCharacterMining(
-    params: Types.GetCharacterMiningParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterMiningResponse>> {
+  async getCharacterMining(params: Types.GetCharacterMiningParams) {
     const path = `/characters/${params.character_id}/mining`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCharacterMiningResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterMiningResponse,
+      Types.GetCharacterMiningResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -979,14 +801,12 @@ export class EsiClient {
    */
   async getCharacterNotifications(
     params: Types.GetCharacterNotificationsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterNotificationsResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/notifications`
-    return this.request<Types.GetCharacterNotificationsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterNotificationsResponse,
+      Types.GetCharacterNotificationsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -996,16 +816,12 @@ export class EsiClient {
    */
   async getCharacterNotificationsContacts(
     params: Types.GetCharacterNotificationsContactsParams
-  ): Promise<
-    Types.EsiResponse<Types.GetCharacterNotificationsContactsResponse>
-  > {
+  ) {
     const path = `/characters/${params.character_id}/notifications/contacts`
-    return this.request<Types.GetCharacterNotificationsContactsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterNotificationsContactsResponse,
+      Types.GetCharacterNotificationsContactsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1013,16 +829,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdOnline
    */
-  async getCharacterOnline(
-    params: Types.GetCharacterOnlineParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterOnlineResponse>> {
+  async getCharacterOnline(params: Types.GetCharacterOnlineParams) {
     const path = `/characters/${params.character_id}/online`
-    return this.request<Types.GetCharacterOnlineResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterOnlineResponse,
+      Types.GetCharacterOnlineResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1030,16 +842,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdOrders
    */
-  async getCharacterOrders(
-    params: Types.GetCharacterOrdersParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterOrdersResponse>> {
+  async getCharacterOrders(params: Types.GetCharacterOrdersParams) {
     const path = `/characters/${params.character_id}/orders`
-    return this.request<Types.GetCharacterOrdersResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterOrdersResponse,
+      Types.GetCharacterOrdersResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1049,15 +857,13 @@ export class EsiClient {
    */
   async getCharacterOrdersHistory(
     params: Types.GetCharacterOrdersHistoryParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterOrdersHistoryResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/orders/history`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCharacterOrdersHistoryResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterOrdersHistoryResponse,
+      Types.GetCharacterOrdersHistoryResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1065,16 +871,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdPlanets
    */
-  async getCharacterPlanets(
-    params: Types.GetCharacterPlanetsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterPlanetsResponse>> {
+  async getCharacterPlanets(params: Types.GetCharacterPlanetsParams) {
     const path = `/characters/${params.character_id}/planets`
-    return this.request<Types.GetCharacterPlanetsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterPlanetsResponse,
+      Types.GetCharacterPlanetsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1082,16 +884,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdPlanetsPlanetId
    */
-  async getCharacterPlanet(
-    params: Types.GetCharacterPlanetParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterPlanetResponse>> {
+  async getCharacterPlanet(params: Types.GetCharacterPlanetParams) {
     const path = `/characters/${params.character_id}/planets/${params.planet_id}`
-    return this.request<Types.GetCharacterPlanetResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterPlanetResponse,
+      Types.GetCharacterPlanetResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1101,16 +899,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdPortrait
    */
-  async getCharacterPortrait(
-    params: Types.GetCharacterPortraitParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterPortraitResponse>> {
+  async getCharacterPortrait(params: Types.GetCharacterPortraitParams) {
     const path = `/characters/${params.character_id}/portrait`
-    return this.request<Types.GetCharacterPortraitResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterPortraitResponse,
+      Types.GetCharacterPortraitResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1118,16 +912,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdRoles
    */
-  async getCharacterRoles(
-    params: Types.GetCharacterRolesParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterRolesResponse>> {
+  async getCharacterRoles(params: Types.GetCharacterRolesParams) {
     const path = `/characters/${params.character_id}/roles`
-    return this.request<Types.GetCharacterRolesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterRolesResponse,
+      Types.GetCharacterRolesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1135,21 +925,17 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSearch
    */
-  async getCharacterSearch(
-    params: Types.GetCharacterSearchParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterSearchResponse>> {
+  async getCharacterSearch(params: Types.GetCharacterSearchParams) {
     const path = `/characters/${params.character_id}/search`
     const queryParams = {
       categories: params.categories,
       search: params.search,
       strict: params.strict,
     }
-    return this.request<Types.GetCharacterSearchResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterSearchResponse,
+      Types.GetCharacterSearchResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1157,16 +943,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdShip
    */
-  async getCharacterShip(
-    params: Types.GetCharacterShipParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterShipResponse>> {
+  async getCharacterShip(params: Types.GetCharacterShipParams) {
     const path = `/characters/${params.character_id}/ship`
-    return this.request<Types.GetCharacterShipResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterShipResponse,
+      Types.GetCharacterShipResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1174,16 +956,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSkillqueue
    */
-  async getCharacterSkillqueue(
-    params: Types.GetCharacterSkillqueueParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterSkillqueueResponse>> {
+  async getCharacterSkillqueue(params: Types.GetCharacterSkillqueueParams) {
     const path = `/characters/${params.character_id}/skillqueue`
-    return this.request<Types.GetCharacterSkillqueueResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterSkillqueueResponse,
+      Types.GetCharacterSkillqueueResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1191,16 +969,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSkills
    */
-  async getCharacterSkills(
-    params: Types.GetCharacterSkillsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterSkillsResponse>> {
+  async getCharacterSkills(params: Types.GetCharacterSkillsParams) {
     const path = `/characters/${params.character_id}/skills`
-    return this.request<Types.GetCharacterSkillsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterSkillsResponse,
+      Types.GetCharacterSkillsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1208,16 +982,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdStandings
    */
-  async getCharacterStandings(
-    params: Types.GetCharacterStandingsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterStandingsResponse>> {
+  async getCharacterStandings(params: Types.GetCharacterStandingsParams) {
     const path = `/characters/${params.character_id}/standings`
-    return this.request<Types.GetCharacterStandingsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterStandingsResponse,
+      Types.GetCharacterStandingsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1225,16 +995,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdTitles
    */
-  async getCharacterTitles(
-    params: Types.GetCharacterTitlesParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterTitlesResponse>> {
+  async getCharacterTitles(params: Types.GetCharacterTitlesParams) {
     const path = `/characters/${params.character_id}/titles`
-    return this.request<Types.GetCharacterTitlesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterTitlesResponse,
+      Types.GetCharacterTitlesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1242,16 +1008,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdWallet
    */
-  async getCharacterWallet(
-    params: Types.GetCharacterWalletParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterWalletResponse>> {
+  async getCharacterWallet(params: Types.GetCharacterWalletParams) {
     const path = `/characters/${params.character_id}/wallet`
-    return this.request<Types.GetCharacterWalletResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterWalletResponse,
+      Types.GetCharacterWalletResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1261,15 +1023,13 @@ export class EsiClient {
    */
   async getCharacterWalletJournal(
     params: Types.GetCharacterWalletJournalParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterWalletJournalResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/wallet/journal`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCharacterWalletJournalResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterWalletJournalResponse,
+      Types.GetCharacterWalletJournalResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1279,15 +1039,13 @@ export class EsiClient {
    */
   async getCharacterWalletTransactions(
     params: Types.GetCharacterWalletTransactionsParams
-  ): Promise<Types.EsiResponse<Types.GetCharacterWalletTransactionsResponse>> {
+  ) {
     const path = `/characters/${params.character_id}/wallet/transactions`
     const queryParams = { from_id: params.from_id }
-    return this.request<Types.GetCharacterWalletTransactionsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCharacterWalletTransactionsResponse,
+      Types.GetCharacterWalletTransactionsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1295,17 +1053,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetContractsPublicBidsContractId
    */
-  async getContractsPublicBids(
-    params: Types.GetContractsPublicBidsParams
-  ): Promise<Types.EsiResponse<Types.GetContractsPublicBidsResponse>> {
+  async getContractsPublicBids(params: Types.GetContractsPublicBidsParams) {
     const path = `/contracts/public/bids/${params.contract_id}`
     const queryParams = { page: params.page }
-    return this.request<Types.GetContractsPublicBidsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetContractsPublicBidsResponse,
+      Types.GetContractsPublicBidsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1313,17 +1067,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetContractsPublicItemsContractId
    */
-  async getContractsPublicItems(
-    params: Types.GetContractsPublicItemsParams
-  ): Promise<Types.EsiResponse<Types.GetContractsPublicItemsResponse>> {
+  async getContractsPublicItems(params: Types.GetContractsPublicItemsParams) {
     const path = `/contracts/public/items/${params.contract_id}`
     const queryParams = { page: params.page }
-    return this.request<Types.GetContractsPublicItemsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetContractsPublicItemsResponse,
+      Types.GetContractsPublicItemsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1333,15 +1083,13 @@ export class EsiClient {
    */
   async getContractsPublicRegionId(
     params: Types.GetContractsPublicRegionIdParams
-  ): Promise<Types.EsiResponse<Types.GetContractsPublicRegionIdResponse>> {
+  ) {
     const path = `/contracts/public/${params.region_id}`
     const queryParams = { page: params.page }
-    return this.request<Types.GetContractsPublicRegionIdResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetContractsPublicRegionIdResponse,
+      Types.GetContractsPublicRegionIdResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1353,17 +1101,13 @@ export class EsiClient {
    */
   async getCorporationCorporationMiningExtractions(
     params: Types.GetCorporationCorporationMiningExtractionsParams
-  ): Promise<
-    Types.EsiResponse<Types.GetCorporationCorporationMiningExtractionsResponse>
-  > {
+  ) {
     const path = `/corporation/${params.corporation_id}/mining/extractions`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationCorporationMiningExtractionsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationCorporationMiningExtractionsResponse,
+      Types.GetCorporationCorporationMiningExtractionsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1375,17 +1119,13 @@ export class EsiClient {
    */
   async getCorporationCorporationMiningObservers(
     params: Types.GetCorporationCorporationMiningObserversParams
-  ): Promise<
-    Types.EsiResponse<Types.GetCorporationCorporationMiningObserversResponse>
-  > {
+  ) {
     const path = `/corporation/${params.corporation_id}/mining/observers`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationCorporationMiningObserversResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationCorporationMiningObserversResponse,
+      Types.GetCorporationCorporationMiningObserversResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1397,17 +1137,13 @@ export class EsiClient {
    */
   async getCorporationCorporationMiningObserver(
     params: Types.GetCorporationCorporationMiningObserverParams
-  ): Promise<
-    Types.EsiResponse<Types.GetCorporationCorporationMiningObserverResponse>
-  > {
+  ) {
     const path = `/corporation/${params.corporation_id}/mining/observers/${params.observer_id}`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationCorporationMiningObserverResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationCorporationMiningObserverResponse,
+      Types.GetCorporationCorporationMiningObserverResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1417,16 +1153,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsNpccorps
    */
-  async getCorporationsNpccorps(): Promise<
-    Types.EsiResponse<Types.GetCorporationsNpccorpsResponse>
-  > {
+  async getCorporationsNpccorps() {
     const path = `/corporations/npccorps`
-    return this.request<Types.GetCorporationsNpccorpsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationsNpccorpsResponse,
+      Types.GetCorporationsNpccorpsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1434,16 +1166,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationId
    */
-  async getCorporation(
-    params: Types.GetCorporationParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationResponse>> {
+  async getCorporation(params: Types.GetCorporationParams) {
     const path = `/corporations/${params.corporation_id}`
-    return this.request<Types.GetCorporationResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationResponse,
+      Types.GetCorporationResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1453,14 +1181,12 @@ export class EsiClient {
    */
   async getCorporationAlliancehistory(
     params: Types.GetCorporationAlliancehistoryParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationAlliancehistoryResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/alliancehistory`
-    return this.request<Types.GetCorporationAlliancehistoryResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationAlliancehistoryResponse,
+      Types.GetCorporationAlliancehistoryResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1470,17 +1196,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdAssets
    */
-  async getCorporationAssets(
-    params: Types.GetCorporationAssetsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationAssetsResponse>> {
+  async getCorporationAssets(params: Types.GetCorporationAssetsParams) {
     const path = `/corporations/${params.corporation_id}/assets`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationAssetsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationAssetsResponse,
+      Types.GetCorporationAssetsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1492,15 +1214,13 @@ export class EsiClient {
    */
   async postCorporationAssetsLocations(
     params: Types.PostCorporationAssetsLocationsParams
-  ): Promise<Types.EsiResponse<Types.PostCorporationAssetsLocationsResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/assets/locations`
     const body = params.body
-    return this.request<Types.PostCorporationAssetsLocationsResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostCorporationAssetsLocationsResponse,
+      Types.PostCorporationAssetsLocationsResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -1512,15 +1232,13 @@ export class EsiClient {
    */
   async postCorporationAssetsNames(
     params: Types.PostCorporationAssetsNamesParams
-  ): Promise<Types.EsiResponse<Types.PostCorporationAssetsNamesResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/assets/names`
     const body = params.body
-    return this.request<Types.PostCorporationAssetsNamesResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostCorporationAssetsNamesResponse,
+      Types.PostCorporationAssetsNamesResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -1530,17 +1248,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdBlueprints
    */
-  async getCorporationBlueprints(
-    params: Types.GetCorporationBlueprintsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationBlueprintsResponse>> {
+  async getCorporationBlueprints(params: Types.GetCorporationBlueprintsParams) {
     const path = `/corporations/${params.corporation_id}/blueprints`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationBlueprintsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationBlueprintsResponse,
+      Types.GetCorporationBlueprintsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1548,17 +1262,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdContacts
    */
-  async getCorporationContacts(
-    params: Types.GetCorporationContactsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationContactsResponse>> {
+  async getCorporationContacts(params: Types.GetCorporationContactsParams) {
     const path = `/corporations/${params.corporation_id}/contacts`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationContactsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationContactsResponse,
+      Types.GetCorporationContactsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1568,14 +1278,12 @@ export class EsiClient {
    */
   async getCorporationContactsLabels(
     params: Types.GetCorporationContactsLabelsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationContactsLabelsResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/contacts/labels`
-    return this.request<Types.GetCorporationContactsLabelsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationContactsLabelsResponse,
+      Types.GetCorporationContactsLabelsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1587,15 +1295,13 @@ export class EsiClient {
    */
   async getCorporationContainersLogs(
     params: Types.GetCorporationContainersLogsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationContainersLogsResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/containers/logs`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationContainersLogsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationContainersLogsResponse,
+      Types.GetCorporationContainersLogsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1603,17 +1309,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdContracts
    */
-  async getCorporationContracts(
-    params: Types.GetCorporationContractsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationContractsResponse>> {
+  async getCorporationContracts(params: Types.GetCorporationContractsParams) {
     const path = `/corporations/${params.corporation_id}/contracts`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationContractsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationContractsResponse,
+      Types.GetCorporationContractsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1623,15 +1325,13 @@ export class EsiClient {
    */
   async getCorporationContractBids(
     params: Types.GetCorporationContractBidsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationContractBidsResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/contracts/${params.contract_id}/bids`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationContractBidsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationContractBidsResponse,
+      Types.GetCorporationContractBidsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1641,14 +1341,12 @@ export class EsiClient {
    */
   async getCorporationContractItems(
     params: Types.GetCorporationContractItemsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationContractItemsResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/contracts/${params.contract_id}/items`
-    return this.request<Types.GetCorporationContractItemsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationContractItemsResponse,
+      Types.GetCorporationContractItemsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1660,15 +1358,13 @@ export class EsiClient {
    */
   async getCorporationCustomsOffices(
     params: Types.GetCorporationCustomsOfficesParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationCustomsOfficesResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/customs_offices`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationCustomsOfficesResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationCustomsOfficesResponse,
+      Types.GetCorporationCustomsOfficesResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1678,16 +1374,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdDivisions
    */
-  async getCorporationDivisions(
-    params: Types.GetCorporationDivisionsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationDivisionsResponse>> {
+  async getCorporationDivisions(params: Types.GetCorporationDivisionsParams) {
     const path = `/corporations/${params.corporation_id}/divisions`
-    return this.request<Types.GetCorporationDivisionsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationDivisionsResponse,
+      Types.GetCorporationDivisionsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1697,16 +1389,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdFacilities
    */
-  async getCorporationFacilities(
-    params: Types.GetCorporationFacilitiesParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationFacilitiesResponse>> {
+  async getCorporationFacilities(params: Types.GetCorporationFacilitiesParams) {
     const path = `/corporations/${params.corporation_id}/facilities`
-    return this.request<Types.GetCorporationFacilitiesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationFacilitiesResponse,
+      Types.GetCorporationFacilitiesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1716,16 +1404,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdFwStats
    */
-  async getCorporationFwStats(
-    params: Types.GetCorporationFwStatsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationFwStatsResponse>> {
+  async getCorporationFwStats(params: Types.GetCorporationFwStatsParams) {
     const path = `/corporations/${params.corporation_id}/fw/stats`
-    return this.request<Types.GetCorporationFwStatsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationFwStatsResponse,
+      Types.GetCorporationFwStatsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1733,16 +1417,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdIcons
    */
-  async getCorporationIcons(
-    params: Types.GetCorporationIconsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationIconsResponse>> {
+  async getCorporationIcons(params: Types.GetCorporationIconsParams) {
     const path = `/corporations/${params.corporation_id}/icons`
-    return this.request<Types.GetCorporationIconsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationIconsResponse,
+      Types.GetCorporationIconsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1754,18 +1434,16 @@ export class EsiClient {
    */
   async getCorporationIndustryJobs(
     params: Types.GetCorporationIndustryJobsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationIndustryJobsResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/industry/jobs`
     const queryParams = {
       include_completed: params.include_completed,
       page: params.page,
     }
-    return this.request<Types.GetCorporationIndustryJobsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationIndustryJobsResponse,
+      Types.GetCorporationIndustryJobsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1777,15 +1455,13 @@ export class EsiClient {
    */
   async getCorporationKillmailsRecent(
     params: Types.GetCorporationKillmailsRecentParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationKillmailsRecentResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/killmails/recent`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationKillmailsRecentResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationKillmailsRecentResponse,
+      Types.GetCorporationKillmailsRecentResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1793,17 +1469,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdMedals
    */
-  async getCorporationMedals(
-    params: Types.GetCorporationMedalsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationMedalsResponse>> {
+  async getCorporationMedals(params: Types.GetCorporationMedalsParams) {
     const path = `/corporations/${params.corporation_id}/medals`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationMedalsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationMedalsResponse,
+      Types.GetCorporationMedalsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1815,15 +1487,13 @@ export class EsiClient {
    */
   async getCorporationMedalsIssued(
     params: Types.GetCorporationMedalsIssuedParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationMedalsIssuedResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/medals/issued`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationMedalsIssuedResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationMedalsIssuedResponse,
+      Types.GetCorporationMedalsIssuedResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1831,16 +1501,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdMembers
    */
-  async getCorporationMembers(
-    params: Types.GetCorporationMembersParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationMembersResponse>> {
+  async getCorporationMembers(params: Types.GetCorporationMembersParams) {
     const path = `/corporations/${params.corporation_id}/members`
-    return this.request<Types.GetCorporationMembersResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationMembersResponse,
+      Types.GetCorporationMembersResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1852,14 +1518,12 @@ export class EsiClient {
    */
   async getCorporationMembersLimit(
     params: Types.GetCorporationMembersLimitParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationMembersLimitResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/members/limit`
-    return this.request<Types.GetCorporationMembersLimitResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationMembersLimitResponse,
+      Types.GetCorporationMembersLimitResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1871,14 +1535,12 @@ export class EsiClient {
    */
   async getCorporationMembersTitles(
     params: Types.GetCorporationMembersTitlesParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationMembersTitlesResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/members/titles`
-    return this.request<Types.GetCorporationMembersTitlesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationMembersTitlesResponse,
+      Types.GetCorporationMembersTitlesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1890,14 +1552,12 @@ export class EsiClient {
    */
   async getCorporationMembertracking(
     params: Types.GetCorporationMembertrackingParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationMembertrackingResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/membertracking`
-    return this.request<Types.GetCorporationMembertrackingResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationMembertrackingResponse,
+      Types.GetCorporationMembertrackingResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1907,17 +1567,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdOrders
    */
-  async getCorporationOrders(
-    params: Types.GetCorporationOrdersParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationOrdersResponse>> {
+  async getCorporationOrders(params: Types.GetCorporationOrdersParams) {
     const path = `/corporations/${params.corporation_id}/orders`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationOrdersResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationOrdersResponse,
+      Types.GetCorporationOrdersResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1929,15 +1585,13 @@ export class EsiClient {
    */
   async getCorporationOrdersHistory(
     params: Types.GetCorporationOrdersHistoryParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationOrdersHistoryResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/orders/history`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationOrdersHistoryResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationOrdersHistoryResponse,
+      Types.GetCorporationOrdersHistoryResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1945,16 +1599,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdRoles
    */
-  async getCorporationRoles(
-    params: Types.GetCorporationRolesParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationRolesResponse>> {
+  async getCorporationRoles(params: Types.GetCorporationRolesParams) {
     const path = `/corporations/${params.corporation_id}/roles`
-    return this.request<Types.GetCorporationRolesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationRolesResponse,
+      Types.GetCorporationRolesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1966,15 +1616,13 @@ export class EsiClient {
    */
   async getCorporationRolesHistory(
     params: Types.GetCorporationRolesHistoryParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationRolesHistoryResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/roles/history`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationRolesHistoryResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationRolesHistoryResponse,
+      Types.GetCorporationRolesHistoryResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -1986,15 +1634,13 @@ export class EsiClient {
    */
   async getCorporationShareholders(
     params: Types.GetCorporationShareholdersParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationShareholdersResponse>> {
+  ) {
     const path = `/corporations/${params.corporation_id}/shareholders`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationShareholdersResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationShareholdersResponse,
+      Types.GetCorporationShareholdersResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -2002,17 +1648,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdStandings
    */
-  async getCorporationStandings(
-    params: Types.GetCorporationStandingsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationStandingsResponse>> {
+  async getCorporationStandings(params: Types.GetCorporationStandingsParams) {
     const path = `/corporations/${params.corporation_id}/standings`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationStandingsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationStandingsResponse,
+      Types.GetCorporationStandingsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -2022,17 +1664,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdStarbases
    */
-  async getCorporationStarbases(
-    params: Types.GetCorporationStarbasesParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationStarbasesResponse>> {
+  async getCorporationStarbases(params: Types.GetCorporationStarbasesParams) {
     const path = `/corporations/${params.corporation_id}/starbases`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationStarbasesResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationStarbasesResponse,
+      Types.GetCorporationStarbasesResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -2042,17 +1680,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdStarbasesStarbaseId
    */
-  async getCorporationStarbase(
-    params: Types.GetCorporationStarbaseParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationStarbaseResponse>> {
+  async getCorporationStarbase(params: Types.GetCorporationStarbaseParams) {
     const path = `/corporations/${params.corporation_id}/starbases/${params.starbase_id}`
     const queryParams = { system_id: params.system_id }
-    return this.request<Types.GetCorporationStarbaseResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationStarbaseResponse,
+      Types.GetCorporationStarbaseResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -2062,17 +1696,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdStructures
    */
-  async getCorporationStructures(
-    params: Types.GetCorporationStructuresParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationStructuresResponse>> {
+  async getCorporationStructures(params: Types.GetCorporationStructuresParams) {
     const path = `/corporations/${params.corporation_id}/structures`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationStructuresResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationStructuresResponse,
+      Types.GetCorporationStructuresResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -2082,16 +1712,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdTitles
    */
-  async getCorporationTitles(
-    params: Types.GetCorporationTitlesParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationTitlesResponse>> {
+  async getCorporationTitles(params: Types.GetCorporationTitlesParams) {
     const path = `/corporations/${params.corporation_id}/titles`
-    return this.request<Types.GetCorporationTitlesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationTitlesResponse,
+      Types.GetCorporationTitlesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2101,16 +1727,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdWallets
    */
-  async getCorporationWallets(
-    params: Types.GetCorporationWalletsParams
-  ): Promise<Types.EsiResponse<Types.GetCorporationWalletsResponse>> {
+  async getCorporationWallets(params: Types.GetCorporationWalletsParams) {
     const path = `/corporations/${params.corporation_id}/wallets`
-    return this.request<Types.GetCorporationWalletsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationWalletsResponse,
+      Types.GetCorporationWalletsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2122,17 +1744,13 @@ export class EsiClient {
    */
   async getCorporationWalletsDivisionJournal(
     params: Types.GetCorporationWalletsDivisionJournalParams
-  ): Promise<
-    Types.EsiResponse<Types.GetCorporationWalletsDivisionJournalResponse>
-  > {
+  ) {
     const path = `/corporations/${params.corporation_id}/wallets/${params.division}/journal`
     const queryParams = { page: params.page }
-    return this.request<Types.GetCorporationWalletsDivisionJournalResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationWalletsDivisionJournalResponse,
+      Types.GetCorporationWalletsDivisionJournalResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -2144,17 +1762,13 @@ export class EsiClient {
    */
   async getCorporationWalletsDivisionTransactions(
     params: Types.GetCorporationWalletsDivisionTransactionsParams
-  ): Promise<
-    Types.EsiResponse<Types.GetCorporationWalletsDivisionTransactionsResponse>
-  > {
+  ) {
     const path = `/corporations/${params.corporation_id}/wallets/${params.division}/transactions`
     const queryParams = { from_id: params.from_id }
-    return this.request<Types.GetCorporationWalletsDivisionTransactionsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetCorporationWalletsDivisionTransactionsResponse,
+      Types.GetCorporationWalletsDivisionTransactionsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -2164,16 +1778,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetDogmaAttributes
    */
-  async getDogmaAttributes(): Promise<
-    Types.EsiResponse<Types.GetDogmaAttributesResponse>
-  > {
+  async getDogmaAttributes() {
     const path = `/dogma/attributes`
-    return this.request<Types.GetDogmaAttributesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetDogmaAttributesResponse,
+      Types.GetDogmaAttributesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2183,16 +1793,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetDogmaAttributesAttributeId
    */
-  async getDogmaAttribute(
-    params: Types.GetDogmaAttributeParams
-  ): Promise<Types.EsiResponse<Types.GetDogmaAttributeResponse>> {
+  async getDogmaAttribute(params: Types.GetDogmaAttributeParams) {
     const path = `/dogma/attributes/${params.attribute_id}`
-    return this.request<Types.GetDogmaAttributeResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetDogmaAttributeResponse,
+      Types.GetDogmaAttributeResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2204,14 +1810,12 @@ export class EsiClient {
    */
   async getDogmaDynamicTypeItemId(
     params: Types.GetDogmaDynamicTypeItemIdParams
-  ): Promise<Types.EsiResponse<Types.GetDogmaDynamicTypeItemIdResponse>> {
+  ) {
     const path = `/dogma/dynamic/items/${params.type_id}/${params.item_id}`
-    return this.request<Types.GetDogmaDynamicTypeItemIdResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetDogmaDynamicTypeItemIdResponse,
+      Types.GetDogmaDynamicTypeItemIdResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2221,16 +1825,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetDogmaEffects
    */
-  async getDogmaEffects(): Promise<
-    Types.EsiResponse<Types.GetDogmaEffectsResponse>
-  > {
+  async getDogmaEffects() {
     const path = `/dogma/effects`
-    return this.request<Types.GetDogmaEffectsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetDogmaEffectsResponse,
+      Types.GetDogmaEffectsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2240,16 +1840,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetDogmaEffectsEffectId
    */
-  async getDogmaEffect(
-    params: Types.GetDogmaEffectParams
-  ): Promise<Types.EsiResponse<Types.GetDogmaEffectResponse>> {
+  async getDogmaEffect(params: Types.GetDogmaEffectParams) {
     const path = `/dogma/effects/${params.effect_id}`
-    return this.request<Types.GetDogmaEffectResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetDogmaEffectResponse,
+      Types.GetDogmaEffectResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2257,11 +1853,9 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetFleetsFleetId
    */
-  async getFleet(
-    params: Types.GetFleetParams
-  ): Promise<Types.EsiResponse<Types.GetFleetResponse>> {
+  async getFleet(params: Types.GetFleetParams) {
     const path = `/fleets/${params.fleet_id}`
-    return this.request<Types.GetFleetResponse>(
+    return this.request<Types.GetFleetResponse, Types.GetFleetResponseHeaders>(
       'GET',
       path,
       undefined,
@@ -2274,12 +1868,15 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PutFleetsFleetId
    */
-  async putFleet(
-    params: Types.PutFleetParams
-  ): Promise<Types.EsiResponse<Types.PutFleetResponse>> {
+  async putFleet(params: Types.PutFleetParams) {
     const path = `/fleets/${params.fleet_id}`
     const body = { is_free_move: params.is_free_move, motd: params.motd }
-    return this.request<Types.PutFleetResponse>('PUT', path, undefined, body)
+    return this.request<Types.PutFleetResponse, Types.PutFleetResponseHeaders>(
+      'PUT',
+      path,
+      undefined,
+      body
+    )
   }
 
   /**
@@ -2287,16 +1884,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetFleetsFleetIdMembers
    */
-  async getFleetMembers(
-    params: Types.GetFleetMembersParams
-  ): Promise<Types.EsiResponse<Types.GetFleetMembersResponse>> {
+  async getFleetMembers(params: Types.GetFleetMembersParams) {
     const path = `/fleets/${params.fleet_id}/members`
-    return this.request<Types.GetFleetMembersResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetFleetMembersResponse,
+      Types.GetFleetMembersResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2304,9 +1897,7 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostFleetsFleetIdMembers
    */
-  async postFleetMembers(
-    params: Types.PostFleetMembersParams
-  ): Promise<Types.EsiResponse<Types.PostFleetMembersResponse>> {
+  async postFleetMembers(params: Types.PostFleetMembersParams) {
     const path = `/fleets/${params.fleet_id}/members`
     const body = {
       character_id: params.character_id,
@@ -2314,12 +1905,10 @@ export class EsiClient {
       squad_id: params.squad_id,
       wing_id: params.wing_id,
     }
-    return this.request<Types.PostFleetMembersResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostFleetMembersResponse,
+      Types.PostFleetMembersResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -2327,16 +1916,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/DeleteFleetsFleetIdMembersMemberId
    */
-  async deleteFleetMember(
-    params: Types.DeleteFleetMemberParams
-  ): Promise<Types.EsiResponse<Types.DeleteFleetMemberResponse>> {
+  async deleteFleetMember(params: Types.DeleteFleetMemberParams) {
     const path = `/fleets/${params.fleet_id}/members/${params.member_id}`
-    return this.request<Types.DeleteFleetMemberResponse>(
-      'DELETE',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.DeleteFleetMemberResponse,
+      Types.DeleteFleetMemberResponseHeaders
+    >('DELETE', path, undefined, undefined)
   }
 
   /**
@@ -2344,21 +1929,17 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PutFleetsFleetIdMembersMemberId
    */
-  async putFleetMember(
-    params: Types.PutFleetMemberParams
-  ): Promise<Types.EsiResponse<Types.PutFleetMemberResponse>> {
+  async putFleetMember(params: Types.PutFleetMemberParams) {
     const path = `/fleets/${params.fleet_id}/members/${params.member_id}`
     const body = {
       role: params.role,
       squad_id: params.squad_id,
       wing_id: params.wing_id,
     }
-    return this.request<Types.PutFleetMemberResponse>(
-      'PUT',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PutFleetMemberResponse,
+      Types.PutFleetMemberResponseHeaders
+    >('PUT', path, undefined, body)
   }
 
   /**
@@ -2366,16 +1947,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/DeleteFleetsFleetIdSquadsSquadId
    */
-  async deleteFleetSquad(
-    params: Types.DeleteFleetSquadParams
-  ): Promise<Types.EsiResponse<Types.DeleteFleetSquadResponse>> {
+  async deleteFleetSquad(params: Types.DeleteFleetSquadParams) {
     const path = `/fleets/${params.fleet_id}/squads/${params.squad_id}`
-    return this.request<Types.DeleteFleetSquadResponse>(
-      'DELETE',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.DeleteFleetSquadResponse,
+      Types.DeleteFleetSquadResponseHeaders
+    >('DELETE', path, undefined, undefined)
   }
 
   /**
@@ -2383,17 +1960,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PutFleetsFleetIdSquadsSquadId
    */
-  async putFleetSquad(
-    params: Types.PutFleetSquadParams
-  ): Promise<Types.EsiResponse<Types.PutFleetSquadResponse>> {
+  async putFleetSquad(params: Types.PutFleetSquadParams) {
     const path = `/fleets/${params.fleet_id}/squads/${params.squad_id}`
     const body = { name: params.name }
-    return this.request<Types.PutFleetSquadResponse>(
-      'PUT',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PutFleetSquadResponse,
+      Types.PutFleetSquadResponseHeaders
+    >('PUT', path, undefined, body)
   }
 
   /**
@@ -2401,16 +1974,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetFleetsFleetIdWings
    */
-  async getFleetWings(
-    params: Types.GetFleetWingsParams
-  ): Promise<Types.EsiResponse<Types.GetFleetWingsResponse>> {
+  async getFleetWings(params: Types.GetFleetWingsParams) {
     const path = `/fleets/${params.fleet_id}/wings`
-    return this.request<Types.GetFleetWingsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetFleetWingsResponse,
+      Types.GetFleetWingsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2418,16 +1987,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostFleetsFleetIdWings
    */
-  async postFleetWings(
-    params: Types.PostFleetWingsParams
-  ): Promise<Types.EsiResponse<Types.PostFleetWingsResponse>> {
+  async postFleetWings(params: Types.PostFleetWingsParams) {
     const path = `/fleets/${params.fleet_id}/wings`
-    return this.request<Types.PostFleetWingsResponse>(
-      'POST',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.PostFleetWingsResponse,
+      Types.PostFleetWingsResponseHeaders
+    >('POST', path, undefined, undefined)
   }
 
   /**
@@ -2435,16 +2000,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/DeleteFleetsFleetIdWingsWingId
    */
-  async deleteFleetWing(
-    params: Types.DeleteFleetWingParams
-  ): Promise<Types.EsiResponse<Types.DeleteFleetWingResponse>> {
+  async deleteFleetWing(params: Types.DeleteFleetWingParams) {
     const path = `/fleets/${params.fleet_id}/wings/${params.wing_id}`
-    return this.request<Types.DeleteFleetWingResponse>(
-      'DELETE',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.DeleteFleetWingResponse,
+      Types.DeleteFleetWingResponseHeaders
+    >('DELETE', path, undefined, undefined)
   }
 
   /**
@@ -2452,17 +2013,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PutFleetsFleetIdWingsWingId
    */
-  async putFleetWing(
-    params: Types.PutFleetWingParams
-  ): Promise<Types.EsiResponse<Types.PutFleetWingResponse>> {
+  async putFleetWing(params: Types.PutFleetWingParams) {
     const path = `/fleets/${params.fleet_id}/wings/${params.wing_id}`
     const body = { name: params.name }
-    return this.request<Types.PutFleetWingResponse>(
-      'PUT',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PutFleetWingResponse,
+      Types.PutFleetWingResponseHeaders
+    >('PUT', path, undefined, body)
   }
 
   /**
@@ -2470,16 +2027,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostFleetsFleetIdWingsWingIdSquads
    */
-  async postFleetWingSquads(
-    params: Types.PostFleetWingSquadsParams
-  ): Promise<Types.EsiResponse<Types.PostFleetWingSquadsResponse>> {
+  async postFleetWingSquads(params: Types.PostFleetWingSquadsParams) {
     const path = `/fleets/${params.fleet_id}/wings/${params.wing_id}/squads`
-    return this.request<Types.PostFleetWingSquadsResponse>(
-      'POST',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.PostFleetWingSquadsResponse,
+      Types.PostFleetWingSquadsResponseHeaders
+    >('POST', path, undefined, undefined)
   }
 
   /**
@@ -2489,16 +2042,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetFwLeaderboards
    */
-  async getFwLeaderboards(): Promise<
-    Types.EsiResponse<Types.GetFwLeaderboardsResponse>
-  > {
+  async getFwLeaderboards() {
     const path = `/fw/leaderboards`
-    return this.request<Types.GetFwLeaderboardsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetFwLeaderboardsResponse,
+      Types.GetFwLeaderboardsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2508,16 +2057,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetFwLeaderboardsCharacters
    */
-  async getFwLeaderboardsCharacters(): Promise<
-    Types.EsiResponse<Types.GetFwLeaderboardsCharactersResponse>
-  > {
+  async getFwLeaderboardsCharacters() {
     const path = `/fw/leaderboards/characters`
-    return this.request<Types.GetFwLeaderboardsCharactersResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetFwLeaderboardsCharactersResponse,
+      Types.GetFwLeaderboardsCharactersResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2527,16 +2072,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetFwLeaderboardsCorporations
    */
-  async getFwLeaderboardsCorporations(): Promise<
-    Types.EsiResponse<Types.GetFwLeaderboardsCorporationsResponse>
-  > {
+  async getFwLeaderboardsCorporations() {
     const path = `/fw/leaderboards/corporations`
-    return this.request<Types.GetFwLeaderboardsCorporationsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetFwLeaderboardsCorporationsResponse,
+      Types.GetFwLeaderboardsCorporationsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2546,14 +2087,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetFwStats
    */
-  async getFwStats(): Promise<Types.EsiResponse<Types.GetFwStatsResponse>> {
+  async getFwStats() {
     const path = `/fw/stats`
-    return this.request<Types.GetFwStatsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetFwStatsResponse,
+      Types.GetFwStatsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2561,14 +2100,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetFwSystems
    */
-  async getFwSystems(): Promise<Types.EsiResponse<Types.GetFwSystemsResponse>> {
+  async getFwSystems() {
     const path = `/fw/systems`
-    return this.request<Types.GetFwSystemsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetFwSystemsResponse,
+      Types.GetFwSystemsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2578,14 +2115,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetFwWars
    */
-  async getFwWars(): Promise<Types.EsiResponse<Types.GetFwWarsResponse>> {
+  async getFwWars() {
     const path = `/fw/wars`
-    return this.request<Types.GetFwWarsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetFwWarsResponse,
+      Types.GetFwWarsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2593,16 +2128,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetIncursions
    */
-  async getIncursions(): Promise<
-    Types.EsiResponse<Types.GetIncursionsResponse>
-  > {
+  async getIncursions() {
     const path = `/incursions`
-    return this.request<Types.GetIncursionsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetIncursionsResponse,
+      Types.GetIncursionsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2610,16 +2141,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetIndustryFacilities
    */
-  async getIndustryFacilities(): Promise<
-    Types.EsiResponse<Types.GetIndustryFacilitiesResponse>
-  > {
+  async getIndustryFacilities() {
     const path = `/industry/facilities`
-    return this.request<Types.GetIndustryFacilitiesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetIndustryFacilitiesResponse,
+      Types.GetIndustryFacilitiesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2627,16 +2154,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetIndustrySystems
    */
-  async getIndustrySystems(): Promise<
-    Types.EsiResponse<Types.GetIndustrySystemsResponse>
-  > {
+  async getIndustrySystems() {
     const path = `/industry/systems`
-    return this.request<Types.GetIndustrySystemsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetIndustrySystemsResponse,
+      Types.GetIndustrySystemsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2644,16 +2167,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetInsurancePrices
    */
-  async getInsurancePrices(): Promise<
-    Types.EsiResponse<Types.GetInsurancePricesResponse>
-  > {
+  async getInsurancePrices() {
     const path = `/insurance/prices`
-    return this.request<Types.GetInsurancePricesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetInsurancePricesResponse,
+      Types.GetInsurancePricesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2661,16 +2180,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetKillmailsKillmailIdKillmailHash
    */
-  async getKillmailKillmailHash(
-    params: Types.GetKillmailKillmailHashParams
-  ): Promise<Types.EsiResponse<Types.GetKillmailKillmailHashResponse>> {
+  async getKillmailKillmailHash(params: Types.GetKillmailKillmailHashParams) {
     const path = `/killmails/${params.killmail_id}/${params.killmail_hash}`
-    return this.request<Types.GetKillmailKillmailHashResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetKillmailKillmailHashResponse,
+      Types.GetKillmailKillmailHashResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2682,14 +2197,12 @@ export class EsiClient {
    */
   async getLoyaltyCorporationOffers(
     params: Types.GetLoyaltyCorporationOffersParams
-  ): Promise<Types.EsiResponse<Types.GetLoyaltyCorporationOffersResponse>> {
+  ) {
     const path = `/loyalty/stores/${params.corporation_id}/offers`
-    return this.request<Types.GetLoyaltyCorporationOffersResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetLoyaltyCorporationOffersResponse,
+      Types.GetLoyaltyCorporationOffersResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2699,16 +2212,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetMarketsGroups
    */
-  async getMarketsGroups(): Promise<
-    Types.EsiResponse<Types.GetMarketsGroupsResponse>
-  > {
+  async getMarketsGroups() {
     const path = `/markets/groups`
-    return this.request<Types.GetMarketsGroupsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetMarketsGroupsResponse,
+      Types.GetMarketsGroupsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2720,14 +2229,12 @@ export class EsiClient {
    */
   async getMarketsGroupsMarketGroupId(
     params: Types.GetMarketsGroupsMarketGroupIdParams
-  ): Promise<Types.EsiResponse<Types.GetMarketsGroupsMarketGroupIdResponse>> {
+  ) {
     const path = `/markets/groups/${params.market_group_id}`
-    return this.request<Types.GetMarketsGroupsMarketGroupIdResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetMarketsGroupsMarketGroupIdResponse,
+      Types.GetMarketsGroupsMarketGroupIdResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2735,16 +2242,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetMarketsPrices
    */
-  async getMarketsPrices(): Promise<
-    Types.EsiResponse<Types.GetMarketsPricesResponse>
-  > {
+  async getMarketsPrices() {
     const path = `/markets/prices`
-    return this.request<Types.GetMarketsPricesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetMarketsPricesResponse,
+      Types.GetMarketsPricesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2752,17 +2255,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetMarketsStructuresStructureId
    */
-  async getMarketsStructure(
-    params: Types.GetMarketsStructureParams
-  ): Promise<Types.EsiResponse<Types.GetMarketsStructureResponse>> {
+  async getMarketsStructure(params: Types.GetMarketsStructureParams) {
     const path = `/markets/structures/${params.structure_id}`
     const queryParams = { page: params.page }
-    return this.request<Types.GetMarketsStructureResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetMarketsStructureResponse,
+      Types.GetMarketsStructureResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -2772,17 +2271,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetMarketsRegionIdHistory
    */
-  async getRegionHistory(
-    params: Types.GetRegionHistoryParams
-  ): Promise<Types.EsiResponse<Types.GetRegionHistoryResponse>> {
+  async getRegionHistory(params: Types.GetRegionHistoryParams) {
     const path = `/markets/${params.region_id}/history`
     const queryParams = { type_id: params.type_id }
-    return this.request<Types.GetRegionHistoryResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetRegionHistoryResponse,
+      Types.GetRegionHistoryResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -2790,21 +2285,17 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetMarketsRegionIdOrders
    */
-  async getRegionOrders(
-    params: Types.GetRegionOrdersParams
-  ): Promise<Types.EsiResponse<Types.GetRegionOrdersResponse>> {
+  async getRegionOrders(params: Types.GetRegionOrdersParams) {
     const path = `/markets/${params.region_id}/orders`
     const queryParams = {
       order_type: params.order_type,
       page: params.page,
       type_id: params.type_id,
     }
-    return this.request<Types.GetRegionOrdersResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetRegionOrdersResponse,
+      Types.GetRegionOrdersResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -2812,17 +2303,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetMarketsRegionIdTypes
    */
-  async getRegionTypes(
-    params: Types.GetRegionTypesParams
-  ): Promise<Types.EsiResponse<Types.GetRegionTypesResponse>> {
+  async getRegionTypes(params: Types.GetRegionTypesParams) {
     const path = `/markets/${params.region_id}/types`
     const queryParams = { page: params.page }
-    return this.request<Types.GetRegionTypesResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetRegionTypesResponse,
+      Types.GetRegionTypesResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -2832,19 +2319,17 @@ export class EsiClient {
    */
   async getRouteOriginDestination(
     params: Types.GetRouteOriginDestinationParams
-  ): Promise<Types.EsiResponse<Types.GetRouteOriginDestinationResponse>> {
+  ) {
     const path = `/route/${params.origin}/${params.destination}`
     const queryParams = {
       avoid: params.avoid,
       connections: params.connections,
       flag: params.flag,
     }
-    return this.request<Types.GetRouteOriginDestinationResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetRouteOriginDestinationResponse,
+      Types.GetRouteOriginDestinationResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -2852,16 +2337,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetSovereigntyCampaigns
    */
-  async getSovereigntyCampaigns(): Promise<
-    Types.EsiResponse<Types.GetSovereigntyCampaignsResponse>
-  > {
+  async getSovereigntyCampaigns() {
     const path = `/sovereignty/campaigns`
-    return this.request<Types.GetSovereigntyCampaignsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetSovereigntyCampaignsResponse,
+      Types.GetSovereigntyCampaignsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2869,16 +2350,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetSovereigntyMap
    */
-  async getSovereigntyMap(): Promise<
-    Types.EsiResponse<Types.GetSovereigntyMapResponse>
-  > {
+  async getSovereigntyMap() {
     const path = `/sovereignty/map`
-    return this.request<Types.GetSovereigntyMapResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetSovereigntyMapResponse,
+      Types.GetSovereigntyMapResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2886,16 +2363,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetSovereigntyStructures
    */
-  async getSovereigntyStructures(): Promise<
-    Types.EsiResponse<Types.GetSovereigntyStructuresResponse>
-  > {
+  async getSovereigntyStructures() {
     const path = `/sovereignty/structures`
-    return this.request<Types.GetSovereigntyStructuresResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetSovereigntyStructuresResponse,
+      Types.GetSovereigntyStructuresResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2903,14 +2376,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetStatus
    */
-  async getStatus(): Promise<Types.EsiResponse<Types.GetStatusResponse>> {
+  async getStatus() {
     const path = `/status`
-    return this.request<Types.GetStatusResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetStatusResponse,
+      Types.GetStatusResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2918,9 +2389,7 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostUiAutopilotWaypoint
    */
-  async postUiAutopilotWaypoint(
-    params?: Types.PostUiAutopilotWaypointParams
-  ): Promise<Types.EsiResponse<Types.PostUiAutopilotWaypointResponse>> {
+  async postUiAutopilotWaypoint(params?: Types.PostUiAutopilotWaypointParams) {
     const path = `/ui/autopilot/waypoint`
     const queryParams = params
       ? {
@@ -2929,12 +2398,10 @@ export class EsiClient {
           destination_id: params.destination_id,
         }
       : undefined
-    return this.request<Types.PostUiAutopilotWaypointResponse>(
-      'POST',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.PostUiAutopilotWaypointResponse,
+      Types.PostUiAutopilotWaypointResponseHeaders
+    >('POST', path, queryParams, undefined)
   }
 
   /**
@@ -2944,15 +2411,13 @@ export class EsiClient {
    */
   async postUiOpenwindowContract(
     params?: Types.PostUiOpenwindowContractParams
-  ): Promise<Types.EsiResponse<Types.PostUiOpenwindowContractResponse>> {
+  ) {
     const path = `/ui/openwindow/contract`
     const queryParams = params ? { contract_id: params.contract_id } : undefined
-    return this.request<Types.PostUiOpenwindowContractResponse>(
-      'POST',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.PostUiOpenwindowContractResponse,
+      Types.PostUiOpenwindowContractResponseHeaders
+    >('POST', path, queryParams, undefined)
   }
 
   /**
@@ -2962,15 +2427,13 @@ export class EsiClient {
    */
   async postUiOpenwindowInformation(
     params?: Types.PostUiOpenwindowInformationParams
-  ): Promise<Types.EsiResponse<Types.PostUiOpenwindowInformationResponse>> {
+  ) {
     const path = `/ui/openwindow/information`
     const queryParams = params ? { target_id: params.target_id } : undefined
-    return this.request<Types.PostUiOpenwindowInformationResponse>(
-      'POST',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.PostUiOpenwindowInformationResponse,
+      Types.PostUiOpenwindowInformationResponseHeaders
+    >('POST', path, queryParams, undefined)
   }
 
   /**
@@ -2980,15 +2443,13 @@ export class EsiClient {
    */
   async postUiOpenwindowMarketdetails(
     params?: Types.PostUiOpenwindowMarketdetailsParams
-  ): Promise<Types.EsiResponse<Types.PostUiOpenwindowMarketdetailsResponse>> {
+  ) {
     const path = `/ui/openwindow/marketdetails`
     const queryParams = params ? { type_id: params.type_id } : undefined
-    return this.request<Types.PostUiOpenwindowMarketdetailsResponse>(
-      'POST',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.PostUiOpenwindowMarketdetailsResponse,
+      Types.PostUiOpenwindowMarketdetailsResponseHeaders
+    >('POST', path, queryParams, undefined)
   }
 
   /**
@@ -2996,9 +2457,7 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostUiOpenwindowNewmail
    */
-  async postUiOpenwindowNewmail(
-    params: Types.PostUiOpenwindowNewmailParams
-  ): Promise<Types.EsiResponse<Types.PostUiOpenwindowNewmailResponse>> {
+  async postUiOpenwindowNewmail(params: Types.PostUiOpenwindowNewmailParams) {
     const path = `/ui/openwindow/newmail`
     const body = {
       body: params.body,
@@ -3007,12 +2466,10 @@ export class EsiClient {
       to_corp_or_alliance_id: params.to_corp_or_alliance_id,
       to_mailing_list_id: params.to_mailing_list_id,
     }
-    return this.request<Types.PostUiOpenwindowNewmailResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostUiOpenwindowNewmailResponse,
+      Types.PostUiOpenwindowNewmailResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -3022,16 +2479,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseAncestries
    */
-  async getUniverseAncestries(): Promise<
-    Types.EsiResponse<Types.GetUniverseAncestriesResponse>
-  > {
+  async getUniverseAncestries() {
     const path = `/universe/ancestries`
-    return this.request<Types.GetUniverseAncestriesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseAncestriesResponse,
+      Types.GetUniverseAncestriesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3043,16 +2496,12 @@ export class EsiClient {
    */
   async getUniverseAsteroidBeltsAsteroidBeltId(
     params: Types.GetUniverseAsteroidBeltsAsteroidBeltIdParams
-  ): Promise<
-    Types.EsiResponse<Types.GetUniverseAsteroidBeltsAsteroidBeltIdResponse>
-  > {
+  ) {
     const path = `/universe/asteroid_belts/${params.asteroid_belt_id}`
-    return this.request<Types.GetUniverseAsteroidBeltsAsteroidBeltIdResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseAsteroidBeltsAsteroidBeltIdResponse,
+      Types.GetUniverseAsteroidBeltsAsteroidBeltIdResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3062,16 +2511,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseBloodlines
    */
-  async getUniverseBloodlines(): Promise<
-    Types.EsiResponse<Types.GetUniverseBloodlinesResponse>
-  > {
+  async getUniverseBloodlines() {
     const path = `/universe/bloodlines`
-    return this.request<Types.GetUniverseBloodlinesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseBloodlinesResponse,
+      Types.GetUniverseBloodlinesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3081,16 +2526,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseCategories
    */
-  async getUniverseCategories(): Promise<
-    Types.EsiResponse<Types.GetUniverseCategoriesResponse>
-  > {
+  async getUniverseCategories() {
     const path = `/universe/categories`
-    return this.request<Types.GetUniverseCategoriesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseCategoriesResponse,
+      Types.GetUniverseCategoriesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3100,16 +2541,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseCategoriesCategoryId
    */
-  async getUniverseCategory(
-    params: Types.GetUniverseCategoryParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseCategoryResponse>> {
+  async getUniverseCategory(params: Types.GetUniverseCategoryParams) {
     const path = `/universe/categories/${params.category_id}`
-    return this.request<Types.GetUniverseCategoryResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseCategoryResponse,
+      Types.GetUniverseCategoryResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3119,16 +2556,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseConstellations
    */
-  async getUniverseConstellations(): Promise<
-    Types.EsiResponse<Types.GetUniverseConstellationsResponse>
-  > {
+  async getUniverseConstellations() {
     const path = `/universe/constellations`
-    return this.request<Types.GetUniverseConstellationsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseConstellationsResponse,
+      Types.GetUniverseConstellationsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3138,16 +2571,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseConstellationsConstellationId
    */
-  async getUniverseConstellation(
-    params: Types.GetUniverseConstellationParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseConstellationResponse>> {
+  async getUniverseConstellation(params: Types.GetUniverseConstellationParams) {
     const path = `/universe/constellations/${params.constellation_id}`
-    return this.request<Types.GetUniverseConstellationResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseConstellationResponse,
+      Types.GetUniverseConstellationResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3157,16 +2586,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseFactions
    */
-  async getUniverseFactions(): Promise<
-    Types.EsiResponse<Types.GetUniverseFactionsResponse>
-  > {
+  async getUniverseFactions() {
     const path = `/universe/factions`
-    return this.request<Types.GetUniverseFactionsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseFactionsResponse,
+      Types.GetUniverseFactionsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3176,16 +2601,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseGraphics
    */
-  async getUniverseGraphics(): Promise<
-    Types.EsiResponse<Types.GetUniverseGraphicsResponse>
-  > {
+  async getUniverseGraphics() {
     const path = `/universe/graphics`
-    return this.request<Types.GetUniverseGraphicsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseGraphicsResponse,
+      Types.GetUniverseGraphicsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3195,16 +2616,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseGraphicsGraphicId
    */
-  async getUniverseGraphic(
-    params: Types.GetUniverseGraphicParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseGraphicResponse>> {
+  async getUniverseGraphic(params: Types.GetUniverseGraphicParams) {
     const path = `/universe/graphics/${params.graphic_id}`
-    return this.request<Types.GetUniverseGraphicResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseGraphicResponse,
+      Types.GetUniverseGraphicResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3214,17 +2631,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseGroups
    */
-  async getUniverseGroups(
-    params?: Types.GetUniverseGroupsParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseGroupsResponse>> {
+  async getUniverseGroups(params?: Types.GetUniverseGroupsParams) {
     const path = `/universe/groups`
     const queryParams = params ? { page: params.page } : undefined
-    return this.request<Types.GetUniverseGroupsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseGroupsResponse,
+      Types.GetUniverseGroupsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -3234,16 +2647,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseGroupsGroupId
    */
-  async getUniverseGroup(
-    params: Types.GetUniverseGroupParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseGroupResponse>> {
+  async getUniverseGroup(params: Types.GetUniverseGroupParams) {
     const path = `/universe/groups/${params.group_id}`
-    return this.request<Types.GetUniverseGroupResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseGroupResponse,
+      Types.GetUniverseGroupResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3251,17 +2660,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostUniverseIds
    */
-  async postUniverseIds(
-    params: Types.PostUniverseIdsParams
-  ): Promise<Types.EsiResponse<Types.PostUniverseIdsResponse>> {
+  async postUniverseIds(params: Types.PostUniverseIdsParams) {
     const path = `/universe/ids`
     const body = params.body
-    return this.request<Types.PostUniverseIdsResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostUniverseIdsResponse,
+      Types.PostUniverseIdsResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -3271,16 +2676,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseMoonsMoonId
    */
-  async getUniverseMoon(
-    params: Types.GetUniverseMoonParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseMoonResponse>> {
+  async getUniverseMoon(params: Types.GetUniverseMoonParams) {
     const path = `/universe/moons/${params.moon_id}`
-    return this.request<Types.GetUniverseMoonResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseMoonResponse,
+      Types.GetUniverseMoonResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3288,17 +2689,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostUniverseNames
    */
-  async postUniverseNames(
-    params: Types.PostUniverseNamesParams
-  ): Promise<Types.EsiResponse<Types.PostUniverseNamesResponse>> {
+  async postUniverseNames(params: Types.PostUniverseNamesParams) {
     const path = `/universe/names`
     const body = params.body
-    return this.request<Types.PostUniverseNamesResponse>(
-      'POST',
-      path,
-      undefined,
-      body
-    )
+    return this.request<
+      Types.PostUniverseNamesResponse,
+      Types.PostUniverseNamesResponseHeaders
+    >('POST', path, undefined, body)
   }
 
   /**
@@ -3308,16 +2705,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniversePlanetsPlanetId
    */
-  async getUniversePlanet(
-    params: Types.GetUniversePlanetParams
-  ): Promise<Types.EsiResponse<Types.GetUniversePlanetResponse>> {
+  async getUniversePlanet(params: Types.GetUniversePlanetParams) {
     const path = `/universe/planets/${params.planet_id}`
-    return this.request<Types.GetUniversePlanetResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniversePlanetResponse,
+      Types.GetUniversePlanetResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3327,16 +2720,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseRaces
    */
-  async getUniverseRaces(): Promise<
-    Types.EsiResponse<Types.GetUniverseRacesResponse>
-  > {
+  async getUniverseRaces() {
     const path = `/universe/races`
-    return this.request<Types.GetUniverseRacesResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseRacesResponse,
+      Types.GetUniverseRacesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3346,16 +2735,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseRegions
    */
-  async getUniverseRegions(): Promise<
-    Types.EsiResponse<Types.GetUniverseRegionsResponse>
-  > {
+  async getUniverseRegions() {
     const path = `/universe/regions`
-    return this.request<Types.GetUniverseRegionsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseRegionsResponse,
+      Types.GetUniverseRegionsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3365,16 +2750,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseRegionsRegionId
    */
-  async getUniverseRegion(
-    params: Types.GetUniverseRegionParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseRegionResponse>> {
+  async getUniverseRegion(params: Types.GetUniverseRegionParams) {
     const path = `/universe/regions/${params.region_id}`
-    return this.request<Types.GetUniverseRegionResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseRegionResponse,
+      Types.GetUniverseRegionResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3382,16 +2763,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseSchematicsSchematicId
    */
-  async getUniverseSchematic(
-    params: Types.GetUniverseSchematicParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseSchematicResponse>> {
+  async getUniverseSchematic(params: Types.GetUniverseSchematicParams) {
     const path = `/universe/schematics/${params.schematic_id}`
-    return this.request<Types.GetUniverseSchematicResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseSchematicResponse,
+      Types.GetUniverseSchematicResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3401,16 +2778,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseStargatesStargateId
    */
-  async getUniverseStargate(
-    params: Types.GetUniverseStargateParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseStargateResponse>> {
+  async getUniverseStargate(params: Types.GetUniverseStargateParams) {
     const path = `/universe/stargates/${params.stargate_id}`
-    return this.request<Types.GetUniverseStargateResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseStargateResponse,
+      Types.GetUniverseStargateResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3420,16 +2793,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseStarsStarId
    */
-  async getUniverseStar(
-    params: Types.GetUniverseStarParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseStarResponse>> {
+  async getUniverseStar(params: Types.GetUniverseStarParams) {
     const path = `/universe/stars/${params.star_id}`
-    return this.request<Types.GetUniverseStarResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseStarResponse,
+      Types.GetUniverseStarResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3439,16 +2808,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseStationsStationId
    */
-  async getUniverseStation(
-    params: Types.GetUniverseStationParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseStationResponse>> {
+  async getUniverseStation(params: Types.GetUniverseStationParams) {
     const path = `/universe/stations/${params.station_id}`
-    return this.request<Types.GetUniverseStationResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseStationResponse,
+      Types.GetUniverseStationResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3456,17 +2821,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseStructures
    */
-  async getUniverseStructures(
-    params?: Types.GetUniverseStructuresParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseStructuresResponse>> {
+  async getUniverseStructures(params?: Types.GetUniverseStructuresParams) {
     const path = `/universe/structures`
     const queryParams = params ? { filter: params.filter } : undefined
-    return this.request<Types.GetUniverseStructuresResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseStructuresResponse,
+      Types.GetUniverseStructuresResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -3474,16 +2835,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseStructuresStructureId
    */
-  async getUniverseStructure(
-    params: Types.GetUniverseStructureParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseStructureResponse>> {
+  async getUniverseStructure(params: Types.GetUniverseStructureParams) {
     const path = `/universe/structures/${params.structure_id}`
-    return this.request<Types.GetUniverseStructureResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseStructureResponse,
+      Types.GetUniverseStructureResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3491,16 +2848,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseSystemJumps
    */
-  async getUniverseSystemJumps(): Promise<
-    Types.EsiResponse<Types.GetUniverseSystemJumpsResponse>
-  > {
+  async getUniverseSystemJumps() {
     const path = `/universe/system_jumps`
-    return this.request<Types.GetUniverseSystemJumpsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseSystemJumpsResponse,
+      Types.GetUniverseSystemJumpsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3508,16 +2861,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseSystemKills
    */
-  async getUniverseSystemKills(): Promise<
-    Types.EsiResponse<Types.GetUniverseSystemKillsResponse>
-  > {
+  async getUniverseSystemKills() {
     const path = `/universe/system_kills`
-    return this.request<Types.GetUniverseSystemKillsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseSystemKillsResponse,
+      Types.GetUniverseSystemKillsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3527,16 +2876,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseSystems
    */
-  async getUniverseSystems(): Promise<
-    Types.EsiResponse<Types.GetUniverseSystemsResponse>
-  > {
+  async getUniverseSystems() {
     const path = `/universe/systems`
-    return this.request<Types.GetUniverseSystemsResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseSystemsResponse,
+      Types.GetUniverseSystemsResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3546,16 +2891,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseSystemsSystemId
    */
-  async getUniverseSystem(
-    params: Types.GetUniverseSystemParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseSystemResponse>> {
+  async getUniverseSystem(params: Types.GetUniverseSystemParams) {
     const path = `/universe/systems/${params.system_id}`
-    return this.request<Types.GetUniverseSystemResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseSystemResponse,
+      Types.GetUniverseSystemResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3565,17 +2906,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseTypes
    */
-  async getUniverseTypes(
-    params?: Types.GetUniverseTypesParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseTypesResponse>> {
+  async getUniverseTypes(params?: Types.GetUniverseTypesParams) {
     const path = `/universe/types`
     const queryParams = params ? { page: params.page } : undefined
-    return this.request<Types.GetUniverseTypesResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseTypesResponse,
+      Types.GetUniverseTypesResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 
   /**
@@ -3585,16 +2922,12 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseTypesTypeId
    */
-  async getUniverseType(
-    params: Types.GetUniverseTypeParams
-  ): Promise<Types.EsiResponse<Types.GetUniverseTypeResponse>> {
+  async getUniverseType(params: Types.GetUniverseTypeParams) {
     const path = `/universe/types/${params.type_id}`
-    return this.request<Types.GetUniverseTypeResponse>(
-      'GET',
-      path,
-      undefined,
-      undefined
-    )
+    return this.request<
+      Types.GetUniverseTypeResponse,
+      Types.GetUniverseTypeResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -3602,12 +2935,10 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetWars
    */
-  async getWars(
-    params?: Types.GetWarsParams
-  ): Promise<Types.EsiResponse<Types.GetWarsResponse>> {
+  async getWars(params?: Types.GetWarsParams) {
     const path = `/wars`
     const queryParams = params ? { max_war_id: params.max_war_id } : undefined
-    return this.request<Types.GetWarsResponse>(
+    return this.request<Types.GetWarsResponse, Types.GetWarsResponseHeaders>(
       'GET',
       path,
       queryParams,
@@ -3620,11 +2951,14 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetWarsWarId
    */
-  async getWar(
-    params: Types.GetWarParams
-  ): Promise<Types.EsiResponse<Types.GetWarResponse>> {
+  async getWar(params: Types.GetWarParams) {
     const path = `/wars/${params.war_id}`
-    return this.request<Types.GetWarResponse>('GET', path, undefined, undefined)
+    return this.request<Types.GetWarResponse, Types.GetWarResponseHeaders>(
+      'GET',
+      path,
+      undefined,
+      undefined
+    )
   }
 
   /**
@@ -3632,17 +2966,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetWarsWarIdKillmails
    */
-  async getWarKillmails(
-    params: Types.GetWarKillmailsParams
-  ): Promise<Types.EsiResponse<Types.GetWarKillmailsResponse>> {
+  async getWarKillmails(params: Types.GetWarKillmailsParams) {
     const path = `/wars/${params.war_id}/killmails`
     const queryParams = { page: params.page }
-    return this.request<Types.GetWarKillmailsResponse>(
-      'GET',
-      path,
-      queryParams,
-      undefined
-    )
+    return this.request<
+      Types.GetWarKillmailsResponse,
+      Types.GetWarKillmailsResponseHeaders
+    >('GET', path, queryParams, undefined)
   }
 }
 

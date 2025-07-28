@@ -13,7 +13,14 @@ interface OpenAPISchema {
   paths?: Record<string, PathItem>
   components?: {
     schemas?: Record<string, Schema>
+    headers?: Record<string, HeaderDefinition>
+    parameters?: Record<string, Parameter>
   }
+}
+
+interface HeaderDefinition {
+  description?: string
+  schema?: Schema
 }
 
 interface PathItem {
@@ -43,6 +50,13 @@ interface Response {
       schema?: Schema
     }
   }
+  headers?: Record<string, HeaderRef>
+}
+
+interface HeaderRef {
+  $ref?: string
+  description?: string
+  schema?: Schema
 }
 
 interface RequestBody {
@@ -70,6 +84,12 @@ interface QueryParam {
   description?: string
 }
 
+interface ResponseHeader {
+  name: string
+  type: string
+  description?: string
+}
+
 function loadSchema(): OpenAPISchema {
   console.log('Loading OpenAPI schema from local file...')
 
@@ -86,10 +106,10 @@ function generateTypes(schema: OpenAPISchema): string {
   console.log('Generating TypeScript types...')
 
   let types = `// Auto-generated TypeScript types for EVE ESI API
-export interface EsiResponse<TData> {
+export interface EsiResponse<TData, THeaders = Record<string, string>> {
   data: TData;
   status: number;
-  headers: Record<string, string>;
+  headers: THeaders;
 }
 
 export interface EsiError {
@@ -130,7 +150,15 @@ export interface EsiError {
           types += generateParameterType(
             transformedOperationId,
             pathTemplate,
-            methodObj
+            methodObj,
+            schema
+          )
+
+          // Generate response header type
+          types += generateResponseHeaderType(
+            transformedOperationId,
+            methodObj,
+            schema
           )
         }
       }
@@ -219,10 +247,11 @@ function getTypeScriptType(schema: Schema): string {
 function generateParameterType(
   operationName: string,
   pathTemplate: string,
-  methodObj: Operation
+  methodObj: Operation,
+  schema: OpenAPISchema
 ): string {
   const pathParams = extractPathParams(pathTemplate)
-  const queryParams = extractQueryParams(methodObj.parameters || [])
+  const queryParams = extractQueryParams(methodObj.parameters || [], schema)
   const hasRequestBody =
     methodObj.requestBody?.content?.['application/json']?.schema
 
@@ -290,6 +319,33 @@ function generateParameterType(
   return `export interface ${operationName}Params {\n  ${allParamTypes.join(';\n  ')};\n}\n\n`
 }
 
+function generateResponseHeaderType(
+  operationName: string,
+  methodObj: Operation,
+  schema: OpenAPISchema
+): string {
+  const successResponse =
+    methodObj.responses?.['200'] ||
+    methodObj.responses?.['201'] ||
+    Object.values(methodObj.responses || {})[0]
+
+  if (!successResponse) return ''
+
+  const responseHeaders = extractResponseHeaders(successResponse, schema)
+
+  if (responseHeaders.length === 0) {
+    return '' // Don't generate empty interfaces
+  }
+
+  const headerTypes: string[] = []
+  for (const header of responseHeaders) {
+    // Response headers are generally optional since they might not always be present
+    headerTypes.push(`'${header.name}'?: ${header.type}`)
+  }
+
+  return `export interface ${operationName}ResponseHeaders {\n  ${headerTypes.join(';\n  ')};\n}\n\n`
+}
+
 function generateJSDoc(methodObj: Operation, pathTemplate: string): string {
   const description = methodObj.description || methodObj.summary
 
@@ -324,12 +380,12 @@ export class EsiClient {
     this.token = options.token;
   }
 
-  private async request<T>(
+  private async request<TData, THeaders>(
     method: string,
     path: string,
     params?: Record<string, any>,
     body?: any
-  ): Promise<Types.EsiResponse<T>> {
+  ): Promise<Types.EsiResponse<TData, THeaders>> {
     const url = new URL(path, this.baseUrl);
 
     if (params && method === 'GET') {
@@ -366,7 +422,7 @@ export class EsiClient {
     return {
       data,
       status: response.status,
-      headers: Object.fromEntries(response.headers.entries()),
+      headers: Object.fromEntries(response.headers.entries()) as THeaders,
     };
   }
 
@@ -377,7 +433,12 @@ export class EsiClient {
     for (const [pathTemplate, pathObj] of Object.entries(schema.paths)) {
       for (const [method, methodObj] of Object.entries(pathObj)) {
         if (['get', 'post', 'put', 'delete'].includes(method.toLowerCase())) {
-          const methodResult = generateMethod(pathTemplate, method, methodObj)
+          const methodResult = generateMethod(
+            pathTemplate,
+            method,
+            methodObj,
+            schema
+          )
           client += methodResult.code
           methods.push(methodResult.methodInfo)
         }
@@ -392,7 +453,8 @@ export class EsiClient {
 function generateMethod(
   pathTemplate: string,
   method: string,
-  methodObj: Operation
+  methodObj: Operation,
+  schema: OpenAPISchema
 ): { code: string; methodInfo: MethodInfo } {
   const operationId =
     methodObj.operationId ||
@@ -403,7 +465,7 @@ function generateMethod(
     preserveConsecutiveUppercase: true,
   })
   const pathParams = extractPathParams(pathTemplate)
-  const queryParams = extractQueryParams(methodObj.parameters || [])
+  const queryParams = extractQueryParams(methodObj.parameters || [], schema)
 
   const paramTypes: string[] = []
   const hasRequestBody =
@@ -427,11 +489,24 @@ function generateMethod(
     transformedOperationId
   )
 
+  // Check if this method has response headers
+  const successResponse =
+    methodObj.responses?.['200'] ||
+    methodObj.responses?.['201'] ||
+    Object.values(methodObj.responses || {})[0]
+  const hasResponseHeaders =
+    successResponse &&
+    extractResponseHeaders(successResponse, schema).length > 0
+
   // Generate JSDoc
   const jsdoc = generateJSDoc(methodObj, pathTemplate)
 
-  let methodSignature = `async ${methodName}(${paramTypes.join(', ')})`
-  methodSignature += `: Promise<Types.EsiResponse<Types.${responseType}>> {\n`
+  let methodSignature = `async ${methodName}(${paramTypes.join(', ')}) {\n`
+  // if (hasResponseHeaders) {
+  //   methodSignature += `: Promise<Types.${transformedOperationId}CompleteResponse> {\n`
+  // } else {
+  //   methodSignature += `: Promise<Types.EsiResponse<Types.${responseType}>> {\n`
+  // }
 
   let pathReplacement = pathTemplate
   pathParams.forEach(param => {
@@ -471,7 +546,11 @@ function generateMethod(
     }
   }
 
-  methodBody += `    return this.request<Types.${responseType}>('${method.toUpperCase()}', path`
+  if (hasResponseHeaders) {
+    methodBody += `    return this.request<Types.${responseType}, Types.${transformedOperationId}ResponseHeaders>('${method.toUpperCase()}', path`
+  } else {
+    methodBody += `    return this.request<Types.${responseType}>('${method.toUpperCase()}', path`
+  }
 
   if (queryParams.length > 0) {
     methodBody += ', queryParams'
@@ -507,8 +586,27 @@ function extractPathParams(path: string): string[] {
   return matches ? matches.map(match => match.slice(1, -1)) : []
 }
 
-function extractQueryParams(parameters: Parameter[]): QueryParam[] {
+function resolveParameter(
+  param: Parameter | { $ref: string },
+  schema: OpenAPISchema
+): Parameter {
+  if ('$ref' in param) {
+    const refPath = param.$ref.replace('#/components/parameters/', '')
+    const resolvedParam = schema.components?.parameters?.[refPath]
+    if (!resolvedParam) {
+      throw new Error(`Could not resolve parameter reference: ${param.$ref}`)
+    }
+    return resolvedParam as Parameter
+  }
+  return param as Parameter
+}
+
+function extractQueryParams(
+  parameters: Parameter[],
+  schema: OpenAPISchema
+): QueryParam[] {
   return parameters
+    .map(param => resolveParameter(param, schema))
     .filter(param => param.in === 'query')
     .map(param => ({
       name: param.name,
@@ -516,6 +614,34 @@ function extractQueryParams(parameters: Parameter[]): QueryParam[] {
       required: param.required || false,
       description: param.description || param.schema?.description,
     }))
+}
+
+function extractResponseHeaders(
+  response: Response,
+  schema: OpenAPISchema
+): ResponseHeader[] {
+  if (!response.headers) return []
+
+  return Object.entries(response.headers).map(([headerName, headerRef]) => {
+    if (headerRef.$ref) {
+      const refName = headerRef.$ref.replace('#/components/headers/', '')
+      const headerDef = schema.components?.headers?.[refName]
+      if (!headerDef) {
+        throw new Error(`Could not resolve header reference: ${headerRef.$ref}`)
+      }
+      return {
+        name: headerName,
+        type: getTypeScriptType(headerDef.schema || { type: 'string' }),
+        description: headerDef.description,
+      }
+    } else {
+      return {
+        name: headerName,
+        type: getTypeScriptType(headerRef.schema || { type: 'string' }),
+        description: headerRef.description,
+      }
+    }
+  })
 }
 
 function getResponseType(

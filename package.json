@@ -10,7 +10,7 @@
     "fetch-schema": "node scripts/fetch-schema.ts",
     "generate": "node scripts/generate.ts && pnpm lint:fix",
     "build": "rimraf dist && tsc",
-    "compile": "pnpm fetch-schema && pnpm generate && pnpm build",
+    "compile": "pnpm fetch-schema && pnpm generate && pnpm build && pnpm test",
     "lint": "eslint src",
     "lint:fix": "eslint src --fix",
     "test": "vitest run",
