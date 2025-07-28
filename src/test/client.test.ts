@@ -9,6 +9,8 @@ describe('EsiClient - Live API Tests', () => {
     corporation: 98224639, // Dirt n Glitter
     alliance: 99005678, // Local Is Primary
     solarSystem: 30002693, // Egghelende
+    region: 10000002, // The Forge
+    item: 34, // Tritanium
   }
 
   describe('Alliance Endpoints', () => {
@@ -76,6 +78,19 @@ describe('EsiClient - Live API Tests', () => {
       })
 
       expect(response.status).toBe(200)
+    })
+  })
+
+  describe('Paginated Endpoints', () => {
+    it('should get paginated market orders and return pagination headers', async () => {
+      const page1 = await client.getRegionOrders({
+        region_id: TEST_IDS.region,
+        page: 1,
+        type_id: TEST_IDS.item
+      })
+      
+      expect(page1.status).toBe(200)
+      expect(page1.headers).toHaveProperty('x-pages')
     })
   })
 
