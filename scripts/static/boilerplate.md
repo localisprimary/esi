@@ -2,6 +2,10 @@
 
 A slightly opinionated TypeScript client for the [EVE Online API](https://developers.eveonline.com/api-explorer).
 
+
+![NPM Version](https://img.shields.io/npm/v/%40localisprimary%2Fesi)
+
+
 ## Usage
 
 ```typescript
