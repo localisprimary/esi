@@ -400,6 +400,7 @@ export class EsiClient {
 
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
+      'X-Compatibility-Date': COMPATIBILITY_DATE,
     };
 
     if (this.token) {
