@@ -1,17 +1,19 @@
 import { describe, it, expect } from 'vitest'
 import { EsiClient } from '../../dist'
 
-describe('EsiClient - Live API Tests', () => {
-  const client = new EsiClient({ userAgent: '@localisprimary/esi' })
+const TEST_IDS = {
+  character: 91884358, // Tujiko Noriko
+  corporation: 98224639, // Dirt n Glitter
+  alliance: 99005678, // Local Is Primary
+  solarSystem: 30002693, // Egghelende
+  region: 10000002, // The Forge
+  item: 34, // Tritanium
 
-  const TEST_IDS = {
-    character: 91884358, // Tujiko Noriko
-    corporation: 98224639, // Dirt n Glitter
-    alliance: 99005678, // Local Is Primary
-    solarSystem: 30002693, // Egghelende
-    region: 10000002, // The Forge
-    item: 34, // Tritanium
-  }
+}
+
+describe('EsiClient - Live API Tests', () => {
+  const client = new EsiClient({ userAgent: 'testClient' })
+
 
   describe('Alliance Endpoints', () => {
     it('should get all alliances', async () => {
@@ -144,5 +146,14 @@ describe('EsiClient - Live API Tests', () => {
 
       expect(response).toHaveProperty('headers')
     })
+  })
+})
+
+describe('EsiClient - No Request Headers', () => {
+  it('should use query parameters when useRequestHeaders is false', async () => {
+    const client = new EsiClient({ useRequestHeaders: false, userAgent: 'testClient' })
+    const response = await client.getCharacter({ character_id: TEST_IDS.character })
+
+    expect(response.status).toBe(200)
   })
 })

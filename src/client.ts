@@ -6,11 +6,19 @@ const COMPATIBILITY_DATE = '2025-07-29'
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
-  private readonly userAgent: string = '@localisprimary/esi'
+  private readonly userAgent: string = 'localisprimary/esi'
   private readonly token?: string
+  private readonly useRequestHeaders: boolean = true
 
-  constructor(options: { token?: string; userAgent?: string } = {}) {
+  constructor(
+    options: {
+      token?: string
+      userAgent?: string
+      useRequestHeaders?: boolean
+    } = {}
+  ) {
     this.token = options.token
+    this.useRequestHeaders = options.useRequestHeaders ?? true
 
     if (options.userAgent?.length) {
       this.userAgent += ` ${options.userAgent}`
@@ -37,6 +45,15 @@ export class EsiClient {
       })
     }
 
+    if (!this.useRequestHeaders) {
+      url.searchParams.append('user_agent', this.userAgent)
+      url.searchParams.append('compatibility_date', COMPATIBILITY_DATE)
+
+      if (this.token) {
+        url.searchParams.append('token', this.token)
+      }
+    }
+
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'X-Compatibility-Date': COMPATIBILITY_DATE,
@@ -49,7 +66,7 @@ export class EsiClient {
 
     const response = await fetch(url.toString(), {
       method,
-      headers,
+      headers: this.useRequestHeaders ? headers : undefined,
       body: body ? JSON.stringify(body) : undefined,
     })
 

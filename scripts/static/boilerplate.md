@@ -23,6 +23,17 @@ const alliance = await esi.getAlliance({ alliance_id: 123 })
 console.log(alliance.data)
 ```
 
+## Options
+
+The `EsiClient` constructor accepts an options object with the following properties:
+| Parameter | Description | Type | Default | Required |
+|-----------|-------------|------|---------|----------|
+| `token` | Optional auth token for authenticated requests | `string` | `undefined` | No |
+| `userAgent` | User agent string for requests. Resolves to `"localisprimary/esi <userAgent>"` | `string` | `undefined` | No* |
+| `useRequestHeaders` | When false, fall back to query parameters for user agent and token | `boolean` | `true` | No |
+
+<small>* Will be required in a future version.</small>
+
 ## Methods
 
 This client provides methods for all EVE ESI endpoints. Methods return a `Promise` that resolves to an `EsiResponse<T>` or throws an `EsiError`.
