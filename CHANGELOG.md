@@ -1,8 +1,20 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Mon, 28 Jul 2025 19:48:23 GMT and should not be manually modified. -->
+<!-- This log was last generated on Tue, 29 Jul 2025 16:21:50 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 1.2.0
+
+Tue, 29 Jul 2025 16:21:50 GMT
+
+### Minor changes
+
+- Add userAgent option to constructor. This option will be required in a future release. (hello@adamtrager.com)
+
+### Patches
+
+- Add compatibility date header https://developers.eveonline.com/blog/changing-versions-v42-was-getting-out-of-hand (hello@adamtrager.com)
 
 ## 1.1.0
 

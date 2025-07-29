@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "Add compatibility date header https://developers.eveonline.com/blog/changing-versions-v42-was-getting-out-of-hand",
-  "packageName": "@localisprimary/esi",
-  "email": "hello@adamtrager.com",
-  "dependentChangeType": "patch"
-}

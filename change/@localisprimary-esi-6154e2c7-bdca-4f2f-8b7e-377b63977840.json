@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "Add userAgent option to constructor. This option will be required in a future release.",
-  "packageName": "@localisprimary/esi",
-  "email": "hello@adamtrager.com",
-  "dependentChangeType": "patch"
-}

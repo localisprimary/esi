@@ -2,6 +2,29 @@
   "name": "@localisprimary/esi",
   "entries": [
     {
+      "date": "Tue, 29 Jul 2025 16:21:50 GMT",
+      "version": "1.2.0",
+      "tag": "@localisprimary/esi_v1.2.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "hello@adamtrager.com",
+            "package": "@localisprimary/esi",
+            "commit": "34343db90114bd3f3e4020907d0a858062a4e680",
+            "comment": "Add userAgent option to constructor. This option will be required in a future release."
+          }
+        ],
+        "patch": [
+          {
+            "author": "hello@adamtrager.com",
+            "package": "@localisprimary/esi",
+            "commit": "e065ef69be1481d713a83180e0d8621df218d698",
+            "comment": "Add compatibility date header https://developers.eveonline.com/blog/changing-versions-v42-was-getting-out-of-hand"
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 28 Jul 2025 19:48:23 GMT",
       "version": "1.1.0",
       "tag": "@localisprimary/esi_v1.1.0",
