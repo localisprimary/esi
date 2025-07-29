@@ -2,7 +2,7 @@ import { describe, it, expect } from 'vitest'
 import { EsiClient } from '../../dist'
 
 describe('EsiClient - Live API Tests', () => {
-  const client = new EsiClient()
+  const client = new EsiClient({ userAgent: '@localisprimary/esi' })
 
   const TEST_IDS = {
     character: 91884358, // Tujiko Noriko

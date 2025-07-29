@@ -12,7 +12,7 @@ A slightly opinionated TypeScript client for the [EVE Online API](https://develo
 import { EsiClient } from '@localisprimary/esi'
 
 // Create client (optionally with auth token)
-const esi = new EsiClient({ token: 'bearer-token' })
+const esi = new EsiClient({ userAgent: 'foo@example.com', token: 'bearer-token' })
 
 // Get all alliances
 const alliances = await esi.getAlliances()
@@ -44,7 +44,7 @@ All methods are fully typed: `getAlliance` will take `GetAllianceParams` and ret
 
 `Params` types make no distinction between path, query, or body parameters, it's all the same object:
 ```typescript
-const esi = new EsiClient({ token: 'bearer-token' })
+const esi = new EsiClient({ userAgent: 'foo@example.com', token: 'bearer-token' })
 
 // POST https://esi.evetech.net/characters/{character_id}/mail
 esi.postCharacterMail({

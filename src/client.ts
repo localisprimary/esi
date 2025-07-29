@@ -7,9 +7,17 @@ const COMPATIBILITY_DATE = '2025-07-29'
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
   private readonly token?: string
+  private readonly userAgent: string
 
-  constructor(options: { token?: string } = {}) {
+  constructor(options: { token?: string; userAgent?: string } = {}) {
     this.token = options.token
+    this.userAgent = `@localisprimary/esi ${options.userAgent}`.trim()
+
+    if (!options.userAgent?.length) {
+      console.warn(
+        '@localisprimary/esi: No user agent provided in constructor. This will be required in a future release.'
+      )
+    }
   }
 
   private async request<TData, THeaders>(
@@ -31,6 +39,7 @@ export class EsiClient {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
       'X-Compatibility-Date': COMPATIBILITY_DATE,
+      'X-User-Agent': this.userAgent,
     }
 
     if (this.token) {
