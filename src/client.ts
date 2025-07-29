@@ -2,6 +2,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Types from './types'
 
+const COMPATIBILITY_DATE = '2025-07-29'
+
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
   private readonly token?: string
@@ -28,6 +30,7 @@ export class EsiClient {
 
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
+      'X-Compatibility-Date': COMPATIBILITY_DATE,
     }
 
     if (this.token) {

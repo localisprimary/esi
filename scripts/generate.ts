@@ -372,6 +372,8 @@ function generateClient(schema: OpenAPISchema): {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Types from './types';
 
+const COMPATIBILITY_DATE = '${new Date().toISOString().slice(0, 10)}';
+
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net';
   private readonly token?: string;
