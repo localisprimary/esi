@@ -376,14 +376,15 @@ const COMPATIBILITY_DATE = '${new Date().toISOString().slice(0, 10)}';
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net';
+  private readonly userAgent: string = '@localisprimary/esi';
   private readonly token?: string;
-  private readonly userAgent: string;
 
   constructor(options: { token?: string; userAgent?: string } = {}) {
     this.token = options.token
-    this.userAgent = \`@localisprimary/esi \${options.userAgent}\`.trim()
 
-    if (!options.userAgent?.length) {
+    if (options.userAgent?.length) {
+      this.userAgent += \` \${options.userAgent}\`
+    } else {
       console.warn(
         '@localisprimary/esi: No user agent provided in constructor. This will be required in a future release.'
       )
