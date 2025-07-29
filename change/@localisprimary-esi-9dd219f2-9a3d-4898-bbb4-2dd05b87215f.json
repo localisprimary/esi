@@ -1,7 +1,0 @@
-{
-  "type": "minor",
-  "comment": "add useRequestHeaders option (default true)",
-  "packageName": "@localisprimary/esi",
-  "email": "hello@adamtrager.com",
-  "dependentChangeType": "patch"
-}

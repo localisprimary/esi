@@ -1,8 +1,16 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Tue, 29 Jul 2025 16:21:50 GMT and should not be manually modified. -->
+<!-- This log was last generated on Tue, 29 Jul 2025 21:05:22 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 1.3.0
+
+Tue, 29 Jul 2025 21:05:22 GMT
+
+### Minor changes
+
+- add useRequestHeaders option (default true) (hello@adamtrager.com)
 
 ## 1.2.0
 
