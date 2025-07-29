@@ -378,7 +378,7 @@ export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net';
   private readonly userAgent: string = 'localisprimary/esi';
   private readonly token?: string;
-  private readonly useRequestHeaders: boolean = true;
+  private readonly useRequestHeaders: boolean;
 
   constructor(options: { token?: string; userAgent?: string, useRequestHeaders?: boolean } = {}) {
     this.token = options.token
