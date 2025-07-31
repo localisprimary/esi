@@ -5,7 +5,7 @@ A slightly opinionated TypeScript client for the [EVE Online API](https://develo
 
 [![NPM Version](https://img.shields.io/npm/v/%40localisprimary%2Fesi)](https://www.npmjs.com/package/@localisprimary/esi)
 [![NPM Downloads](https://img.shields.io/npm/dm/%40localisprimary%2Fesi?link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2F%40localisprimary%2Fesi)](https://www.npmjs.com/package/@localisprimary/esi)
-[![Discord](https://img.shields.io/discord/928842307879444552?label=Discord&color=%237289da&link=https%3A%2F%2Fdiscord.gg%2FCbcBHGMpUa)](https://discord.gg/CbcBHGMpUa)
+[![Discord](https://img.shields.io/discord/928842307879444552?label=discord&color=%237289da&link=https%3A%2F%2Fdiscord.gg%2FCbcBHGMpUa)](https://discord.gg/CbcBHGMpUa)
 
 
 
