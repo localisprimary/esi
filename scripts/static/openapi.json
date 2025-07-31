@@ -11445,8 +11445,6 @@
             "tokenUrl": "https://login.eveonline.com/v2/oauth/token"
           }
         },
-        "in": "header",
-        "name": "Authorization",
         "type": "oauth2"
       }
     }
@@ -11461,7 +11459,7 @@
       "url": "https://developers.eveonline.com/license-agreement"
     },
     "termsOfService": "https://support.eveonline.com/hc/en-us/articles/8414770561948-EVE-Online-Terms-of-Service",
-    "title": "EVE Stellar Information (ESI) - tranquility",
+    "title": "EVE Sandbox Ingress (ESI) - tranquility",
     "version": "2020-01-01"
   },
   "openapi": "3.1.0",
