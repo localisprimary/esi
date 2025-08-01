@@ -8,8 +8,6 @@ A slightly opinionated TypeScript client for the [EVE Online API](https://develo
 [![Discord](https://img.shields.io/discord/928842307879444552?label=discord&color=%237289da&link=https%3A%2F%2Fdiscord.gg%2FCbcBHGMpUa)](https://discord.gg/CbcBHGMpUa)
 
 
-
-
 ## Usage
 
 ```typescript
