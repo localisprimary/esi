@@ -38,11 +38,11 @@
     },
     "parameters": {
       "AcceptLanguage": {
-        "description": "The language to use for the response. Defaults to 'en'.",
-        "example": "en",
+        "description": "The language to use for the response.",
         "in": "header",
         "name": "Accept-Language",
         "schema": {
+          "default": "en",
           "enum": [
             "en",
             "de",
@@ -58,11 +58,13 @@
       },
       "CompatibilityDate": {
         "description": "The compatibility date for the request.",
-        "example": "2020-01-01",
         "in": "header",
         "name": "X-Compatibility-Date",
         "required": true,
         "schema": {
+          "enum": [
+            "2020-01-01"
+          ],
           "format": "date",
           "type": "string"
         }
@@ -84,11 +86,12 @@
         }
       },
       "Tenant": {
-        "description": "The tenant ID for the request. Defaults to 'tranquility'.",
-        "example": "tranquility",
+        "description": "The tenant ID for the request.",
+        "example": "",
         "in": "header",
         "name": "X-Tenant",
         "schema": {
+          "default": "tranquility",
           "type": "string"
         }
       }
@@ -17667,7 +17670,10 @@
           "Industry"
         ],
         "x-cache-age": 1800,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Station_Manager"
+        ]
       }
     },
     "/corporation/{corporation_id}/mining/observers": {
@@ -17759,7 +17765,10 @@
           "Industry"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Accountant"
+        ]
       }
     },
     "/corporation/{corporation_id}/mining/observers/{observer_id}": {
@@ -17861,7 +17870,10 @@
           "Industry"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Accountant"
+        ]
       }
     },
     "/corporations/npccorps": {
@@ -18147,7 +18159,10 @@
           "Assets"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/assets/locations": {
@@ -18238,7 +18253,10 @@
         "tags": [
           "Assets"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/assets/names": {
@@ -18329,7 +18347,10 @@
         "tags": [
           "Assets"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/blueprints": {
@@ -18421,7 +18442,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/contacts": {
@@ -18680,7 +18704,10 @@
           "Corporation"
         ],
         "x-cache-age": 600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/contracts": {
@@ -19051,7 +19078,10 @@
           "Planetary Interaction"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/divisions": {
@@ -19126,7 +19156,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/facilities": {
@@ -19201,7 +19234,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Factory_Manager"
+        ]
       }
     },
     "/corporations/{corporation_id}/fw/stats": {
@@ -19444,7 +19480,10 @@
           "Industry"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Factory_Manager"
+        ]
       }
     },
     "/corporations/{corporation_id}/killmails/recent": {
@@ -19536,7 +19575,10 @@
           "Killmails"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/medals": {
@@ -19720,7 +19762,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/members": {
@@ -19870,7 +19915,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/members/titles": {
@@ -19945,7 +19993,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/membertracking": {
@@ -20020,7 +20071,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/orders": {
@@ -20112,7 +20166,11 @@
           "Market"
         ],
         "x-cache-age": 1200,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Accountant",
+          "Trader"
+        ]
       }
     },
     "/corporations/{corporation_id}/orders/history": {
@@ -20204,7 +20262,11 @@
           "Market"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Accountant",
+          "Trader"
+        ]
       }
     },
     "/corporations/{corporation_id}/roles": {
@@ -20371,7 +20433,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/shareholders": {
@@ -20463,7 +20528,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/standings": {
@@ -20647,7 +20715,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/starbases/{starbase_id}": {
@@ -20742,7 +20813,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/structures": {
@@ -20837,7 +20911,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Station_Manager"
+        ]
       }
     },
     "/corporations/{corporation_id}/titles": {
@@ -20912,7 +20989,10 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Director"
+        ]
       }
     },
     "/corporations/{corporation_id}/wallets": {
@@ -20987,7 +21067,11 @@
           "Wallet"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Accountant",
+          "Junior_Accountant"
+        ]
       }
     },
     "/corporations/{corporation_id}/wallets/{division}/journal": {
@@ -21089,7 +21173,11 @@
           "Wallet"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Accountant",
+          "Junior_Accountant"
+        ]
       }
     },
     "/corporations/{corporation_id}/wallets/{division}/transactions": {
@@ -21183,7 +21271,11 @@
           "Wallet"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-required-roles": [
+          "Accountant",
+          "Junior_Accountant"
+        ]
       }
     },
     "/dogma/attributes": {
