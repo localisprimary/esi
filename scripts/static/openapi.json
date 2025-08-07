@@ -11410,6 +11410,7 @@
               "esi-corporations.read_facilities.v1": "esi-corporations.read_facilities.v1",
               "esi-corporations.read_fw_stats.v1": "esi-corporations.read_fw_stats.v1",
               "esi-corporations.read_medals.v1": "esi-corporations.read_medals.v1",
+              "esi-corporations.read_projects.v1": "esi-corporations.read_projects.v1",
               "esi-corporations.read_standings.v1": "esi-corporations.read_standings.v1",
               "esi-corporations.read_starbases.v1": "esi-corporations.read_starbases.v1",
               "esi-corporations.read_structures.v1": "esi-corporations.read_structures.v1",
@@ -11462,7 +11463,7 @@
       "url": "https://developers.eveonline.com/license-agreement"
     },
     "termsOfService": "https://support.eveonline.com/hc/en-us/articles/8414770561948-EVE-Online-Terms-of-Service",
-    "title": "EVE Sandbox Ingress (ESI) - tranquility",
+    "title": "EVE Stable Infrastructure (ESI) - tranquility",
     "version": "2020-01-01"
   },
   "openapi": "3.1.0",
