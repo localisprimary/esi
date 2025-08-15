@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "Update EVE ESI schema",
+  "packageName": "@localisprimary/esi",
+  "email": "hello@adamtrager.com",
+  "dependentChangeType": "patch"
+}
