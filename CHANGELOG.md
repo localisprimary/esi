@@ -1,8 +1,16 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Tue, 29 Jul 2025 21:05:22 GMT and should not be manually modified. -->
+<!-- This log was last generated on Fri, 15 Aug 2025 14:36:25 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 1.3.1
+
+Fri, 15 Aug 2025 14:36:25 GMT
+
+### Patches
+
+- Update EVE ESI schema (hello@adamtrager.com)
 
 ## 1.3.0
 
