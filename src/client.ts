@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Types from './types'
 
-const COMPATIBILITY_DATE = '2025-08-15'
+const COMPATIBILITY_DATE = '2025-08-18'
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
@@ -1125,8 +1125,6 @@ export class EsiClient {
   /**
    * Extraction timers for all moon chunks being extracted by refineries belonging to a corporation.
 
-   * Requires one of the following EVE corporation role(s): Station_Manager
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationCorporationIdMiningExtractions
    */
   async getCorporationCorporationMiningExtractions(
@@ -1143,8 +1141,6 @@ export class EsiClient {
   /**
    * Paginated list of all entities capable of observing and recording mining for a corporation
 
-   * Requires one of the following EVE corporation role(s): Accountant
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationCorporationIdMiningObservers
    */
   async getCorporationCorporationMiningObservers(
@@ -1160,8 +1156,6 @@ export class EsiClient {
 
   /**
    * Paginated record of all mining seen by an observer
-
-   * Requires one of the following EVE corporation role(s): Accountant
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationCorporationIdMiningObserversObserverId
    */
@@ -1222,8 +1216,6 @@ export class EsiClient {
   /**
    * Return a list of the corporation assets
 
-   * Requires one of the following EVE corporation role(s): Director
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdAssets
    */
   async getCorporationAssets(params: Types.GetCorporationAssetsParams) {
@@ -1237,8 +1229,6 @@ export class EsiClient {
 
   /**
    * Return locations for a set of item ids, which you can get from corporation assets endpoint. Coordinates for items in hangars or stations are set to (0,0,0)
-
-   * Requires one of the following EVE corporation role(s): Director
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostCorporationsCorporationIdAssetsLocations
    */
@@ -1256,8 +1246,6 @@ export class EsiClient {
   /**
    * Return names for a set of item ids, which you can get from corporation assets endpoint. Only valid for items that can customize names, like containers or ships
 
-   * Requires one of the following EVE corporation role(s): Director
-
    * @see https://developers.eveonline.com/api-explorer#/operations/PostCorporationsCorporationIdAssetsNames
    */
   async postCorporationAssetsNames(
@@ -1273,8 +1261,6 @@ export class EsiClient {
 
   /**
    * Returns a list of blueprints the corporation owns
-
-   * Requires one of the following EVE corporation role(s): Director
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdBlueprints
    */
@@ -1318,8 +1304,6 @@ export class EsiClient {
 
   /**
    * Returns logs recorded in the past seven days from all audit log secure containers (ALSC) owned by a given corporation
-
-   * Requires one of the following EVE corporation role(s): Director
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdContainersLogs
    */
@@ -1382,8 +1366,6 @@ export class EsiClient {
   /**
    * List customs offices owned by a corporation
 
-   * Requires one of the following EVE corporation role(s): Director
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdCustomsOffices
    */
   async getCorporationCustomsOffices(
@@ -1400,8 +1382,6 @@ export class EsiClient {
   /**
    * Return corporation hangar and wallet division names, only show if a division is not using the default name
 
-   * Requires one of the following EVE corporation role(s): Director
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdDivisions
    */
   async getCorporationDivisions(params: Types.GetCorporationDivisionsParams) {
@@ -1414,8 +1394,6 @@ export class EsiClient {
 
   /**
    * Return a corporation's facilities
-
-   * Requires one of the following EVE corporation role(s): Factory_Manager
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdFacilities
    */
@@ -1458,8 +1436,6 @@ export class EsiClient {
   /**
    * List industry jobs run by a corporation
 
-   * Requires one of the following EVE corporation role(s): Factory_Manager
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdIndustryJobs
    */
   async getCorporationIndustryJobs(
@@ -1478,8 +1454,6 @@ export class EsiClient {
 
   /**
    * Get a list of a corporation's kills and losses going back 90 days
-
-   * Requires one of the following EVE corporation role(s): Director
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdKillmailsRecent
    */
@@ -1511,8 +1485,6 @@ export class EsiClient {
   /**
    * Returns medals issued by a corporation
 
-   * Requires one of the following EVE corporation role(s): Director
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdMedalsIssued
    */
   async getCorporationMedalsIssued(
@@ -1542,8 +1514,6 @@ export class EsiClient {
   /**
    * Return a corporation's member limit, not including CEO himself
 
-   * Requires one of the following EVE corporation role(s): Director
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdMembersLimit
    */
   async getCorporationMembersLimit(
@@ -1558,8 +1528,6 @@ export class EsiClient {
 
   /**
    * Returns a corporation's members' titles
-
-   * Requires one of the following EVE corporation role(s): Director
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdMembersTitles
    */
@@ -1576,8 +1544,6 @@ export class EsiClient {
   /**
    * Returns additional information about a corporation's members which helps tracking their activities
 
-   * Requires one of the following EVE corporation role(s): Director
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdMembertracking
    */
   async getCorporationMembertracking(
@@ -1593,8 +1559,6 @@ export class EsiClient {
   /**
    * List open market orders placed on behalf of a corporation
 
-   * Requires one of the following EVE corporation role(s): Accountant, Trader
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdOrders
    */
   async getCorporationOrders(params: Types.GetCorporationOrdersParams) {
@@ -1608,8 +1572,6 @@ export class EsiClient {
 
   /**
    * List cancelled and expired market orders placed on behalf of a corporation up to 90 days in the past.
-
-   * Requires one of the following EVE corporation role(s): Accountant, Trader
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdOrdersHistory
    */
@@ -1640,8 +1602,6 @@ export class EsiClient {
   /**
    * Return how roles have changed for a coporation's members, up to a month
 
-   * Requires one of the following EVE corporation role(s): Director
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdRolesHistory
    */
   async getCorporationRolesHistory(
@@ -1657,8 +1617,6 @@ export class EsiClient {
 
   /**
    * Return the current shareholders of a corporation.
-
-   * Requires one of the following EVE corporation role(s): Director
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdShareholders
    */
@@ -1690,8 +1648,6 @@ export class EsiClient {
   /**
    * Returns list of corporation starbases (POSes)
 
-   * Requires one of the following EVE corporation role(s): Director
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdStarbases
    */
   async getCorporationStarbases(params: Types.GetCorporationStarbasesParams) {
@@ -1705,8 +1661,6 @@ export class EsiClient {
 
   /**
    * Returns various settings and fuels of a starbase (POS)
-
-   * Requires one of the following EVE corporation role(s): Director
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdStarbasesStarbaseId
    */
@@ -1722,8 +1676,6 @@ export class EsiClient {
   /**
    * Get a list of corporation structures. This route's version includes the changes to structures detailed in this blog: https://www.eveonline.com/article/upwell-2.0-structures-changes-coming-on-february-13th
 
-   * Requires one of the following EVE corporation role(s): Station_Manager
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdStructures
    */
   async getCorporationStructures(params: Types.GetCorporationStructuresParams) {
@@ -1738,8 +1690,6 @@ export class EsiClient {
   /**
    * Returns a corporation's titles
 
-   * Requires one of the following EVE corporation role(s): Director
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdTitles
    */
   async getCorporationTitles(params: Types.GetCorporationTitlesParams) {
@@ -1753,8 +1703,6 @@ export class EsiClient {
   /**
    * Get a corporation's wallets
 
-   * Requires one of the following EVE corporation role(s): Accountant, Junior_Accountant
-
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdWallets
    */
   async getCorporationWallets(params: Types.GetCorporationWalletsParams) {
@@ -1767,8 +1715,6 @@ export class EsiClient {
 
   /**
    * Retrieve the given corporation's wallet journal for the given division going 30 days back
-
-   * Requires one of the following EVE corporation role(s): Accountant, Junior_Accountant
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdWalletsDivisionJournal
    */
@@ -1785,8 +1731,6 @@ export class EsiClient {
 
   /**
    * Get wallet transactions of a corporation
-
-   * Requires one of the following EVE corporation role(s): Accountant, Junior_Accountant
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdWalletsDivisionTransactions
    */

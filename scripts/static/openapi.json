@@ -17562,7 +17562,7 @@
     },
     "/corporation/{corporation_id}/mining/extractions": {
       "get": {
-        "description": "Extraction timers for all moon chunks being extracted by refineries belonging to a corporation.\n\nRequires one of the following EVE corporation role(s): Station_Manager",
+        "description": "Extraction timers for all moon chunks being extracted by refineries belonging to a corporation.",
         "operationId": "GetCorporationCorporationIdMiningExtractions",
         "parameters": [
           {
@@ -17657,7 +17657,7 @@
     },
     "/corporation/{corporation_id}/mining/observers": {
       "get": {
-        "description": "Paginated list of all entities capable of observing and recording mining for a corporation\n\nRequires one of the following EVE corporation role(s): Accountant",
+        "description": "Paginated list of all entities capable of observing and recording mining for a corporation",
         "operationId": "GetCorporationCorporationIdMiningObservers",
         "parameters": [
           {
@@ -17752,7 +17752,7 @@
     },
     "/corporation/{corporation_id}/mining/observers/{observer_id}": {
       "get": {
-        "description": "Paginated record of all mining seen by an observer\n\nRequires one of the following EVE corporation role(s): Accountant",
+        "description": "Paginated record of all mining seen by an observer",
         "operationId": "GetCorporationCorporationIdMiningObserversObserverId",
         "parameters": [
           {
@@ -18051,7 +18051,7 @@
     },
     "/corporations/{corporation_id}/assets": {
       "get": {
-        "description": "Return a list of the corporation assets\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Return a list of the corporation assets",
         "operationId": "GetCorporationsCorporationIdAssets",
         "parameters": [
           {
@@ -18146,7 +18146,7 @@
     },
     "/corporations/{corporation_id}/assets/locations": {
       "post": {
-        "description": "Return locations for a set of item ids, which you can get from corporation assets endpoint. Coordinates for items in hangars or stations are set to (0,0,0)\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Return locations for a set of item ids, which you can get from corporation assets endpoint. Coordinates for items in hangars or stations are set to (0,0,0)",
         "operationId": "PostCorporationsCorporationIdAssetsLocations",
         "parameters": [
           {
@@ -18240,7 +18240,7 @@
     },
     "/corporations/{corporation_id}/assets/names": {
       "post": {
-        "description": "Return names for a set of item ids, which you can get from corporation assets endpoint. Only valid for items that can customize names, like containers or ships\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Return names for a set of item ids, which you can get from corporation assets endpoint. Only valid for items that can customize names, like containers or ships",
         "operationId": "PostCorporationsCorporationIdAssetsNames",
         "parameters": [
           {
@@ -18334,7 +18334,7 @@
     },
     "/corporations/{corporation_id}/blueprints": {
       "get": {
-        "description": "Returns a list of blueprints the corporation owns\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Returns a list of blueprints the corporation owns",
         "operationId": "GetCorporationsCorporationIdBlueprints",
         "parameters": [
           {
@@ -18596,7 +18596,7 @@
     },
     "/corporations/{corporation_id}/containers/logs": {
       "get": {
-        "description": "Returns logs recorded in the past seven days from all audit log secure containers (ALSC) owned by a given corporation\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Returns logs recorded in the past seven days from all audit log secure containers (ALSC) owned by a given corporation",
         "operationId": "GetCorporationsCorporationIdContainersLogs",
         "parameters": [
           {
@@ -18970,7 +18970,7 @@
     },
     "/corporations/{corporation_id}/customs_offices": {
       "get": {
-        "description": "List customs offices owned by a corporation\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "List customs offices owned by a corporation",
         "operationId": "GetCorporationsCorporationIdCustomsOffices",
         "parameters": [
           {
@@ -19065,7 +19065,7 @@
     },
     "/corporations/{corporation_id}/divisions": {
       "get": {
-        "description": "Return corporation hangar and wallet division names, only show if a division is not using the default name\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Return corporation hangar and wallet division names, only show if a division is not using the default name",
         "operationId": "GetCorporationsCorporationIdDivisions",
         "parameters": [
           {
@@ -19143,7 +19143,7 @@
     },
     "/corporations/{corporation_id}/facilities": {
       "get": {
-        "description": "Return a corporation's facilities\n\nRequires one of the following EVE corporation role(s): Factory_Manager",
+        "description": "Return a corporation's facilities",
         "operationId": "GetCorporationsCorporationIdFacilities",
         "parameters": [
           {
@@ -19363,7 +19363,7 @@
     },
     "/corporations/{corporation_id}/industry/jobs": {
       "get": {
-        "description": "List industry jobs run by a corporation\n\nRequires one of the following EVE corporation role(s): Factory_Manager",
+        "description": "List industry jobs run by a corporation",
         "operationId": "GetCorporationsCorporationIdIndustryJobs",
         "parameters": [
           {
@@ -19467,7 +19467,7 @@
     },
     "/corporations/{corporation_id}/killmails/recent": {
       "get": {
-        "description": "Get a list of a corporation's kills and losses going back 90 days\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Get a list of a corporation's kills and losses going back 90 days",
         "operationId": "GetCorporationsCorporationIdKillmailsRecent",
         "parameters": [
           {
@@ -19654,7 +19654,7 @@
     },
     "/corporations/{corporation_id}/medals/issued": {
       "get": {
-        "description": "Returns medals issued by a corporation\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Returns medals issued by a corporation",
         "operationId": "GetCorporationsCorporationIdMedalsIssued",
         "parameters": [
           {
@@ -19824,7 +19824,7 @@
     },
     "/corporations/{corporation_id}/members/limit": {
       "get": {
-        "description": "Return a corporation's member limit, not including CEO himself\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Return a corporation's member limit, not including CEO himself",
         "operationId": "GetCorporationsCorporationIdMembersLimit",
         "parameters": [
           {
@@ -19902,7 +19902,7 @@
     },
     "/corporations/{corporation_id}/members/titles": {
       "get": {
-        "description": "Returns a corporation's members' titles\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Returns a corporation's members' titles",
         "operationId": "GetCorporationsCorporationIdMembersTitles",
         "parameters": [
           {
@@ -19980,7 +19980,7 @@
     },
     "/corporations/{corporation_id}/membertracking": {
       "get": {
-        "description": "Returns additional information about a corporation's members which helps tracking their activities\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Returns additional information about a corporation's members which helps tracking their activities",
         "operationId": "GetCorporationsCorporationIdMembertracking",
         "parameters": [
           {
@@ -20058,7 +20058,7 @@
     },
     "/corporations/{corporation_id}/orders": {
       "get": {
-        "description": "List open market orders placed on behalf of a corporation\n\nRequires one of the following EVE corporation role(s): Accountant, Trader",
+        "description": "List open market orders placed on behalf of a corporation",
         "operationId": "GetCorporationsCorporationIdOrders",
         "parameters": [
           {
@@ -20154,7 +20154,7 @@
     },
     "/corporations/{corporation_id}/orders/history": {
       "get": {
-        "description": "List cancelled and expired market orders placed on behalf of a corporation up to 90 days in the past.\n\nRequires one of the following EVE corporation role(s): Accountant, Trader",
+        "description": "List cancelled and expired market orders placed on behalf of a corporation up to 90 days in the past.",
         "operationId": "GetCorporationsCorporationIdOrdersHistory",
         "parameters": [
           {
@@ -20325,7 +20325,7 @@
     },
     "/corporations/{corporation_id}/roles/history": {
       "get": {
-        "description": "Return how roles have changed for a coporation's members, up to a month\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Return how roles have changed for a coporation's members, up to a month",
         "operationId": "GetCorporationsCorporationIdRolesHistory",
         "parameters": [
           {
@@ -20420,7 +20420,7 @@
     },
     "/corporations/{corporation_id}/shareholders": {
       "get": {
-        "description": "Return the current shareholders of a corporation.\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Return the current shareholders of a corporation.",
         "operationId": "GetCorporationsCorporationIdShareholders",
         "parameters": [
           {
@@ -20607,7 +20607,7 @@
     },
     "/corporations/{corporation_id}/starbases": {
       "get": {
-        "description": "Returns list of corporation starbases (POSes)\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Returns list of corporation starbases (POSes)",
         "operationId": "GetCorporationsCorporationIdStarbases",
         "parameters": [
           {
@@ -20702,7 +20702,7 @@
     },
     "/corporations/{corporation_id}/starbases/{starbase_id}": {
       "get": {
-        "description": "Returns various settings and fuels of a starbase (POS)\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Returns various settings and fuels of a starbase (POS)",
         "operationId": "GetCorporationsCorporationIdStarbasesStarbaseId",
         "parameters": [
           {
@@ -20800,7 +20800,7 @@
     },
     "/corporations/{corporation_id}/structures": {
       "get": {
-        "description": "Get a list of corporation structures. This route's version includes the changes to structures detailed in this blog: https://www.eveonline.com/article/upwell-2.0-structures-changes-coming-on-february-13th\n\nRequires one of the following EVE corporation role(s): Station_Manager",
+        "description": "Get a list of corporation structures. This route's version includes the changes to structures detailed in this blog: https://www.eveonline.com/article/upwell-2.0-structures-changes-coming-on-february-13th",
         "operationId": "GetCorporationsCorporationIdStructures",
         "parameters": [
           {
@@ -20898,7 +20898,7 @@
     },
     "/corporations/{corporation_id}/titles": {
       "get": {
-        "description": "Returns a corporation's titles\n\nRequires one of the following EVE corporation role(s): Director",
+        "description": "Returns a corporation's titles",
         "operationId": "GetCorporationsCorporationIdTitles",
         "parameters": [
           {
@@ -20976,7 +20976,7 @@
     },
     "/corporations/{corporation_id}/wallets": {
       "get": {
-        "description": "Get a corporation's wallets\n\nRequires one of the following EVE corporation role(s): Accountant, Junior_Accountant",
+        "description": "Get a corporation's wallets",
         "operationId": "GetCorporationsCorporationIdWallets",
         "parameters": [
           {
@@ -21055,7 +21055,7 @@
     },
     "/corporations/{corporation_id}/wallets/{division}/journal": {
       "get": {
-        "description": "Retrieve the given corporation's wallet journal for the given division going 30 days back\n\nRequires one of the following EVE corporation role(s): Accountant, Junior_Accountant",
+        "description": "Retrieve the given corporation's wallet journal for the given division going 30 days back",
         "operationId": "GetCorporationsCorporationIdWalletsDivisionJournal",
         "parameters": [
           {
@@ -21161,7 +21161,7 @@
     },
     "/corporations/{corporation_id}/wallets/{division}/transactions": {
       "get": {
-        "description": "Get wallet transactions of a corporation\n\nRequires one of the following EVE corporation role(s): Accountant, Junior_Accountant",
+        "description": "Get wallet transactions of a corporation",
         "operationId": "GetCorporationsCorporationIdWalletsDivisionTransactions",
         "parameters": [
           {
