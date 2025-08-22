@@ -9569,6 +9569,15 @@
         },
         "type": "array"
       },
+      "ShipTreeGroupID": {
+        "description": "Ship tree group identifier.",
+        "examples": [
+          1559
+        ],
+        "format": "int64",
+        "type": "integer",
+        "x-common-model": "true"
+      },
       "SolarSystemID": {
         "examples": [
           30000001
