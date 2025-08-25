@@ -46,6 +46,10 @@ jobs:
         if: steps.schema-check.outputs.changed == 'true'
         run: pnpm compile
 
+      - name: Test
+        if: steps.schema-check.outputs.changed == 'true'
+        run: pnpm test
+
       - name: Create changeset
         if: steps.schema-check.outputs.changed == 'true'
         run: |

@@ -25,6 +25,12 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
+      - name: Build
+        run: pnpm build
+
+      - name: Test
+        run: pnpm test
+
       - name: Set git credentials
         run: |
           git config user.name "Adam Trager"
