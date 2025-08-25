@@ -32,7 +32,7 @@ export function generateReadmeContent(methods: MethodInfo[]): string {
   )) {
     // Clean up description to prevent table formatting issues
     const cleanDescription = method.description
-      .replace(/\n\n/g, '. ') // Replace newlines with spaces
+      .replace(/\.?\n\n/g, '. ') // Replace newlines with spaces
       .replace(/\|/g, '\\|') // Escape pipe characters
       .trim()
 

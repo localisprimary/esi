@@ -189,7 +189,7 @@ esi.postCharacterMail({
 | [`getCorporationWalletsDivisionTransactions`](https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdWalletsDivisionTransactions) | Get wallet transactions of a corporation |
 | [`getDogmaAttribute`](https://developers.eveonline.com/api-explorer#/operations/GetDogmaAttributesAttributeId) | Get information on a dogma attribute. This route expires daily at 11:05 |
 | [`getDogmaAttributes`](https://developers.eveonline.com/api-explorer#/operations/GetDogmaAttributes) | Get a list of dogma attribute ids. This route expires daily at 11:05 |
-| [`getDogmaDynamicTypeItemId`](https://developers.eveonline.com/api-explorer#/operations/GetDogmaDynamicItemsTypeIdItemId) | Returns info about a dynamic item resulting from mutation with a mutaplasmid.. This route expires daily at 11:05 |
+| [`getDogmaDynamicTypeItemId`](https://developers.eveonline.com/api-explorer#/operations/GetDogmaDynamicItemsTypeIdItemId) | Returns info about a dynamic item resulting from mutation with a mutaplasmid. This route expires daily at 11:05 |
 | [`getDogmaEffect`](https://developers.eveonline.com/api-explorer#/operations/GetDogmaEffectsEffectId) | Get information on a dogma effect. This route expires daily at 11:05 |
 | [`getDogmaEffects`](https://developers.eveonline.com/api-explorer#/operations/GetDogmaEffects) | Get a list of dogma effect ids. This route expires daily at 11:05 |
 | [`getFleet`](https://developers.eveonline.com/api-explorer#/operations/GetFleetsFleetId) | Return details about a fleet |
@@ -259,7 +259,7 @@ esi.postCharacterMail({
 | [`getUniverseStation`](https://developers.eveonline.com/api-explorer#/operations/GetUniverseStationsStationId) | Get information on a station. This route expires daily at 11:05 |
 | [`getUniverseStructure`](https://developers.eveonline.com/api-explorer#/operations/GetUniverseStructuresStructureId) | Returns information on requested structure if you are on the ACL. Otherwise, returns "Forbidden" for all inputs. |
 | [`getUniverseStructures`](https://developers.eveonline.com/api-explorer#/operations/GetUniverseStructures) | List all public structures |
-| [`getUniverseSystem`](https://developers.eveonline.com/api-explorer#/operations/GetUniverseSystemsSystemId) | Get information on a solar system.. This route expires daily at 11:05 |
+| [`getUniverseSystem`](https://developers.eveonline.com/api-explorer#/operations/GetUniverseSystemsSystemId) | Get information on a solar system. This route expires daily at 11:05 |
 | [`getUniverseSystemJumps`](https://developers.eveonline.com/api-explorer#/operations/GetUniverseSystemJumps) | Get the number of jumps in solar systems within the last hour ending at the timestamp of the Last-Modified header, excluding wormhole space. Only systems with jumps will be listed |
 | [`getUniverseSystemKills`](https://developers.eveonline.com/api-explorer#/operations/GetUniverseSystemKills) | Get the number of ship, pod and NPC kills per solar system within the last hour ending at the timestamp of the Last-Modified header, excluding wormhole space. Only systems with kills will be listed |
 | [`getUniverseSystems`](https://developers.eveonline.com/api-explorer#/operations/GetUniverseSystems) | Get a list of solar systems. This route expires daily at 11:05 |
