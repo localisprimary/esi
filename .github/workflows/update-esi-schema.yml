@@ -46,6 +46,11 @@ jobs:
         if: steps.schema-check.outputs.changed == 'true'
         run: pnpm compile
 
+      - name: Create changeset
+        if: steps.schema-check.outputs.changed == 'true'
+        run: |
+          pnpm beachball change --type patch --message "Automated ESI schema update"
+
       - name: Close previous automated PRs
         if: steps.schema-check.outputs.changed == 'true'
         run: |
