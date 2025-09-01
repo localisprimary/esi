@@ -14,14 +14,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: false
           fetch-depth: 0
-
-      - name: Set git credentials
-        run: |
-          git config user.name "Adam Trager"
-          git config user.email "hello@adamtrager.com"
-          git remote set-url origin "https://$REPO_PAT@github.com/localisprimary/esi"
 
       -  uses: pnpm/action-setup@v4
 
@@ -56,24 +49,6 @@ jobs:
       - name: Test
         if: steps.schema-check.outputs.changed == 'true'
         run: pnpm test
-
-      - name: Create changeset
-        if: steps.schema-check.outputs.changed == 'true'
-        run: |
-          pnpm beachball change --type patch --message "Automated ESI schema update"
-
-      - name: Close previous automated PRs
-        if: steps.schema-check.outputs.changed == 'true'
-        run: |
-          # Find and close any existing automated ESI schema update PRs
-          gh pr list --state open --author "github-actions[bot]" --search "chore: Update EVE ESI schema" --json number --jq '.[].number' | while read pr_number; do
-            if [ -n "$pr_number" ]; then
-              echo "Closing previous automated PR #$pr_number"
-              gh pr close $pr_number --comment "Superseded by newer ESI schema update"
-            fi
-          done
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Create Pull Request
         if: steps.schema-check.outputs.changed == 'true'
