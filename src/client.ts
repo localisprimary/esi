@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Types from './types'
 
-const COMPATIBILITY_DATE = '2025-08-24'
+const COMPATIBILITY_DATE = '2025-09-01'
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
@@ -324,7 +324,7 @@ export class EsiClient {
     const path = `/characters/${params.character_id}/calendar/${params.event_id}`
     const body = { response: params.response }
     return this.request<
-      Types.PutCharacterCalendarEventIdResponse,
+      undefined,
       Types.PutCharacterCalendarEventIdResponseHeaders
     >('PUT', path, undefined, body)
   }
@@ -366,7 +366,7 @@ export class EsiClient {
     const path = `/characters/${params.character_id}/contacts`
     const queryParams = { contact_ids: params.contact_ids }
     return this.request<
-      Types.DeleteCharacterContactsResponse,
+      undefined,
       Types.DeleteCharacterContactsResponseHeaders
     >('DELETE', path, queryParams, undefined)
   }
@@ -417,10 +417,12 @@ export class EsiClient {
       watched: params.watched,
     }
     const body = params.body
-    return this.request<
-      Types.PutCharacterContactsResponse,
-      Types.PutCharacterContactsResponseHeaders
-    >('PUT', path, queryParams, body)
+    return this.request<undefined, Types.PutCharacterContactsResponseHeaders>(
+      'PUT',
+      path,
+      queryParams,
+      body
+    )
   }
 
   /**
@@ -561,10 +563,12 @@ export class EsiClient {
    */
   async deleteCharacterFitting(params: Types.DeleteCharacterFittingParams) {
     const path = `/characters/${params.character_id}/fittings/${params.fitting_id}`
-    return this.request<
-      Types.DeleteCharacterFittingResponse,
-      Types.DeleteCharacterFittingResponseHeaders
-    >('DELETE', path, undefined, undefined)
+    return this.request<undefined, Types.DeleteCharacterFittingResponseHeaders>(
+      'DELETE',
+      path,
+      undefined,
+      undefined
+    )
   }
 
   /**
@@ -737,7 +741,7 @@ export class EsiClient {
   async deleteCharacterMailLabel(params: Types.DeleteCharacterMailLabelParams) {
     const path = `/characters/${params.character_id}/mail/labels/${params.label_id}`
     return this.request<
-      Types.DeleteCharacterMailLabelResponse,
+      undefined,
       Types.DeleteCharacterMailLabelResponseHeaders
     >('DELETE', path, undefined, undefined)
   }
@@ -765,7 +769,7 @@ export class EsiClient {
   ) {
     const path = `/characters/${params.character_id}/mail/${params.mail_id}`
     return this.request<
-      Types.DeleteCharacterMailMailIdResponse,
+      undefined,
       Types.DeleteCharacterMailMailIdResponseHeaders
     >('DELETE', path, undefined, undefined)
   }
@@ -791,10 +795,12 @@ export class EsiClient {
   async putCharacterMailMailId(params: Types.PutCharacterMailMailIdParams) {
     const path = `/characters/${params.character_id}/mail/${params.mail_id}`
     const body = { labels: params.labels, read: params.read }
-    return this.request<
-      Types.PutCharacterMailMailIdResponse,
-      Types.PutCharacterMailMailIdResponseHeaders
-    >('PUT', path, undefined, body)
+    return this.request<undefined, Types.PutCharacterMailMailIdResponseHeaders>(
+      'PUT',
+      path,
+      undefined,
+      body
+    )
   }
 
   /**
@@ -1845,7 +1851,7 @@ export class EsiClient {
   async putFleet(params: Types.PutFleetParams) {
     const path = `/fleets/${params.fleet_id}`
     const body = { is_free_move: params.is_free_move, motd: params.motd }
-    return this.request<Types.PutFleetResponse, Types.PutFleetResponseHeaders>(
+    return this.request<undefined, Types.PutFleetResponseHeaders>(
       'PUT',
       path,
       undefined,
@@ -1879,10 +1885,12 @@ export class EsiClient {
       squad_id: params.squad_id,
       wing_id: params.wing_id,
     }
-    return this.request<
-      Types.PostFleetMembersResponse,
-      Types.PostFleetMembersResponseHeaders
-    >('POST', path, undefined, body)
+    return this.request<undefined, Types.PostFleetMembersResponseHeaders>(
+      'POST',
+      path,
+      undefined,
+      body
+    )
   }
 
   /**
@@ -1892,10 +1900,12 @@ export class EsiClient {
    */
   async deleteFleetMember(params: Types.DeleteFleetMemberParams) {
     const path = `/fleets/${params.fleet_id}/members/${params.member_id}`
-    return this.request<
-      Types.DeleteFleetMemberResponse,
-      Types.DeleteFleetMemberResponseHeaders
-    >('DELETE', path, undefined, undefined)
+    return this.request<undefined, Types.DeleteFleetMemberResponseHeaders>(
+      'DELETE',
+      path,
+      undefined,
+      undefined
+    )
   }
 
   /**
@@ -1910,10 +1920,12 @@ export class EsiClient {
       squad_id: params.squad_id,
       wing_id: params.wing_id,
     }
-    return this.request<
-      Types.PutFleetMemberResponse,
-      Types.PutFleetMemberResponseHeaders
-    >('PUT', path, undefined, body)
+    return this.request<undefined, Types.PutFleetMemberResponseHeaders>(
+      'PUT',
+      path,
+      undefined,
+      body
+    )
   }
 
   /**
@@ -1923,10 +1935,12 @@ export class EsiClient {
    */
   async deleteFleetSquad(params: Types.DeleteFleetSquadParams) {
     const path = `/fleets/${params.fleet_id}/squads/${params.squad_id}`
-    return this.request<
-      Types.DeleteFleetSquadResponse,
-      Types.DeleteFleetSquadResponseHeaders
-    >('DELETE', path, undefined, undefined)
+    return this.request<undefined, Types.DeleteFleetSquadResponseHeaders>(
+      'DELETE',
+      path,
+      undefined,
+      undefined
+    )
   }
 
   /**
@@ -1937,10 +1951,12 @@ export class EsiClient {
   async putFleetSquad(params: Types.PutFleetSquadParams) {
     const path = `/fleets/${params.fleet_id}/squads/${params.squad_id}`
     const body = { name: params.name }
-    return this.request<
-      Types.PutFleetSquadResponse,
-      Types.PutFleetSquadResponseHeaders
-    >('PUT', path, undefined, body)
+    return this.request<undefined, Types.PutFleetSquadResponseHeaders>(
+      'PUT',
+      path,
+      undefined,
+      body
+    )
   }
 
   /**
@@ -1976,10 +1992,12 @@ export class EsiClient {
    */
   async deleteFleetWing(params: Types.DeleteFleetWingParams) {
     const path = `/fleets/${params.fleet_id}/wings/${params.wing_id}`
-    return this.request<
-      Types.DeleteFleetWingResponse,
-      Types.DeleteFleetWingResponseHeaders
-    >('DELETE', path, undefined, undefined)
+    return this.request<undefined, Types.DeleteFleetWingResponseHeaders>(
+      'DELETE',
+      path,
+      undefined,
+      undefined
+    )
   }
 
   /**
@@ -1990,10 +2008,12 @@ export class EsiClient {
   async putFleetWing(params: Types.PutFleetWingParams) {
     const path = `/fleets/${params.fleet_id}/wings/${params.wing_id}`
     const body = { name: params.name }
-    return this.request<
-      Types.PutFleetWingResponse,
-      Types.PutFleetWingResponseHeaders
-    >('PUT', path, undefined, body)
+    return this.request<undefined, Types.PutFleetWingResponseHeaders>(
+      'PUT',
+      path,
+      undefined,
+      body
+    )
   }
 
   /**
@@ -2373,7 +2393,7 @@ export class EsiClient {
         }
       : undefined
     return this.request<
-      Types.PostUiAutopilotWaypointResponse,
+      undefined,
       Types.PostUiAutopilotWaypointResponseHeaders
     >('POST', path, queryParams, undefined)
   }
@@ -2389,7 +2409,7 @@ export class EsiClient {
     const path = `/ui/openwindow/contract`
     const queryParams = params ? { contract_id: params.contract_id } : undefined
     return this.request<
-      Types.PostUiOpenwindowContractResponse,
+      undefined,
       Types.PostUiOpenwindowContractResponseHeaders
     >('POST', path, queryParams, undefined)
   }
@@ -2405,7 +2425,7 @@ export class EsiClient {
     const path = `/ui/openwindow/information`
     const queryParams = params ? { target_id: params.target_id } : undefined
     return this.request<
-      Types.PostUiOpenwindowInformationResponse,
+      undefined,
       Types.PostUiOpenwindowInformationResponseHeaders
     >('POST', path, queryParams, undefined)
   }
@@ -2421,7 +2441,7 @@ export class EsiClient {
     const path = `/ui/openwindow/marketdetails`
     const queryParams = params ? { type_id: params.type_id } : undefined
     return this.request<
-      Types.PostUiOpenwindowMarketdetailsResponse,
+      undefined,
       Types.PostUiOpenwindowMarketdetailsResponseHeaders
     >('POST', path, queryParams, undefined)
   }
@@ -2441,7 +2461,7 @@ export class EsiClient {
       to_mailing_list_id: params.to_mailing_list_id,
     }
     return this.request<
-      Types.PostUiOpenwindowNewmailResponse,
+      undefined,
       Types.PostUiOpenwindowNewmailResponseHeaders
     >('POST', path, undefined, body)
   }
