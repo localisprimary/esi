@@ -571,9 +571,9 @@ function generateMethod(
   }
 
   if (hasResponseHeaders) {
-    methodBody += `    return this.request<Types.${responseType}, Types.${transformedOperationId}ResponseHeaders>('${method.toUpperCase()}', path`
+    methodBody += `    return this.request<${responseType ? `Types.${responseType}` : 'undefined'}, Types.${transformedOperationId}ResponseHeaders>('${method.toUpperCase()}', path`
   } else {
-    methodBody += `    return this.request<Types.${responseType}>('${method.toUpperCase()}', path`
+    methodBody += `    return this.request<${responseType ? `Types.${responseType}` : 'undefined'}>('${method.toUpperCase()}', path`
   }
 
   if (queryParams.length > 0) {
@@ -671,7 +671,7 @@ function extractResponseHeaders(
 function getResponseType(
   responses: Record<string, Response> | undefined,
   transformedOperationId: string
-): string {
+): string | undefined {
   const successResponse =
     responses?.['200'] ||
     responses?.['201'] ||
@@ -679,7 +679,6 @@ function getResponseType(
   if (successResponse?.content?.['application/json']?.schema) {
     return `${transformedOperationId}Response`
   }
-  return 'unknown'
 }
 
 function transformOperationId(operationId: string): string {
