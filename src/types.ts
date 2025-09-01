@@ -469,8 +469,6 @@ export interface GetCharacterCalendarEventIdResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type PutCharacterCalendarEventIdResponse = unknown
-
 export interface PutCharacterCalendarEventIdParams {
   character_id: number | string
   event_id: number | string
@@ -525,8 +523,6 @@ export interface GetCharacterClonesResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type DeleteCharacterContactsResponse = unknown
-
 export interface DeleteCharacterContactsParams {
   character_id: number | string
   contact_ids?: number[]
@@ -574,8 +570,6 @@ export interface PostCharacterContactsResponseHeaders {
   ETag?: string
   'Last-Modified'?: string
 }
-
-export type PutCharacterContactsResponse = unknown
 
 export interface PutCharacterContactsParams {
   character_id: number | string
@@ -867,8 +861,6 @@ export interface PostCharacterFittingsResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type DeleteCharacterFittingResponse = unknown
-
 export interface DeleteCharacterFittingParams {
   character_id: number | string
   fitting_id: number | string
@@ -1131,8 +1123,6 @@ export interface PostCharacterMailLabelsResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type DeleteCharacterMailLabelResponse = unknown
-
 export interface DeleteCharacterMailLabelParams {
   character_id: number | string
   label_id: number | string
@@ -1158,8 +1148,6 @@ export interface GetCharacterMailListsResponseHeaders {
   ETag?: string
   'Last-Modified'?: string
 }
-
-export type DeleteCharacterMailMailIdResponse = unknown
 
 export interface DeleteCharacterMailMailIdParams {
   character_id: number | string
@@ -1195,8 +1183,6 @@ export interface GetCharacterMailMailIdResponseHeaders {
   ETag?: string
   'Last-Modified'?: string
 }
-
-export type PutCharacterMailMailIdResponse = unknown
 
 export interface PutCharacterMailMailIdParams {
   character_id: number | string
@@ -4994,8 +4980,6 @@ export interface GetFleetResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type PutFleetResponse = unknown
-
 export interface PutFleetParams {
   fleet_id: number | string
   is_free_move?: boolean
@@ -5036,8 +5020,6 @@ export interface GetFleetMembersResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type PostFleetMembersResponse = unknown
-
 export interface PostFleetMembersParams {
   fleet_id: number | string
   character_id: number
@@ -5056,8 +5038,6 @@ export interface PostFleetMembersResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type DeleteFleetMemberResponse = unknown
-
 export interface DeleteFleetMemberParams {
   fleet_id: number | string
   member_id: number | string
@@ -5068,8 +5048,6 @@ export interface DeleteFleetMemberResponseHeaders {
   ETag?: string
   'Last-Modified'?: string
 }
-
-export type PutFleetMemberResponse = unknown
 
 export interface PutFleetMemberParams {
   fleet_id: number | string
@@ -5089,8 +5067,6 @@ export interface PutFleetMemberResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type DeleteFleetSquadResponse = unknown
-
 export interface DeleteFleetSquadParams {
   fleet_id: number | string
   squad_id: number | string
@@ -5101,8 +5077,6 @@ export interface DeleteFleetSquadResponseHeaders {
   ETag?: string
   'Last-Modified'?: string
 }
-
-export type PutFleetSquadResponse = unknown
 
 export interface PutFleetSquadParams {
   fleet_id: number | string
@@ -5147,8 +5121,6 @@ export interface PostFleetWingsResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type DeleteFleetWingResponse = unknown
-
 export interface DeleteFleetWingParams {
   fleet_id: number | string
   wing_id: number | string
@@ -5159,8 +5131,6 @@ export interface DeleteFleetWingResponseHeaders {
   ETag?: string
   'Last-Modified'?: string
 }
-
-export type PutFleetWingResponse = unknown
 
 export interface PutFleetWingParams {
   fleet_id: number | string
@@ -5657,8 +5627,6 @@ export interface GetStatusResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type PostUiAutopilotWaypointResponse = unknown
-
 export interface PostUiAutopilotWaypointParams {
   add_to_beginning?: boolean
   clear_other_waypoints?: boolean
@@ -5671,8 +5639,6 @@ export interface PostUiAutopilotWaypointResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type PostUiOpenwindowContractResponse = unknown
-
 export interface PostUiOpenwindowContractParams {
   contract_id?: number
 }
@@ -5682,8 +5648,6 @@ export interface PostUiOpenwindowContractResponseHeaders {
   ETag?: string
   'Last-Modified'?: string
 }
-
-export type PostUiOpenwindowInformationResponse = unknown
 
 export interface PostUiOpenwindowInformationParams {
   target_id?: number
@@ -5695,8 +5659,6 @@ export interface PostUiOpenwindowInformationResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type PostUiOpenwindowMarketdetailsResponse = unknown
-
 export interface PostUiOpenwindowMarketdetailsParams {
   type_id?: number
 }
@@ -5706,8 +5668,6 @@ export interface PostUiOpenwindowMarketdetailsResponseHeaders {
   ETag?: string
   'Last-Modified'?: string
 }
-
-export type PostUiOpenwindowNewmailResponse = unknown
 
 export interface PostUiOpenwindowNewmailParams {
   body: string

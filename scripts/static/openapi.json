@@ -11939,7 +11939,8 @@
                 "uniqueItems": true
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -12259,7 +12260,8 @@
                 "uniqueItems": true
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -12350,7 +12352,8 @@
                 "uniqueItems": true
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -12790,15 +12793,11 @@
                 "type": "object"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Event updated",
             "headers": {
               "Cache-Control": {
@@ -13042,11 +13041,6 @@
         ],
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Contacts deleted",
             "headers": {
               "Cache-Control": {
@@ -13246,7 +13240,8 @@
                 "type": "array"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
@@ -13366,15 +13361,11 @@
                 "type": "array"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Contacts updated",
             "headers": {
               "Cache-Control": {
@@ -13860,7 +13851,8 @@
                 "uniqueItems": true
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
@@ -14090,6 +14082,7 @@
               "schema": {
                 "properties": {
                   "description": {
+                    "maxLength": 500,
                     "type": "string"
                   },
                   "items": {
@@ -14166,6 +14159,8 @@
                     "type": "array"
                   },
                   "name": {
+                    "maxLength": 50,
+                    "minLength": 1,
                     "type": "string"
                   },
                   "ship_type_id": {
@@ -14182,7 +14177,8 @@
                 "type": "object"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
@@ -14270,11 +14266,6 @@
         ],
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Fitting deleted",
             "headers": {
               "Cache-Control": {
@@ -14997,6 +14988,7 @@
                     "type": "integer"
                   },
                   "body": {
+                    "maxLength": 10000,
                     "type": "string"
                   },
                   "recipients": {
@@ -15028,6 +15020,7 @@
                     "type": "array"
                   },
                   "subject": {
+                    "maxLength": 1000,
                     "type": "string"
                   }
                 },
@@ -15039,7 +15032,8 @@
                 "type": "object"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
@@ -15219,6 +15213,8 @@
                     "type": "string"
                   },
                   "name": {
+                    "maxLength": 40,
+                    "minLength": 1,
                     "type": "string"
                   }
                 },
@@ -15228,7 +15224,8 @@
                 "type": "object"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "201": {
@@ -15316,11 +15313,6 @@
         ],
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Label deleted",
             "headers": {
               "Cache-Control": {
@@ -15473,11 +15465,6 @@
         ],
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Mail deleted",
             "headers": {
               "Cache-Control": {
@@ -15658,15 +15645,11 @@
                 "type": "object"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Mail updated",
             "headers": {
               "Cache-Control": {
@@ -16613,6 +16596,7 @@
             "required": true,
             "schema": {
               "description": "The string to search on",
+              "minLength": 3,
               "type": "string"
             }
           },
@@ -18217,7 +18201,8 @@
                 "uniqueItems": true
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -18311,7 +18296,8 @@
                 "uniqueItems": true
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -21735,15 +21721,11 @@
                 "type": "object"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Fleet updated",
             "headers": {
               "Cache-Control": {
@@ -21923,15 +21905,11 @@
                 "type": "object"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Fleet invitation sent",
             "headers": {
               "Cache-Control": {
@@ -22010,11 +21988,6 @@
         ],
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Fleet member kicked",
             "headers": {
               "Cache-Control": {
@@ -22119,15 +22092,11 @@
                 "type": "object"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Fleet invitation sent",
             "headers": {
               "Cache-Control": {
@@ -22206,11 +22175,6 @@
         ],
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Squad deleted",
             "headers": {
               "Cache-Control": {
@@ -22291,6 +22255,7 @@
               "schema": {
                 "properties": {
                   "name": {
+                    "maxLength": 10,
                     "type": "string"
                   }
                 },
@@ -22300,15 +22265,11 @@
                 "type": "object"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Squad renamed",
             "headers": {
               "Cache-Control": {
@@ -22539,11 +22500,6 @@
         ],
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Wing deleted",
             "headers": {
               "Cache-Control": {
@@ -22624,6 +22580,7 @@
               "schema": {
                 "properties": {
                   "name": {
+                    "maxLength": 10,
                     "type": "string"
                   }
                 },
@@ -22633,15 +22590,11 @@
                 "type": "object"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Wing renamed",
             "headers": {
               "Cache-Control": {
@@ -24465,11 +24418,6 @@
         ],
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Open window request received",
             "headers": {
               "Cache-Control": {
@@ -24538,11 +24486,6 @@
         ],
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Open window request received",
             "headers": {
               "Cache-Control": {
@@ -24611,11 +24554,6 @@
         ],
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Open window request received",
             "headers": {
               "Cache-Control": {
@@ -24684,11 +24622,6 @@
         ],
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Open window request received",
             "headers": {
               "Cache-Control": {
@@ -24751,6 +24684,7 @@
               "schema": {
                 "properties": {
                   "body": {
+                    "maxLength": 10000,
                     "type": "string"
                   },
                   "recipients": {
@@ -24764,6 +24698,7 @@
                     "type": "array"
                   },
                   "subject": {
+                    "maxLength": 1000,
                     "type": "string"
                   },
                   "to_corp_or_alliance_id": {
@@ -24784,15 +24719,11 @@
                 "type": "object"
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "204": {
-            "content": {
-              "application/json": {
-                "schema": {}
-              }
-            },
             "description": "Open window request received",
             "headers": {
               "Cache-Control": {
@@ -25633,6 +25564,8 @@
               "schema": {
                 "items": {
                   "description": "name string",
+                  "maxLength": 100,
+                  "minLength": 1,
                   "type": "string"
                 },
                 "maxItems": 500,
@@ -25641,7 +25574,8 @@
                 "uniqueItems": true
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
@@ -25786,7 +25720,8 @@
                 "uniqueItems": true
               }
             }
-          }
+          },
+          "required": true
         },
         "responses": {
           "200": {
