@@ -3,6 +3,9 @@ name: Publish
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -11,7 +14,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          persist-credentials: false
           fetch-depth: 0
 
       -  uses: pnpm/action-setup@v4
@@ -31,15 +33,12 @@ jobs:
       - name: Test
         run: pnpm test
 
-      - name: Set git credentials
+      - name: Set git identity
         run: |
-          git config user.name "Adam Trager"
-          git config user.email "hello@adamtrager.com"
-          git remote set-url origin "https://$REPO_PAT@github.com/localisprimary/esi"
-        env:
-          REPO_PAT: ${{ secrets.REPO_PAT }}
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Publish with Beachball
-        run: pnpm beachball publish --access public
+        run: pnpm beachball publish -y --access public --branch master
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}

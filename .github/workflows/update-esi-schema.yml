@@ -5,6 +5,10 @@ on:
     - cron: '30 11 * * *' # Daily at 11:30 UTC
   workflow_dispatch: # Allow manual trigger
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   update-schema:
     runs-on: ubuntu-latest
@@ -49,6 +53,16 @@ jobs:
       - name: Test
         if: steps.schema-check.outputs.changed == 'true'
         run: pnpm test
+
+      - name: Create changefile
+        if: steps.schema-check.outputs.changed == 'true'
+        run: |
+          pnpm beachball change \
+            --branch master \
+            --type patch \
+            --dependent-change-type patch \
+            --message "Automated: Update ESI OpenAPI schema" \
+            --no-commit
 
       - name: Create Pull Request
         if: steps.schema-check.outputs.changed == 'true'
