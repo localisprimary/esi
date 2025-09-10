@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Types from './types'
 
-const COMPATIBILITY_DATE = '2025-09-01'
+const COMPATIBILITY_DATE = '2025-09-10'
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
@@ -2304,6 +2304,32 @@ export class EsiClient {
       Types.GetRegionTypesResponse,
       Types.GetRegionTypesResponseHeaders
     >('GET', path, queryParams, undefined)
+  }
+
+  /**
+   * Get the changelog of this API.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetMetaChangelog
+   */
+  async getMetaChangelog() {
+    const path = `/meta/changelog`
+    return this.request<
+      Types.GetMetaChangelogResponse,
+      Types.GetMetaChangelogResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Get a list of compatibility dates.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetMetaCompatibilityDates
+   */
+  async getMetaCompatibilityDates() {
+    const path = `/meta/compatibility-dates`
+    return this.request<
+      Types.GetMetaCompatibilityDatesResponse,
+      Types.GetMetaCompatibilityDatesResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
