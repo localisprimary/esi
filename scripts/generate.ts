@@ -11,6 +11,7 @@ const CLIENT_FILE = path.join(__dirname, '../src/client.ts')
 
 interface OpenAPISchema {
   paths?: Record<string, PathItem>
+  headers?: Record<string, HeaderDefinition>
   components?: {
     schemas?: Record<string, Schema>
     headers?: Record<string, HeaderDefinition>
@@ -118,6 +119,14 @@ export interface EsiError {
 }
 
 `
+
+  if (schema.components?.parameters) {
+    for (const [parameterName, parameterDef] of Object.entries(schema.components.parameters)) {
+      const headerType = getTypeScriptType(parameterDef.schema || { type: 'string' })
+      types += `export type ${parameterName} = ${headerType};\n`
+    }
+    types += '\n'
+  }
 
   // Skip generating schema component types - only generate transformed response types
 
