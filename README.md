@@ -221,6 +221,8 @@ esi.postCharacterMail({
 | [`getMarketsGroupsMarketGroupId`](https://developers.eveonline.com/api-explorer#/operations/GetMarketsGroupsMarketGroupId) | Get information on an item group. This route expires daily at 11:05 |
 | [`getMarketsPrices`](https://developers.eveonline.com/api-explorer#/operations/GetMarketsPrices) | Return a list of prices |
 | [`getMarketsStructure`](https://developers.eveonline.com/api-explorer#/operations/GetMarketsStructuresStructureId) | Return all orders in a structure |
+| [`getMetaChangelog`](https://developers.eveonline.com/api-explorer#/operations/GetMetaChangelog) | Get the changelog of this API. |
+| [`getMetaCompatibilityDates`](https://developers.eveonline.com/api-explorer#/operations/GetMetaCompatibilityDates) | Get a list of compatibility dates. |
 | [`getRegionHistory`](https://developers.eveonline.com/api-explorer#/operations/GetMarketsRegionIdHistory) | Return a list of historical market statistics for the specified type in a region. This route expires daily at 11:05 |
 | [`getRegionOrders`](https://developers.eveonline.com/api-explorer#/operations/GetMarketsRegionIdOrders) | Return a list of orders in a region |
 | [`getRegionTypes`](https://developers.eveonline.com/api-explorer#/operations/GetMarketsRegionIdTypes) | Return a list of type IDs that have active orders in the region, for efficient market indexing. |

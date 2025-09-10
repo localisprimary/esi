@@ -10,6 +10,20 @@ export interface EsiError {
   status: number
 }
 
+export type AcceptLanguage =
+  | 'en'
+  | 'de'
+  | 'fr'
+  | 'ja'
+  | 'ru'
+  | 'zh'
+  | 'ko'
+  | 'es'
+export type CompatibilityDate = '2020-01-01'
+export type IfModifiedSince = string
+export type IfNoneMatch = string
+export type Tenant = string
+
 export type GetAlliancesResponse = number[]
 
 export interface GetAlliancesResponseHeaders {
@@ -1349,6 +1363,7 @@ export type GetCharacterNotificationsResponse = {
     | 'FacWarCorpJoinWithdrawMsg'
     | 'FacWarCorpLeaveRequestMsg'
     | 'FacWarCorpLeaveWithdrawMsg'
+    | 'FacWarDirectEnlistmentRevoked'
     | 'FacWarLPDisqualifiedEvent'
     | 'FacWarLPDisqualifiedKill'
     | 'FacWarLPPayoutEvent'
@@ -5544,6 +5559,26 @@ export interface GetRegionTypesResponseHeaders {
   ETag?: string
   'Last-Modified'?: string
   'X-Pages'?: number
+}
+
+export interface GetMetaChangelogResponse {
+  changelog: Record<string, unknown>
+}
+
+export interface GetMetaChangelogResponseHeaders {
+  'Cache-Control'?: string
+  ETag?: string
+  'Last-Modified'?: string
+}
+
+export interface GetMetaCompatibilityDatesResponse {
+  compatibility_dates: CompatibilityDate[]
+}
+
+export interface GetMetaCompatibilityDatesResponseHeaders {
+  'Cache-Control'?: string
+  ETag?: string
+  'Last-Modified'?: string
 }
 
 export type GetRouteOriginDestinationResponse = number[]
