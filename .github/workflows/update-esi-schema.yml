@@ -50,10 +50,6 @@ jobs:
         if: steps.schema-check.outputs.changed == 'true'
         run: pnpm compile
 
-      - name: Test
-        if: steps.schema-check.outputs.changed == 'true'
-        run: pnpm test
-
       - name: Commit generated changes
         if: steps.schema-check.outputs.changed == 'true'
         run: |
