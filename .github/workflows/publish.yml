@@ -39,6 +39,7 @@ jobs:
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
       - name: Publish with Beachball
-        run: pnpm beachball publish -y --access public --branch master --token "$NPM_TOKEN"
+        run: |
+          pnpm beachball publish -y --access public --branch master --token "$NPM_TOKEN" --message "chore: Release new version"
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
