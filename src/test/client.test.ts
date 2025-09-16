@@ -157,3 +157,10 @@ describe('EsiClient - No Request Headers', () => {
     expect(response.status).toBe(200)
   })
 })
+
+describe('EsiClient - Missing user agent', () => {
+  it('should throw when userAgent is not provided', () => {
+    // @ts-expect-error Testing missing userAgent
+    expect(() => new EsiClient({})).toThrow() 
+  })
+})

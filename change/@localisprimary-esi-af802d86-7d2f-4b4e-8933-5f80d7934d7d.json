@@ -1,0 +1,7 @@
+{
+  "type": "major",
+  "comment": "Require `userAgent` in client constructor options",
+  "packageName": "@localisprimary/esi",
+  "email": "hello@adamtrager.com",
+  "dependentChangeType": "patch"
+}

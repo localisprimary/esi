@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Types from './types'
 
-const COMPATIBILITY_DATE = '2025-09-10'
+const COMPATIBILITY_DATE = '2025-09-16'
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
@@ -10,21 +10,19 @@ export class EsiClient {
   private readonly token?: string
   private readonly useRequestHeaders: boolean
 
-  constructor(
-    options: {
-      token?: string
-      userAgent?: string
-      useRequestHeaders?: boolean
-    } = {}
-  ) {
+  constructor(options: {
+    userAgent: string
+    token?: string
+    useRequestHeaders?: boolean
+  }) {
     this.token = options.token
     this.useRequestHeaders = options.useRequestHeaders ?? true
 
     if (options.userAgent?.length) {
       this.userAgent += ` ${options.userAgent}`
     } else {
-      console.warn(
-        '@localisprimary/esi: No user agent provided in constructor. This will be required in a future release.'
+      throw new Error(
+        '@localisprimary/esi: No user agent provided to constructor'
       )
     }
   }
