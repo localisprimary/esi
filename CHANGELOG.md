@@ -1,8 +1,16 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Wed, 10 Sep 2025 22:03:42 GMT and should not be manually modified. -->
+<!-- This log was last generated on Tue, 16 Sep 2025 13:45:24 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 2.0.0
+
+Tue, 16 Sep 2025 13:45:24 GMT
+
+### Major changes
+
+- Require `userAgent` in client constructor options (hello@adamtrager.com)
 
 ## 1.3.2
 

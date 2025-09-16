@@ -1,6 +1,6 @@
 {
   "name": "@localisprimary/esi",
-  "version": "1.3.2",
+  "version": "2.0.0",
   "type": "module",
   "description": "Auto-generated TypeScript client for the EVE Online API",
   "main": "dist/index.js",

@@ -2,6 +2,21 @@
   "name": "@localisprimary/esi",
   "entries": [
     {
+      "date": "Tue, 16 Sep 2025 13:45:24 GMT",
+      "version": "2.0.0",
+      "tag": "@localisprimary/esi_v2.0.0",
+      "comments": {
+        "major": [
+          {
+            "author": "hello@adamtrager.com",
+            "package": "@localisprimary/esi",
+            "commit": "e1ae174258b11a4398c2731e5d14dfbcd3e51e21",
+            "comment": "Require `userAgent` in client constructor options"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 10 Sep 2025 22:03:42 GMT",
       "version": "1.3.2",
       "tag": "@localisprimary/esi_v1.3.2",
