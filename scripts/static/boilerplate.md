@@ -27,14 +27,12 @@ console.log(alliance.data)
 
 ## Options
 
-The `EsiClient` constructor accepts an options object with the following properties:
+The `EsiClient` constructor requires an options object with the following properties:
 | Parameter | Description | Type | Default | Required |
 |-----------|-------------|------|---------|----------|
+| `userAgent` | User agent string for requests. Resolves to `"localisprimary/esi <userAgent>"` | `string` |  | Yes |
 | `token` | Optional auth token for requests | `string` | `undefined` | No |
-| `userAgent` | User agent string for requests. Resolves to `"localisprimary/esi <userAgent>"` | `string` | `undefined` | No* |
 | `useRequestHeaders` | When false, fall back to query parameters for user agent and token | `boolean` | `true` | No |
-
-<small>* Will be required in a future version.</small>
 
 ## Methods
 
