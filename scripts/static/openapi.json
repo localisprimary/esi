@@ -16498,6 +16498,7 @@
         "tags": [
           "Planetary Interaction"
         ],
+        "x-cache-age": 600,
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -23475,7 +23476,7 @@
         "tags": [
           "Killmails"
         ],
-        "x-cache-age": 30758400,
+        "x-cache-age": 2592000,
         "x-compatibility-date": "2020-01-01"
       }
     },
