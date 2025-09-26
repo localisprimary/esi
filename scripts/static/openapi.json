@@ -8019,7 +8019,6 @@
         "type": "array"
       },
       "Error": {
-        "additionalProperties": false,
         "properties": {
           "details": {
             "description": "List of individual error details.",
@@ -8042,7 +8041,6 @@
         "type": "object"
       },
       "ErrorDetail": {
-        "additionalProperties": false,
         "properties": {
           "location": {
             "description": "Where the error occurred, e.g. 'body.items[3].tags' or 'path.thing-id'",
@@ -9635,7 +9633,13 @@
             "examples": [
               "GET"
             ],
-            "type": "string"
+            "type": "string",
+            "x-enum-descriptions": [
+              "",
+              "",
+              "",
+              ""
+            ]
           },
           "path": {
             "description": "Path of the route",
@@ -24168,7 +24172,6 @@
         "tags": [
           "Meta"
         ],
-        "x-cache-age": 0,
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -24238,7 +24241,6 @@
         "tags": [
           "Meta"
         ],
-        "x-cache-age": 0,
         "x-compatibility-date": "2020-01-01"
       }
     },
