@@ -8025,10 +8025,7 @@
             "items": {
               "$ref": "#/components/schemas/ErrorDetail"
             },
-            "type": [
-              "array",
-              "null"
-            ]
+            "type": "array"
           },
           "error": {
             "description": "Error message.",
@@ -9588,10 +9585,7 @@
               "items": {
                 "$ref": "#/components/schemas/MetaChangelogEntry"
               },
-              "type": [
-                "array",
-                "null"
-              ]
+              "type": "array"
             },
             "description": "Per date, list changes for that date",
             "type": "object"
