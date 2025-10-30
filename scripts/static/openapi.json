@@ -14543,7 +14543,12 @@
         "tags": [
           "Faction Warfare"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "factional-warfare",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/implants": {
@@ -19401,7 +19406,12 @@
         "tags": [
           "Faction Warfare"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "factional-warfare",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/corporations/{corporation_id}/icons": {
@@ -22867,7 +22877,12 @@
         "tags": [
           "Faction Warfare"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "factional-warfare",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/fw/leaderboards/characters": {
@@ -22925,7 +22940,12 @@
         "tags": [
           "Faction Warfare"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "factional-warfare",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/fw/leaderboards/corporations": {
@@ -22983,7 +23003,12 @@
         "tags": [
           "Faction Warfare"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "factional-warfare",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/fw/stats": {
@@ -23041,7 +23066,12 @@
         "tags": [
           "Faction Warfare"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "factional-warfare",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/fw/systems": {
@@ -23100,7 +23130,12 @@
           "Faction Warfare"
         ],
         "x-cache-age": 1800,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "factional-warfare",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/fw/wars": {
@@ -23158,7 +23193,12 @@
         "tags": [
           "Faction Warfare"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "factional-warfare",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/incursions": {
@@ -23217,7 +23257,12 @@
           "Incursions"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "incursion",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/industry/facilities": {
@@ -23397,7 +23442,12 @@
           "Insurance"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "insurance",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/killmails/{killmail_id}/{killmail_hash}": {
@@ -24361,7 +24411,12 @@
           "Routes"
         ],
         "x-cache-age": 86400,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "routes",
+          "max-tokens": 3600,
+          "window-size": "15m"
+        }
       }
     },
     "/sovereignty/campaigns": {
@@ -24420,7 +24475,12 @@
           "Sovereignty"
         ],
         "x-cache-age": 5,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "sovereignty",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/sovereignty/map": {
@@ -24479,7 +24539,12 @@
           "Sovereignty"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "sovereignty",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/sovereignty/structures": {
@@ -24538,7 +24603,12 @@
           "Sovereignty"
         ],
         "x-cache-age": 120,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "sovereignty",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/status": {
