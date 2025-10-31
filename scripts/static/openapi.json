@@ -14141,7 +14141,12 @@
           "Fittings"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fitting",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       },
       "post": {
         "description": "Save a new fitting for a character",
@@ -14317,7 +14322,12 @@
         "tags": [
           "Fittings"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fitting",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/fittings/{fitting_id}": {
@@ -14394,7 +14404,12 @@
         "tags": [
           "Fittings"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fitting",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/fleet": {
@@ -14469,7 +14484,12 @@
           "Fleets"
         ],
         "x-cache-age": 60,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/fw/stats": {
@@ -16025,7 +16045,12 @@
           "Character"
         ],
         "x-cache-age": 600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-notification",
+          "max-tokens": 15,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/notifications/contacts": {
@@ -21779,7 +21804,12 @@
           "Fleets"
         ],
         "x-cache-age": 5,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       },
       "put": {
         "description": "Update settings about a fleet",
@@ -21865,7 +21895,12 @@
         "tags": [
           "Fleets"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       }
     },
     "/fleets/{fleet_id}/members": {
@@ -21944,7 +21979,12 @@
           "Fleets"
         ],
         "x-cache-age": 5,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       },
       "post": {
         "description": "Invite a character into the fleet. If a character has a CSPA charge set it is not possible to invite them to the fleet using ESI",
@@ -22049,7 +22089,12 @@
         "tags": [
           "Fleets"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       }
     },
     "/fleets/{fleet_id}/members/{member_id}": {
@@ -22127,7 +22172,12 @@
         "tags": [
           "Fleets"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       },
       "put": {
         "description": "Move a fleet member around",
@@ -22236,7 +22286,12 @@
         "tags": [
           "Fleets"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       }
     },
     "/fleets/{fleet_id}/squads/{squad_id}": {
@@ -22314,7 +22369,12 @@
         "tags": [
           "Fleets"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       },
       "put": {
         "description": "Rename a fleet squad",
@@ -22409,7 +22469,12 @@
         "tags": [
           "Fleets"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       }
     },
     "/fleets/{fleet_id}/wings": {
@@ -22488,7 +22553,12 @@
           "Fleets"
         ],
         "x-cache-age": 5,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       },
       "post": {
         "description": "Create a new wing in a fleet",
@@ -22561,7 +22631,12 @@
         "tags": [
           "Fleets"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       }
     },
     "/fleets/{fleet_id}/wings/{wing_id}": {
@@ -22639,7 +22714,12 @@
         "tags": [
           "Fleets"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       },
       "put": {
         "description": "Rename a fleet wing",
@@ -22734,7 +22814,12 @@
         "tags": [
           "Fleets"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       }
     },
     "/fleets/{fleet_id}/wings/{wing_id}/squads": {
@@ -22819,7 +22904,12 @@
         "tags": [
           "Fleets"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "fleet",
+          "max-tokens": 1800,
+          "window-size": "15m"
+        }
       }
     },
     "/fw/leaderboards": {
@@ -23321,7 +23411,12 @@
           "Industry"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "industry",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/industry/systems": {
@@ -23380,7 +23475,12 @@
           "Industry"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "industry",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/insurance/prices": {
@@ -24760,7 +24860,12 @@
         "tags": [
           "User Interface"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "ui",
+          "max-tokens": 900,
+          "window-size": "15m"
+        }
       }
     },
     "/ui/openwindow/contract": {
@@ -24828,7 +24933,12 @@
         "tags": [
           "User Interface"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "ui",
+          "max-tokens": 900,
+          "window-size": "15m"
+        }
       }
     },
     "/ui/openwindow/information": {
@@ -24896,7 +25006,12 @@
         "tags": [
           "User Interface"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "ui",
+          "max-tokens": 900,
+          "window-size": "15m"
+        }
       }
     },
     "/ui/openwindow/marketdetails": {
@@ -24964,7 +25079,12 @@
         "tags": [
           "User Interface"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "ui",
+          "max-tokens": 900,
+          "window-size": "15m"
+        }
       }
     },
     "/ui/openwindow/newmail": {
@@ -25066,7 +25186,12 @@
         "tags": [
           "User Interface"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "ui",
+          "max-tokens": 900,
+          "window-size": "15m"
+        }
       }
     },
     "/universe/ancestries": {
