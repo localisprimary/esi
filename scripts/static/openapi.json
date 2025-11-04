@@ -13087,7 +13087,12 @@
           "Clones"
         ],
         "x-cache-age": 120,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-location",
+          "max-tokens": 1200,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/contacts": {
@@ -14066,7 +14071,12 @@
           "Character"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-location",
+          "max-tokens": 1200,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/fittings": {
@@ -14893,7 +14903,12 @@
           "Location"
         ],
         "x-cache-age": 5,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-location",
+          "max-tokens": 1200,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/loyalty/points": {
@@ -16200,7 +16215,12 @@
           "Location"
         ],
         "x-cache-age": 60,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-location",
+          "max-tokens": 1200,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/orders": {
@@ -16869,7 +16889,12 @@
           "Location"
         ],
         "x-cache-age": 5,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-location",
+          "max-tokens": 1200,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/skillqueue": {
