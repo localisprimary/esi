@@ -14828,7 +14828,12 @@
           "Killmails"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-killmail",
+          "max-tokens": 30,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/location": {
@@ -19726,6 +19731,11 @@
         ],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-killmail",
+          "max-tokens": 30,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Director"
         ]
@@ -23650,7 +23660,12 @@
           "Killmails"
         ],
         "x-cache-age": 2592000,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "killmail",
+          "max-tokens": 3600,
+          "window-size": "15m"
+        }
       }
     },
     "/loyalty/stores/{corporation_id}/offers": {
@@ -27350,7 +27365,12 @@
           "Wars"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "killmail",
+          "max-tokens": 3600,
+          "window-size": "15m"
+        }
       }
     },
     "/wars/{war_id}": {
@@ -27419,7 +27439,12 @@
           "Wars"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "killmail",
+          "max-tokens": 3600,
+          "window-size": "15m"
+        }
       }
     },
     "/wars/{war_id}/killmails": {
@@ -27505,7 +27530,12 @@
           "Wars"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "killmail",
+          "max-tokens": 3600,
+          "window-size": "15m"
+        }
       }
     }
   },
