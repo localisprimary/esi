@@ -11786,7 +11786,12 @@
           "Contacts"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "alliance-social",
+          "max-tokens": 300,
+          "window-size": "15m"
+        }
       }
     },
     "/alliances/{alliance_id}/contacts/labels": {
@@ -11861,7 +11866,12 @@
           "Contacts"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "alliance-social",
+          "max-tokens": 300,
+          "window-size": "15m"
+        }
       }
     },
     "/alliances/{alliance_id}/corporations": {
@@ -17819,6 +17829,11 @@
         ],
         "x-cache-age": 1800,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-industry",
+          "max-tokens": 600,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Station_Manager"
         ]
@@ -17914,6 +17929,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-industry",
+          "max-tokens": 600,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Accountant"
         ]
@@ -18019,6 +18039,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-industry",
+          "max-tokens": 600,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Accountant"
         ]
@@ -18593,6 +18618,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-industry",
+          "max-tokens": 600,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Director"
         ]
@@ -18687,7 +18717,12 @@
           "Contacts"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-social",
+          "max-tokens": 300,
+          "window-size": "15m"
+        }
       }
     },
     "/corporations/{corporation_id}/contacts/labels": {
@@ -18762,7 +18797,12 @@
           "Contacts"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-social",
+          "max-tokens": 300,
+          "window-size": "15m"
+        }
       }
     },
     "/corporations/{corporation_id}/containers/logs": {
@@ -18949,7 +18989,12 @@
           "Contracts"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-contract",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/corporations/{corporation_id}/contracts/{contract_id}/bids": {
@@ -19051,7 +19096,12 @@
           "Contracts"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-contract",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/corporations/{corporation_id}/contracts/{contract_id}/items": {
@@ -19136,7 +19186,12 @@
           "Contracts"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-contract",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/corporations/{corporation_id}/customs_offices": {
@@ -19229,6 +19284,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-industry",
+          "max-tokens": 600,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Director"
         ]
@@ -19307,6 +19367,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-wallet",
+          "max-tokens": 300,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Director"
         ]
@@ -19636,6 +19701,11 @@
         ],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-industry",
+          "max-tokens": 600,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Factory_Manager"
         ]
@@ -19830,7 +19900,12 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-detail",
+          "max-tokens": 300,
+          "window-size": "15m"
+        }
       }
     },
     "/corporations/{corporation_id}/medals/issued": {
@@ -19923,6 +19998,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-detail",
+          "max-tokens": 300,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Director"
         ]
@@ -20000,7 +20080,12 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-member",
+          "max-tokens": 300,
+          "window-size": "15m"
+        }
       }
     },
     "/corporations/{corporation_id}/members/limit": {
@@ -20076,6 +20161,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-member",
+          "max-tokens": 300,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Director"
         ]
@@ -20154,6 +20244,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-member",
+          "max-tokens": 300,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Director"
         ]
@@ -20232,6 +20327,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-member",
+          "max-tokens": 300,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Director"
         ]
@@ -20501,7 +20601,12 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-member",
+          "max-tokens": 300,
+          "window-size": "15m"
+        }
       }
     },
     "/corporations/{corporation_id}/roles/history": {
@@ -20594,6 +20699,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-member",
+          "max-tokens": 300,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Director"
         ]
@@ -20689,6 +20799,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-detail",
+          "max-tokens": 300,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Director"
         ]
@@ -20783,7 +20898,12 @@
           "Corporation"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-member",
+          "max-tokens": 300,
+          "window-size": "15m"
+        }
       }
     },
     "/corporations/{corporation_id}/starbases": {
@@ -21150,6 +21270,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-detail",
+          "max-tokens": 300,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Director"
         ]
@@ -21228,6 +21353,11 @@
         ],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-wallet",
+          "max-tokens": 300,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Accountant",
           "Junior_Accountant"
@@ -21334,6 +21464,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-wallet",
+          "max-tokens": 300,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Accountant",
           "Junior_Accountant"
@@ -21432,6 +21567,11 @@
         ],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "corp-wallet",
+          "max-tokens": 300,
+          "window-size": "15m"
+        },
         "x-required-roles": [
           "Accountant",
           "Junior_Accountant"
