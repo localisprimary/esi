@@ -12226,7 +12226,12 @@
           "Character"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-industry",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/assets": {
@@ -12577,7 +12582,12 @@
           "Skills"
         ],
         "x-cache-age": 120,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-detail",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/blueprints": {
@@ -12669,7 +12679,12 @@
           "Character"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-industry",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/calendar": {
@@ -12753,7 +12768,12 @@
           "Calendar"
         ],
         "x-cache-age": 5,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/calendar/{event_id}": {
@@ -12838,7 +12858,12 @@
           "Calendar"
         ],
         "x-cache-age": 5,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       },
       "put": {
         "description": "Set your response status to an event",
@@ -12937,7 +12962,12 @@
           "Calendar"
         ],
         "x-cache-age": 5,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/calendar/{event_id}/attendees": {
@@ -13022,7 +13052,12 @@
           "Calendar"
         ],
         "x-cache-age": 600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/clones": {
@@ -13184,7 +13219,12 @@
         "tags": [
           "Contacts"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       },
       "get": {
         "description": "Return contacts of a character",
@@ -13274,7 +13314,12 @@
           "Contacts"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       },
       "post": {
         "description": "Bulk add contacts with same settings",
@@ -13395,7 +13440,12 @@
         "tags": [
           "Contacts"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       },
       "put": {
         "description": "Bulk edit contacts with same settings",
@@ -13509,7 +13559,12 @@
         "tags": [
           "Contacts"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/contacts/labels": {
@@ -13584,7 +13639,12 @@
           "Contacts"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/contracts": {
@@ -13676,7 +13736,12 @@
           "Contracts"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-contract",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/contracts/{contract_id}/bids": {
@@ -13761,7 +13826,12 @@
           "Contracts"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-contract",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/contracts/{contract_id}/items": {
@@ -13846,7 +13916,12 @@
           "Contracts"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-contract",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/corporationhistory": {
@@ -14006,7 +14081,12 @@
         "tags": [
           "Character"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-detail",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/fatigue": {
@@ -14663,7 +14743,12 @@
           "Clones"
         ],
         "x-cache-age": 120,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-detail",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/industry/jobs": {
@@ -14746,7 +14831,12 @@
           "Industry"
         ],
         "x-cache-age": 300,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-industry",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/killmails/recent": {
@@ -14998,7 +15088,12 @@
           "Loyalty"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-wallet",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/mail": {
@@ -15097,7 +15192,12 @@
           "Mail"
         ],
         "x-cache-age": 30,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       },
       "post": {
         "description": "Create and send a new mail",
@@ -15227,7 +15327,12 @@
         "tags": [
           "Mail"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/mail/labels": {
@@ -15302,7 +15407,12 @@
           "Mail"
         ],
         "x-cache-age": 30,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       },
       "post": {
         "description": "Create a mail label",
@@ -15419,7 +15529,12 @@
         "tags": [
           "Mail"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/mail/labels/{label_id}": {
@@ -15496,7 +15611,12 @@
         "tags": [
           "Mail"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/mail/lists": {
@@ -15571,7 +15691,12 @@
           "Mail"
         ],
         "x-cache-age": 120,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/mail/{mail_id}": {
@@ -15648,7 +15773,12 @@
         "tags": [
           "Mail"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       },
       "get": {
         "description": "Return the contents of an EVE mail",
@@ -15731,7 +15861,12 @@
           "Mail"
         ],
         "x-cache-age": 30,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       },
       "put": {
         "description": "Update metadata about a mail",
@@ -15833,7 +15968,12 @@
         "tags": [
           "Mail"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/medals": {
@@ -15908,7 +16048,12 @@
           "Character"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-detail",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/mining": {
@@ -16000,7 +16145,12 @@
           "Industry"
         ],
         "x-cache-age": 600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-industry",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/notifications": {
@@ -16155,7 +16305,12 @@
           "Character"
         ],
         "x-cache-age": 600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/online": {
@@ -16477,7 +16632,12 @@
           "Planetary Interaction"
         ],
         "x-cache-age": 600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-industry",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/planets/{planet_id}": {
@@ -16562,7 +16722,12 @@
           "Planetary Interaction"
         ],
         "x-cache-age": 600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-industry",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/portrait": {
@@ -16629,7 +16794,12 @@
         "tags": [
           "Character"
         ],
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-detail",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/roles": {
@@ -16704,7 +16874,12 @@
           "Character"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-detail",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/search": {
@@ -16984,7 +17159,12 @@
           "Skills"
         ],
         "x-cache-age": 120,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-detail",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/skills": {
@@ -17059,7 +17239,12 @@
           "Skills"
         ],
         "x-cache-age": 120,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-detail",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/standings": {
@@ -17134,7 +17319,12 @@
           "Character"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-social",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/titles": {
@@ -17209,7 +17399,12 @@
           "Character"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-detail",
+          "max-tokens": 600,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/wallet": {
@@ -17284,7 +17479,12 @@
           "Wallet"
         ],
         "x-cache-age": 120,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-wallet",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/wallet/journal": {
@@ -17376,7 +17576,12 @@
           "Wallet"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-wallet",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/characters/{character_id}/wallet/transactions": {
@@ -17460,7 +17665,12 @@
           "Wallet"
         ],
         "x-cache-age": 3600,
-        "x-compatibility-date": "2020-01-01"
+        "x-compatibility-date": "2020-01-01",
+        "x-rate-limit": {
+          "group": "char-wallet",
+          "max-tokens": 150,
+          "window-size": "15m"
+        }
       }
     },
     "/contracts/public/bids/{contract_id}": {
