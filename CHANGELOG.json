@@ -2,6 +2,51 @@
   "name": "@localisprimary/esi",
   "entries": [
     {
+      "date": "Tue, 18 Nov 2025 13:14:42 GMT",
+      "version": "2.0.6",
+      "tag": "@localisprimary/esi_v2.0.6",
+      "comments": {
+        "patch": [
+          {
+            "author": "1719791+Nfinished@users.noreply.github.com",
+            "package": "@localisprimary/esi",
+            "commit": "d6602e63533094f7c63cd53350a75df24fd90304",
+            "comment": "Automated: Update ESI OpenAPI schema"
+          },
+          {
+            "author": "1719791+Nfinished@users.noreply.github.com",
+            "package": "@localisprimary/esi",
+            "commit": "027f9f70d875dd582df048fff15066ef399c3c1c",
+            "comment": "Automated: Update ESI OpenAPI schema"
+          },
+          {
+            "author": "1719791+Nfinished@users.noreply.github.com",
+            "package": "@localisprimary/esi",
+            "commit": "26dd3e1edcbabe5fba21d2c86b380e2d25ae650d",
+            "comment": "Automated: Update ESI OpenAPI schema"
+          },
+          {
+            "author": "1719791+Nfinished@users.noreply.github.com",
+            "package": "@localisprimary/esi",
+            "commit": "b626b21c6cd5609f0314e8b53754dde3de6218c5",
+            "comment": "Automated: Update ESI OpenAPI schema"
+          },
+          {
+            "author": "1719791+Nfinished@users.noreply.github.com",
+            "package": "@localisprimary/esi",
+            "commit": "69ba07b4434ee70fdfe541f9008655b2cabac73c",
+            "comment": "Automated: Update ESI OpenAPI schema"
+          },
+          {
+            "author": "1719791+Nfinished@users.noreply.github.com",
+            "package": "@localisprimary/esi",
+            "commit": "c3ec18b0bfb3d91b13cbe4a1fe6d7c507a700e92",
+            "comment": "Automated: Update ESI OpenAPI schema"
+          }
+        ]
+      }
+    },
+    {
       "date": "Thu, 30 Oct 2025 13:19:25 GMT",
       "version": "2.0.5",
       "tag": "@localisprimary/esi_v2.0.5",
