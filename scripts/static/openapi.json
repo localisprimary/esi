@@ -25180,18 +25180,7 @@
                 }
               }
             },
-            "description": "Error",
-            "headers": {
-              "Cache-Control": {
-                "$ref": "#/components/headers/CacheControl"
-              },
-              "ETag": {
-                "$ref": "#/components/headers/ETag"
-              },
-              "Last-Modified": {
-                "$ref": "#/components/headers/LastModified"
-              }
-            }
+            "description": "Error"
           }
         },
         "summary": "Get changelog",
@@ -25257,18 +25246,7 @@
                 }
               }
             },
-            "description": "Error",
-            "headers": {
-              "Cache-Control": {
-                "$ref": "#/components/headers/CacheControl"
-              },
-              "ETag": {
-                "$ref": "#/components/headers/ETag"
-              },
-              "Last-Modified": {
-                "$ref": "#/components/headers/LastModified"
-              }
-            }
+            "description": "Error"
           }
         },
         "summary": "Get compatibility dates",
