@@ -33,25 +33,25 @@
   },
   "license": "ISC",
   "devDependencies": {
-    "@types/node": "^24.10.0",
-    "@typescript-eslint/eslint-plugin": "^8.46.2",
-    "@typescript-eslint/parser": "^8.46.2",
-    "@vitest/ui": "^4.0.6",
-    "beachball": "^2.56.0",
-    "camelcase": "^8.0.0",
-    "eslint": "^9.39.0",
+    "@types/node": "^24.10.9",
+    "@typescript-eslint/eslint-plugin": "^8.54.0",
+    "@typescript-eslint/parser": "^8.54.0",
+    "@vitest/ui": "^4.0.18",
+    "beachball": "^2.63.0",
+    "camelcase": "^9.0.0",
+    "eslint": "^9.39.2",
     "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.4",
-    "prettier": "^3.6.2",
-    "rimraf": "^6.1.0",
+    "eslint-plugin-prettier": "^5.5.5",
+    "prettier": "^3.8.1",
+    "rimraf": "^6.1.2",
     "typescript": "^5.9.3",
-    "vitest": "^4.0.6"
+    "vitest": "^4.0.18"
   },
   "files": [
     "dist/**/*"
   ],
   "engines": {
-    "node": "^24.4.1"
+    "node": "^24.13.0"
   },
-  "packageManager": "pnpm@10.20.0+sha512.cf9998222162dd85864d0a8102e7892e7ba4ceadebbf5a31f9c2fce48dfce317a9c53b9f6464d1ef9042cba2e02ae02a9f7c143a2b438cd93c91840f0192b9dd"
+  "packageManager": "pnpm@10.28.2+sha512.41872f037ad22f7348e3b1debbaf7e867cfd448f2726d9cf74c08f19507c31d2c8e7a11525b983febc2df640b5438dee6023ebb1f84ed43cc2d654d2bc326264"
 }
