@@ -34,16 +34,37 @@ jobs:
       - name: Fetch schema and check for changes
         id: schema-check
         run: |
+          # Backup current schema for comparison
+          if [ -f scripts/static/openapi.json ]; then
+            cp scripts/static/openapi.json scripts/static/openapi.old.json
+          else
+            echo "No existing schema to backup"
+          fi
+
           # Fetch latest schema
           pnpm fetch-schema
 
           # Check if repo is dirty (any changes)
           if git diff --quiet && git diff --cached --quiet; then
             echo "changed=false" >> $GITHUB_OUTPUT
+            echo "bump_type=patch" >> $GITHUB_OUTPUT
             echo "No schema changes detected"
           else
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "Schema changes detected"
+
+            # Detect change type if we have an old schema to compare
+            if [ -f scripts/static/openapi.old.json ]; then
+              BUMP_TYPE=$(node --experimental-strip-types scripts/detect-schema-changes.ts scripts/static/openapi.old.json scripts/static/openapi.json 2>/dev/null || echo "patch")
+              echo "bump_type=$BUMP_TYPE" >> $GITHUB_OUTPUT
+              echo "Detected change type: $BUMP_TYPE"
+            else
+              echo "bump_type=patch" >> $GITHUB_OUTPUT
+              echo "No old schema for comparison, defaulting to patch"
+            fi
+
+            # Cleanup backup
+            rm -f scripts/static/openapi.old.json
           fi
 
       - name: Build
@@ -62,11 +83,12 @@ jobs:
       - name: Create changefile
         if: steps.schema-check.outputs.changed == 'true'
         run: |
+          BUMP_TYPE="${{ steps.schema-check.outputs.bump_type }}"
           pnpm beachball change \
             --branch master \
-            --type patch \
+            --type "$BUMP_TYPE" \
             --dependent-change-type patch \
-            --message "Automated: Update ESI OpenAPI schema" \
+            --message "Automated: Update ESI OpenAPI schema ($BUMP_TYPE changes detected)" \
             --no-commit
 
       - name: Create Pull Request
@@ -75,14 +97,24 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: |
-            Update EVE ESI schema
+            Update EVE ESI schema (${{ steps.schema-check.outputs.bump_type }})
 
             🤖 Automated update from latest ESI OpenAPI schema
-          title: 'chore: Update EVE ESI schema'
+          title: 'chore: Update EVE ESI schema (${{ steps.schema-check.outputs.bump_type }})'
           body: |
             ## ESI Schema Update
 
             This PR contains an automated update to the EVE ESI schema.
+
+            **Change Type:** `${{ steps.schema-check.outputs.bump_type }}`
+
+            ### What does this mean?
+
+            - **major**: Breaking changes detected (operations removed, required parameters changed, incompatible response types)
+            - **minor**: New features added (operations added, optional parameters added)
+            - **patch**: Non-breaking updates (documentation changes, no operational changes)
+
+            The version bump type is automatically detected by analyzing differences between the old and new OpenAPI schemas.
 
           branch: automated/update-esi-schema
           branch-suffix: timestamp

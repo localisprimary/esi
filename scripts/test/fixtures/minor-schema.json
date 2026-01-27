@@ -1,0 +1,195 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Test API",
+    "version": "1.1.0"
+  },
+  "paths": {
+    "/alliances/{alliance_id}/": {
+      "get": {
+        "operationId": "get_alliances_alliance_id",
+        "description": "Get alliance information",
+        "parameters": [
+          {
+            "name": "alliance_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Alliance information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Alliance"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/characters/{character_id}/": {
+      "get": {
+        "operationId": "get_characters_character_id",
+        "description": "Get character information",
+        "parameters": [
+          {
+            "name": "character_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "datasource",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["tranquility", "singularity", "serenity"]
+            }
+          },
+          {
+            "name": "new_optional_param",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Character information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Character"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/universe/systems/{system_id}/": {
+      "get": {
+        "operationId": "get_universe_systems_system_id",
+        "description": "Get solar system information",
+        "parameters": [
+          {
+            "name": "system_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          },
+          {
+            "name": "language",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "string",
+              "enum": ["en", "de", "fr"]
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Solar system information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SolarSystem"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/corporations/{corporation_id}/": {
+      "get": {
+        "operationId": "get_corporations_corporation_id",
+        "description": "Get corporation information",
+        "parameters": [
+          {
+            "name": "corporation_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Corporation information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Corporation"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Alliance": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "ticker": {
+            "type": "string"
+          }
+        }
+      },
+      "Character": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "corporation_id": {
+            "type": "integer"
+          }
+        }
+      },
+      "SolarSystem": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "security_status": {
+            "type": "number"
+          }
+        }
+      },
+      "Corporation": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "ticker": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

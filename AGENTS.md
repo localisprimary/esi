@@ -84,6 +84,10 @@ Update this document when you:
 │   ├── generate.ts              # Main generator (858 lines) - CORE LOGIC
 │   ├── fetch-schema.ts          # Downloads OpenAPI schema from ESI
 │   ├── generate-readme.ts       # Generates README method table
+│   ├── detect-schema-changes.ts # Detects version bump type (major/minor/patch)
+│   ├── test/                    # Tests for generation scripts
+│   │   ├── detect-schema-changes.test.ts  # Schema detection tests
+│   │   └── fixtures/            # Test schemas for detection testing
 │   └── static/
 │       ├── openapi.json         # Cached OpenAPI schema (847KB)
 │       └── boilerplate.md       # README template
@@ -370,6 +374,57 @@ pnpm change            # Create Beachball changefile (for releases)
 5. **Commit**: Include both generator changes AND regenerated files
 6. **Changefile**: `pnpm change` if this affects published package
 
+### Automated Version Management
+
+Schema updates from the daily workflow are automatically classified by `scripts/detect-schema-changes.ts`:
+
+**Version Bump Types:**
+- **Major (Breaking)**: Operations removed, required parameters added/removed/changed, response types changed incompatibly
+- **Minor (Features)**: Operations added, optional parameters added, enum values added
+- **Patch (Non-breaking)**: Documentation updates, no operational changes
+
+**How It Works:**
+1. Workflow backs up current schema before fetching latest
+2. If changes detected, runs `detect-schema-changes.ts` to compare schemas
+3. Detection script analyzes operations, parameters, and responses
+4. Outputs `major`, `minor`, or `patch` based on change severity
+5. Changefile created with appropriate version bump type
+6. PR title/body shows detected change type
+
+**Testing Detection Locally:**
+```bash
+# Compare two schema files
+node --experimental-strip-types scripts/detect-schema-changes.ts old-schema.json new-schema.json
+
+# Output: "major", "minor", or "patch"
+```
+
+**Override Detection:**
+If automated detection is incorrect, manually edit the changefile in `/change/` directory before merging the PR.
+
+**Detection Rules:**
+
+Major (Breaking) changes:
+- Operation removed entirely
+- Required path/query parameter added, removed, or type changed
+- Parameter enum narrowed (options removed)
+- Request body required flag changed to true
+- Response schema `$ref` changed
+- Response top-level type changed (array ↔ object)
+
+Minor (New Feature) changes:
+- Operation added
+- Optional query parameter added
+- Parameter enum widened (options added)
+
+Patch (Non-breaking) changes:
+- Everything else (descriptions, metadata, etc.)
+
+**Implementation:**
+- Detection script: `scripts/detect-schema-changes.ts`
+- Workflow integration: `.github/workflows/update-esi-schema.yml`
+- Fallback: If detection fails, defaults to `patch`
+
 ### Version Management (Beachball)
 
 This project uses [Beachball](https://microsoft.github.io/beachball/) for automated versioning.
@@ -434,6 +489,49 @@ test('getAlliance returns alliance data', async () => {
 - Catches breaking changes in ESI API
 - Ensures generated client works in real-world scenarios
 - Tests network/auth handling
+
+### Schema Change Detection Tests
+
+**Location**: `scripts/test/detect-schema-changes.test.ts`
+
+**Approach**:
+- Tests the automated version bump detection script
+- Uses subprocess testing (executes the script with `child_process.execSync`)
+- Tests with minimal but valid OpenAPI test fixtures
+- Fast execution (< 5 seconds for all 23 tests)
+
+**Test Fixtures** (`scripts/test/fixtures/`):
+- `base-schema.json` - Reference schema with 3 basic operations
+- `major-schema.json` - Breaking changes (operation removed, required param added, enum narrowed, response $ref changed)
+- `minor-schema.json` - New features (operation added, optional param added, enum widened)
+- `patch-schema.json` - Documentation changes only (identical operations)
+- `invalid.json` - Malformed JSON for error testing
+
+**Test Coverage**:
+- **Change Detection**: Identical schemas, major/minor/patch scenarios, multiple simultaneous changes
+- **Error Handling**: Missing files, invalid JSON, missing arguments, empty schemas
+- **Edge Cases**: Parameter type changes, response type changes, required flag changes
+
+**Running Tests**:
+```bash
+# Run all tests (client + detection)
+pnpm test
+
+# Run only detection tests
+pnpm test detect-schema-changes
+
+# Manually verify fixtures
+node --experimental-strip-types scripts/detect-schema-changes.ts \
+  scripts/test/fixtures/base-schema.json \
+  scripts/test/fixtures/major-schema.json
+# Output: major
+```
+
+**Why Schema Detection Tests?**
+- Ensures automated version bumping stays correct as code evolves
+- Prevents regressions in CI/CD automation
+- Documents expected behavior with concrete examples
+- Enables confident refactoring of detection logic
 
 ## CI/CD Automation
 
@@ -761,6 +859,15 @@ See @.prettierrc
 - **Query param extraction**: `scripts/generate.ts:757` - `extractQueryParams()`
 - **Response header extraction**: `scripts/generate.ts:772` - `extractResponseHeaders()`
 - **JSDoc generation**: `scripts/generate.ts:480` - `generateJSDoc()`
+
+### Schema Change Detection
+- **Main CLI**: `scripts/detect-schema-changes.ts:562` - `main()`
+- **Schema loading**: `scripts/detect-schema-changes.ts:76` - `loadSchema()`
+- **Operation extraction**: `scripts/detect-schema-changes.ts:89` - `extractOperations()`
+- **Operation comparison**: `scripts/detect-schema-changes.ts:237` - `compareOperations()`
+- **Breaking change detection**: `scripts/detect-schema-changes.ts:302` - `hasBreakingChanges()`
+- **New feature detection**: `scripts/detect-schema-changes.ts:412` - `hasNewFeatures()`
+- **Version bump determination**: `scripts/detect-schema-changes.ts:447` - `determineVersionBump()`
 
 ## Troubleshooting
 
