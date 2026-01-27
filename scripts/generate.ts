@@ -120,10 +120,15 @@ export interface EsiError {
 
 `
 
+  // Track which schema components have been generated to avoid duplicates
+  const generatedSchemaComponents = new Set<string>()
+
   if (schema.components?.parameters) {
     for (const [parameterName, parameterDef] of Object.entries(schema.components.parameters)) {
       const headerType = getTypeScriptType(parameterDef.schema || { type: 'string' })
       types += `export type ${parameterName} = ${headerType};\n`
+      // Add parameter names to the set to avoid generating them again as schema components
+      generatedSchemaComponents.add(parameterName)
     }
     types += '\n'
   }
@@ -151,7 +156,8 @@ export interface EsiError {
             types += generateResponseType(
               transformedOperationId,
               responseSchema,
-              schema
+              schema,
+              generatedSchemaComponents
             )
           }
 
@@ -180,8 +186,11 @@ export interface EsiError {
 function generateResponseType(
   operationName: string,
   responseSchema: Schema,
-  fullSchema: OpenAPISchema
+  fullSchema: OpenAPISchema,
+  generatedSchemaComponents: Set<string>
 ): string {
+  let result = ''
+
   if (responseSchema.$ref) {
     // Extract the original schema from components
     const refName = responseSchema.$ref.split('/').pop()
@@ -191,14 +200,128 @@ function generateResponseType(
     const originalSchema = fullSchema.components?.schemas?.[refName]
     if (originalSchema) {
       // Generate the type directly with the transformed name
-      return generateTypeFromSchema(`${operationName}Response`, originalSchema)
+      return generateTypeFromSchema(`${operationName}Response`, originalSchema, fullSchema, generatedSchemaComponents)
+    }
+  } else if (responseSchema.type === 'array' && responseSchema.items?.$ref) {
+    // Handle array responses with referenced items
+    const refName = responseSchema.items.$ref.split('/').pop()
+
+    assert(refName)
+
+    // Only generate the schema component type if we haven't already
+    if (!generatedSchemaComponents.has(refName)) {
+      const itemSchema = fullSchema.components?.schemas?.[refName]
+      if (itemSchema) {
+        generatedSchemaComponents.add(refName)
+        result += generateTypeFromSchema(refName, itemSchema, fullSchema, generatedSchemaComponents)
+      }
+    }
+
+    // Generate the array response type
+    result += `export type ${operationName}Response = ${refName}[];\n\n`
+    return result
+  } else if (responseSchema.type === 'object' && responseSchema.properties) {
+    // Check if any properties reference schema components
+    for (const [propName, propSchema] of Object.entries(responseSchema.properties)) {
+      if (propSchema.$ref) {
+        const refName = propSchema.$ref.split('/').pop()
+        assert(refName)
+
+        if (!generatedSchemaComponents.has(refName)) {
+          const referencedSchema = fullSchema.components?.schemas?.[refName]
+          if (referencedSchema) {
+            generatedSchemaComponents.add(refName)
+            result += generateTypeFromSchema(refName, referencedSchema, fullSchema, generatedSchemaComponents)
+          }
+        }
+      } else if (propSchema.type === 'array' && propSchema.items?.$ref) {
+        // Handle array properties with referenced items
+        const refName = propSchema.items.$ref.split('/').pop()
+        assert(refName)
+
+        if (!generatedSchemaComponents.has(refName)) {
+          const referencedSchema = fullSchema.components?.schemas?.[refName]
+          if (referencedSchema) {
+            generatedSchemaComponents.add(refName)
+            result += generateTypeFromSchema(refName, referencedSchema, fullSchema, generatedSchemaComponents)
+          }
+        }
+      }
     }
   }
+
   // For non-ref schemas, generate inline
-  return `export type ${operationName}Response = ${getTypeScriptType(responseSchema)};\n\n`
+  result += `export type ${operationName}Response = ${getTypeScriptType(responseSchema)};\n\n`
+  return result
 }
 
-function generateTypeFromSchema(name: string, schema: Schema): string {
+function generateTypeFromSchema(
+  name: string,
+  schema: Schema,
+  fullSchema?: OpenAPISchema,
+  generatedSchemaComponents?: Set<string>
+): string {
+  let result = ''
+
+  // First, recursively generate any referenced schema components
+  if (fullSchema && generatedSchemaComponents) {
+    collectAndGenerateReferencedSchemas(schema, fullSchema, generatedSchemaComponents, (schemaType) => {
+      result += schemaType
+    })
+  }
+
+  if (schema.type === 'object') {
+    let type = `export interface ${name} {\n`
+    if (schema.properties) {
+      for (const [propName, propSchema] of Object.entries(schema.properties)) {
+        const required = schema.required?.includes(propName) ? '' : '?'
+        type += `  ${propName}${required}: ${getTypeScriptType(propSchema)};\n`
+      }
+    }
+    type += '}\n\n'
+    result += type
+    return result
+  } else if (schema.type === 'array') {
+    assert(schema.items)
+
+    result += `export type ${name} = ${getTypeScriptType(schema.items)}[];\n\n`
+    return result
+  } else {
+    result += `export type ${name} = ${getTypeScriptType(schema)};\n\n`
+    return result
+  }
+}
+
+function collectAndGenerateReferencedSchemas(
+  schema: Schema,
+  fullSchema: OpenAPISchema,
+  generatedSchemaComponents: Set<string>,
+  onGenerate: (schemaType: string) => void
+): void {
+  if (schema.$ref) {
+    const refName = schema.$ref.split('/').pop()
+    assert(refName)
+
+    if (!generatedSchemaComponents.has(refName)) {
+      const referencedSchema = fullSchema.components?.schemas?.[refName]
+      if (referencedSchema) {
+        generatedSchemaComponents.add(refName)
+        // Recursively generate any nested references first
+        collectAndGenerateReferencedSchemas(referencedSchema, fullSchema, generatedSchemaComponents, onGenerate)
+        // Generate without recursion since we already collected nested refs above
+        onGenerate(generateTypeFromSchemaNoRecursion(refName, referencedSchema))
+      }
+    }
+  } else if (schema.type === 'object' && schema.properties) {
+    for (const propSchema of Object.values(schema.properties)) {
+      collectAndGenerateReferencedSchemas(propSchema, fullSchema, generatedSchemaComponents, onGenerate)
+    }
+  } else if (schema.type === 'array' && schema.items) {
+    collectAndGenerateReferencedSchemas(schema.items, fullSchema, generatedSchemaComponents, onGenerate)
+  }
+}
+
+function generateTypeFromSchemaNoRecursion(name: string, schema: Schema): string {
   if (schema.type === 'object') {
     let type = `export interface ${name} {\n`
     if (schema.properties) {
@@ -211,7 +334,6 @@ function generateTypeFromSchema(name: string, schema: Schema): string {
     return type
   } else if (schema.type === 'array') {
     assert(schema.items)
-
     return `export type ${name} = ${getTypeScriptType(schema.items)}[];\n\n`
   } else {
     return `export type ${name} = ${getTypeScriptType(schema)};\n\n`
