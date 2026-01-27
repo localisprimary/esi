@@ -133,8 +133,11 @@ esi.postCharacterMail({
 | [`postCharactersAffiliation`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersAffiliation) | Bulk lookup of character IDs to corporation, alliance and faction |
 | [`getCharacterSearch`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSearch) | Search for entities that match a given sub-string. |
 | [`getCharacterShip`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdShip) | Get the current ship type, name and id |
-| [`getCharacterSkillqueue`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSkillqueue) | List the configured skill queue for the given character |
-| [`getCharacterSkills`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSkills) | List all trained skills for the given character |
+| [`getCharacterSkillqueue`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSkillqueue) | List the configured skill queue for the given character. Entries that have their finish time in the past are completed, but aren't updated in the "/skills" route
+yet. This will happen the next time the character logs in. |
+| [`getCharacterSkills`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSkills) | List all trained skills for the given character. Skills returned by this route can be out-of-date if the character hasn't logged in since one or more skills
+completed training. Use the /skillqueue route to check for skills that completed training. Entries that are
+in the past need to be applied on top of this list to get an accurate view of the character's current skills. |
 | [`getCharacterStandings`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdStandings) | Return character standings from agents, NPC corporations, and factions |
 | [`getCharacterTitles`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdTitles) | Returns a character's titles |
 | [`getCharacterWallet`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdWallet) | Returns a character's wallet balance |

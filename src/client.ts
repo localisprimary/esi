@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Types from './types'
 
-const COMPATIBILITY_DATE = '2026-01-21'
+const COMPATIBILITY_DATE = '2026-01-27'
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
@@ -986,7 +986,10 @@ export class EsiClient {
   }
 
   /**
-   * List the configured skill queue for the given character
+   * List the configured skill queue for the given character.
+
+   * Entries that have their finish time in the past are completed, but aren't updated in the "/skills" route
+yet. This will happen the next time the character logs in.
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSkillqueue
    */
@@ -999,7 +1002,11 @@ export class EsiClient {
   }
 
   /**
-   * List all trained skills for the given character
+   * List all trained skills for the given character.
+
+   * Skills returned by this route can be out-of-date if the character hasn't logged in since one or more skills
+completed training. Use the /skillqueue route to check for skills that completed training. Entries that are
+in the past need to be applied on top of this list to get an accurate view of the character's current skills.
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSkills
    */

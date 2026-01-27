@@ -2015,16 +2015,20 @@ export interface GetCharacterShipResponseHeaders {
   'Last-Modified'?: string
 }
 
-export type GetCharacterSkillqueueResponse = {
-  finish_date: string
+export type TypeID = number
+
+export interface CharactersSkillqueueSkill {
+  finish_date?: string
   finished_level: number
-  level_end_sp: number
-  level_start_sp: number
+  level_end_sp?: number
+  level_start_sp?: number
   queue_position: number
-  skill_id: number
-  start_date: string
-  training_start_sp: number
-}[]
+  skill_id: TypeID
+  start_date?: string
+  training_start_sp?: number
+}
+
+export type GetCharacterSkillqueueResponse = CharactersSkillqueueSkill[]
 
 export interface GetCharacterSkillqueueParams {
   character_id: number | string
@@ -2036,13 +2040,15 @@ export interface GetCharacterSkillqueueResponseHeaders {
   'Last-Modified'?: string
 }
 
+export interface CharactersSkillsSkill {
+  active_skill_level: number
+  skill_id: number
+  skillpoints_in_skill: number
+  trained_skill_level: number
+}
+
 export interface GetCharacterSkillsResponse {
-  skills: {
-    active_skill_level: number
-    skill_id: number
-    skillpoints_in_skill: number
-    trained_skill_level: number
-  }[]
+  skills: CharactersSkillsSkill[]
   total_sp: number
   unallocated_sp?: number
 }
