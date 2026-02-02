@@ -362,7 +362,9 @@ function getTypeScriptType(schema: Schema): string {
       return 'boolean'
     case 'array':
       assert(schema.items)
-      return `${getTypeScriptType(schema.items)}[]`
+      return (schema.items.enum?.length ?? 0) > 1 
+        ? `(${getTypeScriptType(schema.items)})[]`
+        : `${getTypeScriptType(schema.items)}[]`
     case 'object':
       if (schema.properties) {
         const props = Object.entries(schema.properties)
