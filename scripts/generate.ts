@@ -1,10 +1,11 @@
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'url'
 import camelcase from 'camelcase'
 import assert from 'assert'
 import { generateReadme, type MethodInfo } from './generate-readme.ts'
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const SCHEMA_FILE = path.join(__dirname, './static/openapi.json')
 const TYPES_FILE = path.join(__dirname, '../src/types.ts')
 const CLIENT_FILE = path.join(__dirname, '../src/client.ts')
@@ -92,7 +93,7 @@ interface ResponseHeader {
 }
 
 function loadSchema(): OpenAPISchema {
-  console.log('Loading OpenAPI schema from local file...')
+  console.log('Loading OpenAPI schema from ' + SCHEMA_FILE + '...')
 
   if (!fs.existsSync(SCHEMA_FILE)) {
     console.error('Schema file not found. Run "yarn fetch-schema" first.')

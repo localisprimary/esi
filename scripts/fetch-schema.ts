@@ -1,8 +1,9 @@
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath } from 'node:url'
 
 const SCHEMA_URL = 'https://esi.evetech.net/meta/openapi.json'
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const SCHEMA_FILE = path.join(__dirname, './static/openapi.json')
 
 async function fetchSchema(): Promise<void> {
