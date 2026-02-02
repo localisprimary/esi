@@ -1,6 +1,6 @@
 // Auto-generated API client for EVE ESI API
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as Types from '../types';
+import * as Types from './types.js';
 
 const COMPATIBILITY_DATE = '2026-02-02';
 

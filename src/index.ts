@@ -1,2 +1,2 @@
-export { EsiClient } from './client'
-export * from './types'
+export { EsiClient } from './client.js'
+export * from './types.js'

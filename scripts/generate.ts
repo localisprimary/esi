@@ -7,8 +7,8 @@ import { generateReadme, type MethodInfo } from './generate-readme.ts'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const SCHEMA_FILE = path.join(__dirname, './static/openapi.json')
-const TYPES_FILE = path.join(__dirname, '../src/types/index.ts')
-const CLIENT_FILE = path.join(__dirname, '../src/client/index.ts')
+const TYPES_FILE = path.join(__dirname, '../src/types.ts')
+const CLIENT_FILE = path.join(__dirname, '../src/client.ts')
 
 interface OpenAPISchema {
   paths?: Record<string, PathItem>
@@ -504,7 +504,7 @@ function generateClient(schema: OpenAPISchema): {
 
   let client = `// Auto-generated API client for EVE ESI API
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as Types from '../types';
+import * as Types from './types.js';
 
 const COMPATIBILITY_DATE = '${new Date().toISOString().slice(0, 10)}';
 
