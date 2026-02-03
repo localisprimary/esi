@@ -1,15 +1,18 @@
-name: Lint and test
+name: Check changelog
 
 on:
   pull_request:
     branches: [master]
 
 jobs:
-  test:
+  check-changefile:
+    if: github.actor != 'dependabot[bot]'
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: pnpm/action-setup@v4
 
@@ -22,11 +25,5 @@ jobs:
       - name: Install dependencies
         run: pnpm install
 
-      - name: Run linter
-        run: pnpm lint
-
-      - name: Build
-        run: pnpm build
-
-      - name: Run tests
-        run: pnpm test
+      - name: Check for changefile
+        run: pnpm beachball check

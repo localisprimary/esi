@@ -97,7 +97,8 @@ Update this document when you:
 ├── .github/workflows/            # CI/CD automation
 │   ├── update-esi-schema.yml    # Daily cron to fetch schema updates
 │   ├── publish.yml              # Manual npm publish workflow
-│   └── test.yml                 # PR validation (lint, build, test)
+│   ├── test.yml                 # PR validation (lint, build, test)
+│   └── check-changelog.yml      # Changefile check (skipped for dependabot)
 │
 ├── package.json                  # Project config (ES module, Node ^24.13.0)
 ├── tsconfig.json                 # TypeScript config (strict mode, ES2020)
@@ -561,7 +562,17 @@ node --experimental-strip-types scripts/detect-schema-changes.ts \
 1. `pnpm lint` - ESLint validation
 2. `pnpm build` - TypeScript compilation
 3. `pnpm test` - Integration tests
-4. `pnpm beachball check` - Verify changefile exists (if not automated PR)
+
+### Changelog Validation
+
+**Workflow**: `.github/workflows/check-changelog.yml`
+
+**Trigger**: Pull requests to master (skipped for dependabot)
+
+**Checks**:
+1. `pnpm beachball check` - Verify changefile exists
+
+**Note**: This check is skipped when `github.actor` is `dependabot[bot]` since dependency updates don't require changefiles.
 
 ### Publishing
 
