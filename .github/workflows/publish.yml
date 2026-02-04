@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 permissions:
+  id-token: write
   contents: write
 
 jobs:
@@ -40,6 +41,6 @@ jobs:
 
       - name: Publish with Beachball
         run: |
-          pnpm beachball publish -y --access public --branch master --token "$NPM_TOKEN" --message "chore: Release new version"
+          pnpm beachball publish -y --access public --branch master --message "chore: Release new version"
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
