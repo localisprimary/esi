@@ -69,7 +69,7 @@ esi.postCharacterMail({
 })
 ```
 
-| Method | Description
+| Method | Description |
 |--------|-------------|
 | [`getAlliance`](https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceId) | Public information about an alliance |
 | [`getAllianceContacts`](https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceIdContacts) | Return contacts of an alliance |
