@@ -48,9 +48,13 @@ jobs:
       - name: Create GitHub Release
         run: |
           VERSION=$(jq -r .version package.json)
-          TAG="@localisprimary/esi_v${VERSION}"
-          ESCAPED_VERSION=$(echo "$VERSION" | sed 's/\./\\./g')
-          awk "/^## ${ESCAPED_VERSION}\$/{found=1; next} found && /^## /{exit} found{print}" CHANGELOG.md > /tmp/release-notes.md
-          gh release create "$TAG" --title "v${VERSION}" --notes-file /tmp/release-notes.md
+          TAG=$(jq -r '.entries[0].tag' CHANGELOG.json)
+          NOTES=$(jq -r '
+            {"major":"Major","minor":"Minor","patch":"Patches"} as $labels |
+            .entries[0].comments | to_entries | map(
+              "### \($labels[.key])\n" + (.value | map("- \(.comment)") | join("\n"))
+            ) | join("\n\n")
+          ' CHANGELOG.json)
+          gh release create "$TAG" --title "v${VERSION}" --notes "$NOTES"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
