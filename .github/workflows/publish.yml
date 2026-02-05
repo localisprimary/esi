@@ -44,3 +44,13 @@ jobs:
           pnpm beachball publish -y --access public --branch master --message "chore: Release new version"
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        run: |
+          VERSION=$(jq -r .version package.json)
+          TAG="@localisprimary/esi_v${VERSION}"
+          ESCAPED_VERSION=$(echo "$VERSION" | sed 's/\./\\./g')
+          awk "/^## ${ESCAPED_VERSION}\$/{found=1; next} found && /^## /{exit} found{print}" CHANGELOG.md > /tmp/release-notes.md
+          gh release create "$TAG" --title "v${VERSION}" --notes-file /tmp/release-notes.md
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
