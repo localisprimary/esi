@@ -869,13 +869,13 @@ See @.prettierrc
 - **JSDoc generation**: `scripts/generate.ts:466` - `generateJSDoc()`
 
 ### Schema Change Detection
-- **Main CLI**: `scripts/detect-schema-changes.ts:562` - `main()`
-- **Schema loading**: `scripts/detect-schema-changes.ts:76` - `loadSchema()`
-- **Operation extraction**: `scripts/detect-schema-changes.ts:89` - `extractOperations()`
-- **Operation comparison**: `scripts/detect-schema-changes.ts:237` - `compareOperations()`
-- **Breaking change detection**: `scripts/detect-schema-changes.ts:302` - `hasBreakingChanges()`
-- **New feature detection**: `scripts/detect-schema-changes.ts:412` - `hasNewFeatures()`
-- **Version bump determination**: `scripts/detect-schema-changes.ts:447` - `determineVersionBump()`
+- **Main CLI**: `scripts/detect-schema-changes.ts:495` - `main()`
+- **Schema loading**: `scripts/detect-schema-changes.ts:113` - `loadSchema()`
+- **Operation extraction**: `scripts/detect-schema-changes.ts:130` - `extractOperations()`
+- **Operation comparison**: `scripts/detect-schema-changes.ts:256` - `compareOperations()`
+- **Breaking change detection**: `scripts/detect-schema-changes.ts:348` - `hasBreakingChanges()`
+- **New feature detection**: `scripts/detect-schema-changes.ts:457` - `hasNewFeatures()`
+- **Version bump determination**: `scripts/detect-schema-changes.ts:487` - `determineVersionBump()`
 
 ## Troubleshooting
 

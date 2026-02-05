@@ -18,10 +18,6 @@
 import { readFileSync } from 'fs'
 import { resolve } from 'path'
 
-// ============================================================================
-// Types
-// ============================================================================
-
 interface OpenAPISchema {
   openapi: string
   info: any
@@ -112,9 +108,7 @@ interface ChangeSet {
   }>
 }
 
-// ============================================================================
-// Main Logic
-// ============================================================================
+const HTTP_METHODS = ['get', 'post', 'put', 'delete', 'patch'] as const
 
 function loadSchema(filePath: string): OpenAPISchema {
   try {
@@ -133,18 +127,19 @@ function loadSchema(filePath: string): OpenAPISchema {
   }
 }
 
-function extractOperations(schema: OpenAPISchema): Map<string, OperationInfo> {
+function extractOperations(
+  schema: OpenAPISchema
+): Map<string, OperationInfo> {
   const operations = new Map<string, OperationInfo>()
 
   for (const [path, pathItem] of Object.entries(schema.paths)) {
-    for (const method of ['get', 'post', 'put', 'delete', 'patch']) {
+    for (const method of HTTP_METHODS) {
       const operation = pathItem[method] as Operation | undefined
       if (!operation) continue
 
       const operationId = operation.operationId || `${method}${path}`
       const key = `${method.toUpperCase()}:${path}`
 
-      // Extract parameters
       const pathParams: ParameterInfo[] = []
       const queryParams: ParameterInfo[] = []
 
@@ -168,19 +163,17 @@ function extractOperations(schema: OpenAPISchema): Map<string, OperationInfo> {
         }
       }
 
-      // Extract request body
       let requestBody: OperationInfo['requestBody']
       if (operation.requestBody) {
-        const schemaRef = getRequestBodySchemaRef(operation.requestBody)
         requestBody = {
           required: operation.requestBody.required ?? false,
-          schemaRef,
+          schemaRef: getRequestBodySchemaRef(operation.requestBody),
         }
       }
 
-      // Extract response (focus on 200 response)
-      const responseSchemaRef = getResponseSchemaRef(operation.responses)
-      const responseType = getResponseType(operation.responses)
+      const responseSchema = getSuccessResponseJsonSchema(
+        operation.responses
+      )
 
       operations.set(key, {
         operationId,
@@ -189,8 +182,8 @@ function extractOperations(schema: OpenAPISchema): Map<string, OperationInfo> {
         parameters: { path: pathParams, query: queryParams },
         requestBody,
         response: {
-          schemaRef: responseSchemaRef,
-          type: responseType,
+          schemaRef: getSchemaRef(responseSchema),
+          type: getResponseType(responseSchema),
         },
       })
     }
@@ -204,7 +197,6 @@ function resolveParameter(
   schema: OpenAPISchema
 ): Parameter | null {
   if ('$ref' in param) {
-    // Resolve reference: #/components/parameters/ParameterName
     const refPath = param.$ref.replace('#/components/parameters/', '')
     return schema.components?.parameters?.[refPath] || null
   }
@@ -217,8 +209,7 @@ function getSchemaType(
   if (!schema) return 'unknown'
   if ('$ref' in schema) return schema.$ref!
   if (schema.type === 'array' && schema.items) {
-    const itemType = getSchemaType(schema.items)
-    return `${itemType}[]`
+    return `${getSchemaType(schema.items)}[]`
   }
   return schema.type || 'unknown'
 }
@@ -234,35 +225,32 @@ function getSchemaEnum(
 function getRequestBodySchemaRef(
   requestBody: Operation['requestBody']
 ): string | undefined {
-  if (!requestBody?.content) return undefined
-  const jsonContent = requestBody.content['application/json']
-  if (!jsonContent?.schema) return undefined
-  if ('$ref' in jsonContent.schema) return jsonContent.schema.$ref
+  const schema = requestBody?.content?.['application/json']?.schema
+  if (schema && '$ref' in schema) return schema.$ref
   return undefined
 }
 
-function getResponseSchemaRef(
+function getSuccessResponseJsonSchema(
   responses: Operation['responses']
-): string | undefined {
+): SchemaObject | { $ref: string } | undefined {
   if (!responses) return undefined
   const response = responses['200'] || responses['201']
-  if (!response?.content) return undefined
-  const jsonContent = response.content['application/json']
-  if (!jsonContent?.schema) return undefined
-  if ('$ref' in jsonContent.schema) return jsonContent.schema.$ref
+  return response?.content?.['application/json']?.schema
+}
+
+function getSchemaRef(
+  schema: SchemaObject | { $ref: string } | undefined
+): string | undefined {
+  if (schema && '$ref' in schema) return schema.$ref
   return undefined
 }
 
 function getResponseType(
-  responses: Operation['responses']
+  schema: SchemaObject | { $ref: string } | undefined
 ): string | undefined {
-  if (!responses) return undefined
-  const response = responses['200'] || responses['201']
-  if (!response?.content) return undefined
-  const jsonContent = response.content['application/json']
-  if (!jsonContent?.schema) return undefined
-  if ('$ref' in jsonContent.schema) return 'ref'
-  return jsonContent.schema.type
+  if (!schema) return undefined
+  if ('$ref' in schema) return 'ref'
+  return schema.type
 }
 
 function compareOperations(
@@ -273,23 +261,18 @@ function compareOperations(
   const added: OperationInfo[] = []
   const modified: ChangeSet['modified'] = []
 
-  // Find removed operations
   for (const [key, oldOp] of oldOps) {
     if (!newOps.has(key)) {
       removed.push(oldOp)
     }
   }
 
-  // Find added and modified operations
   for (const [key, newOp] of newOps) {
     const oldOp = oldOps.get(key)
     if (!oldOp) {
       added.push(newOp)
-    } else {
-      // Check if operation was modified
-      if (hasOperationChanged(oldOp, newOp)) {
-        modified.push({ old: oldOp, new: newOp })
-      }
+    } else if (hasOperationChanged(oldOp, newOp)) {
+      modified.push({ old: oldOp, new: newOp })
     }
   }
 
@@ -300,28 +283,13 @@ function hasOperationChanged(
   oldOp: OperationInfo,
   newOp: OperationInfo
 ): boolean {
-  // Compare parameters
-  if (!areParametersEqual(oldOp.parameters, newOp.parameters)) {
-    return true
-  }
-
-  // Compare request body
-  if (
+  return (
+    !areParametersEqual(oldOp.parameters, newOp.parameters) ||
     oldOp.requestBody?.required !== newOp.requestBody?.required ||
-    oldOp.requestBody?.schemaRef !== newOp.requestBody?.schemaRef
-  ) {
-    return true
-  }
-
-  // Compare response
-  if (
+    oldOp.requestBody?.schemaRef !== newOp.requestBody?.schemaRef ||
     oldOp.response.schemaRef !== newOp.response.schemaRef ||
     oldOp.response.type !== newOp.response.type
-  ) {
-    return true
-  }
-
-  return false
+  )
 }
 
 function areParametersEqual(
@@ -369,27 +337,24 @@ function areEnumsEqual(
   return newEnum.every(value => oldSet.has(value))
 }
 
-function hasBreakingChanges(changes: ChangeSet): boolean {
-  // Rule 1: Operations removed
-  if (changes.removed.length > 0) {
-    return true
-  }
+function flattenParams(
+  params: OperationInfo['parameters']
+): Map<string, ParameterInfo> {
+  return new Map(
+    [...params.path, ...params.query].map(p => [p.name, p])
+  )
+}
 
-  // Rule 2: Check modified operations for breaking changes
+function hasBreakingChanges(changes: ChangeSet): boolean {
+  if (changes.removed.length > 0) return true
+
   for (const { old: oldOp, new: newOp } of changes.modified) {
-    // Breaking: Required path parameter added or removed
     if (
-      !areRequiredParametersCompatible(
+      !areRequiredParamsSame(
         oldOp.parameters.path,
         newOp.parameters.path
-      )
-    ) {
-      return true
-    }
-
-    // Breaking: Required query parameter added or removed
-    if (
-      !areRequiredParametersCompatible(
+      ) ||
+      !areRequiredParamsSame(
         oldOp.parameters.query,
         newOp.parameters.query
       )
@@ -397,17 +362,14 @@ function hasBreakingChanges(changes: ChangeSet): boolean {
       return true
     }
 
-    // Breaking: Parameter type changed
     if (hasParameterTypeChanged(oldOp.parameters, newOp.parameters)) {
       return true
     }
 
-    // Breaking: Enum options removed (type narrowing)
     if (hasEnumNarrowed(oldOp.parameters, newOp.parameters)) {
       return true
     }
 
-    // Breaking: Request body required flag changed to true
     if (
       oldOp.requestBody &&
       newOp.requestBody &&
@@ -417,7 +379,6 @@ function hasBreakingChanges(changes: ChangeSet): boolean {
       return true
     }
 
-    // Breaking: Response schema reference changed
     if (
       oldOp.response.schemaRef &&
       newOp.response.schemaRef &&
@@ -426,7 +387,6 @@ function hasBreakingChanges(changes: ChangeSet): boolean {
       return true
     }
 
-    // Breaking: Response type changed
     if (
       oldOp.response.type &&
       newOp.response.type &&
@@ -439,7 +399,7 @@ function hasBreakingChanges(changes: ChangeSet): boolean {
   return false
 }
 
-function areRequiredParametersCompatible(
+function areRequiredParamsSame(
   oldParams: ParameterInfo[],
   newParams: ParameterInfo[]
 ): boolean {
@@ -450,14 +410,10 @@ function areRequiredParametersCompatible(
     newParams.filter(p => p.required).map(p => p.name)
   )
 
-  // Breaking if required params were added or removed
+  if (oldRequired.size !== newRequired.size) return false
   for (const name of oldRequired) {
     if (!newRequired.has(name)) return false
   }
-  for (const name of newRequired) {
-    if (!oldRequired.has(name)) return false
-  }
-
   return true
 }
 
@@ -465,11 +421,8 @@ function hasParameterTypeChanged(
   oldParams: OperationInfo['parameters'],
   newParams: OperationInfo['parameters']
 ): boolean {
-  const allOldParams = [...oldParams.path, ...oldParams.query]
-  const allNewParams = [...newParams.path, ...newParams.query]
-
-  const oldMap = new Map(allOldParams.map(p => [p.name, p]))
-  const newMap = new Map(allNewParams.map(p => [p.name, p]))
+  const oldMap = flattenParams(oldParams)
+  const newMap = flattenParams(newParams)
 
   for (const [name, oldParam] of oldMap) {
     const newParam = newMap.get(name)
@@ -485,22 +438,15 @@ function hasEnumNarrowed(
   oldParams: OperationInfo['parameters'],
   newParams: OperationInfo['parameters']
 ): boolean {
-  const allOldParams = [...oldParams.path, ...oldParams.query]
-  const allNewParams = [...newParams.path, ...newParams.query]
-
-  const oldMap = new Map(allOldParams.map(p => [p.name, p]))
-  const newMap = new Map(allNewParams.map(p => [p.name, p]))
+  const oldMap = flattenParams(oldParams)
+  const newMap = flattenParams(newParams)
 
   for (const [name, oldParam] of oldMap) {
     const newParam = newMap.get(name)
     if (!newParam || !oldParam.enum || !newParam.enum) continue
 
-    // Check if any enum values were removed
-    const oldSet = new Set(oldParam.enum)
-    const removedValues = Array.from(oldSet).filter(
-      value => !newParam.enum!.includes(value)
-    )
-    if (removedValues.length > 0) {
+    const newSet = new Set(newParam.enum)
+    if (oldParam.enum.some(value => !newSet.has(value))) {
       return true
     }
   }
@@ -509,37 +455,27 @@ function hasEnumNarrowed(
 }
 
 function hasNewFeatures(changes: ChangeSet): boolean {
-  // Rule 1: Operations added
-  if (changes.added.length > 0) {
-    return true
-  }
+  if (changes.added.length > 0) return true
 
-  // Rule 2: Optional parameters added
   for (const { old: oldOp, new: newOp } of changes.modified) {
-    const oldQueryParams = new Set(oldOp.parameters.query.map(p => p.name))
-    const newQueryParams = newOp.parameters.query
-
-    for (const param of newQueryParams) {
-      if (!param.required && !oldQueryParams.has(param.name)) {
+    const oldQueryNames = new Set(
+      oldOp.parameters.query.map(p => p.name)
+    )
+    for (const param of newOp.parameters.query) {
+      if (!param.required && !oldQueryNames.has(param.name)) {
         return true
       }
     }
 
-    // Enum values added (type widening) - consider this a minor change
-    const allOldParams = [...oldOp.parameters.path, ...oldOp.parameters.query]
-    const allNewParams = [...newOp.parameters.path, ...newOp.parameters.query]
-
-    const oldMap = new Map(allOldParams.map(p => [p.name, p]))
-    const newMap = new Map(allNewParams.map(p => [p.name, p]))
+    const oldMap = flattenParams(oldOp.parameters)
+    const newMap = flattenParams(newOp.parameters)
 
     for (const [name, newParam] of newMap) {
       const oldParam = oldMap.get(name)
       if (!oldParam || !oldParam.enum || !newParam.enum) continue
 
-      // Check if any enum values were added
       const oldSet = new Set(oldParam.enum)
-      const addedValues = newParam.enum.filter(value => !oldSet.has(value))
-      if (addedValues.length > 0) {
+      if (newParam.enum.some(value => !oldSet.has(value))) {
         return true
       }
     }
@@ -548,47 +484,32 @@ function hasNewFeatures(changes: ChangeSet): boolean {
   return false
 }
 
-function determineVersionBump(changes: ChangeSet): 'major' | 'minor' | 'patch' {
-  if (hasBreakingChanges(changes)) {
-    return 'major'
-  }
-
-  if (hasNewFeatures(changes)) {
-    return 'minor'
-  }
-
+function determineVersionBump(
+  changes: ChangeSet
+): 'major' | 'minor' | 'patch' {
+  if (hasBreakingChanges(changes)) return 'major'
+  if (hasNewFeatures(changes)) return 'minor'
   return 'patch'
 }
 
-// ============================================================================
-// CLI Entry Point
-// ============================================================================
-
-function main() {
+function main(): void {
   const args = process.argv.slice(2)
 
   if (args.length !== 2) {
-    console.error('Usage: detect-schema-changes.ts <old-schema> <new-schema>')
+    console.error(
+      'Usage: detect-schema-changes.ts <old-schema> <new-schema>'
+    )
     process.exit(1)
   }
 
   const [oldSchemaPath, newSchemaPath] = args
-
-  // Load schemas
   const oldSchema = loadSchema(oldSchemaPath)
   const newSchema = loadSchema(newSchemaPath)
-
-  // Extract operations
   const oldOps = extractOperations(oldSchema)
   const newOps = extractOperations(newSchema)
-
-  // Compare operations
   const changes = compareOperations(oldOps, newOps)
-
-  // Determine version bump
   const bump = determineVersionBump(changes)
 
-  // Output result
   console.log(bump)
 }
 
