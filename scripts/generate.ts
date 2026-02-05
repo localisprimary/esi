@@ -91,6 +91,21 @@ interface ResponseHeader {
   description?: string
 }
 
+const SUPPORTED_HTTP_METHODS = ['get', 'post', 'put', 'delete']
+
+function extractRefName(ref: string): string {
+  const name = ref.split('/').pop()
+  assert(name, `Invalid $ref: ${ref}`)
+  return name
+}
+
+function getSuccessResponse(
+  responses: Record<string, Response> | undefined
+): Response | undefined {
+  if (!responses) return undefined
+  return responses['200'] || responses['201'] || Object.values(responses)[0]
+}
+
 function loadSchema(): OpenAPISchema {
   console.log('Loading OpenAPI schema from local file...')
 
@@ -139,48 +154,64 @@ export interface EsiError {
   if (schema.paths) {
     for (const [pathTemplate, pathObj] of Object.entries(schema.paths)) {
       for (const [method, methodObj] of Object.entries(pathObj)) {
-        if (['get', 'post', 'put', 'delete'].includes(method.toLowerCase())) {
-          const operationId =
-            methodObj.operationId ||
-            `${method}${pathTemplate.replace(/[^a-zA-Z0-9]/g, '_')}`
-          const transformedOperationId = transformOperationId(operationId)
+        if (!SUPPORTED_HTTP_METHODS.includes(method.toLowerCase())) continue
 
-          // Generate response type
-          const successResponse =
-            methodObj.responses?.['200'] ||
-            methodObj.responses?.['201'] ||
-            Object.values(methodObj.responses || {})[0]
-          if (successResponse?.content?.['application/json']?.schema) {
-            const responseSchema =
-              successResponse.content['application/json'].schema
-            types += generateResponseType(
-              transformedOperationId,
-              responseSchema,
-              schema,
-              generatedSchemaComponents
-            )
-          }
+        const operationId =
+          methodObj.operationId ||
+          `${method}${pathTemplate.replace(/[^a-zA-Z0-9]/g, '_')}`
+        const transformedOperationId = transformOperationId(operationId)
 
-          // Generate parameter type
-          types += generateParameterType(
+        // Generate response type
+        const successResponse = getSuccessResponse(methodObj.responses)
+        const responseSchema =
+          successResponse?.content?.['application/json']?.schema
+        if (responseSchema) {
+          types += generateResponseType(
             transformedOperationId,
-            pathTemplate,
-            methodObj,
-            schema
-          )
-
-          // Generate response header type
-          types += generateResponseHeaderType(
-            transformedOperationId,
-            methodObj,
-            schema
+            responseSchema,
+            schema,
+            generatedSchemaComponents
           )
         }
+
+        // Generate parameter type
+        types += generateParameterType(
+          transformedOperationId,
+          pathTemplate,
+          methodObj,
+          schema
+        )
+
+        // Generate response header type
+        types += generateResponseHeaderType(
+          transformedOperationId,
+          methodObj,
+          schema
+        )
       }
     }
   }
 
   return types
+}
+
+function generateSchemaComponentIfNeeded(
+  refName: string,
+  fullSchema: OpenAPISchema,
+  generatedSchemaComponents: Set<string>
+): string {
+  if (generatedSchemaComponents.has(refName)) return ''
+
+  const referencedSchema = fullSchema.components?.schemas?.[refName]
+  if (!referencedSchema) return ''
+
+  generatedSchemaComponents.add(refName)
+  return generateTypeFromSchema(
+    refName,
+    referencedSchema,
+    fullSchema,
+    generatedSchemaComponents
+  )
 }
 
 function generateResponseType(
@@ -192,67 +223,61 @@ function generateResponseType(
   let result = ''
 
   if (responseSchema.$ref) {
-    // Extract the original schema from components
-    const refName = responseSchema.$ref.split('/').pop()
-
-    assert(refName)
-
+    const refName = extractRefName(responseSchema.$ref)
     const originalSchema = fullSchema.components?.schemas?.[refName]
     if (originalSchema) {
-      // Generate the type directly with the transformed name
-      return generateTypeFromSchema(`${operationName}Response`, originalSchema, fullSchema, generatedSchemaComponents)
+      return generateTypeFromSchema(
+        `${operationName}Response`,
+        originalSchema,
+        fullSchema,
+        generatedSchemaComponents
+      )
     }
   } else if (responseSchema.type === 'array' && responseSchema.items?.$ref) {
-    // Handle array responses with referenced items
-    const refName = responseSchema.items.$ref.split('/').pop()
-
-    assert(refName)
-
-    // Only generate the schema component type if we haven't already
-    if (!generatedSchemaComponents.has(refName)) {
-      const itemSchema = fullSchema.components?.schemas?.[refName]
-      if (itemSchema) {
-        generatedSchemaComponents.add(refName)
-        result += generateTypeFromSchema(refName, itemSchema, fullSchema, generatedSchemaComponents)
-      }
-    }
-
-    // Generate the array response type
+    const refName = extractRefName(responseSchema.items.$ref)
+    result += generateSchemaComponentIfNeeded(
+      refName,
+      fullSchema,
+      generatedSchemaComponents
+    )
     result += `export type ${operationName}Response = ${refName}[];\n\n`
     return result
   } else if (responseSchema.type === 'object' && responseSchema.properties) {
-    // Check if any properties reference schema components
-    for (const [propName, propSchema] of Object.entries(responseSchema.properties)) {
-      if (propSchema.$ref) {
-        const refName = propSchema.$ref.split('/').pop()
-        assert(refName)
-
-        if (!generatedSchemaComponents.has(refName)) {
-          const referencedSchema = fullSchema.components?.schemas?.[refName]
-          if (referencedSchema) {
-            generatedSchemaComponents.add(refName)
-            result += generateTypeFromSchema(refName, referencedSchema, fullSchema, generatedSchemaComponents)
-          }
-        }
-      } else if (propSchema.type === 'array' && propSchema.items?.$ref) {
-        // Handle array properties with referenced items
-        const refName = propSchema.items.$ref.split('/').pop()
-        assert(refName)
-
-        if (!generatedSchemaComponents.has(refName)) {
-          const referencedSchema = fullSchema.components?.schemas?.[refName]
-          if (referencedSchema) {
-            generatedSchemaComponents.add(refName)
-            result += generateTypeFromSchema(refName, referencedSchema, fullSchema, generatedSchemaComponents)
-          }
-        }
+    for (const propSchema of Object.values(responseSchema.properties)) {
+      const ref = propSchema.$ref || propSchema.items?.$ref
+      if (ref) {
+        result += generateSchemaComponentIfNeeded(
+          extractRefName(ref),
+          fullSchema,
+          generatedSchemaComponents
+        )
       }
     }
   }
 
-  // For non-ref schemas, generate inline
   result += `export type ${operationName}Response = ${getTypeScriptType(responseSchema)};\n\n`
   return result
+}
+
+function buildTypeDefinition(name: string, schema: Schema): string {
+  if (schema.type === 'object') {
+    let type = `export interface ${name} {\n`
+    if (schema.properties) {
+      for (const [propName, propSchema] of Object.entries(schema.properties)) {
+        const optional = schema.required?.includes(propName) ? '' : '?'
+        type += `  ${propName}${optional}: ${getTypeScriptType(propSchema)};\n`
+      }
+    }
+    type += '}\n\n'
+    return type
+  }
+
+  if (schema.type === 'array') {
+    assert(schema.items)
+    return `export type ${name} = ${getTypeScriptType(schema.items)}[];\n\n`
+  }
+
+  return `export type ${name} = ${getTypeScriptType(schema)};\n\n`
 }
 
 function generateTypeFromSchema(
@@ -265,31 +290,18 @@ function generateTypeFromSchema(
 
   // First, recursively generate any referenced schema components
   if (fullSchema && generatedSchemaComponents) {
-    collectAndGenerateReferencedSchemas(schema, fullSchema, generatedSchemaComponents, (schemaType) => {
-      result += schemaType
-    })
-  }
-
-  if (schema.type === 'object') {
-    let type = `export interface ${name} {\n`
-    if (schema.properties) {
-      for (const [propName, propSchema] of Object.entries(schema.properties)) {
-        const required = schema.required?.includes(propName) ? '' : '?'
-        type += `  ${propName}${required}: ${getTypeScriptType(propSchema)};\n`
+    collectAndGenerateReferencedSchemas(
+      schema,
+      fullSchema,
+      generatedSchemaComponents,
+      schemaType => {
+        result += schemaType
       }
-    }
-    type += '}\n\n'
-    result += type
-    return result
-  } else if (schema.type === 'array') {
-    assert(schema.items)
-
-    result += `export type ${name} = ${getTypeScriptType(schema.items)}[];\n\n`
-    return result
-  } else {
-    result += `export type ${name} = ${getTypeScriptType(schema)};\n\n`
-    return result
+    )
   }
+
+  result += buildTypeDefinition(name, schema)
+  return result
 }
 
 function collectAndGenerateReferencedSchemas(
@@ -299,44 +311,36 @@ function collectAndGenerateReferencedSchemas(
   onGenerate: (schemaType: string) => void
 ): void {
   if (schema.$ref) {
-    const refName = schema.$ref.split('/').pop()
-    assert(refName)
-
+    const refName = extractRefName(schema.$ref)
     if (!generatedSchemaComponents.has(refName)) {
       const referencedSchema = fullSchema.components?.schemas?.[refName]
       if (referencedSchema) {
         generatedSchemaComponents.add(refName)
-        // Recursively generate any nested references first
-        collectAndGenerateReferencedSchemas(referencedSchema, fullSchema, generatedSchemaComponents, onGenerate)
-        // Generate without recursion since we already collected nested refs above
-        onGenerate(generateTypeFromSchemaNoRecursion(refName, referencedSchema))
+        collectAndGenerateReferencedSchemas(
+          referencedSchema,
+          fullSchema,
+          generatedSchemaComponents,
+          onGenerate
+        )
+        onGenerate(buildTypeDefinition(refName, referencedSchema))
       }
     }
   } else if (schema.type === 'object' && schema.properties) {
     for (const propSchema of Object.values(schema.properties)) {
-      collectAndGenerateReferencedSchemas(propSchema, fullSchema, generatedSchemaComponents, onGenerate)
+      collectAndGenerateReferencedSchemas(
+        propSchema,
+        fullSchema,
+        generatedSchemaComponents,
+        onGenerate
+      )
     }
   } else if (schema.type === 'array' && schema.items) {
-    collectAndGenerateReferencedSchemas(schema.items, fullSchema, generatedSchemaComponents, onGenerate)
-  }
-}
-
-function generateTypeFromSchemaNoRecursion(name: string, schema: Schema): string {
-  if (schema.type === 'object') {
-    let type = `export interface ${name} {\n`
-    if (schema.properties) {
-      for (const [propName, propSchema] of Object.entries(schema.properties)) {
-        const required = schema.required?.includes(propName) ? '' : '?'
-        type += `  ${propName}${required}: ${getTypeScriptType(propSchema)};\n`
-      }
-    }
-    type += '}\n\n'
-    return type
-  } else if (schema.type === 'array') {
-    assert(schema.items)
-    return `export type ${name} = ${getTypeScriptType(schema.items)}[];\n\n`
-  } else {
-    return `export type ${name} = ${getTypeScriptType(schema)};\n\n`
+    collectAndGenerateReferencedSchemas(
+      schema.items,
+      fullSchema,
+      generatedSchemaComponents,
+      onGenerate
+    )
   }
 }
 
@@ -344,11 +348,7 @@ function getTypeScriptType(schema: Schema): string {
   if (!schema) return 'unknown'
 
   if (schema.$ref) {
-    const type = schema.$ref.split('/').pop()
-
-    assert(type)
-
-    return type
+    return extractRefName(schema.$ref)
   }
 
   switch (schema.type) {
@@ -375,6 +375,20 @@ function getTypeScriptType(schema: Schema): string {
   }
 }
 
+function assertNoConflict(
+  usedNames: Set<string>,
+  name: string,
+  operationName: string,
+  source: string
+): void {
+  if (usedNames.has(name)) {
+    throw new Error(
+      `Parameter name conflict in ${operationName}: ${source} '${name}' would be overwritten`
+    )
+  }
+  usedNames.add(name)
+}
+
 function generateParameterType(
   operationName: string,
   pathTemplate: string,
@@ -383,68 +397,49 @@ function generateParameterType(
 ): string {
   const pathParams = extractPathParams(pathTemplate)
   const queryParams = extractQueryParams(methodObj.parameters || [], schema)
-  const hasRequestBody =
+  const requestBodySchema =
     methodObj.requestBody?.content?.['application/json']?.schema
 
-  let allParamTypes: string[] = []
+  const allParamTypes: string[] = []
   const usedParamNames = new Set<string>()
 
-  if (pathParams.length > 0) {
-    for (const param of pathParams) {
-      if (usedParamNames.has(param)) {
-        throw new Error(
-          `Parameter name conflict in ${operationName}: path parameter '${param}' would be overwritten`
-        )
-      }
-      usedParamNames.add(param)
-      allParamTypes.push(`${param}: number | string`)
-    }
+  for (const param of pathParams) {
+    assertNoConflict(usedParamNames, param, operationName, 'path parameter')
+    allParamTypes.push(`${param}: number | string`)
   }
 
-  if (queryParams.length > 0) {
-    for (const param of queryParams) {
-      if (usedParamNames.has(param.name)) {
-        throw new Error(
-          `Parameter name conflict in ${operationName}: query parameter '${param.name}' would be overwritten`
-        )
-      }
-      usedParamNames.add(param.name)
-      allParamTypes.push(`${param.name}?: ${param.type}`)
-    }
+  for (const param of queryParams) {
+    assertNoConflict(
+      usedParamNames,
+      param.name,
+      operationName,
+      'query parameter'
+    )
+    allParamTypes.push(`${param.name}?: ${param.type}`)
   }
 
-  if (hasRequestBody) {
-    const bodyType = getTypeScriptType(hasRequestBody)
-    if (hasRequestBody.type === 'object' && hasRequestBody.properties) {
+  if (requestBodySchema) {
+    if (
+      requestBodySchema.type === 'object' &&
+      requestBodySchema.properties
+    ) {
       for (const [propName, propSchema] of Object.entries(
-        hasRequestBody.properties
+        requestBodySchema.properties
       )) {
-        if (usedParamNames.has(propName)) {
-          throw new Error(
-            `Parameter name conflict in ${operationName}: body property '${propName}' would be overwritten`
-          )
-        }
-        usedParamNames.add(propName)
-        const required = hasRequestBody.required?.includes(propName) ? '' : '?'
+        assertNoConflict(usedParamNames, propName, operationName, 'body property')
+        const optional = requestBodySchema.required?.includes(propName) ? '' : '?'
         allParamTypes.push(
-          `${propName}${required}: ${getTypeScriptType(propSchema)}`
+          `${propName}${optional}: ${getTypeScriptType(propSchema)}`
         )
       }
     } else {
-      // For non-object types (arrays, primitives), use a 'body' property
-      if (usedParamNames.has('body')) {
-        throw new Error(
-          `Parameter name conflict in ${operationName}: 'body' parameter would be overwritten`
-        )
-      }
-      usedParamNames.add('body')
-      allParamTypes.push(`body: ${bodyType}`)
+      assertNoConflict(usedParamNames, 'body', operationName, 'body parameter')
+      allParamTypes.push(`body: ${getTypeScriptType(requestBodySchema)}`)
     }
   }
 
-  // Only generate parameter type if there are actual parameters
   if (allParamTypes.length === 0) {
-    return '' // Don't generate empty interfaces
+    return ''
   }
 
   return `export interface ${operationName}Params {\n  ${allParamTypes.join(';\n  ')};\n}\n\n`
@@ -455,24 +450,15 @@ function generateResponseHeaderType(
   methodObj: Operation,
   schema: OpenAPISchema
 ): string {
-  const successResponse =
-    methodObj.responses?.['200'] ||
-    methodObj.responses?.['201'] ||
-    Object.values(methodObj.responses || {})[0]
-
+  const successResponse = getSuccessResponse(methodObj.responses)
   if (!successResponse) return ''
 
   const responseHeaders = extractResponseHeaders(successResponse, schema)
+  if (responseHeaders.length === 0) return ''
 
-  if (responseHeaders.length === 0) {
-    return '' // Don't generate empty interfaces
-  }
-
-  const headerTypes: string[] = []
-  for (const header of responseHeaders) {
-    // Response headers are generally optional since they might not always be present
-    headerTypes.push(`'${header.name}'?: ${header.type}`)
-  }
+  const headerTypes = responseHeaders.map(
+    header => `'${header.name}'?: ${header.type}`
+  )
 
   return `export interface ${operationName}ResponseHeaders {\n  ${headerTypes.join(';\n  ')};\n}\n\n`
 }
@@ -585,16 +571,16 @@ export class EsiClient {
   if (schema.paths) {
     for (const [pathTemplate, pathObj] of Object.entries(schema.paths)) {
       for (const [method, methodObj] of Object.entries(pathObj)) {
-        if (['get', 'post', 'put', 'delete'].includes(method.toLowerCase())) {
-          const methodResult = generateMethod(
-            pathTemplate,
-            method,
-            methodObj,
-            schema
-          )
-          client += methodResult.code
-          methods.push(methodResult.methodInfo)
-        }
+        if (!SUPPORTED_HTTP_METHODS.includes(method.toLowerCase())) continue
+
+        const methodResult = generateMethod(
+          pathTemplate,
+          method,
+          methodObj,
+          schema
+        )
+        client += methodResult.code
+        methods.push(methodResult.methodInfo)
       }
     }
   }
@@ -619,22 +605,18 @@ function generateMethod(
   })
   const pathParams = extractPathParams(pathTemplate)
   const queryParams = extractQueryParams(methodObj.parameters || [], schema)
-
-  const paramTypes: string[] = []
-  const hasRequestBody =
+  const requestBodySchema =
     methodObj.requestBody?.content?.['application/json']?.schema
 
-  // Check if this method has any parameters
   const hasParams =
-    pathParams.length > 0 || queryParams.length > 0 || hasRequestBody
+    pathParams.length > 0 || queryParams.length > 0 || requestBodySchema
+  const hasRequiredParams = pathParams.length > 0 || requestBodySchema
 
-  // Only include params argument if there are actual parameters
+  // Build method signature
+  let paramsArg = ''
   if (hasParams) {
-    const hasRequiredParams = pathParams.length > 0 || hasRequestBody
     const optionalMarker = hasRequiredParams ? '' : '?'
-    paramTypes.push(
-      `params${optionalMarker}: Types.${transformedOperationId}Params`
-    )
+    paramsArg = `params${optionalMarker}: Types.${transformedOperationId}Params`
   }
 
   const responseType = getResponseType(
@@ -642,96 +624,72 @@ function generateMethod(
     transformedOperationId
   )
 
-  // Check if this method has response headers
-  const successResponse =
-    methodObj.responses?.['200'] ||
-    methodObj.responses?.['201'] ||
-    Object.values(methodObj.responses || {})[0]
+  const successResponse = getSuccessResponse(methodObj.responses)
   const hasResponseHeaders =
     successResponse &&
     extractResponseHeaders(successResponse, schema).length > 0
 
-  // Generate JSDoc
   const jsdoc = generateJSDoc(methodObj, pathTemplate)
+  const methodSignature = `async ${methodName}(${paramsArg}) {\n`
 
-  let methodSignature = `async ${methodName}(${paramTypes.join(', ')}) {\n`
-  // if (hasResponseHeaders) {
-  //   methodSignature += `: Promise<Types.${transformedOperationId}CompleteResponse> {\n`
-  // } else {
-  //   methodSignature += `: Promise<Types.EsiResponse<Types.${responseType}>> {\n`
-  // }
-
-  let pathReplacement = pathTemplate
-  pathParams.forEach(param => {
-    pathReplacement = pathReplacement.replace(
+  // Build path with parameter substitution
+  let interpolatedPath = pathTemplate
+  for (const param of pathParams) {
+    interpolatedPath = interpolatedPath.replace(
       `{${param}}`,
       `\${params.${param}}`
     )
-  })
+  }
 
-  let methodBody = `    const path = \`${pathReplacement}\`;\n`
+  let methodBody = `    const path = \`${interpolatedPath}\`;\n`
 
-  // Extract query parameters if any exist
+  // Build query params object
   if (queryParams.length > 0) {
-    const hasRequiredParams = pathParams.length > 0 || hasRequestBody
+    const queryParamsObj = queryParams
+      .map(p => `${p.name}: params.${p.name}`)
+      .join(', ')
     if (hasRequiredParams) {
-      // params is always defined, no need for ternary
-      methodBody += `    const queryParams = { ${queryParams.map(p => `${p.name}: params.${p.name}`).join(', ')} };\n`
+      methodBody += `    const queryParams = { ${queryParamsObj} };\n`
     } else {
-      // params might be undefined (optional), need ternary check
-      methodBody += `    const queryParams = params ? { ${queryParams.map(p => `${p.name}: params.${p.name}`).join(', ')} } : undefined;\n`
+      methodBody += `    const queryParams = params ? { ${queryParamsObj} } : undefined;\n`
     }
   }
 
-  // Extract body if it exists
-  if (hasRequestBody) {
-    if (hasRequestBody.type === 'object' && hasRequestBody.properties) {
-      // Build body object from individual properties
-      const bodyProps = Object.keys(hasRequestBody.properties)
-        .map(propName => {
-          return `${propName}: params.${propName}`
-        })
+  // Build body object
+  if (requestBodySchema) {
+    if (
+      requestBodySchema.type === 'object' &&
+      requestBodySchema.properties
+    ) {
+      const bodyProps = Object.keys(requestBodySchema.properties)
+        .map(propName => `${propName}: params.${propName}`)
         .join(', ')
       methodBody += `    const body = { ${bodyProps} };\n`
     } else {
-      // Body is a simple type, use the body property directly
       methodBody += `    const body = params.body;\n`
     }
   }
 
-  if (hasResponseHeaders) {
-    methodBody += `    return this.request<${responseType ? `Types.${responseType}` : 'undefined'}, Types.${transformedOperationId}ResponseHeaders>('${method.toUpperCase()}', path`
-  } else {
-    methodBody += `    return this.request<${responseType ? `Types.${responseType}` : 'undefined'}>('${method.toUpperCase()}', path`
-  }
+  // Build return statement
+  const responseTypeArg = responseType ? `Types.${responseType}` : 'undefined'
+  const headerTypeArg = hasResponseHeaders
+    ? `, Types.${transformedOperationId}ResponseHeaders`
+    : ''
+  const queryArg = queryParams.length > 0 ? 'queryParams' : 'undefined'
+  const bodyArg = requestBodySchema ? 'body' : 'undefined'
 
-  if (queryParams.length > 0) {
-    methodBody += ', queryParams'
-  } else {
-    methodBody += ', undefined'
-  }
-
-  if (hasRequestBody) {
-    methodBody += ', body'
-  } else {
-    methodBody += ', undefined'
-  }
-
-  methodBody += ');\n  }\n\n'
+  methodBody += `    return this.request<${responseTypeArg}${headerTypeArg}>('${method.toUpperCase()}', path, ${queryArg}, ${bodyArg});\n`
+  methodBody += '  }\n\n'
 
   const code = jsdoc + '  ' + methodSignature + methodBody
 
-  // Create method info for README generation
   const description = methodObj.description || methodObj.summary || ''
   const apiExplorerUrl = `https://developers.eveonline.com/api-explorer#/operations/${operationId}`
 
-  const methodInfo: MethodInfo = {
-    name: methodName,
-    description,
-    apiExplorerUrl,
+  return {
+    code,
+    methodInfo: { name: methodName, description, apiExplorerUrl },
   }
-
-  return { code, methodInfo }
 }
 
 function extractPathParams(path: string): string[] {
@@ -776,23 +734,26 @@ function extractResponseHeaders(
   if (!response.headers) return []
 
   return Object.entries(response.headers).map(([headerName, headerRef]) => {
+    let headerSchema: Schema | undefined
+    let description: string | undefined
+
     if (headerRef.$ref) {
       const refName = headerRef.$ref.replace('#/components/headers/', '')
       const headerDef = schema.components?.headers?.[refName]
       if (!headerDef) {
         throw new Error(`Could not resolve header reference: ${headerRef.$ref}`)
       }
-      return {
-        name: headerName,
-        type: getTypeScriptType(headerDef.schema || { type: 'string' }),
-        description: headerDef.description,
-      }
+      headerSchema = headerDef.schema
+      description = headerDef.description
     } else {
-      return {
-        name: headerName,
-        type: getTypeScriptType(headerRef.schema || { type: 'string' }),
-        description: headerRef.description,
-      }
+      headerSchema = headerRef.schema
+      description = headerRef.description
+    }
+
+    return {
+      name: headerName,
+      type: getTypeScriptType(headerSchema || { type: 'string' }),
+      description,
     }
   })
 }
@@ -801,10 +762,7 @@ function getResponseType(
   responses: Record<string, Response> | undefined,
   transformedOperationId: string
 ): string | undefined {
-  const successResponse =
-    responses?.['200'] ||
-    responses?.['201'] ||
-    Object.values(responses || {})[0]
+  const successResponse = getSuccessResponse(responses)
   if (successResponse?.content?.['application/json']?.schema) {
     return `${transformedOperationId}Response`
   }

@@ -34,40 +34,32 @@ The client must remain zero-dependency. Use only:
 
 Development dependencies (for generation/testing) are fine.
 
-## 📝 Maintaining This Document
+### Always Update AGENTS.md After Code Changes
+**Before finishing any task that modifies `scripts/generate.ts` or project structure**, update this document:
+- Changed line numbers? Update the "Useful Code Locations" section
+- Added/removed/renamed functions? Update relevant sections
+- Changed workflows or commands? Update the workflow documentation
 
-**IMPORTANT**: If you make changes to this project that affect how agents should work with the codebase, you MUST update this AGENTS.md file accordingly.
+This is not optional. Outdated documentation causes repeated mistakes.
 
-### When to Update AGENTS.md
+## 📝 AGENTS.md Update Reference
 
-Update this document when you:
+### What Triggers an Update
 
-1. **Modify generation logic** - Add/change transformations, type generation patterns, or schema handling
-2. **Change project structure** - Move files, add new directories, or reorganize the codebase
-3. **Add/remove dependencies** - Even dev dependencies that affect workflow
-4. **Update workflows** - Modify CI/CD, testing approach, or build process
-5. **Introduce new patterns** - Add conventions that future agents should follow
-6. **Change configuration** - Update TypeScript, ESLint, Prettier, or other tool configs
-7. **Add new scripts** - New package.json scripts that agents might need to use
-8. **Fix documentation errors** - Correct outdated information or broken references
-
-### What to Update
-
-- **Code locations**: Update line numbers if you significantly refactor files
-- **Examples**: Update code examples if APIs or patterns change
-- **Workflow steps**: Revise instructions if development process changes
-- **Common tasks**: Add new tasks or update existing ones with new patterns
-- **Troubleshooting**: Add new issues you discovered and their solutions
+| Change Type | Sections to Update |
+|-------------|-------------------|
+| Refactor `scripts/generate.ts` | "Useful Code Locations", any section referencing line numbers |
+| Add/remove/rename functions | "Useful Code Locations", "Schema Handling", "Helper Functions" |
+| Change project structure | "Repository Structure" |
+| Modify CI/CD workflows | "CI/CD Automation" |
+| Add package.json scripts | "Local Development Commands" |
+| Change TypeScript/ESLint config | "Code Style Guide" |
 
 ### How to Update
 
 1. **Be specific**: Include file paths, line numbers, and concrete examples
-2. **Be actionable**: Provide step-by-step instructions, not just descriptions
-3. **Be accurate**: Test your changes and verify documentation matches reality
-4. **Be concise**: Keep the document scannable with clear headers and short paragraphs
-5. **Cross-reference**: Link related sections together for easy navigation
-
-**Remember**: This document is the primary reference for AI agents. Keeping it accurate and up-to-date ensures smooth collaboration and prevents confusion.
+2. **Be accurate**: Verify line numbers match actual code before committing
+3. **Be concise**: Keep the document scannable
 
 ## Repository Structure
 
@@ -81,7 +73,7 @@ Update this document when you:
 │       └── client.test.ts
 │
 ├── scripts/                      # Code generation (EDIT THESE)
-│   ├── generate.ts              # Main generator (858 lines) - CORE LOGIC
+│   ├── generate.ts              # Main generator (816 lines) - CORE LOGIC
 │   ├── fetch-schema.ts          # Downloads OpenAPI schema from ESI
 │   ├── generate-readme.ts       # Generates README method table
 │   ├── detect-schema-changes.ts # Detects version bump type (major/minor/patch)
@@ -117,8 +109,8 @@ Update this document when you:
 
 2. GENERATE CODE
    $ pnpm generate
-   ├─ loadSchema() - Parse OpenAPI JSON (scripts/generate.ts:94)
-   ├─ generateTypes() - Create TypeScript types (scripts/generate.ts:106)
+   ├─ loadSchema() - Parse OpenAPI JSON (scripts/generate.ts:109)
+   ├─ generateTypes() - Create TypeScript types (scripts/generate.ts:121)
    │  ├─ Extract components/parameters
    │  ├─ For each path + method:
    │  │  ├─ Transform operation ID (simplify name)
@@ -127,7 +119,7 @@ Update this document when you:
    │  │  └─ Generate response header types (*ResponseHeaders)
    │  └─ Handle schema references (dependency-first)
    │
-   ├─ generateClient() - Create EsiClient class (scripts/generate.ts:495)
+   ├─ generateClient() - Create EsiClient class (scripts/generate.ts:481)
    │  ├─ EsiClient constructor with options
    │  ├─ Private request() helper method
    │  └─ For each endpoint:
@@ -155,7 +147,7 @@ Update this document when you:
 
 The generator simplifies verbose OpenAPI operation IDs for better developer experience.
 
-**Location**: `scripts/generate.ts:813` - `transformOperationId()`
+**Location**: `scripts/generate.ts:771` - `transformOperationId()`
 
 **Transformations Applied**:
 
@@ -216,7 +208,7 @@ async getAlliance(params: GetAllianceParams): Promise<EsiResponse<GetAllianceRes
 
 All parameters (path, query, body) are merged into a single `Params` interface for simplicity.
 
-**Location**: `scripts/generate.ts:378` - `generateParameterType()`
+**Location**: `scripts/generate.ts:392` - `generateParameterType()`
 
 **Example**: `POST /characters/{character_id}/mail`
 
@@ -248,17 +240,17 @@ await esi.postCharacterMail({
 })
 ```
 
-**Conflict Detection**: Generator validates no naming conflicts occur (scripts/generate.ts:394-442)
+**Conflict Detection**: Generator validates no naming conflicts occur via `assertNoConflict()` (scripts/generate.ts:378-390)
 
 ### Schema Component Generation
 
 **Challenge**: Avoid circular references and duplicate generation.
 
-**Strategy** (scripts/generate.ts:295-341):
+**Strategy** (scripts/generate.ts:307-345):
 1. **Dependency-first**: Referenced schemas generated before consumers
 2. **Deduplication**: `generatedSchemaComponents` Set tracks generated types
 3. **Recursive collection**: `collectAndGenerateReferencedSchemas()` walks schema tree depth-first
-4. **Non-recursive generation**: `generateTypeFromSchemaNoRecursion()` prevents infinite loops
+4. **Type building**: `buildTypeDefinition()` generates the actual TypeScript type definition
 
 **Example**:
 ```typescript
@@ -272,7 +264,7 @@ await esi.postCharacterMail({
 
 Each method gets JSDoc with description and API explorer link.
 
-**Location**: `scripts/generate.ts:480` - `generateJSDoc()`
+**Location**: `scripts/generate.ts:466` - `generateJSDoc()`
 
 **Format**:
 ```typescript
@@ -300,7 +292,7 @@ Note: The `@see` link uses the **original** operation ID (not transformed) to li
 | `type: object` | `interface` or `{ key: type }` |
 | `$ref: "#/components/schemas/Foo"` | `Foo` |
 
-**Implementation**: `scripts/generate.ts:343` - `getTypeScriptType()`
+**Implementation**: `scripts/generate.ts:347` - `getTypeScriptType()`
 
 ### Special Cases
 
@@ -597,7 +589,7 @@ node --experimental-strip-types scripts/detect-schema-changes.ts \
 **Scenario**: Want to transform `GetFooBarsBarId` → `GetFooBar`
 
 **Steps**:
-1. Edit `scripts/generate.ts:813` - `transformOperationId()`
+1. Edit `scripts/generate.ts:771` - `transformOperationId()`
 2. Add transformation logic (regex or string replace)
 3. Regenerate: `pnpm generate`
 4. Verify: Check `src/client.ts` for expected method names
@@ -624,10 +616,11 @@ function transformOperationId(operationId: string): string {
 
 **Steps**:
 1. Locate relevant function:
-   - `generateTypes()` - Main entry (line 106)
-   - `generateResponseType()` - Response types (line 186)
-   - `generateTypeFromSchema()` - Schema components (line 258)
-   - `getTypeScriptType()` - Type mapping (line 343)
+   - `generateTypes()` - Main entry (line 121)
+   - `generateResponseType()` - Response types (line 217)
+   - `generateTypeFromSchema()` - Schema components (line 283)
+   - `buildTypeDefinition()` - Type definition builder (line 262)
+   - `getTypeScriptType()` - Type mapping (line 347)
 2. Modify generation logic
 3. Regenerate: `pnpm generate`
 4. Verify: Check `src/types.ts` for expected output
@@ -644,11 +637,11 @@ function transformOperationId(operationId: string): string {
 
 2. **Circular reference / infinite loop**
    - Review dependency generation order
-   - Ensure `generateTypeFromSchemaNoRecursion()` is used correctly
+   - Ensure `buildTypeDefinition()` is used correctly for final type generation
    - Check that Set deduplication is working
 
 3. **Parameter name conflicts**
-   - Look for error thrown in `generateParameterType()` (lines 394-442)
+   - Look for error thrown via `assertNoConflict()` (lines 378-390)
    - Check if path/query/body params have overlapping names
    - Consider renaming in transformation logic
 
@@ -669,7 +662,7 @@ function transformOperationId(operationId: string): string {
 
 **Current Behavior**: Already implemented!
 
-**How it Works** (scripts/generate.ts:453):
+**How it Works** (scripts/generate.ts:448):
 1. `generateResponseHeaderType()` extracts headers from response
 2. Creates `{OperationName}ResponseHeaders` interface
 3. Marks headers as optional (`?`) since not always present
@@ -821,7 +814,7 @@ new EsiClient({
 - **Auto-update**: Date updated on each generation
 - **Transparency**: Users know which API version client targets
 
-**Implementation** (scripts/generate.ts:506):
+**Implementation** (scripts/generate.ts:492):
 ```typescript
 const COMPATIBILITY_DATE = '${new Date().toISOString().slice(0, 10)}';
 ```
@@ -849,27 +842,31 @@ See @.prettierrc
 ## Useful Code Locations
 
 ### Core Generation Logic
-- **Main generator**: `scripts/generate.ts:836` - `main()`
-- **Schema loading**: `scripts/generate.ts:94` - `loadSchema()`
-- **Type generation**: `scripts/generate.ts:106` - `generateTypes()`
-- **Client generation**: `scripts/generate.ts:495` - `generateClient()`
-- **Method generation**: `scripts/generate.ts:606` - `generateMethod()`
+- **Main generator**: `scripts/generate.ts:794` - `main()`
+- **Schema loading**: `scripts/generate.ts:109` - `loadSchema()`
+- **Type generation**: `scripts/generate.ts:121` - `generateTypes()`
+- **Client generation**: `scripts/generate.ts:481` - `generateClient()`
+- **Method generation**: `scripts/generate.ts:592` - `generateMethod()`
 
 ### Transformation Logic
-- **Operation ID transform**: `scripts/generate.ts:813` - `transformOperationId()`
-- **Type mapping**: `scripts/generate.ts:343` - `getTypeScriptType()`
-- **Parameter flattening**: `scripts/generate.ts:378` - `generateParameterType()`
+- **Operation ID transform**: `scripts/generate.ts:771` - `transformOperationId()`
+- **Type mapping**: `scripts/generate.ts:347` - `getTypeScriptType()`
+- **Parameter flattening**: `scripts/generate.ts:392` - `generateParameterType()`
 
 ### Schema Handling
-- **Schema component generation**: `scripts/generate.ts:258` - `generateTypeFromSchema()`
-- **Reference collection**: `scripts/generate.ts:295` - `collectAndGenerateReferencedSchemas()`
-- **Response type generation**: `scripts/generate.ts:186` - `generateResponseType()`
+- **Schema component generation**: `scripts/generate.ts:283` - `generateTypeFromSchema()`
+- **Type definition builder**: `scripts/generate.ts:262` - `buildTypeDefinition()`
+- **Reference collection**: `scripts/generate.ts:307` - `collectAndGenerateReferencedSchemas()`
+- **Response type generation**: `scripts/generate.ts:217` - `generateResponseType()`
 
 ### Helper Functions
-- **Path param extraction**: `scripts/generate.ts:737` - `extractPathParams()`
-- **Query param extraction**: `scripts/generate.ts:757` - `extractQueryParams()`
-- **Response header extraction**: `scripts/generate.ts:772` - `extractResponseHeaders()`
-- **JSDoc generation**: `scripts/generate.ts:480` - `generateJSDoc()`
+- **Ref name extraction**: `scripts/generate.ts:96` - `extractRefName()`
+- **Success response getter**: `scripts/generate.ts:102` - `getSuccessResponse()`
+- **Conflict assertion**: `scripts/generate.ts:378` - `assertNoConflict()`
+- **Path param extraction**: `scripts/generate.ts:695` - `extractPathParams()`
+- **Query param extraction**: `scripts/generate.ts:715` - `extractQueryParams()`
+- **Response header extraction**: `scripts/generate.ts:730` - `extractResponseHeaders()`
+- **JSDoc generation**: `scripts/generate.ts:466` - `generateJSDoc()`
 
 ### Schema Change Detection
 - **Main CLI**: `scripts/detect-schema-changes.ts:562` - `main()`
