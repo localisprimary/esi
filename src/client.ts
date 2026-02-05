@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Types from './types'
 
-const COMPATIBILITY_DATE = '2026-01-27'
+const COMPATIBILITY_DATE = '2026-02-05'
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'

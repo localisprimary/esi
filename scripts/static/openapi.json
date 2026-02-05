@@ -250,6 +250,14 @@
         "type": "integer",
         "x-common-model": "true"
       },
+      "BloodlineID": {
+        "examples": [
+          1
+        ],
+        "format": "int64",
+        "type": "integer",
+        "x-common-model": "true"
+      },
       "CharacterID": {
         "examples": [
           90000001
@@ -9680,6 +9688,14 @@
           "compatibility_dates"
         ],
         "type": "object"
+      },
+      "RaceID": {
+        "examples": [
+          1
+        ],
+        "format": "int64",
+        "type": "integer",
+        "x-common-model": "true"
       },
       "RegionID": {
         "examples": [
