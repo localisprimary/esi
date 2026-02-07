@@ -1,8 +1,17 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Tue, 27 Jan 2026 15:21:57 GMT and should not be manually modified. -->
+<!-- This log was last generated on Sat, 07 Feb 2026 18:19:00 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 2.0.10
+
+Sat, 07 Feb 2026 18:19:00 GMT
+
+### Patches
+
+- Automated: Update ESI OpenAPI schema (patch changes detected) (1719791+Nfinished@users.noreply.github.com)
+- fix non-GET queryparams and bad response parsing (hello@adamtrager.com)
 
 ## 2.0.9
 

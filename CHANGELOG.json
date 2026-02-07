@@ -2,6 +2,27 @@
   "name": "@localisprimary/esi",
   "entries": [
     {
+      "date": "Sat, 07 Feb 2026 18:19:00 GMT",
+      "version": "2.0.10",
+      "tag": "@localisprimary/esi_v2.0.10",
+      "comments": {
+        "patch": [
+          {
+            "author": "1719791+Nfinished@users.noreply.github.com",
+            "package": "@localisprimary/esi",
+            "commit": "0b7db3a65d9a6d628eba2bb38616a5f16a2b0503",
+            "comment": "Automated: Update ESI OpenAPI schema (patch changes detected)"
+          },
+          {
+            "author": "hello@adamtrager.com",
+            "package": "@localisprimary/esi",
+            "commit": "be0623729bd497d7894f2efdefc0510533d55460",
+            "comment": "fix non-GET queryparams and bad response parsing"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 27 Jan 2026 15:21:57 GMT",
       "version": "2.0.9",
       "tag": "@localisprimary/esi_v2.0.9",
