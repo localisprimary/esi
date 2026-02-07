@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "fix non-GET queryparams and bad response parsing",
+  "packageName": "@localisprimary/esi",
+  "email": "hello@adamtrager.com",
+  "dependentChangeType": "patch"
+}
