@@ -40,9 +40,12 @@ jobs:
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor }}@users.noreply.github.com"
 
-      - name: Publish with Beachball
+      - name: Bump versions with Beachball
         run: |
-          pnpm beachball publish -y --access public --branch master --message "chore: Release new version"
+          pnpm beachball publish -y --access public --branch master --message "chore: Release new version" --no-publish
+
+      - name: Publish to npm with OIDC
+        run: npm publish --provenance --access public
 
       - name: Create GitHub Release
         run: |
