@@ -24,6 +24,7 @@ jobs:
         with:
           node-version: '24.4.1'
           cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
 
       - name: Install dependencies
         run: pnpm install
@@ -42,8 +43,6 @@ jobs:
       - name: Publish with Beachball
         run: |
           pnpm beachball publish -y --access public --branch master --message "chore: Release new version"
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
 
       - name: Create GitHub Release
         run: |
