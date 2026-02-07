@@ -8,11 +8,12 @@
   "sideEffects": false,
   "scripts": {
     "fetch-schema": "node scripts/fetch-schema.ts",
-    "generate": "node scripts/generate.ts && pnpm lint:fix",
+    "generate": "node scripts/generate.ts && pnpm lint:fix && pnpm format",
     "build": "rimraf dist && tsc",
     "compile": "pnpm fetch-schema && pnpm generate && pnpm build && pnpm test",
-    "lint": "eslint src",
-    "lint:fix": "eslint src --fix",
+    "lint": "oxlint src",
+    "lint:fix": "oxlint src --fix",
+    "format": "oxfmt",
     "test": "vitest run",
     "change": "beachball change"
   },
@@ -34,15 +35,11 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^24.10.9",
-    "@typescript-eslint/eslint-plugin": "^8.54.0",
-    "@typescript-eslint/parser": "^8.54.0",
     "@vitest/ui": "^4.0.18",
     "beachball": "^2.63.0",
     "camelcase": "^9.0.0",
-    "eslint": "^9.39.2",
-    "eslint-config-prettier": "^10.1.8",
-    "eslint-plugin-prettier": "^5.5.5",
-    "prettier": "^3.8.1",
+    "oxfmt": "^0.28.0",
+    "oxlint": "^1.43.0",
     "rimraf": "^6.1.2",
     "typescript": "^5.9.3",
     "vitest": "^4.0.18"

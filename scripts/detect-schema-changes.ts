@@ -127,9 +127,7 @@ function loadSchema(filePath: string): OpenAPISchema {
   }
 }
 
-function extractOperations(
-  schema: OpenAPISchema
-): Map<string, OperationInfo> {
+function extractOperations(schema: OpenAPISchema): Map<string, OperationInfo> {
   const operations = new Map<string, OperationInfo>()
 
   for (const [path, pathItem] of Object.entries(schema.paths)) {
@@ -171,9 +169,7 @@ function extractOperations(
         }
       }
 
-      const responseSchema = getSuccessResponseJsonSchema(
-        operation.responses
-      )
+      const responseSchema = getSuccessResponseJsonSchema(operation.responses)
 
       operations.set(key, {
         operationId,
@@ -340,9 +336,7 @@ function areEnumsEqual(
 function flattenParams(
   params: OperationInfo['parameters']
 ): Map<string, ParameterInfo> {
-  return new Map(
-    [...params.path, ...params.query].map(p => [p.name, p])
-  )
+  return new Map([...params.path, ...params.query].map(p => [p.name, p]))
 }
 
 function hasBreakingChanges(changes: ChangeSet): boolean {
@@ -350,14 +344,8 @@ function hasBreakingChanges(changes: ChangeSet): boolean {
 
   for (const { old: oldOp, new: newOp } of changes.modified) {
     if (
-      !areRequiredParamsSame(
-        oldOp.parameters.path,
-        newOp.parameters.path
-      ) ||
-      !areRequiredParamsSame(
-        oldOp.parameters.query,
-        newOp.parameters.query
-      )
+      !areRequiredParamsSame(oldOp.parameters.path, newOp.parameters.path) ||
+      !areRequiredParamsSame(oldOp.parameters.query, newOp.parameters.query)
     ) {
       return true
     }
@@ -458,9 +446,7 @@ function hasNewFeatures(changes: ChangeSet): boolean {
   if (changes.added.length > 0) return true
 
   for (const { old: oldOp, new: newOp } of changes.modified) {
-    const oldQueryNames = new Set(
-      oldOp.parameters.query.map(p => p.name)
-    )
+    const oldQueryNames = new Set(oldOp.parameters.query.map(p => p.name))
     for (const param of newOp.parameters.query) {
       if (!param.required && !oldQueryNames.has(param.name)) {
         return true
@@ -484,9 +470,7 @@ function hasNewFeatures(changes: ChangeSet): boolean {
   return false
 }
 
-function determineVersionBump(
-  changes: ChangeSet
-): 'major' | 'minor' | 'patch' {
+function determineVersionBump(changes: ChangeSet): 'major' | 'minor' | 'patch' {
   if (hasBreakingChanges(changes)) return 'major'
   if (hasNewFeatures(changes)) return 'minor'
   return 'patch'
@@ -496,9 +480,7 @@ function main(): void {
   const args = process.argv.slice(2)
 
   if (args.length !== 2) {
-    console.error(
-      'Usage: detect-schema-changes.ts <old-schema> <new-schema>'
-    )
+    console.error('Usage: detect-schema-changes.ts <old-schema> <new-schema>')
     process.exit(1)
   }
 

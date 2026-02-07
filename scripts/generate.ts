@@ -139,8 +139,12 @@ export interface EsiError {
   const generatedSchemaComponents = new Set<string>()
 
   if (schema.components?.parameters) {
-    for (const [parameterName, parameterDef] of Object.entries(schema.components.parameters)) {
-      const headerType = getTypeScriptType(parameterDef.schema || { type: 'string' })
+    for (const [parameterName, parameterDef] of Object.entries(
+      schema.components.parameters
+    )) {
+      const headerType = getTypeScriptType(
+        parameterDef.schema || { type: 'string' }
+      )
       types += `export type ${parameterName} = ${headerType};\n`
       // Add parameter names to the set to avoid generating them again as schema components
       generatedSchemaComponents.add(parameterName)
@@ -419,15 +423,19 @@ function generateParameterType(
   }
 
   if (requestBodySchema) {
-    if (
-      requestBodySchema.type === 'object' &&
-      requestBodySchema.properties
-    ) {
+    if (requestBodySchema.type === 'object' && requestBodySchema.properties) {
       for (const [propName, propSchema] of Object.entries(
         requestBodySchema.properties
       )) {
-        assertNoConflict(usedParamNames, propName, operationName, 'body property')
-        const optional = requestBodySchema.required?.includes(propName) ? '' : '?'
+        assertNoConflict(
+          usedParamNames,
+          propName,
+          operationName,
+          'body property'
+        )
+        const optional = requestBodySchema.required?.includes(propName)
+          ? ''
+          : '?'
         allParamTypes.push(
           `${propName}${optional}: ${getTypeScriptType(propSchema)}`
         )
@@ -657,10 +665,7 @@ function generateMethod(
 
   // Build body object
   if (requestBodySchema) {
-    if (
-      requestBodySchema.type === 'object' &&
-      requestBodySchema.properties
-    ) {
+    if (requestBodySchema.type === 'object' && requestBodySchema.properties) {
       const bodyProps = Object.keys(requestBodySchema.properties)
         .map(propName => `${propName}: params.${propName}`)
         .join(', ')

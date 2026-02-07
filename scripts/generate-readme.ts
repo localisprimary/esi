@@ -32,11 +32,11 @@ function buildMethodsTable(methods: MethodInfo[]): string {
     return `| [\`${method.name}\`](${method.apiExplorerUrl}) | ${description} |`
   })
 
-  return [
-    '| Method | Description |',
-    '|--------|-------------|',
-    ...rows,
-  ].join('\n') + '\n'
+  return (
+    ['| Method | Description |', '|--------|-------------|', ...rows].join(
+      '\n'
+    ) + '\n'
+  )
 }
 
 /**
@@ -54,10 +54,7 @@ export function generateReadmeContent(methods: MethodInfo[]): string {
 /**
  * Write README.md file.
  */
-export function writeReadme(
-  readmeContent: string,
-  outputPath?: string
-): void {
+export function writeReadme(readmeContent: string, outputPath?: string): void {
   const readmePath = outputPath || path.join(__dirname, '../README.md')
   fs.writeFileSync(readmePath, readmeContent)
   console.log('Generated README.md')

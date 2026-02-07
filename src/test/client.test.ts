@@ -8,12 +8,10 @@ const TEST_IDS = {
   solarSystem: 30002693, // Egghelende
   region: 10000002, // The Forge
   item: 34, // Tritanium
-
 }
 
 describe('EsiClient - Live API Tests', () => {
   const client = new EsiClient({ userAgent: 'testClient' })
-
 
   describe('Alliance Endpoints', () => {
     it('should get all alliances', async () => {
@@ -88,9 +86,9 @@ describe('EsiClient - Live API Tests', () => {
       const page1 = await client.getRegionOrders({
         region_id: TEST_IDS.region,
         page: 1,
-        type_id: TEST_IDS.item
+        type_id: TEST_IDS.item,
       })
-      
+
       expect(page1.status).toBe(200)
       expect(page1.headers).toHaveProperty('x-pages')
     })
@@ -151,8 +149,13 @@ describe('EsiClient - Live API Tests', () => {
 
 describe('EsiClient - No Request Headers', () => {
   it('should use query parameters when useRequestHeaders is false', async () => {
-    const client = new EsiClient({ useRequestHeaders: false, userAgent: 'testClient' })
-    const response = await client.getCharacter({ character_id: TEST_IDS.character })
+    const client = new EsiClient({
+      useRequestHeaders: false,
+      userAgent: 'testClient',
+    })
+    const response = await client.getCharacter({
+      character_id: TEST_IDS.character,
+    })
 
     expect(response.status).toBe(200)
   })
@@ -161,6 +164,6 @@ describe('EsiClient - No Request Headers', () => {
 describe('EsiClient - Missing user agent', () => {
   it('should throw when userAgent is not provided', () => {
     // @ts-expect-error Testing missing userAgent
-    expect(() => new EsiClient({})).toThrow() 
+    expect(() => new EsiClient({})).toThrow()
   })
 })

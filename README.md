@@ -2,11 +2,9 @@
 
 A slightly opinionated TypeScript client for the [EVE Online API](https://developers.eveonline.com/api-explorer).
 
-
 [![NPM Version](https://img.shields.io/npm/v/%40localisprimary%2Fesi)](https://www.npmjs.com/package/@localisprimary/esi)
 [![NPM Downloads](https://img.shields.io/npm/dm/%40localisprimary%2Fesi?link=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2F%40localisprimary%2Fesi)](https://www.npmjs.com/package/@localisprimary/esi)
 [![Discord](https://img.shields.io/discord/928842307879444552?label=discord&color=%237289da&link=https%3A%2F%2Fdiscord.gg%2FCbcBHGMpUa)](https://discord.gg/CbcBHGMpUa)
-
 
 ## Usage
 
@@ -14,7 +12,10 @@ A slightly opinionated TypeScript client for the [EVE Online API](https://develo
 import { EsiClient } from '@localisprimary/esi'
 
 // Create client (optionally with auth token)
-const esi = new EsiClient({ userAgent: 'foo@example.com', token: 'bearer-token' })
+const esi = new EsiClient({
+  userAgent: 'foo@example.com',
+  token: 'bearer-token',
+})
 
 // Get all alliances
 const alliances = await esi.getAlliances()
@@ -30,7 +31,7 @@ console.log(alliance.data)
 The `EsiClient` constructor requires an options object with the following properties:
 | Parameter | Description | Type | Default | Required |
 |-----------|-------------|------|---------|----------|
-| `userAgent` | Resolves to `"localisprimary/esi <userAgent>"` | `string` |  | Yes |
+| `userAgent` | Resolves to `"localisprimary/esi <userAgent>"` | `string` | | Yes |
 | `token` | Optional auth token | `string` | `undefined` | No |
 | `useRequestHeaders` | If false, use query parameters for userAgent and token | `boolean` | `true` | No |
 
@@ -40,22 +41,26 @@ This client provides methods for all EVE ESI endpoints. Methods return a `Promis
 
 ```typescript
 interface EsiResponse<TData, THeaders = Record<string, string>> {
-  data: TData;
-  status: number;
-  headers: THeaders;
+  data: TData
+  status: number
+  headers: THeaders
 }
 
 interface EsiError {
-  error: string;
-  status: number;
+  error: string
+  status: number
 }
 ```
 
 All methods are fully typed: `getAlliance` will take `GetAllianceParams` and return `GetAllianceResponse`.
 
 `Params` types make no distinction between path, query, or body parameters, it's all the same object:
+
 ```typescript
-const esi = new EsiClient({ userAgent: 'foo@example.com', token: 'bearer-token' })
+const esi = new EsiClient({
+  userAgent: 'foo@example.com',
+  token: 'bearer-token',
+})
 
 // POST https://esi.evetech.net/characters/{character_id}/mail
 esi.postCharacterMail({
@@ -64,78 +69,79 @@ esi.postCharacterMail({
 
   // request body
   approved_cost: 0,
-  body: "Hello from the ESI!",
-  recipients: [{ recipient_type: 'character', recipient_id: 96135698 }]
+  body: 'Hello from the ESI!',
+  recipients: [{ recipient_type: 'character', recipient_id: 96135698 }],
 })
 ```
 
-| Method | Description |
-|--------|-------------|
-| [`getAlliance`](https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceId) | Public information about an alliance |
-| [`getAllianceContacts`](https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceIdContacts) | Return contacts of an alliance |
-| [`getAllianceContactsLabels`](https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceIdContactsLabels) | Return custom labels for an alliance's contacts |
-| [`getAllianceCorporations`](https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceIdCorporations) | List all current member corporations of an alliance |
-| [`getAllianceIcons`](https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceIdIcons) | Get the icon urls for a alliance. This route expires daily at 11:05 |
-| [`getAlliances`](https://developers.eveonline.com/api-explorer#/operations/GetAlliances) | List all active player alliances |
-| [`getCharacter`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterId) | Public information about a character |
-| [`getCharacterAgentsResearch`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdAgentsResearch) | Return a list of agents research information for a character. The formula for finding the current research points with an agent is: currentPoints = remainderPoints + pointsPerDay * days(currentTime - researchStartDate) |
-| [`getCharacterAssets`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdAssets) | Return a list of the characters assets |
-| [`postCharacterAssetsLocations`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdAssetsLocations) | Return locations for a set of item ids, which you can get from character assets endpoint. Coordinates for items in hangars or stations are set to (0,0,0) |
-| [`postCharacterAssetsNames`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdAssetsNames) | Return names for a set of item ids, which you can get from character assets endpoint. Typically used for items that can customize names, like containers or ships. |
-| [`getCharacterAttributes`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdAttributes) | Return attributes of a character |
-| [`getCharacterBlueprints`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdBlueprints) | Return a list of blueprints the character owns |
-| [`getCharacterCalendar`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdCalendar) | Get 50 event summaries from the calendar. If no from_event ID is given, the resource will return the next 50 chronological event summaries from now. If a from_event ID is specified, it will return the next 50 chronological event summaries from after that event |
-| [`getCharacterCalendarEventAttendees`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdCalendarEventIdAttendees) | Get all invited attendees for a given event |
-| [`getCharacterCalendarEventId`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdCalendarEventId) | Get all the information for a specific event |
-| [`putCharacterCalendarEventId`](https://developers.eveonline.com/api-explorer#/operations/PutCharactersCharacterIdCalendarEventId) | Set your response status to an event |
-| [`getCharacterClones`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdClones) | A list of the character's clones |
-| [`deleteCharacterContacts`](https://developers.eveonline.com/api-explorer#/operations/DeleteCharactersCharacterIdContacts) | Bulk delete contacts |
-| [`getCharacterContacts`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContacts) | Return contacts of a character |
-| [`postCharacterContacts`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdContacts) | Bulk add contacts with same settings |
-| [`putCharacterContacts`](https://developers.eveonline.com/api-explorer#/operations/PutCharactersCharacterIdContacts) | Bulk edit contacts with same settings |
-| [`getCharacterContactsLabels`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContactsLabels) | Return custom labels for a character's contacts |
-| [`getCharacterContractBids`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContractsContractIdBids) | Lists bids on a particular auction contract |
-| [`getCharacterContractItems`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContractsContractIdItems) | Lists items of a particular contract |
-| [`getCharacterContracts`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContracts) | Returns contracts available to a character, only if the character is issuer, acceptor or assignee. Only returns contracts no older than 30 days, or if the status is "in_progress". |
-| [`getCharacterCorporationhistory`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdCorporationhistory) | Get a list of all the corporations a character has been a member of |
-| [`postCharacterCspa`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdCspa) | Takes a source character ID in the url and a set of target character ID's in the body, returns a CSPA charge cost |
-| [`getCharacterFatigue`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdFatigue) | Return a character's jump activation and fatigue information |
-| [`deleteCharacterFitting`](https://developers.eveonline.com/api-explorer#/operations/DeleteCharactersCharacterIdFittingsFittingId) | Delete a fitting from a character |
-| [`getCharacterFittings`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdFittings) | Return fittings of a character |
-| [`postCharacterFittings`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdFittings) | Save a new fitting for a character |
-| [`getCharacterFleet`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdFleet) | Return the fleet ID the character is in, if any. |
-| [`getCharacterFwStats`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdFwStats) | Statistical overview of a character involved in faction warfare. This route expires daily at 11:05 |
-| [`getCharacterImplants`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdImplants) | Return implants on the active clone of a character |
-| [`getCharacterIndustryJobs`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdIndustryJobs) | List industry jobs placed by a character |
-| [`getCharacterKillmailsRecent`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdKillmailsRecent) | Return a list of a character's kills and losses going back 90 days |
-| [`getCharacterLocation`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdLocation) | Information about the characters current location. Returns the current solar system id, and also the current station or structure ID if applicable |
-| [`getCharacterLoyaltyPoints`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdLoyaltyPoints) | Return a list of loyalty points for all corporations the character has worked for |
-| [`getCharacterMail`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMail) | Return the 50 most recent mail headers belonging to the character that match the query criteria. Queries can be filtered by label, and last_mail_id can be used to paginate backwards |
-| [`postCharacterMail`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdMail) | Create and send a new mail |
-| [`deleteCharacterMailLabel`](https://developers.eveonline.com/api-explorer#/operations/DeleteCharactersCharacterIdMailLabelsLabelId) | Delete a mail label |
-| [`getCharacterMailLabels`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMailLabels) | Return a list of the users mail labels, unread counts for each label and a total unread count. |
-| [`postCharacterMailLabels`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdMailLabels) | Create a mail label |
-| [`getCharacterMailLists`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMailLists) | Return all mailing lists that the character is subscribed to |
-| [`deleteCharacterMailMailId`](https://developers.eveonline.com/api-explorer#/operations/DeleteCharactersCharacterIdMailMailId) | Delete a mail |
-| [`getCharacterMailMailId`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMailMailId) | Return the contents of an EVE mail |
-| [`putCharacterMailMailId`](https://developers.eveonline.com/api-explorer#/operations/PutCharactersCharacterIdMailMailId) | Update metadata about a mail |
-| [`getCharacterMedals`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMedals) | Return a list of medals the character has |
-| [`getCharacterMining`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMining) | Paginated record of all mining done by a character for the past 30 days |
-| [`getCharacterNotifications`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdNotifications) | Return character notifications |
-| [`getCharacterNotificationsContacts`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdNotificationsContacts) | Return notifications about having been added to someone's contact list |
-| [`getCharacterOnline`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdOnline) | Checks if the character is currently online |
-| [`getCharacterOrders`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdOrders) | List open market orders placed by a character |
-| [`getCharacterOrdersHistory`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdOrdersHistory) | List cancelled and expired market orders placed by a character up to 90 days in the past. |
-| [`getCharacterPlanet`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdPlanetsPlanetId) | Returns full details on the layout of a single planetary colony, including links, pins and routes. Note: Planetary information is only recalculated when the colony is viewed through the client. Information will not update until this criteria is met. |
-| [`getCharacterPlanets`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdPlanets) | Returns a list of all planetary colonies owned by a character. |
-| [`getCharacterPortrait`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdPortrait) | Get portrait urls for a character. This route expires daily at 11:05 |
-| [`getCharacterRoles`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdRoles) | Returns a character's corporation roles |
-| [`postCharactersAffiliation`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersAffiliation) | Bulk lookup of character IDs to corporation, alliance and faction |
-| [`getCharacterSearch`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSearch) | Search for entities that match a given sub-string. |
-| [`getCharacterShip`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdShip) | Get the current ship type, name and id |
-| [`getCharacterSkillqueue`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSkillqueue) | List the configured skill queue for the given character. Entries that have their finish time in the past are completed, but aren't updated in the "/skills" route
-yet. This will happen the next time the character logs in. |
-| [`getCharacterSkills`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSkills) | List all trained skills for the given character. Skills returned by this route can be out-of-date if the character hasn't logged in since one or more skills
+| Method                                                                                                                                             | Description                                                                                                                                                                                                                                                          |
+| -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [`getAlliance`](https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceId)                                                  | Public information about an alliance                                                                                                                                                                                                                                 |
+| [`getAllianceContacts`](https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceIdContacts)                                  | Return contacts of an alliance                                                                                                                                                                                                                                       |
+| [`getAllianceContactsLabels`](https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceIdContactsLabels)                      | Return custom labels for an alliance's contacts                                                                                                                                                                                                                      |
+| [`getAllianceCorporations`](https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceIdCorporations)                          | List all current member corporations of an alliance                                                                                                                                                                                                                  |
+| [`getAllianceIcons`](https://developers.eveonline.com/api-explorer#/operations/GetAlliancesAllianceIdIcons)                                        | Get the icon urls for a alliance. This route expires daily at 11:05                                                                                                                                                                                                  |
+| [`getAlliances`](https://developers.eveonline.com/api-explorer#/operations/GetAlliances)                                                           | List all active player alliances                                                                                                                                                                                                                                     |
+| [`getCharacter`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterId)                                               | Public information about a character                                                                                                                                                                                                                                 |
+| [`getCharacterAgentsResearch`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdAgentsResearch)                   | Return a list of agents research information for a character. The formula for finding the current research points with an agent is: currentPoints = remainderPoints + pointsPerDay \* days(currentTime - researchStartDate)                                          |
+| [`getCharacterAssets`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdAssets)                                   | Return a list of the characters assets                                                                                                                                                                                                                               |
+| [`postCharacterAssetsLocations`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdAssetsLocations)               | Return locations for a set of item ids, which you can get from character assets endpoint. Coordinates for items in hangars or stations are set to (0,0,0)                                                                                                            |
+| [`postCharacterAssetsNames`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdAssetsNames)                       | Return names for a set of item ids, which you can get from character assets endpoint. Typically used for items that can customize names, like containers or ships.                                                                                                   |
+| [`getCharacterAttributes`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdAttributes)                           | Return attributes of a character                                                                                                                                                                                                                                     |
+| [`getCharacterBlueprints`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdBlueprints)                           | Return a list of blueprints the character owns                                                                                                                                                                                                                       |
+| [`getCharacterCalendar`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdCalendar)                               | Get 50 event summaries from the calendar. If no from_event ID is given, the resource will return the next 50 chronological event summaries from now. If a from_event ID is specified, it will return the next 50 chronological event summaries from after that event |
+| [`getCharacterCalendarEventAttendees`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdCalendarEventIdAttendees) | Get all invited attendees for a given event                                                                                                                                                                                                                          |
+| [`getCharacterCalendarEventId`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdCalendarEventId)                 | Get all the information for a specific event                                                                                                                                                                                                                         |
+| [`putCharacterCalendarEventId`](https://developers.eveonline.com/api-explorer#/operations/PutCharactersCharacterIdCalendarEventId)                 | Set your response status to an event                                                                                                                                                                                                                                 |
+| [`getCharacterClones`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdClones)                                   | A list of the character's clones                                                                                                                                                                                                                                     |
+| [`deleteCharacterContacts`](https://developers.eveonline.com/api-explorer#/operations/DeleteCharactersCharacterIdContacts)                         | Bulk delete contacts                                                                                                                                                                                                                                                 |
+| [`getCharacterContacts`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContacts)                               | Return contacts of a character                                                                                                                                                                                                                                       |
+| [`postCharacterContacts`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdContacts)                             | Bulk add contacts with same settings                                                                                                                                                                                                                                 |
+| [`putCharacterContacts`](https://developers.eveonline.com/api-explorer#/operations/PutCharactersCharacterIdContacts)                               | Bulk edit contacts with same settings                                                                                                                                                                                                                                |
+| [`getCharacterContactsLabels`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContactsLabels)                   | Return custom labels for a character's contacts                                                                                                                                                                                                                      |
+| [`getCharacterContractBids`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContractsContractIdBids)            | Lists bids on a particular auction contract                                                                                                                                                                                                                          |
+| [`getCharacterContractItems`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContractsContractIdItems)          | Lists items of a particular contract                                                                                                                                                                                                                                 |
+| [`getCharacterContracts`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdContracts)                             | Returns contracts available to a character, only if the character is issuer, acceptor or assignee. Only returns contracts no older than 30 days, or if the status is "in_progress".                                                                                  |
+| [`getCharacterCorporationhistory`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdCorporationhistory)           | Get a list of all the corporations a character has been a member of                                                                                                                                                                                                  |
+| [`postCharacterCspa`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdCspa)                                     | Takes a source character ID in the url and a set of target character ID's in the body, returns a CSPA charge cost                                                                                                                                                    |
+| [`getCharacterFatigue`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdFatigue)                                 | Return a character's jump activation and fatigue information                                                                                                                                                                                                         |
+| [`deleteCharacterFitting`](https://developers.eveonline.com/api-explorer#/operations/DeleteCharactersCharacterIdFittingsFittingId)                 | Delete a fitting from a character                                                                                                                                                                                                                                    |
+| [`getCharacterFittings`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdFittings)                               | Return fittings of a character                                                                                                                                                                                                                                       |
+| [`postCharacterFittings`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdFittings)                             | Save a new fitting for a character                                                                                                                                                                                                                                   |
+| [`getCharacterFleet`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdFleet)                                     | Return the fleet ID the character is in, if any.                                                                                                                                                                                                                     |
+| [`getCharacterFwStats`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdFwStats)                                 | Statistical overview of a character involved in faction warfare. This route expires daily at 11:05                                                                                                                                                                   |
+| [`getCharacterImplants`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdImplants)                               | Return implants on the active clone of a character                                                                                                                                                                                                                   |
+| [`getCharacterIndustryJobs`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdIndustryJobs)                       | List industry jobs placed by a character                                                                                                                                                                                                                             |
+| [`getCharacterKillmailsRecent`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdKillmailsRecent)                 | Return a list of a character's kills and losses going back 90 days                                                                                                                                                                                                   |
+| [`getCharacterLocation`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdLocation)                               | Information about the characters current location. Returns the current solar system id, and also the current station or structure ID if applicable                                                                                                                   |
+| [`getCharacterLoyaltyPoints`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdLoyaltyPoints)                     | Return a list of loyalty points for all corporations the character has worked for                                                                                                                                                                                    |
+| [`getCharacterMail`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMail)                                       | Return the 50 most recent mail headers belonging to the character that match the query criteria. Queries can be filtered by label, and last_mail_id can be used to paginate backwards                                                                                |
+| [`postCharacterMail`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdMail)                                     | Create and send a new mail                                                                                                                                                                                                                                           |
+| [`deleteCharacterMailLabel`](https://developers.eveonline.com/api-explorer#/operations/DeleteCharactersCharacterIdMailLabelsLabelId)               | Delete a mail label                                                                                                                                                                                                                                                  |
+| [`getCharacterMailLabels`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMailLabels)                           | Return a list of the users mail labels, unread counts for each label and a total unread count.                                                                                                                                                                       |
+| [`postCharacterMailLabels`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdMailLabels)                         | Create a mail label                                                                                                                                                                                                                                                  |
+| [`getCharacterMailLists`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMailLists)                             | Return all mailing lists that the character is subscribed to                                                                                                                                                                                                         |
+| [`deleteCharacterMailMailId`](https://developers.eveonline.com/api-explorer#/operations/DeleteCharactersCharacterIdMailMailId)                     | Delete a mail                                                                                                                                                                                                                                                        |
+| [`getCharacterMailMailId`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMailMailId)                           | Return the contents of an EVE mail                                                                                                                                                                                                                                   |
+| [`putCharacterMailMailId`](https://developers.eveonline.com/api-explorer#/operations/PutCharactersCharacterIdMailMailId)                           | Update metadata about a mail                                                                                                                                                                                                                                         |
+| [`getCharacterMedals`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMedals)                                   | Return a list of medals the character has                                                                                                                                                                                                                            |
+| [`getCharacterMining`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMining)                                   | Paginated record of all mining done by a character for the past 30 days                                                                                                                                                                                              |
+| [`getCharacterNotifications`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdNotifications)                     | Return character notifications                                                                                                                                                                                                                                       |
+| [`getCharacterNotificationsContacts`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdNotificationsContacts)     | Return notifications about having been added to someone's contact list                                                                                                                                                                                               |
+| [`getCharacterOnline`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdOnline)                                   | Checks if the character is currently online                                                                                                                                                                                                                          |
+| [`getCharacterOrders`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdOrders)                                   | List open market orders placed by a character                                                                                                                                                                                                                        |
+| [`getCharacterOrdersHistory`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdOrdersHistory)                     | List cancelled and expired market orders placed by a character up to 90 days in the past.                                                                                                                                                                            |
+| [`getCharacterPlanet`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdPlanetsPlanetId)                          | Returns full details on the layout of a single planetary colony, including links, pins and routes. Note: Planetary information is only recalculated when the colony is viewed through the client. Information will not update until this criteria is met.            |
+| [`getCharacterPlanets`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdPlanets)                                 | Returns a list of all planetary colonies owned by a character.                                                                                                                                                                                                       |
+| [`getCharacterPortrait`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdPortrait)                               | Get portrait urls for a character. This route expires daily at 11:05                                                                                                                                                                                                 |
+| [`getCharacterRoles`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdRoles)                                     | Returns a character's corporation roles                                                                                                                                                                                                                              |
+| [`postCharactersAffiliation`](https://developers.eveonline.com/api-explorer#/operations/PostCharactersAffiliation)                                 | Bulk lookup of character IDs to corporation, alliance and faction                                                                                                                                                                                                    |
+| [`getCharacterSearch`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSearch)                                   | Search for entities that match a given sub-string.                                                                                                                                                                                                                   |
+| [`getCharacterShip`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdShip)                                       | Get the current ship type, name and id                                                                                                                                                                                                                               |
+| [`getCharacterSkillqueue`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSkillqueue)                           | List the configured skill queue for the given character. Entries that have their finish time in the past are completed, but aren't updated in the "/skills" route                                                                                                    |
+| yet. This will happen the next time the character logs in.                                                                                         |
+| [`getCharacterSkills`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdSkills)                                   | List all trained skills for the given character. Skills returned by this route can be out-of-date if the character hasn't logged in since one or more skills                                                                                                         |
+
 completed training. Use the /skillqueue route to check for skills that completed training. Entries that are
 in the past need to be applied on top of this list to get an accurate view of the character's current skills. |
 | [`getCharacterStandings`](https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdStandings) | Return character standings from agents, NPC corporations, and factions |
@@ -271,7 +277,5 @@ in the past need to be applied on top of this list to get an accurate view of th
 | [`getWar`](https://developers.eveonline.com/api-explorer#/operations/GetWarsWarId) | Return details about a war |
 | [`getWarKillmails`](https://developers.eveonline.com/api-explorer#/operations/GetWarsWarIdKillmails) | Return a list of kills related to a war |
 | [`getWars`](https://developers.eveonline.com/api-explorer#/operations/GetWars) | Return a list of wars |
-
-
 
 [![BuyMeACoffee](https://raw.githubusercontent.com/pachadotdev/buymeacoffee-badges/main/bmc-green.svg)](https://buymeacoffee.com/nfinished)

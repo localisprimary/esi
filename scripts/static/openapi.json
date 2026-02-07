@@ -10,16 +10,7 @@
       "ContentLanguage": {
         "description": "The language used in the response.",
         "schema": {
-          "enum": [
-            "en",
-            "de",
-            "fr",
-            "ja",
-            "ru",
-            "zh",
-            "ko",
-            "es"
-          ],
+          "enum": ["en", "de", "fr", "ja", "ru", "zh", "ko", "es"],
           "type": "string"
         }
       },
@@ -43,16 +34,7 @@
         "name": "Accept-Language",
         "schema": {
           "default": "en",
-          "enum": [
-            "en",
-            "de",
-            "fr",
-            "ja",
-            "ru",
-            "zh",
-            "ko",
-            "es"
-          ],
+          "enum": ["en", "de", "fr", "ja", "ru", "zh", "ko", "es"],
           "type": "string"
         }
       },
@@ -62,9 +44,7 @@
         "name": "X-Compatibility-Date",
         "required": true,
         "schema": {
-          "enum": [
-            "2020-01-01"
-          ],
+          "enum": ["2020-01-01"],
           "format": "date",
           "type": "string"
         }
@@ -98,9 +78,7 @@
     },
     "schemas": {
       "AllianceID": {
-        "examples": [
-          99000001
-        ],
+        "examples": [99000001],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
@@ -113,12 +91,7 @@
               "type": "integer"
             },
             "contact_type": {
-              "enum": [
-                "character",
-                "corporation",
-                "alliance",
-                "faction"
-              ],
+              "enum": ["character", "corporation", "alliance", "faction"],
               "type": "string"
             },
             "label_ids": {
@@ -135,11 +108,7 @@
               "type": "number"
             }
           },
-          "required": [
-            "standing",
-            "contact_type",
-            "contact_id"
-          ],
+          "required": ["standing", "contact_type", "contact_id"],
           "type": "object"
         },
         "type": "array"
@@ -155,10 +124,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "label_id",
-            "label_name"
-          ],
+          "required": ["label_id", "label_name"],
           "type": "object"
         },
         "type": "array"
@@ -235,33 +201,25 @@
         "uniqueItems": true
       },
       "ArchetypeID": {
-        "examples": [
-          33
-        ],
+        "examples": [33],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
       },
       "AttributeID": {
-        "examples": [
-          209
-        ],
+        "examples": [209],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
       },
       "BloodlineID": {
-        "examples": [
-          1
-        ],
+        "examples": [1],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
       },
       "CharacterID": {
-        "examples": [
-          90000001
-        ],
+        "examples": [90000001],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
@@ -290,10 +248,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "character_id",
-            "corporation_id"
-          ],
+          "required": ["character_id", "corporation_id"],
           "type": "object"
         },
         "type": "array"
@@ -445,12 +400,7 @@
               "type": "integer"
             },
             "location_type": {
-              "enum": [
-                "station",
-                "solar_system",
-                "item",
-                "other"
-              ],
+              "enum": ["station", "solar_system", "item", "other"],
               "type": "string"
             },
             "quantity": {
@@ -497,18 +447,11 @@
                   "type": "number"
                 }
               },
-              "required": [
-                "x",
-                "y",
-                "z"
-              ],
+              "required": ["x", "y", "z"],
               "type": "object"
             }
           },
-          "required": [
-            "item_id",
-            "position"
-          ],
+          "required": ["item_id", "position"],
           "type": "object"
         },
         "type": "array"
@@ -524,10 +467,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "item_id",
-            "name"
-          ],
+          "required": ["item_id", "name"],
           "type": "object"
         },
         "type": "array"
@@ -723,12 +663,7 @@
               "type": "integer"
             },
             "event_response": {
-              "enum": [
-                "declined",
-                "not_responded",
-                "accepted",
-                "tentative"
-              ],
+              "enum": ["declined", "not_responded", "accepted", "tentative"],
               "type": "string"
             }
           },
@@ -811,12 +746,7 @@
               "type": "integer"
             },
             "event_response": {
-              "enum": [
-                "declined",
-                "not_responded",
-                "accepted",
-                "tentative"
-              ],
+              "enum": ["declined", "not_responded", "accepted", "tentative"],
               "type": "string"
             },
             "importance": {
@@ -840,10 +770,7 @@
                 "type": "integer"
               },
               "location_type": {
-                "enum": [
-                  "station",
-                  "structure"
-                ],
+                "enum": ["station", "structure"],
                 "type": "string"
               }
             },
@@ -870,10 +797,7 @@
                   "type": "integer"
                 },
                 "location_type": {
-                  "enum": [
-                    "station",
-                    "structure"
-                  ],
+                  "enum": ["station", "structure"],
                   "type": "string"
                 },
                 "name": {
@@ -899,9 +823,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "jump_clones"
-        ],
+        "required": ["jump_clones"],
         "type": "object"
       },
       "CharactersCharacterIdContactsGet": {
@@ -912,12 +834,7 @@
               "type": "integer"
             },
             "contact_type": {
-              "enum": [
-                "character",
-                "corporation",
-                "alliance",
-                "faction"
-              ],
+              "enum": ["character", "corporation", "alliance", "faction"],
               "type": "string"
             },
             "is_blocked": {
@@ -942,11 +859,7 @@
               "type": "number"
             }
           },
-          "required": [
-            "standing",
-            "contact_type",
-            "contact_id"
-          ],
+          "required": ["standing", "contact_type", "contact_id"],
           "type": "object"
         },
         "type": "array"
@@ -962,10 +875,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "label_id",
-            "label_name"
-          ],
+          "required": ["label_id", "label_name"],
           "type": "object"
         },
         "type": "array"
@@ -1003,12 +913,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "bid_id",
-            "bidder_id",
-            "date_bid",
-            "amount"
-          ],
+          "required": ["bid_id", "bidder_id", "date_bid", "amount"],
           "type": "object"
         },
         "type": "array"
@@ -1070,12 +975,7 @@
             },
             "availability": {
               "description": "To whom the contract is available",
-              "enum": [
-                "public",
-                "personal",
-                "corporation",
-                "alliance"
-              ],
+              "enum": ["public", "personal", "corporation", "alliance"],
               "type": "string"
             },
             "buyout": {
@@ -1226,11 +1126,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "start_date",
-            "corporation_id",
-            "record_id"
-          ],
+          "required": ["start_date", "corporation_id", "record_id"],
           "type": "object"
         },
         "type": "array"
@@ -1331,11 +1227,7 @@
                     "type": "integer"
                   }
                 },
-                "required": [
-                  "type_id",
-                  "flag",
-                  "quantity"
-                ],
+                "required": ["type_id", "flag", "quantity"],
                 "type": "object"
               },
               "type": "array"
@@ -1367,9 +1259,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "fitting_id"
-        ],
+        "required": ["fitting_id"],
         "type": "object"
       },
       "CharactersCharacterIdFleetGet": {
@@ -1455,11 +1345,7 @@
                 "type": "integer"
               }
             },
-            "required": [
-              "yesterday",
-              "last_week",
-              "total"
-            ],
+            "required": ["yesterday", "last_week", "total"],
             "type": "object"
           },
           "victory_points": {
@@ -1481,18 +1367,11 @@
                 "type": "integer"
               }
             },
-            "required": [
-              "yesterday",
-              "last_week",
-              "total"
-            ],
+            "required": ["yesterday", "last_week", "total"],
             "type": "object"
           }
         },
-        "required": [
-          "kills",
-          "victory_points"
-        ],
+        "required": ["kills", "victory_points"],
         "type": "object"
       },
       "CharactersCharacterIdGet": {
@@ -1525,10 +1404,7 @@
             "type": "integer"
           },
           "gender": {
-            "enum": [
-              "female",
-              "male"
-            ],
+            "enum": ["female", "male"],
             "type": "string"
           },
           "name": {
@@ -1715,10 +1591,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "killmail_id",
-            "killmail_hash"
-          ],
+          "required": ["killmail_id", "killmail_hash"],
           "type": "object"
         },
         "type": "array"
@@ -1738,9 +1611,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "solar_system_id"
-        ],
+        "required": ["solar_system_id"],
         "type": "object"
       },
       "CharactersCharacterIdLoyaltyPointsGet": {
@@ -1755,10 +1626,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "corporation_id",
-            "loyalty_points"
-          ],
+          "required": ["corporation_id", "loyalty_points"],
           "type": "object"
         },
         "type": "array"
@@ -1806,10 +1674,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "recipient_type",
-                  "recipient_id"
-                ],
+                "required": ["recipient_type", "recipient_id"],
                 "type": "object"
               },
               "type": "array",
@@ -1899,10 +1764,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "mailing_list_id",
-            "name"
-          ],
+          "required": ["mailing_list_id", "name"],
           "type": "object"
         },
         "type": "array"
@@ -1951,10 +1813,7 @@
                   "type": "string"
                 }
               },
-              "required": [
-                "recipient_type",
-                "recipient_id"
-              ],
+              "required": ["recipient_type", "recipient_id"],
               "type": "object"
             },
             "type": "array",
@@ -2011,11 +1870,7 @@
                     "type": "integer"
                   }
                 },
-                "required": [
-                  "part",
-                  "layer",
-                  "graphic"
-                ],
+                "required": ["part", "layer", "graphic"],
                 "type": "object"
               },
               "type": "array"
@@ -2032,10 +1887,7 @@
               "type": "string"
             },
             "status": {
-              "enum": [
-                "public",
-                "private"
-              ],
+              "enum": ["public", "private"],
               "type": "string"
             },
             "title": {
@@ -2077,12 +1929,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "date",
-            "solar_system_id",
-            "type_id",
-            "quantity"
-          ],
+          "required": ["date", "solar_system_id", "type_id", "quantity"],
           "type": "object"
         },
         "type": "array"
@@ -2439,9 +2286,7 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "online"
-        ],
+        "required": ["online"],
         "type": "object"
       },
       "CharactersCharacterIdOrdersGet": {
@@ -2617,10 +2462,7 @@
             },
             "state": {
               "description": "Current order state",
-              "enum": [
-                "cancelled",
-                "expired"
-              ],
+              "enum": ["cancelled", "expired"],
               "type": "string"
             },
             "type_id": {
@@ -2730,11 +2572,7 @@
                   "type": "integer"
                 }
               },
-              "required": [
-                "source_pin_id",
-                "destination_pin_id",
-                "link_level"
-              ],
+              "required": ["source_pin_id", "destination_pin_id", "link_level"],
               "type": "object"
             },
             "type": "array"
@@ -2756,10 +2594,7 @@
                         "type": "integer"
                       }
                     },
-                    "required": [
-                      "type_id",
-                      "amount"
-                    ],
+                    "required": ["type_id", "amount"],
                     "type": "object"
                   },
                   "type": "array"
@@ -2796,11 +2631,7 @@
                             "type": "number"
                           }
                         },
-                        "required": [
-                          "head_id",
-                          "latitude",
-                          "longitude"
-                        ],
+                        "required": ["head_id", "latitude", "longitude"],
                         "type": "object"
                       },
                       "type": "array"
@@ -2814,9 +2645,7 @@
                       "type": "integer"
                     }
                   },
-                  "required": [
-                    "heads"
-                  ],
+                  "required": ["heads"],
                   "type": "object"
                 },
                 "factory_details": {
@@ -2826,9 +2655,7 @@
                       "type": "integer"
                     }
                   },
-                  "required": [
-                    "schematic_id"
-                  ],
+                  "required": ["schematic_id"],
                   "type": "object"
                 },
                 "install_time": {
@@ -2860,12 +2687,7 @@
                   "type": "integer"
                 }
               },
-              "required": [
-                "pin_id",
-                "type_id",
-                "latitude",
-                "longitude"
-              ],
+              "required": ["pin_id", "type_id", "latitude", "longitude"],
               "type": "object"
             },
             "type": "array"
@@ -2916,11 +2738,7 @@
             "type": "array"
           }
         },
-        "required": [
-          "links",
-          "pins",
-          "routes"
-        ],
+        "required": ["links", "pins", "routes"],
         "type": "object"
       },
       "CharactersCharacterIdPortraitGet": {
@@ -3309,11 +3127,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "ship_type_id",
-          "ship_item_id",
-          "ship_name"
-        ],
+        "required": ["ship_type_id", "ship_item_id", "ship_name"],
         "type": "object"
       },
       "CharactersCharacterIdStandingsGet": {
@@ -3324,11 +3138,7 @@
               "type": "integer"
             },
             "from_type": {
-              "enum": [
-                "agent",
-                "npc_corp",
-                "faction"
-              ],
+              "enum": ["agent", "npc_corp", "faction"],
               "type": "string"
             },
             "standing": {
@@ -3336,11 +3146,7 @@
               "type": "number"
             }
           },
-          "required": [
-            "from_id",
-            "from_type",
-            "standing"
-          ],
+          "required": ["from_id", "from_type", "standing"],
           "type": "object"
         },
         "type": "array"
@@ -3602,12 +3408,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "date",
-            "id",
-            "ref_type",
-            "description"
-          ],
+          "required": ["date", "id", "ref_type", "description"],
           "type": "object"
         },
         "type": "array"
@@ -3717,11 +3518,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "queue_position",
-          "skill_id",
-          "finished_level"
-        ],
+        "required": ["queue_position", "skill_id", "finished_level"],
         "type": "object"
       },
       "CharactersSkills": {
@@ -3744,10 +3541,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "skills",
-          "total_sp"
-        ],
+        "required": ["skills", "total_sp"],
         "type": "object"
       },
       "CharactersSkillsSkill": {
@@ -3782,17 +3576,13 @@
         "type": "object"
       },
       "CompatibilityDate": {
-        "examples": [
-          "2025-08-26"
-        ],
+        "examples": ["2025-08-26"],
         "format": "date",
         "type": "string",
         "x-common-model": "true"
       },
       "ConstellationID": {
-        "examples": [
-          20000001
-        ],
+        "examples": [20000001],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
@@ -3816,11 +3606,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "bid_id",
-            "date_bid",
-            "amount"
-          ],
+          "required": ["bid_id", "date_bid", "amount"],
           "type": "object"
         },
         "type": "array"
@@ -3871,12 +3657,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "record_id",
-            "type_id",
-            "quantity",
-            "is_included"
-          ],
+          "required": ["record_id", "type_id", "quantity", "is_included"],
           "type": "object"
         },
         "type": "array"
@@ -4032,17 +3813,11 @@
             },
             "observer_type": {
               "description": "The category of the observing entity",
-              "enum": [
-                "structure"
-              ],
+              "enum": ["structure"],
               "type": "string"
             }
           },
-          "required": [
-            "last_updated",
-            "observer_id",
-            "observer_type"
-          ],
+          "required": ["last_updated", "observer_id", "observer_type"],
           "type": "object"
         },
         "type": "array"
@@ -4085,9 +3860,7 @@
         "type": "array"
       },
       "CorporationID": {
-        "examples": [
-          98777771
-        ],
+        "examples": [98777771],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
@@ -4113,10 +3886,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "start_date",
-            "record_id"
-          ],
+          "required": ["start_date", "record_id"],
           "type": "object"
         },
         "type": "array"
@@ -4269,12 +4039,7 @@
               "type": "integer"
             },
             "location_type": {
-              "enum": [
-                "station",
-                "solar_system",
-                "item",
-                "other"
-              ],
+              "enum": ["station", "solar_system", "item", "other"],
               "type": "string"
             },
             "quantity": {
@@ -4321,18 +4086,11 @@
                   "type": "number"
                 }
               },
-              "required": [
-                "x",
-                "y",
-                "z"
-              ],
+              "required": ["x", "y", "z"],
               "type": "object"
             }
           },
-          "required": [
-            "item_id",
-            "position"
-          ],
+          "required": ["item_id", "position"],
           "type": "object"
         },
         "type": "array"
@@ -4348,10 +4106,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "item_id",
-            "name"
-          ],
+          "required": ["item_id", "name"],
           "type": "object"
         },
         "type": "array"
@@ -4547,12 +4302,7 @@
               "type": "integer"
             },
             "contact_type": {
-              "enum": [
-                "character",
-                "corporation",
-                "alliance",
-                "faction"
-              ],
+              "enum": ["character", "corporation", "alliance", "faction"],
               "type": "string"
             },
             "is_watched": {
@@ -4573,11 +4323,7 @@
               "type": "number"
             }
           },
-          "required": [
-            "standing",
-            "contact_type",
-            "contact_id"
-          ],
+          "required": ["standing", "contact_type", "contact_id"],
           "type": "object"
         },
         "type": "array"
@@ -4593,10 +4339,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "label_id",
-            "label_name"
-          ],
+          "required": ["label_id", "label_name"],
           "type": "object"
         },
         "type": "array"
@@ -4783,10 +4526,7 @@
             },
             "password_type": {
               "description": "Type of password set if action is of type SetPassword or EnterPassword",
-              "enum": [
-                "config",
-                "general"
-              ],
+              "enum": ["config", "general"],
               "type": "string"
             },
             "quantity": {
@@ -4837,12 +4577,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "bid_id",
-            "bidder_id",
-            "date_bid",
-            "amount"
-          ],
+          "required": ["bid_id", "bidder_id", "date_bid", "amount"],
           "type": "object"
         },
         "type": "array"
@@ -4904,12 +4639,7 @@
             },
             "availability": {
               "description": "To whom the contract is available",
-              "enum": [
-                "public",
-                "personal",
-                "corporation",
-                "alliance"
-              ],
+              "enum": ["public", "personal", "corporation", "alliance"],
               "type": "string"
             },
             "buyout": {
@@ -5091,13 +4821,7 @@
             },
             "standing_level": {
               "description": "Access is allowed only for entities with this level of standing or better",
-              "enum": [
-                "bad",
-                "excellent",
-                "good",
-                "neutral",
-                "terrible"
-              ],
+              "enum": ["bad", "excellent", "good", "neutral", "terrible"],
               "type": "string"
             },
             "system_id": {
@@ -5175,11 +4899,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "facility_id",
-            "type_id",
-            "system_id"
-          ],
+          "required": ["facility_id", "type_id", "system_id"],
           "type": "object"
         },
         "type": "array"
@@ -5215,11 +4935,7 @@
                 "type": "integer"
               }
             },
-            "required": [
-              "yesterday",
-              "last_week",
-              "total"
-            ],
+            "required": ["yesterday", "last_week", "total"],
             "type": "object"
           },
           "pilots": {
@@ -5246,18 +4962,11 @@
                 "type": "integer"
               }
             },
-            "required": [
-              "yesterday",
-              "last_week",
-              "total"
-            ],
+            "required": ["yesterday", "last_week", "total"],
             "type": "object"
           }
         },
-        "required": [
-          "kills",
-          "victory_points"
-        ],
+        "required": ["kills", "victory_points"],
         "type": "object"
       },
       "CorporationsCorporationIdGet": {
@@ -5492,10 +5201,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "killmail_id",
-            "killmail_hash"
-          ],
+          "required": ["killmail_id", "killmail_hash"],
           "type": "object"
         },
         "type": "array"
@@ -5559,10 +5265,7 @@
               "type": "string"
             },
             "status": {
-              "enum": [
-                "private",
-                "public"
-              ],
+              "enum": ["private", "public"],
               "type": "string"
             }
           },
@@ -5607,10 +5310,7 @@
               "type": "array"
             }
           },
-          "required": [
-            "character_id",
-            "titles"
-          ],
+          "required": ["character_id", "titles"],
           "type": "object"
         },
         "type": "array"
@@ -5647,9 +5347,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "character_id"
-          ],
+          "required": ["character_id"],
           "type": "object"
         },
         "type": "array"
@@ -5835,10 +5533,7 @@
             },
             "state": {
               "description": "Current order state",
-              "enum": [
-                "cancelled",
-                "expired"
-              ],
+              "enum": ["cancelled", "expired"],
               "type": "string"
             },
             "type_id": {
@@ -6400,9 +6095,7 @@
               "uniqueItems": true
             }
           },
-          "required": [
-            "character_id"
-          ],
+          "required": ["character_id"],
           "type": "object"
         },
         "type": "array"
@@ -6591,18 +6284,11 @@
               "type": "integer"
             },
             "shareholder_type": {
-              "enum": [
-                "character",
-                "corporation"
-              ],
+              "enum": ["character", "corporation"],
               "type": "string"
             }
           },
-          "required": [
-            "shareholder_id",
-            "shareholder_type",
-            "share_count"
-          ],
+          "required": ["shareholder_id", "shareholder_type", "share_count"],
           "type": "object"
         },
         "type": "array"
@@ -6615,11 +6301,7 @@
               "type": "integer"
             },
             "from_type": {
-              "enum": [
-                "agent",
-                "npc_corp",
-                "faction"
-              ],
+              "enum": ["agent", "npc_corp", "faction"],
               "type": "string"
             },
             "standing": {
@@ -6627,11 +6309,7 @@
               "type": "number"
             }
           },
-          "required": [
-            "from_id",
-            "from_type",
-            "standing"
-          ],
+          "required": ["from_id", "from_type", "standing"],
           "type": "object"
         },
         "type": "array"
@@ -6685,11 +6363,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "starbase_id",
-            "type_id",
-            "system_id"
-          ],
+          "required": ["starbase_id", "type_id", "system_id"],
           "type": "object"
         },
         "type": "array"
@@ -6762,10 +6436,7 @@
                   "type": "integer"
                 }
               },
-              "required": [
-                "type_id",
-                "quantity"
-              ],
+              "required": ["type_id", "quantity"],
               "type": "object"
             },
             "type": "array"
@@ -6866,18 +6537,11 @@
                     "type": "string"
                   },
                   "state": {
-                    "enum": [
-                      "online",
-                      "offline",
-                      "cleanup"
-                    ],
+                    "enum": ["online", "offline", "cleanup"],
                     "type": "string"
                   }
                 },
-                "required": [
-                  "name",
-                  "state"
-                ],
+                "required": ["name", "state"],
                 "type": "object"
               },
               "type": "array"
@@ -7707,12 +7371,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "date",
-            "id",
-            "ref_type",
-            "description"
-          ],
+          "required": ["date", "id", "ref_type", "description"],
           "type": "object"
         },
         "type": "array"
@@ -7789,10 +7448,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "division",
-            "balance"
-          ],
+          "required": ["division", "balance"],
           "type": "object"
         },
         "type": "array"
@@ -7841,9 +7497,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "attribute_id"
-        ],
+        "required": ["attribute_id"],
         "type": "object"
       },
       "DogmaAttributesGet": {
@@ -7873,10 +7527,7 @@
                   "type": "number"
                 }
               },
-              "required": [
-                "attribute_id",
-                "value"
-              ],
+              "required": ["attribute_id", "value"],
               "type": "object"
             },
             "type": "array"
@@ -7893,10 +7544,7 @@
                   "type": "boolean"
                 }
               },
-              "required": [
-                "effect_id",
-                "is_default"
-              ],
+              "required": ["effect_id", "is_default"],
               "type": "object"
             },
             "type": "array"
@@ -7995,9 +7643,7 @@
                   "type": "integer"
                 }
               },
-              "required": [
-                "func"
-              ],
+              "required": ["func"],
               "type": "object"
             },
             "type": "array"
@@ -8028,9 +7674,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "effect_id"
-        ],
+        "required": ["effect_id"],
         "type": "object"
       },
       "DogmaEffectsGet": {
@@ -8054,9 +7698,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "error"
-        ],
+        "required": ["error"],
         "type": "object"
       },
       "ErrorDetail": {
@@ -8076,9 +7718,7 @@
         "type": "object"
       },
       "FactionID": {
-        "examples": [
-          500002
-        ],
+        "examples": [500002],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
@@ -8201,20 +7841,13 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "name",
-                  "id"
-                ],
+                "required": ["name", "id"],
                 "type": "object"
               },
               "type": "array"
             }
           },
-          "required": [
-            "name",
-            "id",
-            "squads"
-          ],
+          "required": ["name", "id", "squads"],
           "type": "object"
         },
         "type": "array"
@@ -8228,9 +7861,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "wing_id"
-        ],
+        "required": ["wing_id"],
         "type": "object"
       },
       "FleetsFleetIdWingsWingIdSquadsPost": {
@@ -8242,9 +7873,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "squad_id"
-        ],
+        "required": ["squad_id"],
         "type": "object"
       },
       "FwLeaderboardsCharactersGet": {
@@ -8310,11 +7939,7 @@
                 "type": "array"
               }
             },
-            "required": [
-              "yesterday",
-              "last_week",
-              "active_total"
-            ],
+            "required": ["yesterday", "last_week", "active_total"],
             "type": "object"
           },
           "victory_points": {
@@ -8378,18 +8003,11 @@
                 "type": "array"
               }
             },
-            "required": [
-              "yesterday",
-              "last_week",
-              "active_total"
-            ],
+            "required": ["yesterday", "last_week", "active_total"],
             "type": "object"
           }
         },
-        "required": [
-          "kills",
-          "victory_points"
-        ],
+        "required": ["kills", "victory_points"],
         "type": "object"
       },
       "FwLeaderboardsCorporationsGet": {
@@ -8455,11 +8073,7 @@
                 "type": "array"
               }
             },
-            "required": [
-              "yesterday",
-              "last_week",
-              "active_total"
-            ],
+            "required": ["yesterday", "last_week", "active_total"],
             "type": "object"
           },
           "victory_points": {
@@ -8523,18 +8137,11 @@
                 "type": "array"
               }
             },
-            "required": [
-              "yesterday",
-              "last_week",
-              "active_total"
-            ],
+            "required": ["yesterday", "last_week", "active_total"],
             "type": "object"
           }
         },
-        "required": [
-          "kills",
-          "victory_points"
-        ],
+        "required": ["kills", "victory_points"],
         "type": "object"
       },
       "FwLeaderboardsGet": {
@@ -8600,11 +8207,7 @@
                 "type": "array"
               }
             },
-            "required": [
-              "yesterday",
-              "last_week",
-              "active_total"
-            ],
+            "required": ["yesterday", "last_week", "active_total"],
             "type": "object"
           },
           "victory_points": {
@@ -8668,18 +8271,11 @@
                 "type": "array"
               }
             },
-            "required": [
-              "yesterday",
-              "last_week",
-              "active_total"
-            ],
+            "required": ["yesterday", "last_week", "active_total"],
             "type": "object"
           }
         },
-        "required": [
-          "kills",
-          "victory_points"
-        ],
+        "required": ["kills", "victory_points"],
         "type": "object"
       },
       "FwStatsGet": {
@@ -8708,11 +8304,7 @@
                   "type": "integer"
                 }
               },
-              "required": [
-                "yesterday",
-                "last_week",
-                "total"
-              ],
+              "required": ["yesterday", "last_week", "total"],
               "type": "object"
             },
             "pilots": {
@@ -8744,11 +8336,7 @@
                   "type": "integer"
                 }
               },
-              "required": [
-                "yesterday",
-                "last_week",
-                "total"
-              ],
+              "required": ["yesterday", "last_week", "total"],
               "type": "object"
             }
           },
@@ -8767,12 +8355,7 @@
         "items": {
           "properties": {
             "contested": {
-              "enum": [
-                "captured",
-                "contested",
-                "uncontested",
-                "vulnerable"
-              ],
+              "enum": ["captured", "contested", "uncontested", "vulnerable"],
               "type": "string"
             },
             "occupier_faction_id": {
@@ -8822,18 +8405,13 @@
               "type": "integer"
             }
           },
-          "required": [
-            "faction_id",
-            "against_id"
-          ],
+          "required": ["faction_id", "against_id"],
           "type": "object"
         },
         "type": "array"
       },
       "GroupID": {
-        "examples": [
-          1559
-        ],
+        "examples": [1559],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
@@ -8876,11 +8454,7 @@
             },
             "state": {
               "description": "The state of this incursion",
-              "enum": [
-                "withdrawing",
-                "mobilizing",
-                "established"
-              ],
+              "enum": ["withdrawing", "mobilizing", "established"],
               "type": "string"
             },
             "type": {
@@ -8974,10 +8548,7 @@
                     "type": "number"
                   }
                 },
-                "required": [
-                  "activity",
-                  "cost_index"
-                ],
+                "required": ["activity", "cost_index"],
                 "type": "object"
               },
               "type": "array"
@@ -8987,10 +8558,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "solar_system_id",
-            "cost_indices"
-          ],
+          "required": ["solar_system_id", "cost_indices"],
           "type": "object"
         },
         "type": "array"
@@ -9016,11 +8584,7 @@
                     "type": "number"
                   }
                 },
-                "required": [
-                  "cost",
-                  "payout",
-                  "name"
-                ],
+                "required": ["cost", "payout", "name"],
                 "type": "object"
               },
               "type": "array"
@@ -9030,18 +8594,13 @@
               "type": "integer"
             }
           },
-          "required": [
-            "type_id",
-            "levels"
-          ],
+          "required": ["type_id", "levels"],
           "type": "object"
         },
         "type": "array"
       },
       "ItemID": {
-        "examples": [
-          1000000000001
-        ],
+        "examples": [1000000000001],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
@@ -9092,11 +8651,7 @@
                   "type": "integer"
                 }
               },
-              "required": [
-                "security_status",
-                "final_blow",
-                "damage_done"
-              ],
+              "required": ["security_status", "final_blow", "damage_done"],
               "type": "object"
             },
             "type": "array"
@@ -9182,11 +8737,7 @@
                             "type": "integer"
                           }
                         },
-                        "required": [
-                          "item_type_id",
-                          "singleton",
-                          "flag"
-                        ],
+                        "required": ["item_type_id", "singleton", "flag"],
                         "type": "object"
                       },
                       "type": "array"
@@ -9206,11 +8757,7 @@
                       "type": "integer"
                     }
                   },
-                  "required": [
-                    "item_type_id",
-                    "singleton",
-                    "flag"
-                  ],
+                  "required": ["item_type_id", "singleton", "flag"],
                   "type": "object"
                 },
                 "type": "array"
@@ -9231,11 +8778,7 @@
                     "type": "number"
                   }
                 },
-                "required": [
-                  "x",
-                  "y",
-                  "z"
-                ],
+                "required": ["x", "y", "z"],
                 "type": "object"
               },
               "ship_type_id": {
@@ -9244,10 +8787,7 @@
                 "type": "integer"
               }
             },
-            "required": [
-              "damage_taken",
-              "ship_type_id"
-            ],
+            "required": ["damage_taken", "ship_type_id"],
             "type": "object"
           },
           "war_id": {
@@ -9302,10 +8842,7 @@
                     "type": "integer"
                   }
                 },
-                "required": [
-                  "type_id",
-                  "quantity"
-                ],
+                "required": ["type_id", "quantity"],
                 "type": "object"
               },
               "type": "array"
@@ -9359,12 +8896,7 @@
             "type": "array"
           }
         },
-        "required": [
-          "market_group_id",
-          "name",
-          "description",
-          "types"
-        ],
+        "required": ["market_group_id", "name", "description", "types"],
         "type": "object"
       },
       "MarketsPricesGet": {
@@ -9383,9 +8915,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "type_id"
-          ],
+          "required": ["type_id"],
           "type": "object"
         },
         "type": "array"
@@ -9613,9 +9143,7 @@
             "type": "object"
           }
         },
-        "required": [
-          "changelog"
-        ],
+        "required": ["changelog"],
         "type": "object"
       },
       "MetaChangelogEntry": {
@@ -9626,42 +9154,24 @@
           },
           "description": {
             "description": "Description",
-            "examples": [
-              "Updated response schema."
-            ],
+            "examples": ["Updated response schema."],
             "type": "string"
           },
           "is_breaking": {
             "description": "Whether this is a breaking change",
-            "examples": [
-              false
-            ],
+            "examples": [false],
             "type": "boolean"
           },
           "method": {
             "description": "HTTP method of the route",
-            "enum": [
-              "GET",
-              "POST",
-              "PUT",
-              "DELETE"
-            ],
-            "examples": [
-              "GET"
-            ],
+            "enum": ["GET", "POST", "PUT", "DELETE"],
+            "examples": ["GET"],
             "type": "string",
-            "x-enum-descriptions": [
-              "",
-              "",
-              "",
-              ""
-            ]
+            "x-enum-descriptions": ["", "", "", ""]
           },
           "path": {
             "description": "Path of the route",
-            "examples": [
-              "/meta/changelog"
-            ],
+            "examples": ["/meta/changelog"],
             "type": "string"
           }
         },
@@ -9684,23 +9194,17 @@
             "type": "array"
           }
         },
-        "required": [
-          "compatibility_dates"
-        ],
+        "required": ["compatibility_dates"],
         "type": "object"
       },
       "RaceID": {
-        "examples": [
-          1
-        ],
+        "examples": [1],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
       },
       "RegionID": {
-        "examples": [
-          10000001
-        ],
+        "examples": [10000001],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
@@ -9716,17 +9220,13 @@
       },
       "ShipTreeGroupID": {
         "description": "Ship tree group identifier.",
-        "examples": [
-          1559
-        ],
+        "examples": [1559],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
       },
       "SolarSystemID": {
-        "examples": [
-          30000001
-        ],
+        "examples": [30000001],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
@@ -9783,10 +9283,7 @@
                     "type": "number"
                   }
                 },
-                "required": [
-                  "alliance_id",
-                  "score"
-                ],
+                "required": ["alliance_id", "score"],
                 "type": "object"
               },
               "type": "array"
@@ -9839,9 +9336,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "system_id"
-          ],
+          "required": ["system_id"],
           "type": "object"
         },
         "type": "array"
@@ -9896,9 +9391,7 @@
         "type": "array"
       },
       "StationID": {
-        "examples": [
-          60000001
-        ],
+        "examples": [60000001],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
@@ -9923,25 +9416,17 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "start_time",
-          "players",
-          "server_version"
-        ],
+        "required": ["start_time", "players", "server_version"],
         "type": "object"
       },
       "TypeID": {
-        "examples": [
-          587
-        ],
+        "examples": [587],
         "format": "int64",
         "type": "integer",
         "x-common-model": "true"
       },
       "UUID": {
-        "examples": [
-          "3868eaed-8278-4cb7-9709-7d7de9c20dc7"
-        ],
+        "examples": ["3868eaed-8278-4cb7-9709-7d7de9c20dc7"],
         "format": "uuid",
         "type": "string",
         "x-common-model": "true"
@@ -9972,12 +9457,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "id",
-            "name",
-            "bloodline_id",
-            "description"
-          ],
+          "required": ["id", "name", "bloodline_id", "description"],
           "type": "object"
         },
         "type": "array"
@@ -10002,11 +9482,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "x",
-              "y",
-              "z"
-            ],
+            "required": ["x", "y", "z"],
             "type": "object"
           },
           "system_id": {
@@ -10015,11 +9491,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "name",
-          "position",
-          "system_id"
-        ],
+        "required": ["name", "position", "system_id"],
         "type": "object"
       },
       "UniverseBloodlinesGet": {
@@ -10106,12 +9578,7 @@
             "type": "boolean"
           }
         },
-        "required": [
-          "category_id",
-          "name",
-          "published",
-          "groups"
-        ],
+        "required": ["category_id", "name", "published", "groups"],
         "type": "object"
       },
       "UniverseCategoriesGet": {
@@ -10145,11 +9612,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "x",
-              "y",
-              "z"
-            ],
+            "required": ["x", "y", "z"],
             "type": "object"
           },
           "region_id": {
@@ -10271,9 +9734,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "graphic_id"
-        ],
+        "required": ["graphic_id"],
         "type": "object"
       },
       "UniverseGroupsGet": {
@@ -10308,13 +9769,7 @@
             "type": "array"
           }
         },
-        "required": [
-          "group_id",
-          "name",
-          "published",
-          "category_id",
-          "types"
-        ],
+        "required": ["group_id", "name", "published", "category_id", "types"],
         "type": "object"
       },
       "UniverseIdsPost": {
@@ -10506,11 +9961,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "x",
-              "y",
-              "z"
-            ],
+            "required": ["x", "y", "z"],
             "type": "object"
           },
           "system_id": {
@@ -10519,12 +9970,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "moon_id",
-          "name",
-          "position",
-          "system_id"
-        ],
+        "required": ["moon_id", "name", "position", "system_id"],
         "type": "object"
       },
       "UniverseNamesPost": {
@@ -10552,11 +9998,7 @@
               "type": "string"
             }
           },
-          "required": [
-            "id",
-            "name",
-            "category"
-          ],
+          "required": ["id", "name", "category"],
           "type": "object"
         },
         "type": "array"
@@ -10585,11 +10027,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "x",
-              "y",
-              "z"
-            ],
+            "required": ["x", "y", "z"],
             "type": "object"
           },
           "system_id": {
@@ -10602,13 +10040,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "planet_id",
-          "name",
-          "type_id",
-          "position",
-          "system_id"
-        ],
+        "required": ["planet_id", "name", "type_id", "position", "system_id"],
         "type": "object"
       },
       "UniverseRacesGet": {
@@ -10630,12 +10062,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "race_id",
-            "name",
-            "description",
-            "alliance_id"
-          ],
+          "required": ["race_id", "name", "description", "alliance_id"],
           "type": "object"
         },
         "type": "array"
@@ -10668,11 +10095,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "region_id",
-          "name",
-          "constellations"
-        ],
+        "required": ["region_id", "name", "constellations"],
         "type": "object"
       },
       "UniverseSchematicsSchematicIdGet": {
@@ -10686,10 +10109,7 @@
             "type": "string"
           }
         },
-        "required": [
-          "schematic_name",
-          "cycle_time"
-        ],
+        "required": ["schematic_name", "cycle_time"],
         "type": "object"
       },
       "UniverseStargatesStargateIdGet": {
@@ -10707,10 +10127,7 @@
                 "type": "integer"
               }
             },
-            "required": [
-              "system_id",
-              "stargate_id"
-            ],
+            "required": ["system_id", "stargate_id"],
             "type": "object"
           },
           "name": {
@@ -10731,11 +10148,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "x",
-              "y",
-              "z"
-            ],
+            "required": ["x", "y", "z"],
             "type": "object"
           },
           "stargate_id": {
@@ -10932,11 +10345,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "x",
-              "y",
-              "z"
-            ],
+            "required": ["x", "y", "z"],
             "type": "object"
           },
           "race_id": {
@@ -11050,11 +10459,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "x",
-              "y",
-              "z"
-            ],
+            "required": ["x", "y", "z"],
             "type": "object"
           },
           "solar_system_id": {
@@ -11066,11 +10471,7 @@
             "type": "integer"
           }
         },
-        "required": [
-          "name",
-          "solar_system_id",
-          "owner_id"
-        ],
+        "required": ["name", "solar_system_id", "owner_id"],
         "type": "object"
       },
       "UniverseSystemJumpsGet": {
@@ -11085,10 +10486,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "system_id",
-            "ship_jumps"
-          ],
+          "required": ["system_id", "ship_jumps"],
           "type": "object"
         },
         "type": "array"
@@ -11116,12 +10514,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "system_id",
-            "ship_kills",
-            "npc_kills",
-            "pod_kills"
-          ],
+          "required": ["system_id", "ship_kills", "npc_kills", "pod_kills"],
           "type": "object"
         },
         "type": "array"
@@ -11168,9 +10561,7 @@
                   "type": "integer"
                 }
               },
-              "required": [
-                "planet_id"
-              ],
+              "required": ["planet_id"],
               "type": "object"
             },
             "type": "array"
@@ -11190,11 +10581,7 @@
                 "type": "number"
               }
             },
-            "required": [
-              "x",
-              "y",
-              "z"
-            ],
+            "required": ["x", "y", "z"],
             "type": "object"
           },
           "security_class": {
@@ -11267,10 +10654,7 @@
                   "type": "number"
                 }
               },
-              "required": [
-                "attribute_id",
-                "value"
-              ],
+              "required": ["attribute_id", "value"],
               "type": "object"
             },
             "type": "array"
@@ -11287,10 +10671,7 @@
                   "type": "boolean"
                 }
               },
-              "required": [
-                "effect_id",
-                "is_default"
-              ],
+              "required": ["effect_id", "is_default"],
               "type": "object"
             },
             "type": "array"
@@ -11343,13 +10724,7 @@
             "type": "number"
           }
         },
-        "required": [
-          "type_id",
-          "name",
-          "description",
-          "published",
-          "group_id"
-        ],
+        "required": ["type_id", "name", "description", "published", "group_id"],
         "type": "object"
       },
       "WarsGet": {
@@ -11385,10 +10760,7 @@
                 "type": "integer"
               }
             },
-            "required": [
-              "ships_killed",
-              "isk_destroyed"
-            ],
+            "required": ["ships_killed", "isk_destroyed"],
             "type": "object"
           },
           "allies": {
@@ -11440,10 +10812,7 @@
                 "type": "integer"
               }
             },
-            "required": [
-              "ships_killed",
-              "isk_destroyed"
-            ],
+            "required": ["ships_killed", "isk_destroyed"],
             "type": "object"
           },
           "finished": {
@@ -11498,10 +10867,7 @@
               "type": "integer"
             }
           },
-          "required": [
-            "killmail_id",
-            "killmail_hash"
-          ],
+          "required": ["killmail_id", "killmail_hash"],
           "type": "object"
         },
         "type": "array"
@@ -11657,9 +11023,7 @@
           }
         },
         "summary": "List all alliances",
-        "tags": [
-          "Alliance"
-        ],
+        "tags": ["Alliance"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -11728,9 +11092,7 @@
           }
         },
         "summary": "Get alliance information",
-        "tags": [
-          "Alliance"
-        ],
+        "tags": ["Alliance"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -11817,15 +11179,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-alliances.read_contacts.v1"
-            ]
+            "OAuth2": ["esi-alliances.read_contacts.v1"]
           }
         ],
         "summary": "Get alliance contacts",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -11900,15 +11258,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-alliances.read_contacts.v1"
-            ]
+            "OAuth2": ["esi-alliances.read_contacts.v1"]
           }
         ],
         "summary": "Get alliance contact labels",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -11982,9 +11336,7 @@
           }
         },
         "summary": "List alliance's corporations",
-        "tags": [
-          "Alliance"
-        ],
+        "tags": ["Alliance"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -12053,9 +11405,7 @@
           }
         },
         "summary": "Get alliance icon",
-        "tags": [
-          "Alliance"
-        ],
+        "tags": ["Alliance"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -12132,9 +11482,7 @@
           }
         },
         "summary": "Character affiliation",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -12203,9 +11551,7 @@
           }
         },
         "summary": "Get character's public information",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-cache-age": 604800,
         "x-compatibility-date": "2020-01-01"
       }
@@ -12275,15 +11621,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_agents_research.v1"
-            ]
+            "OAuth2": ["esi-characters.read_agents_research.v1"]
           }
         ],
         "summary": "Get agents research",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -12375,15 +11717,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-assets.read_assets.v1"
-            ]
+            "OAuth2": ["esi-assets.read_assets.v1"]
           }
         ],
         "summary": "Get character assets",
-        "tags": [
-          "Assets"
-        ],
+        "tags": ["Assets"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -12476,15 +11814,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-assets.read_assets.v1"
-            ]
+            "OAuth2": ["esi-assets.read_assets.v1"]
           }
         ],
         "summary": "Get character asset locations",
-        "tags": [
-          "Assets"
-        ],
+        "tags": ["Assets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "char-asset",
@@ -12576,15 +11910,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-assets.read_assets.v1"
-            ]
+            "OAuth2": ["esi-assets.read_assets.v1"]
           }
         ],
         "summary": "Get character asset names",
-        "tags": [
-          "Assets"
-        ],
+        "tags": ["Assets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "char-asset",
@@ -12658,15 +11988,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-skills.read_skills.v1"
-            ]
+            "OAuth2": ["esi-skills.read_skills.v1"]
           }
         ],
         "summary": "Get character attributes",
-        "tags": [
-          "Skills"
-        ],
+        "tags": ["Skills"],
         "x-cache-age": 120,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -12758,15 +12084,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_blueprints.v1"
-            ]
+            "OAuth2": ["esi-characters.read_blueprints.v1"]
           }
         ],
         "summary": "Get blueprints",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -12850,15 +12172,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-calendar.read_calendar_events.v1"
-            ]
+            "OAuth2": ["esi-calendar.read_calendar_events.v1"]
           }
         ],
         "summary": "List calendar event summaries",
-        "tags": [
-          "Calendar"
-        ],
+        "tags": ["Calendar"],
         "x-cache-age": 5,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -12943,15 +12261,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-calendar.read_calendar_events.v1"
-            ]
+            "OAuth2": ["esi-calendar.read_calendar_events.v1"]
           }
         ],
         "summary": "Get an event",
-        "tags": [
-          "Calendar"
-        ],
+        "tags": ["Calendar"],
         "x-cache-age": 5,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -13005,17 +12319,11 @@
               "schema": {
                 "properties": {
                   "response": {
-                    "enum": [
-                      "accepted",
-                      "declined",
-                      "tentative"
-                    ],
+                    "enum": ["accepted", "declined", "tentative"],
                     "type": "string"
                   }
                 },
-                "required": [
-                  "response"
-                ],
+                "required": ["response"],
                 "type": "object"
               }
             }
@@ -13050,15 +12358,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-calendar.respond_calendar_events.v1"
-            ]
+            "OAuth2": ["esi-calendar.respond_calendar_events.v1"]
           }
         ],
         "summary": "Respond to an event",
-        "tags": [
-          "Calendar"
-        ],
+        "tags": ["Calendar"],
         "x-cache-age": 5,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -13143,15 +12447,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-calendar.read_calendar_events.v1"
-            ]
+            "OAuth2": ["esi-calendar.read_calendar_events.v1"]
           }
         ],
         "summary": "Get attendees",
-        "tags": [
-          "Calendar"
-        ],
+        "tags": ["Calendar"],
         "x-cache-age": 600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -13226,15 +12526,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-clones.read_clones.v1"
-            ]
+            "OAuth2": ["esi-clones.read_clones.v1"]
           }
         ],
         "summary": "Get clones",
-        "tags": [
-          "Clones"
-        ],
+        "tags": ["Clones"],
         "x-cache-age": 120,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -13317,15 +12613,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.write_contacts.v1"
-            ]
+            "OAuth2": ["esi-characters.write_contacts.v1"]
           }
         ],
         "summary": "Delete contacts",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "char-social",
@@ -13414,15 +12706,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_contacts.v1"
-            ]
+            "OAuth2": ["esi-characters.read_contacts.v1"]
           }
         ],
         "summary": "Get contacts",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -13544,15 +12832,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.write_contacts.v1"
-            ]
+            "OAuth2": ["esi-characters.write_contacts.v1"]
           }
         ],
         "summary": "Add contacts",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "char-social",
@@ -13666,15 +12950,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.write_contacts.v1"
-            ]
+            "OAuth2": ["esi-characters.write_contacts.v1"]
           }
         ],
         "summary": "Edit contacts",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "char-social",
@@ -13748,15 +13028,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_contacts.v1"
-            ]
+            "OAuth2": ["esi-characters.read_contacts.v1"]
           }
         ],
         "summary": "Get contact labels",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -13848,15 +13124,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-contracts.read_character_contracts.v1"
-            ]
+            "OAuth2": ["esi-contracts.read_character_contracts.v1"]
           }
         ],
         "summary": "Get contracts",
-        "tags": [
-          "Contracts"
-        ],
+        "tags": ["Contracts"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -13941,15 +13213,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-contracts.read_character_contracts.v1"
-            ]
+            "OAuth2": ["esi-contracts.read_character_contracts.v1"]
           }
         ],
         "summary": "Get contract bids",
-        "tags": [
-          "Contracts"
-        ],
+        "tags": ["Contracts"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -14034,15 +13302,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-contracts.read_character_contracts.v1"
-            ]
+            "OAuth2": ["esi-contracts.read_character_contracts.v1"]
           }
         ],
         "summary": "Get contract items",
-        "tags": [
-          "Contracts"
-        ],
+        "tags": ["Contracts"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -14116,9 +13380,7 @@
           }
         },
         "summary": "Get corporation history",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-cache-age": 86400,
         "x-compatibility-date": "2020-01-01"
       }
@@ -14206,15 +13468,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_contacts.v1"
-            ]
+            "OAuth2": ["esi-characters.read_contacts.v1"]
           }
         ],
         "summary": "Calculate a CSPA charge cost",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "char-detail",
@@ -14288,15 +13546,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_fatigue.v1"
-            ]
+            "OAuth2": ["esi-characters.read_fatigue.v1"]
           }
         ],
         "summary": "Get jump fatigue",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -14371,15 +13625,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fittings.read_fittings.v1"
-            ]
+            "OAuth2": ["esi-fittings.read_fittings.v1"]
           }
         ],
         "summary": "Get fittings",
-        "tags": [
-          "Fittings"
-        ],
+        "tags": ["Fittings"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -14488,11 +13738,7 @@
                           "type": "integer"
                         }
                       },
-                      "required": [
-                        "type_id",
-                        "flag",
-                        "quantity"
-                      ],
+                      "required": ["type_id", "flag", "quantity"],
                       "type": "object"
                     },
                     "maxItems": 512,
@@ -14509,12 +13755,7 @@
                     "type": "integer"
                   }
                 },
-                "required": [
-                  "name",
-                  "description",
-                  "ship_type_id",
-                  "items"
-                ],
+                "required": ["name", "description", "ship_type_id", "items"],
                 "type": "object"
               }
             }
@@ -14556,15 +13797,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fittings.write_fittings.v1"
-            ]
+            "OAuth2": ["esi-fittings.write_fittings.v1"]
           }
         ],
         "summary": "Create fitting",
-        "tags": [
-          "Fittings"
-        ],
+        "tags": ["Fittings"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "fitting",
@@ -14641,15 +13878,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fittings.write_fittings.v1"
-            ]
+            "OAuth2": ["esi-fittings.write_fittings.v1"]
           }
         ],
         "summary": "Delete fitting",
-        "tags": [
-          "Fittings"
-        ],
+        "tags": ["Fittings"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "fitting",
@@ -14723,15 +13956,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.read_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.read_fleet.v1"]
           }
         ],
         "summary": "Get character fleet info",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-cache-age": 60,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -14806,15 +14035,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_fw_stats.v1"
-            ]
+            "OAuth2": ["esi-characters.read_fw_stats.v1"]
           }
         ],
         "summary": "Overview of a character involved in faction warfare",
-        "tags": [
-          "Faction Warfare"
-        ],
+        "tags": ["Faction Warfare"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "factional-warfare",
@@ -14888,15 +14113,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-clones.read_implants.v1"
-            ]
+            "OAuth2": ["esi-clones.read_implants.v1"]
           }
         ],
         "summary": "Get active implants",
-        "tags": [
-          "Clones"
-        ],
+        "tags": ["Clones"],
         "x-cache-age": 120,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -14979,15 +14200,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-industry.read_character_jobs.v1"
-            ]
+            "OAuth2": ["esi-industry.read_character_jobs.v1"]
           }
         ],
         "summary": "List character industry jobs",
-        "tags": [
-          "Industry"
-        ],
+        "tags": ["Industry"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -15079,15 +14296,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-killmails.read_killmails.v1"
-            ]
+            "OAuth2": ["esi-killmails.read_killmails.v1"]
           }
         ],
         "summary": "Get a character's recent kills and losses",
-        "tags": [
-          "Killmails"
-        ],
+        "tags": ["Killmails"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -15162,15 +14375,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-location.read_location.v1"
-            ]
+            "OAuth2": ["esi-location.read_location.v1"]
           }
         ],
         "summary": "Get character location",
-        "tags": [
-          "Location"
-        ],
+        "tags": ["Location"],
         "x-cache-age": 5,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -15245,15 +14454,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_loyalty.v1"
-            ]
+            "OAuth2": ["esi-characters.read_loyalty.v1"]
           }
         ],
         "summary": "Get loyalty points",
-        "tags": [
-          "Loyalty"
-        ],
+        "tags": ["Loyalty"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -15352,15 +14557,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-mail.read_mail.v1"
-            ]
+            "OAuth2": ["esi-mail.read_mail.v1"]
           }
         ],
         "summary": "Return mail headers",
-        "tags": [
-          "Mail"
-        ],
+        "tags": ["Mail"],
         "x-cache-age": 30,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -15430,10 +14631,7 @@
                           "type": "string"
                         }
                       },
-                      "required": [
-                        "recipient_type",
-                        "recipient_id"
-                      ],
+                      "required": ["recipient_type", "recipient_id"],
                       "type": "object"
                     },
                     "maxItems": 50,
@@ -15445,11 +14643,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "recipients",
-                  "subject",
-                  "body"
-                ],
+                "required": ["recipients", "subject", "body"],
                 "type": "object"
               }
             }
@@ -15491,15 +14685,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-mail.send_mail.v1"
-            ]
+            "OAuth2": ["esi-mail.send_mail.v1"]
           }
         ],
         "summary": "Send a new mail",
-        "tags": [
-          "Mail"
-        ],
+        "tags": ["Mail"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "char-social",
@@ -15573,15 +14763,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-mail.read_mail.v1"
-            ]
+            "OAuth2": ["esi-mail.read_mail.v1"]
           }
         ],
         "summary": "Get mail labels and unread counts",
-        "tags": [
-          "Mail"
-        ],
+        "tags": ["Mail"],
         "x-cache-age": 30,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -15655,9 +14841,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "name"
-                ],
+                "required": ["name"],
                 "type": "object"
               }
             }
@@ -15699,15 +14883,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-mail.organize_mail.v1"
-            ]
+            "OAuth2": ["esi-mail.organize_mail.v1"]
           }
         ],
         "summary": "Create a mail label",
-        "tags": [
-          "Mail"
-        ],
+        "tags": ["Mail"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "char-social",
@@ -15784,15 +14964,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-mail.organize_mail.v1"
-            ]
+            "OAuth2": ["esi-mail.organize_mail.v1"]
           }
         ],
         "summary": "Delete a mail label",
-        "tags": [
-          "Mail"
-        ],
+        "tags": ["Mail"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "char-social",
@@ -15866,15 +15042,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-mail.read_mail.v1"
-            ]
+            "OAuth2": ["esi-mail.read_mail.v1"]
           }
         ],
         "summary": "Return mailing list subscriptions",
-        "tags": [
-          "Mail"
-        ],
+        "tags": ["Mail"],
         "x-cache-age": 120,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -15952,15 +15124,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-mail.organize_mail.v1"
-            ]
+            "OAuth2": ["esi-mail.organize_mail.v1"]
           }
         ],
         "summary": "Delete a mail",
-        "tags": [
-          "Mail"
-        ],
+        "tags": ["Mail"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "char-social",
@@ -16042,15 +15210,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-mail.read_mail.v1"
-            ]
+            "OAuth2": ["esi-mail.read_mail.v1"]
           }
         ],
         "summary": "Return a mail",
-        "tags": [
-          "Mail"
-        ],
+        "tags": ["Mail"],
         "x-cache-age": 30,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -16153,15 +15317,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-mail.organize_mail.v1"
-            ]
+            "OAuth2": ["esi-mail.organize_mail.v1"]
           }
         ],
         "summary": "Update metadata about a mail",
-        "tags": [
-          "Mail"
-        ],
+        "tags": ["Mail"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "char-social",
@@ -16235,15 +15395,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_medals.v1"
-            ]
+            "OAuth2": ["esi-characters.read_medals.v1"]
           }
         ],
         "summary": "Get medals",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -16335,15 +15491,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-industry.read_character_mining.v1"
-            ]
+            "OAuth2": ["esi-industry.read_character_mining.v1"]
           }
         ],
         "summary": "Character mining ledger",
-        "tags": [
-          "Industry"
-        ],
+        "tags": ["Industry"],
         "x-cache-age": 600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -16418,15 +15570,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_notifications.v1"
-            ]
+            "OAuth2": ["esi-characters.read_notifications.v1"]
           }
         ],
         "summary": "Get character notifications",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-cache-age": 600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -16501,15 +15649,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_notifications.v1"
-            ]
+            "OAuth2": ["esi-characters.read_notifications.v1"]
           }
         ],
         "summary": "Get new contact notifications",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-cache-age": 600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -16584,15 +15728,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-location.read_online.v1"
-            ]
+            "OAuth2": ["esi-location.read_online.v1"]
           }
         ],
         "summary": "Get character online",
-        "tags": [
-          "Location"
-        ],
+        "tags": ["Location"],
         "x-cache-age": 60,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -16667,15 +15807,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-markets.read_character_orders.v1"
-            ]
+            "OAuth2": ["esi-markets.read_character_orders.v1"]
           }
         ],
         "summary": "List open orders from a character",
-        "tags": [
-          "Market"
-        ],
+        "tags": ["Market"],
         "x-cache-age": 1200,
         "x-compatibility-date": "2020-01-01"
       }
@@ -16762,15 +15898,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-markets.read_character_orders.v1"
-            ]
+            "OAuth2": ["esi-markets.read_character_orders.v1"]
           }
         ],
         "summary": "List historical orders by a character",
-        "tags": [
-          "Market"
-        ],
+        "tags": ["Market"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -16840,15 +15972,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-planets.manage_planets.v1"
-            ]
+            "OAuth2": ["esi-planets.manage_planets.v1"]
           }
         ],
         "summary": "Get colonies",
-        "tags": [
-          "Planetary Interaction"
-        ],
+        "tags": ["Planetary Interaction"],
         "x-cache-age": 600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -16933,15 +16061,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-planets.manage_planets.v1"
-            ]
+            "OAuth2": ["esi-planets.manage_planets.v1"]
           }
         ],
         "summary": "Get colony layout",
-        "tags": [
-          "Planetary Interaction"
-        ],
+        "tags": ["Planetary Interaction"],
         "x-cache-age": 600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -17015,9 +16139,7 @@
           }
         },
         "summary": "Get character portraits",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "char-detail",
@@ -17091,15 +16213,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_corporation_roles.v1"
-            ]
+            "OAuth2": ["esi-characters.read_corporation_roles.v1"]
           }
         ],
         "summary": "Get character corporation roles",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -17224,15 +16342,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-search.search_structures.v1"
-            ]
+            "OAuth2": ["esi-search.search_structures.v1"]
           }
         ],
         "summary": "Search on a string",
-        "tags": [
-          "Search"
-        ],
+        "tags": ["Search"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -17302,15 +16416,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-location.read_ship_type.v1"
-            ]
+            "OAuth2": ["esi-location.read_ship_type.v1"]
           }
         ],
         "summary": "Get current ship",
-        "tags": [
-          "Location"
-        ],
+        "tags": ["Location"],
         "x-cache-age": 5,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -17389,15 +16499,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-skills.read_skillqueue.v1"
-            ]
+            "OAuth2": ["esi-skills.read_skillqueue.v1"]
           }
         ],
         "summary": "Get character's skill queue",
-        "tags": [
-          "Skills"
-        ],
+        "tags": ["Skills"],
         "x-cache-age": 60,
         "x-cache-mode": "event-based",
         "x-compatibility-date": "2020-01-01",
@@ -17474,15 +16580,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-skills.read_skills.v1"
-            ]
+            "OAuth2": ["esi-skills.read_skills.v1"]
           }
         ],
         "summary": "Get character skills",
-        "tags": [
-          "Skills"
-        ],
+        "tags": ["Skills"],
         "x-cache-age": 60,
         "x-cache-mode": "event-based",
         "x-compatibility-date": "2020-01-01",
@@ -17558,15 +16660,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_standings.v1"
-            ]
+            "OAuth2": ["esi-characters.read_standings.v1"]
           }
         ],
         "summary": "Get standings",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -17641,15 +16739,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-characters.read_titles.v1"
-            ]
+            "OAuth2": ["esi-characters.read_titles.v1"]
           }
         ],
         "summary": "Get character corporation titles",
-        "tags": [
-          "Character"
-        ],
+        "tags": ["Character"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -17724,15 +16818,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-wallet.read_character_wallet.v1"
-            ]
+            "OAuth2": ["esi-wallet.read_character_wallet.v1"]
           }
         ],
         "summary": "Get a character's wallet balance",
-        "tags": [
-          "Wallet"
-        ],
+        "tags": ["Wallet"],
         "x-cache-age": 120,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -17824,15 +16914,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-wallet.read_character_wallet.v1"
-            ]
+            "OAuth2": ["esi-wallet.read_character_wallet.v1"]
           }
         ],
         "summary": "Get character wallet journal",
-        "tags": [
-          "Wallet"
-        ],
+        "tags": ["Wallet"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -17916,15 +17002,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-wallet.read_character_wallet.v1"
-            ]
+            "OAuth2": ["esi-wallet.read_character_wallet.v1"]
           }
         ],
         "summary": "Get wallet transactions",
-        "tags": [
-          "Wallet"
-        ],
+        "tags": ["Wallet"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -18025,9 +17107,7 @@
           }
         },
         "summary": "Get public contract bids",
-        "tags": [
-          "Contracts"
-        ],
+        "tags": ["Contracts"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01"
       }
@@ -18123,9 +17203,7 @@
           }
         },
         "summary": "Get public contract items",
-        "tags": [
-          "Contracts"
-        ],
+        "tags": ["Contracts"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -18212,9 +17290,7 @@
           }
         },
         "summary": "Get public contracts",
-        "tags": [
-          "Contracts"
-        ],
+        "tags": ["Contracts"],
         "x-cache-age": 1800,
         "x-compatibility-date": "2020-01-01"
       }
@@ -18301,15 +17377,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-industry.read_corporation_mining.v1"
-            ]
+            "OAuth2": ["esi-industry.read_corporation_mining.v1"]
           }
         ],
         "summary": "Moon extraction timers",
-        "tags": [
-          "Industry"
-        ],
+        "tags": ["Industry"],
         "x-cache-age": 1800,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -18317,9 +17389,7 @@
           "max-tokens": 600,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Station_Manager"
-        ]
+        "x-required-roles": ["Station_Manager"]
       }
     },
     "/corporation/{corporation_id}/mining/observers": {
@@ -18404,15 +17474,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-industry.read_corporation_mining.v1"
-            ]
+            "OAuth2": ["esi-industry.read_corporation_mining.v1"]
           }
         ],
         "summary": "Corporation mining observers",
-        "tags": [
-          "Industry"
-        ],
+        "tags": ["Industry"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -18420,9 +17486,7 @@
           "max-tokens": 600,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Accountant"
-        ]
+        "x-required-roles": ["Accountant"]
       }
     },
     "/corporation/{corporation_id}/mining/observers/{observer_id}": {
@@ -18517,15 +17581,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-industry.read_corporation_mining.v1"
-            ]
+            "OAuth2": ["esi-industry.read_corporation_mining.v1"]
           }
         ],
         "summary": "Observed corporation mining",
-        "tags": [
-          "Industry"
-        ],
+        "tags": ["Industry"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -18533,9 +17593,7 @@
           "max-tokens": 600,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Accountant"
-        ]
+        "x-required-roles": ["Accountant"]
       }
     },
     "/corporations/npccorps": {
@@ -18593,9 +17651,7 @@
           }
         },
         "summary": "Get npc corporations",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -18663,9 +17719,7 @@
           }
         },
         "summary": "Get corporation information",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -18734,9 +17788,7 @@
           }
         },
         "summary": "Get alliance history",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -18823,15 +17875,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-assets.read_corporation_assets.v1"
-            ]
+            "OAuth2": ["esi-assets.read_corporation_assets.v1"]
           }
         ],
         "summary": "Get corporation assets",
-        "tags": [
-          "Assets"
-        ],
+        "tags": ["Assets"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -18839,9 +17887,7 @@
           "max-tokens": 1800,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/assets/locations": {
@@ -18927,24 +17973,18 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-assets.read_corporation_assets.v1"
-            ]
+            "OAuth2": ["esi-assets.read_corporation_assets.v1"]
           }
         ],
         "summary": "Get corporation asset locations",
-        "tags": [
-          "Assets"
-        ],
+        "tags": ["Assets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "corp-asset",
           "max-tokens": 1800,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/assets/names": {
@@ -19030,24 +18070,18 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-assets.read_corporation_assets.v1"
-            ]
+            "OAuth2": ["esi-assets.read_corporation_assets.v1"]
           }
         ],
         "summary": "Get corporation asset names",
-        "tags": [
-          "Assets"
-        ],
+        "tags": ["Assets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "corp-asset",
           "max-tokens": 1800,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/blueprints": {
@@ -19132,15 +18166,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_blueprints.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_blueprints.v1"]
           }
         ],
         "summary": "Get corporation blueprints",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -19148,9 +18178,7 @@
           "max-tokens": 600,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/contacts": {
@@ -19235,15 +18263,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_contacts.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_contacts.v1"]
           }
         ],
         "summary": "Get corporation contacts",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -19318,15 +18342,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_contacts.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_contacts.v1"]
           }
         ],
         "summary": "Get corporation contact labels",
-        "tags": [
-          "Contacts"
-        ],
+        "tags": ["Contacts"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -19418,20 +18438,14 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_container_logs.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_container_logs.v1"]
           }
         ],
         "summary": "Get all corporation ALSC logs",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 600,
         "x-compatibility-date": "2020-01-01",
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/contracts": {
@@ -19516,15 +18530,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-contracts.read_corporation_contracts.v1"
-            ]
+            "OAuth2": ["esi-contracts.read_corporation_contracts.v1"]
           }
         ],
         "summary": "Get corporation contracts",
-        "tags": [
-          "Contracts"
-        ],
+        "tags": ["Contracts"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -19626,15 +18636,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-contracts.read_corporation_contracts.v1"
-            ]
+            "OAuth2": ["esi-contracts.read_corporation_contracts.v1"]
           }
         ],
         "summary": "Get corporation contract bids",
-        "tags": [
-          "Contracts"
-        ],
+        "tags": ["Contracts"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -19719,15 +18725,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-contracts.read_corporation_contracts.v1"
-            ]
+            "OAuth2": ["esi-contracts.read_corporation_contracts.v1"]
           }
         ],
         "summary": "Get corporation contract items",
-        "tags": [
-          "Contracts"
-        ],
+        "tags": ["Contracts"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -19819,15 +18821,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-planets.read_customs_offices.v1"
-            ]
+            "OAuth2": ["esi-planets.read_customs_offices.v1"]
           }
         ],
         "summary": "List corporation customs offices",
-        "tags": [
-          "Planetary Interaction"
-        ],
+        "tags": ["Planetary Interaction"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -19835,9 +18833,7 @@
           "max-tokens": 600,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/divisions": {
@@ -19905,15 +18901,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_divisions.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_divisions.v1"]
           }
         ],
         "summary": "Get corporation divisions",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -19921,9 +18913,7 @@
           "max-tokens": 300,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/facilities": {
@@ -19991,20 +18981,14 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_facilities.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_facilities.v1"]
           }
         ],
         "summary": "Get corporation facilities",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
-        "x-required-roles": [
-          "Factory_Manager"
-        ]
+        "x-required-roles": ["Factory_Manager"]
       }
     },
     "/corporations/{corporation_id}/fw/stats": {
@@ -20072,15 +19056,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_fw_stats.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_fw_stats.v1"]
           }
         ],
         "summary": "Overview of a corporation involved in faction warfare",
-        "tags": [
-          "Faction Warfare"
-        ],
+        "tags": ["Faction Warfare"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "factional-warfare",
@@ -20153,9 +19133,7 @@
           }
         },
         "summary": "Get corporation icon",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -20251,15 +19229,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-industry.read_corporation_jobs.v1"
-            ]
+            "OAuth2": ["esi-industry.read_corporation_jobs.v1"]
           }
         ],
         "summary": "List corporation industry jobs",
-        "tags": [
-          "Industry"
-        ],
+        "tags": ["Industry"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -20267,9 +19241,7 @@
           "max-tokens": 600,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Factory_Manager"
-        ]
+        "x-required-roles": ["Factory_Manager"]
       }
     },
     "/corporations/{corporation_id}/killmails/recent": {
@@ -20354,15 +19326,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-killmails.read_corporation_killmails.v1"
-            ]
+            "OAuth2": ["esi-killmails.read_corporation_killmails.v1"]
           }
         ],
         "summary": "Get a corporation's recent kills and losses",
-        "tags": [
-          "Killmails"
-        ],
+        "tags": ["Killmails"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -20370,9 +19338,7 @@
           "max-tokens": 30,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/medals": {
@@ -20457,15 +19423,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_medals.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_medals.v1"]
           }
         ],
         "summary": "Get corporation medals",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -20557,15 +19519,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_medals.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_medals.v1"]
           }
         ],
         "summary": "Get corporation issued medals",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -20573,9 +19531,7 @@
           "max-tokens": 300,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/members": {
@@ -20643,15 +19599,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_corporation_membership.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_corporation_membership.v1"]
           }
         ],
         "summary": "Get corporation members",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -20726,15 +19678,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.track_members.v1"
-            ]
+            "OAuth2": ["esi-corporations.track_members.v1"]
           }
         ],
         "summary": "Get corporation member limit",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -20742,9 +19690,7 @@
           "max-tokens": 300,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/members/titles": {
@@ -20812,15 +19758,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_titles.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_titles.v1"]
           }
         ],
         "summary": "Get corporation's members' titles",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -20828,9 +19770,7 @@
           "max-tokens": 300,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/membertracking": {
@@ -20898,15 +19838,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.track_members.v1"
-            ]
+            "OAuth2": ["esi-corporations.track_members.v1"]
           }
         ],
         "summary": "Track corporation members",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -20914,9 +19850,7 @@
           "max-tokens": 300,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/orders": {
@@ -21001,21 +19935,14 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-markets.read_corporation_orders.v1"
-            ]
+            "OAuth2": ["esi-markets.read_corporation_orders.v1"]
           }
         ],
         "summary": "List open orders from a corporation",
-        "tags": [
-          "Market"
-        ],
+        "tags": ["Market"],
         "x-cache-age": 1200,
         "x-compatibility-date": "2020-01-01",
-        "x-required-roles": [
-          "Accountant",
-          "Trader"
-        ]
+        "x-required-roles": ["Accountant", "Trader"]
       }
     },
     "/corporations/{corporation_id}/orders/history": {
@@ -21100,21 +20027,14 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-markets.read_corporation_orders.v1"
-            ]
+            "OAuth2": ["esi-markets.read_corporation_orders.v1"]
           }
         ],
         "summary": "List historical orders from a corporation",
-        "tags": [
-          "Market"
-        ],
+        "tags": ["Market"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
-        "x-required-roles": [
-          "Accountant",
-          "Trader"
-        ]
+        "x-required-roles": ["Accountant", "Trader"]
       }
     },
     "/corporations/{corporation_id}/roles": {
@@ -21182,15 +20102,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_corporation_membership.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_corporation_membership.v1"]
           }
         ],
         "summary": "Get corporation member roles",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -21282,15 +20198,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_corporation_membership.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_corporation_membership.v1"]
           }
         ],
         "summary": "Get corporation member roles history",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -21298,9 +20210,7 @@
           "max-tokens": 300,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/shareholders": {
@@ -21385,15 +20295,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-wallet.read_corporation_wallets.v1"
-            ]
+            "OAuth2": ["esi-wallet.read_corporation_wallets.v1"]
           }
         ],
         "summary": "Get corporation shareholders",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -21401,9 +20307,7 @@
           "max-tokens": 300,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/standings": {
@@ -21488,15 +20392,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_standings.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_standings.v1"]
           }
         ],
         "summary": "Get corporation standings",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -21588,20 +20488,14 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_starbases.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_starbases.v1"]
           }
         ],
         "summary": "Get corporation starbases (POSes)",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/starbases/{starbase_id}": {
@@ -21689,20 +20583,14 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_starbases.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_starbases.v1"]
           }
         ],
         "summary": "Get starbase (POS) detail",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/structures": {
@@ -21790,20 +20678,14 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_structures.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_structures.v1"]
           }
         ],
         "summary": "Get corporation structures",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
-        "x-required-roles": [
-          "Station_Manager"
-        ]
+        "x-required-roles": ["Station_Manager"]
       }
     },
     "/corporations/{corporation_id}/titles": {
@@ -21871,15 +20753,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-corporations.read_titles.v1"
-            ]
+            "OAuth2": ["esi-corporations.read_titles.v1"]
           }
         ],
         "summary": "Get corporation titles",
-        "tags": [
-          "Corporation"
-        ],
+        "tags": ["Corporation"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -21887,9 +20765,7 @@
           "max-tokens": 300,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Director"
-        ]
+        "x-required-roles": ["Director"]
       }
     },
     "/corporations/{corporation_id}/wallets": {
@@ -21957,15 +20833,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-wallet.read_corporation_wallets.v1"
-            ]
+            "OAuth2": ["esi-wallet.read_corporation_wallets.v1"]
           }
         ],
         "summary": "Returns a corporation's wallet balance",
-        "tags": [
-          "Wallet"
-        ],
+        "tags": ["Wallet"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -21973,10 +20845,7 @@
           "max-tokens": 300,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Accountant",
-          "Junior_Accountant"
-        ]
+        "x-required-roles": ["Accountant", "Junior_Accountant"]
       }
     },
     "/corporations/{corporation_id}/wallets/{division}/journal": {
@@ -22071,15 +20940,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-wallet.read_corporation_wallets.v1"
-            ]
+            "OAuth2": ["esi-wallet.read_corporation_wallets.v1"]
           }
         ],
         "summary": "Get corporation wallet journal",
-        "tags": [
-          "Wallet"
-        ],
+        "tags": ["Wallet"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -22087,10 +20952,7 @@
           "max-tokens": 300,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Accountant",
-          "Junior_Accountant"
-        ]
+        "x-required-roles": ["Accountant", "Junior_Accountant"]
       }
     },
     "/corporations/{corporation_id}/wallets/{division}/transactions": {
@@ -22177,15 +21039,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-wallet.read_corporation_wallets.v1"
-            ]
+            "OAuth2": ["esi-wallet.read_corporation_wallets.v1"]
           }
         ],
         "summary": "Get corporation wallet transactions",
-        "tags": [
-          "Wallet"
-        ],
+        "tags": ["Wallet"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -22193,10 +21051,7 @@
           "max-tokens": 300,
           "window-size": "15m"
         },
-        "x-required-roles": [
-          "Accountant",
-          "Junior_Accountant"
-        ]
+        "x-required-roles": ["Accountant", "Junior_Accountant"]
       }
     },
     "/dogma/attributes": {
@@ -22254,9 +21109,7 @@
           }
         },
         "summary": "Get attributes",
-        "tags": [
-          "Dogma"
-        ],
+        "tags": ["Dogma"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -22325,9 +21178,7 @@
           }
         },
         "summary": "Get attribute information",
-        "tags": [
-          "Dogma"
-        ],
+        "tags": ["Dogma"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -22404,9 +21255,7 @@
           }
         },
         "summary": "Get dynamic item information",
-        "tags": [
-          "Dogma"
-        ],
+        "tags": ["Dogma"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -22465,9 +21314,7 @@
           }
         },
         "summary": "Get effects",
-        "tags": [
-          "Dogma"
-        ],
+        "tags": ["Dogma"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -22536,9 +21383,7 @@
           }
         },
         "summary": "Get effect information",
-        "tags": [
-          "Dogma"
-        ],
+        "tags": ["Dogma"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -22608,15 +21453,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.read_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.read_fleet.v1"]
           }
         ],
         "summary": "Get fleet information",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-cache-age": 5,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -22703,15 +21544,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.write_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.write_fleet.v1"]
           }
         ],
         "summary": "Update fleet",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "fleet",
@@ -22789,15 +21626,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.read_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.read_fleet.v1"]
           }
         ],
         "summary": "Get fleet members",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-cache-age": 5,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -22865,10 +21698,7 @@
                     "type": "integer"
                   }
                 },
-                "required": [
-                  "character_id",
-                  "role"
-                ],
+                "required": ["character_id", "role"],
                 "type": "object"
               }
             }
@@ -22903,15 +21733,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.write_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.write_fleet.v1"]
           }
         ],
         "summary": "Create fleet invitation",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "fleet",
@@ -22989,15 +21815,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.write_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.write_fleet.v1"]
           }
         ],
         "summary": "Kick fleet member",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "fleet",
@@ -23069,9 +21891,7 @@
                     "type": "integer"
                   }
                 },
-                "required": [
-                  "role"
-                ],
+                "required": ["role"],
                 "type": "object"
               }
             }
@@ -23106,15 +21926,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.write_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.write_fleet.v1"]
           }
         ],
         "summary": "Move fleet member",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "fleet",
@@ -23192,15 +22008,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.write_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.write_fleet.v1"]
           }
         ],
         "summary": "Delete fleet squad",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "fleet",
@@ -23258,9 +22070,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "name"
-                ],
+                "required": ["name"],
                 "type": "object"
               }
             }
@@ -23295,15 +22105,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.write_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.write_fleet.v1"]
           }
         ],
         "summary": "Rename fleet squad",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "fleet",
@@ -23381,15 +22187,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.read_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.read_fleet.v1"]
           }
         ],
         "summary": "Get fleet wings",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-cache-age": 5,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -23463,15 +22265,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.write_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.write_fleet.v1"]
           }
         ],
         "summary": "Create fleet wing",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "fleet",
@@ -23549,15 +22347,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.write_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.write_fleet.v1"]
           }
         ],
         "summary": "Delete fleet wing",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "fleet",
@@ -23615,9 +22409,7 @@
                     "type": "string"
                   }
                 },
-                "required": [
-                  "name"
-                ],
+                "required": ["name"],
                 "type": "object"
               }
             }
@@ -23652,15 +22444,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.write_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.write_fleet.v1"]
           }
         ],
         "summary": "Rename fleet wing",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "fleet",
@@ -23745,15 +22533,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-fleets.write_fleet.v1"
-            ]
+            "OAuth2": ["esi-fleets.write_fleet.v1"]
           }
         ],
         "summary": "Create fleet squad",
-        "tags": [
-          "Fleets"
-        ],
+        "tags": ["Fleets"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "fleet",
@@ -23817,9 +22601,7 @@
           }
         },
         "summary": "List of the top factions in faction warfare",
-        "tags": [
-          "Faction Warfare"
-        ],
+        "tags": ["Faction Warfare"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "factional-warfare",
@@ -23883,9 +22665,7 @@
           }
         },
         "summary": "List of the top pilots in faction warfare",
-        "tags": [
-          "Faction Warfare"
-        ],
+        "tags": ["Faction Warfare"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "factional-warfare",
@@ -23949,9 +22729,7 @@
           }
         },
         "summary": "List of the top corporations in faction warfare",
-        "tags": [
-          "Faction Warfare"
-        ],
+        "tags": ["Faction Warfare"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "factional-warfare",
@@ -24015,9 +22793,7 @@
           }
         },
         "summary": "An overview of statistics about factions involved in faction warfare",
-        "tags": [
-          "Faction Warfare"
-        ],
+        "tags": ["Faction Warfare"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "factional-warfare",
@@ -24081,9 +22857,7 @@
           }
         },
         "summary": "Ownership of faction warfare systems",
-        "tags": [
-          "Faction Warfare"
-        ],
+        "tags": ["Faction Warfare"],
         "x-cache-age": 1800,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -24148,9 +22922,7 @@
           }
         },
         "summary": "Data about which NPC factions are at war",
-        "tags": [
-          "Faction Warfare"
-        ],
+        "tags": ["Faction Warfare"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "factional-warfare",
@@ -24214,9 +22986,7 @@
           }
         },
         "summary": "List incursions",
-        "tags": [
-          "Incursions"
-        ],
+        "tags": ["Incursions"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -24281,9 +23051,7 @@
           }
         },
         "summary": "List industry facilities",
-        "tags": [
-          "Industry"
-        ],
+        "tags": ["Industry"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -24348,9 +23116,7 @@
           }
         },
         "summary": "List solar system cost indices",
-        "tags": [
-          "Industry"
-        ],
+        "tags": ["Industry"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -24418,9 +23184,7 @@
           }
         },
         "summary": "List insurance levels",
-        "tags": [
-          "Insurance"
-        ],
+        "tags": ["Insurance"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -24504,9 +23268,7 @@
           }
         },
         "summary": "Get a single killmail",
-        "tags": [
-          "Killmails"
-        ],
+        "tags": ["Killmails"],
         "x-cache-age": 2592000,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -24580,9 +23342,7 @@
           }
         },
         "summary": "List loyalty store offers",
-        "tags": [
-          "Loyalty"
-        ],
+        "tags": ["Loyalty"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -24641,9 +23401,7 @@
           }
         },
         "summary": "Get item groups",
-        "tags": [
-          "Market"
-        ],
+        "tags": ["Market"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -24715,9 +23473,7 @@
           }
         },
         "summary": "Get item group information",
-        "tags": [
-          "Market"
-        ],
+        "tags": ["Market"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -24776,9 +23532,7 @@
           }
         },
         "summary": "List market prices",
-        "tags": [
-          "Market"
-        ],
+        "tags": ["Market"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -24866,15 +23620,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-markets.structure_markets.v1"
-            ]
+            "OAuth2": ["esi-markets.structure_markets.v1"]
           }
         ],
         "summary": "List orders in a structure",
-        "tags": [
-          "Market"
-        ],
+        "tags": ["Market"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01"
       }
@@ -24954,9 +23704,7 @@
           }
         },
         "summary": "List historical market statistics in a region",
-        "tags": [
-          "Market"
-        ],
+        "tags": ["Market"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -24972,11 +23720,7 @@
             "schema": {
               "default": "all",
               "description": "Filter buy/sell orders, return all orders by default. If you query without type_id, we always return both buy and sell orders",
-              "enum": [
-                "buy",
-                "sell",
-                "all"
-              ],
+              "enum": ["buy", "sell", "all"],
               "type": "string"
             }
           },
@@ -25066,9 +23810,7 @@
           }
         },
         "summary": "List orders in a region",
-        "tags": [
-          "Market"
-        ],
+        "tags": ["Market"],
         "x-cache-age": 300,
         "x-compatibility-date": "2020-01-01"
       }
@@ -25155,9 +23897,7 @@
           }
         },
         "summary": "List type IDs relevant to a market",
-        "tags": [
-          "Market"
-        ],
+        "tags": ["Market"],
         "x-cache-age": 600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -25217,9 +23957,7 @@
           }
         },
         "summary": "Get changelog",
-        "tags": [
-          "Meta"
-        ],
+        "tags": ["Meta"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "meta",
@@ -25283,9 +24021,7 @@
           }
         },
         "summary": "Get compatibility dates",
-        "tags": [
-          "Meta"
-        ],
+        "tags": ["Meta"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "meta",
@@ -25348,11 +24084,7 @@
             "schema": {
               "default": "shortest",
               "description": "route security preference",
-              "enum": [
-                "shortest",
-                "secure",
-                "insecure"
-              ],
+              "enum": ["shortest", "secure", "insecure"],
               "type": "string"
             }
           },
@@ -25416,9 +24148,7 @@
           }
         },
         "summary": "Get route",
-        "tags": [
-          "Routes"
-        ],
+        "tags": ["Routes"],
         "x-cache-age": 86400,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -25483,9 +24213,7 @@
           }
         },
         "summary": "List sovereignty campaigns",
-        "tags": [
-          "Sovereignty"
-        ],
+        "tags": ["Sovereignty"],
         "x-cache-age": 5,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -25550,9 +24278,7 @@
           }
         },
         "summary": "List sovereignty of systems",
-        "tags": [
-          "Sovereignty"
-        ],
+        "tags": ["Sovereignty"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -25617,9 +24343,7 @@
           }
         },
         "summary": "List sovereignty structures",
-        "tags": [
-          "Sovereignty"
-        ],
+        "tags": ["Sovereignty"],
         "x-cache-age": 120,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -25684,9 +24408,7 @@
           }
         },
         "summary": "Retrieve the uptime and player counts",
-        "tags": [
-          "Status"
-        ],
+        "tags": ["Status"],
         "x-cache-age": 30,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -25775,15 +24497,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-ui.write_waypoint.v1"
-            ]
+            "OAuth2": ["esi-ui.write_waypoint.v1"]
           }
         ],
         "summary": "Set Autopilot Waypoint",
-        "tags": [
-          "User Interface"
-        ],
+        "tags": ["User Interface"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "ui",
@@ -25851,15 +24569,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-ui.open_window.v1"
-            ]
+            "OAuth2": ["esi-ui.open_window.v1"]
           }
         ],
         "summary": "Open Contract Window",
-        "tags": [
-          "User Interface"
-        ],
+        "tags": ["User Interface"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "ui",
@@ -25927,15 +24641,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-ui.open_window.v1"
-            ]
+            "OAuth2": ["esi-ui.open_window.v1"]
           }
         ],
         "summary": "Open Information Window",
-        "tags": [
-          "User Interface"
-        ],
+        "tags": ["User Interface"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "ui",
@@ -26003,15 +24713,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-ui.open_window.v1"
-            ]
+            "OAuth2": ["esi-ui.open_window.v1"]
           }
         ],
         "summary": "Open Market Details",
-        "tags": [
-          "User Interface"
-        ],
+        "tags": ["User Interface"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "ui",
@@ -26074,11 +24780,7 @@
                     "type": "integer"
                   }
                 },
-                "required": [
-                  "subject",
-                  "body",
-                  "recipients"
-                ],
+                "required": ["subject", "body", "recipients"],
                 "type": "object"
               }
             }
@@ -26113,15 +24815,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-ui.open_window.v1"
-            ]
+            "OAuth2": ["esi-ui.open_window.v1"]
           }
         ],
         "summary": "Open New Mail Window",
-        "tags": [
-          "User Interface"
-        ],
+        "tags": ["User Interface"],
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
           "group": "ui",
@@ -26188,9 +24886,7 @@
           }
         },
         "summary": "Get ancestries",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -26258,9 +24954,7 @@
           }
         },
         "summary": "Get asteroid belt information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -26322,9 +25016,7 @@
           }
         },
         "summary": "Get bloodlines",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -26383,9 +25075,7 @@
           }
         },
         "summary": "Get item categories",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -26457,9 +25147,7 @@
           }
         },
         "summary": "Get item category information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -26518,9 +25206,7 @@
           }
         },
         "summary": "Get constellations",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -26591,9 +25277,7 @@
           }
         },
         "summary": "Get constellation information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -26655,9 +25339,7 @@
           }
         },
         "summary": "Get factions",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -26716,9 +25398,7 @@
           }
         },
         "summary": "Get graphics",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -26786,9 +25466,7 @@
           }
         },
         "summary": "Get graphic information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -26864,9 +25542,7 @@
           }
         },
         "summary": "Get item groups",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -26938,9 +25614,7 @@
           }
         },
         "summary": "Get item group information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -27021,9 +25695,7 @@
           }
         },
         "summary": "Bulk names to IDs",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -27091,9 +25763,7 @@
           }
         },
         "summary": "Get moon information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -27170,9 +25840,7 @@
           }
         },
         "summary": "Get names and categories for a set of IDs",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -27240,9 +25908,7 @@
           }
         },
         "summary": "Get planet information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -27304,9 +25970,7 @@
           }
         },
         "summary": "Get character races",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -27365,9 +26029,7 @@
           }
         },
         "summary": "Get regions",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -27438,9 +26100,7 @@
           }
         },
         "summary": "Get region information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -27509,9 +26169,7 @@
           }
         },
         "summary": "Get schematic information",
-        "tags": [
-          "Planetary Interaction"
-        ],
+        "tags": ["Planetary Interaction"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -27580,9 +26238,7 @@
           }
         },
         "summary": "Get stargate information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -27650,9 +26306,7 @@
           }
         },
         "summary": "Get star information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -27720,9 +26374,7 @@
           }
         },
         "summary": "Get station information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -27736,10 +26388,7 @@
             "name": "filter",
             "schema": {
               "description": "Only list public structures that have this service online",
-              "enum": [
-                "market",
-                "manufacturing_basic"
-              ],
+              "enum": ["market", "manufacturing_basic"],
               "type": "string"
             }
           },
@@ -27793,9 +26442,7 @@
           }
         },
         "summary": "List all public structures",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -27866,15 +26513,11 @@
         },
         "security": [
           {
-            "OAuth2": [
-              "esi-universe.read_structures.v1"
-            ]
+            "OAuth2": ["esi-universe.read_structures.v1"]
           }
         ],
         "summary": "Get structure information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -27934,9 +26577,7 @@
           }
         },
         "summary": "Get system jumps",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -27996,9 +26637,7 @@
           }
         },
         "summary": "Get system kills",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01"
       }
@@ -28058,9 +26697,7 @@
           }
         },
         "summary": "Get solar systems",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -28131,9 +26768,7 @@
           }
         },
         "summary": "Get solar system information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -28209,9 +26844,7 @@
           }
         },
         "summary": "Get types",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -28283,9 +26916,7 @@
           }
         },
         "summary": "Get type information",
-        "tags": [
-          "Universe"
-        ],
+        "tags": ["Universe"],
         "x-compatibility-date": "2020-01-01"
       }
     },
@@ -28353,9 +26984,7 @@
           }
         },
         "summary": "List wars",
-        "tags": [
-          "Wars"
-        ],
+        "tags": ["Wars"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -28430,9 +27059,7 @@
           }
         },
         "summary": "Get war information",
-        "tags": [
-          "Wars"
-        ],
+        "tags": ["Wars"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
@@ -28524,9 +27151,7 @@
           }
         },
         "summary": "List kills for a war",
-        "tags": [
-          "Wars"
-        ],
+        "tags": ["Wars"],
         "x-cache-age": 3600,
         "x-compatibility-date": "2020-01-01",
         "x-rate-limit": {
