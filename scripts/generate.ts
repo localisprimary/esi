@@ -524,7 +524,7 @@ export class EsiClient {
   ): Promise<Types.EsiResponse<TData, THeaders>> {
     const url = new URL(path, this.baseUrl);
 
-    if (params && method === 'GET') {
+    if (params) {
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined) {
           url.searchParams.append(key, String(value));
@@ -557,14 +557,19 @@ export class EsiClient {
       body: body ? JSON.stringify(body) : undefined,
     });
 
-    const data = await response.json();
-
     if (!response.ok) {
+      let error = 'Request failed';
+      try {
+        const errorData = await response.json();
+        error = errorData.error || error;
+      } catch {}
       throw {
-        error: data.error || 'Request failed',
+        error,
         status: response.status,
       } as Types.EsiError;
     }
+
+    const data = await response.json();
 
     return {
       data,
