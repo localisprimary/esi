@@ -44,11 +44,12 @@ jobs:
           # Fetch latest schema
           pnpm fetch-schema
 
-          # Check if repo is dirty (any changes)
-          if git diff --quiet && git diff --cached --quiet; then
+          # Check if ONLY the schema file changed
+          if git diff --quiet scripts/static/openapi.json; then
             echo "changed=false" >> $GITHUB_OUTPUT
             echo "bump_type=patch" >> $GITHUB_OUTPUT
             echo "No schema changes detected"
+            rm -f scripts/static/openapi.old.json
           else
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "Schema changes detected"
