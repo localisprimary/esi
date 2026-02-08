@@ -109,13 +109,7 @@ jobs:
 
             **Change Type:** `${{ steps.schema-check.outputs.bump_type }}`
 
-            ### What does this mean?
-
-            - **major**: Breaking changes detected (operations removed, required parameters changed, incompatible response types)
-            - **minor**: New features added (operations added, optional parameters added)
-            - **patch**: Non-breaking updates (documentation changes, no operational changes)
-
-            The version bump type is automatically detected by analyzing differences between the old and new OpenAPI schemas.
+            The new version is automatically detected by diffing the OpenAPI schema.
 
           branch: automated/update-esi-schema
           branch-suffix: timestamp
