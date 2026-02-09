@@ -15,9 +15,12 @@ async function fetchSchema(): Promise<void> {
       throw new Error(`HTTP error! status: ${response.status}`)
     }
 
-    const schema = await response.json()
+    const text = await response.text()
 
-    fs.writeFileSync(SCHEMA_FILE, JSON.stringify(schema, null, 2))
+    // Validate it's valid JSON
+    JSON.parse(text)
+
+    fs.writeFileSync(SCHEMA_FILE, text)
 
     console.log(`Schema saved to: ${SCHEMA_FILE}`)
   } catch (error) {
