@@ -32,12 +32,18 @@ export interface GetAlliancesResponseHeaders {
   'Last-Modified'?: string
 }
 
+export type CorporationID = number
+
+export type CharacterID = number
+
+export type FactionID = number
+
 export interface GetAllianceResponse {
-  creator_corporation_id: number
-  creator_id: number
+  creator_corporation_id: CorporationID
+  creator_id: CharacterID
   date_founded: string
-  executor_corporation_id?: number
-  faction_id?: number
+  executor_corporation_id?: CorporationID
+  faction_id?: FactionID
   name: string
   ticker: string
 }
@@ -130,16 +136,22 @@ export interface PostCharactersAffiliationResponseHeaders {
   'Last-Modified'?: string
 }
 
+export type AllianceID = number
+
+export type BloodlineID = number
+
+export type RaceID = number
+
 export interface GetCharacterResponse {
-  alliance_id?: number
+  alliance_id?: AllianceID
   birthday: string
-  bloodline_id: number
-  corporation_id: number
+  bloodline_id: BloodlineID
+  corporation_id: CorporationID
   description?: string
-  faction_id?: number
-  gender: 'female' | 'male'
+  faction_id?: FactionID
+  gender: 'male' | 'female'
   name: string
-  race_id: number
+  race_id: RaceID
   security_status?: number
   title?: string
 }
@@ -2462,14 +2474,16 @@ export interface GetCorporationsNpccorpsResponseHeaders {
   'Last-Modified'?: string
 }
 
+export type StationID = number
+
 export interface GetCorporationResponse {
-  alliance_id?: number
-  ceo_id: number
-  creator_id: number
+  alliance_id?: AllianceID
+  ceo_id: CharacterID
+  creator_id: CharacterID
   date_founded?: string
   description?: string
-  faction_id?: number
-  home_station_id?: number
+  faction_id?: FactionID
+  home_station_id?: StationID
   member_count: number
   name: string
   shares?: number
