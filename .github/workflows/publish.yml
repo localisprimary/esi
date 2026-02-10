@@ -1,65 +1,65 @@
 name: Publish
 
 on:
-   workflow_dispatch:
+  workflow_dispatch:
 
 permissions:
-   id-token: write
-   contents: write
+  id-token: write
+  contents: write
 
 jobs:
-   publish:
-      runs-on: ubuntu-latest
-      steps:
-         - name: Checkout
-           uses: actions/checkout@v4
-           with:
-              token: ${{ secrets.GITHUB_TOKEN }}
-              fetch-depth: 0
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
-         - uses: pnpm/action-setup@v4
+      - uses: pnpm/action-setup@v4
 
-         - name: Set up Node.js
-           uses: actions/setup-node@v4
-           with:
-              node-version: "24.13.0"
-              cache: "pnpm"
-              registry-url: "https://registry.npmjs.org"
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '24.13.0'
+          cache: 'pnpm'
+          registry-url: 'https://registry.npmjs.org'
 
-         - name: Install dependencies
-           run: pnpm install
+      - name: Install dependencies
+        run: pnpm install
 
-         - name: Build
-           run: pnpm build
+      - name: Build
+        run: pnpm build
 
-         - name: Test
-           run: pnpm test
+      - name: Test
+        run: pnpm test
 
-         - name: Set git identity
-           run: |
-              git config user.name "${{ github.actor }}"
-              git config user.email "${{ github.actor }}@users.noreply.github.com"
+      - name: Set git identity
+        run: |
+          git config user.name "${{ github.actor }}"
+          git config user.email "${{ github.actor }}@users.noreply.github.com"
 
-         - name: Bump versions with Beachball
-           run: |
-              pnpm beachball publish -y --access public --branch master --message "chore: Release new version" --no-publish
+      - name: Bump versions with Beachball
+        run: |
+          pnpm beachball publish -y --access public --branch master --message "chore: Release new version" --no-publish
 
-         - name: Sync with remote after version bump
-           run: git pull origin master
+      - name: Sync with remote after version bump
+        run: git pull origin master
 
-         - name: Publish to npm with OIDC
-           run: npm publish --provenance --access public
+      - name: Publish to npm with OIDC
+        run: npm publish --provenance --access public
 
-         - name: Create GitHub Release
-           run: |
-              VERSION=$(jq -r .version package.json)
-              TAG=$(jq -r '.entries[0].tag' CHANGELOG.json)
-              NOTES=$(jq -r '
-                {"major":"Major","minor":"Minor","patch":"Patches"} as $labels |
-                .entries[0].comments | to_entries | map(
-                  "### \($labels[.key])\n" + (.value | map("- \(.comment)") | join("\n"))
-                ) | join("\n\n")
-              ' CHANGELOG.json)
-              gh release create "$TAG" --title "v${VERSION}" --notes "$NOTES"
-           env:
-              GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Create GitHub Release
+        run: |
+          VERSION=$(jq -r .version package.json)
+          TAG=$(jq -r '.entries[0].tag' CHANGELOG.json)
+          NOTES=$(jq -r '
+            {"major":"Major","minor":"Minor","patch":"Patches"} as $labels |
+            .entries[0].comments | to_entries | map(
+              "### \($labels[.key])\n" + (.value | map("- \(.comment)") | join("\n"))
+            ) | join("\n\n")
+          ' CHANGELOG.json)
+          gh release create "$TAG" --title "v${VERSION}" --notes "$NOTES"
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
