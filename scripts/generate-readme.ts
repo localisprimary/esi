@@ -19,7 +19,8 @@ function sortByResourceName(a: MethodInfo, b: MethodInfo): number {
 
 function escapeForMarkdownTable(description: string): string {
   return description
-    .replace(/\.?\n\n/g, '. ')
+    .replace(/\.?\n\n/g, '. ') // Replace paragraph breaks with period + space
+    .replace(/\n/g, ' ') // Replace remaining single newlines with space
     .replace(/\|/g, '\\|')
     .trim()
 }
