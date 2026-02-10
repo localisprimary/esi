@@ -1,8 +1,16 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Tue, 10 Feb 2026 13:58:36 GMT and should not be manually modified. -->
+<!-- This log was last generated on Tue, 10 Feb 2026 14:15:54 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 2.0.12
+
+Tue, 10 Feb 2026 14:15:54 GMT
+
+### Patches
+
+- fix readme generation (hello@adamtrager.com)
 
 ## 2.0.11
 

@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "fix readme generation",
-  "packageName": "@localisprimary/esi",
-  "email": "hello@adamtrager.com",
-  "dependentChangeType": "patch"
-}

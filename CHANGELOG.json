@@ -2,6 +2,21 @@
   "name": "@localisprimary/esi",
   "entries": [
     {
+      "date": "Tue, 10 Feb 2026 14:15:54 GMT",
+      "version": "2.0.12",
+      "tag": "@localisprimary/esi_v2.0.12",
+      "comments": {
+        "patch": [
+          {
+            "author": "hello@adamtrager.com",
+            "package": "@localisprimary/esi",
+            "commit": "90c04bd46a276115931a8397ef25d931364051c4",
+            "comment": "fix readme generation"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 10 Feb 2026 13:58:36 GMT",
       "version": "2.0.11",
       "tag": "@localisprimary/esi_v2.0.11",
