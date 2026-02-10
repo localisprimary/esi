@@ -44,6 +44,9 @@ jobs:
            run: |
               pnpm beachball publish -y --access public --branch master --message "chore: Release new version" --no-publish
 
+         - name: Sync with remote after version bump
+           run: git pull origin master
+
          - name: Publish to npm with OIDC
            run: npm publish --provenance --access public
 
