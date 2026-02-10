@@ -84,10 +84,6 @@ This is not optional. Outdated documentation causes repeated mistakes.
 │   ├── generate.ts              # Main generator (816 lines) - CORE LOGIC
 │   ├── fetch-schema.ts          # Downloads OpenAPI schema from ESI
 │   ├── generate-readme.ts       # Generates README method table
-│   ├── detect-schema-changes.ts # Detects version bump type (major/minor/patch)
-│   ├── test/                    # Tests for generation scripts
-│   │   ├── detect-schema-changes.test.ts  # Schema detection tests
-│   │   └── fixtures/            # Test schemas for detection testing
 │   └── static/
 │       ├── openapi.json         # Cached OpenAPI schema (847KB)
 │       └── boilerplate.md       # README template
@@ -387,61 +383,23 @@ pnpm change            # Create Beachball changefile (for releases)
 
 ### Automated Version Management
 
-Schema updates from the daily workflow are automatically classified by `scripts/detect-schema-changes.ts`:
-
-**Version Bump Types:**
-
-- **Major (Breaking)**: Operations removed, required parameters added/removed/changed, response types changed incompatibly
-- **Minor (Features)**: Operations added, optional parameters added, enum values added
-- **Patch (Non-breaking)**: Documentation updates, no operational changes
+Schema updates from the daily workflow are automatically treated as **patch** bumps:
 
 **How It Works:**
 
-1. Workflow backs up current schema before fetching latest
-2. If changes detected, runs `detect-schema-changes.ts` to compare schemas
-3. Detection script analyzes operations, parameters, and responses
-4. Outputs `major`, `minor`, or `patch` based on change severity
-5. Changefile created with appropriate version bump type
-6. PR title/body shows detected change type
+1. Workflow fetches latest schema from ESI
+2. If schema changed (detected via `git diff`):
+   - Run `pnpm compile` (regenerate + build + test)
+   - Create Beachball changefile with type `patch`
+   - Open PR: `automated/update-esi-schema-{timestamp}`
 
-**Testing Detection Locally:**
+**Why Always Patch?**
 
-```bash
-# Compare two schema files
-node --experimental-strip-types scripts/detect-schema-changes.ts old-schema.json new-schema.json
+Schema updates are typically additive or documentation changes. Breaking changes in the EVE ESI API are rare and can be handled manually if they occur.
 
-# Output: "major", "minor", or "patch"
-```
+**Manual Override:**
 
-**Override Detection:**
-If automated detection is incorrect, manually edit the changefile in `/change/` directory before merging the PR.
-
-**Detection Rules:**
-
-Major (Breaking) changes:
-
-- Operation removed entirely
-- Required path/query parameter added, removed, or type changed
-- Parameter enum narrowed (options removed)
-- Request body required flag changed to true
-- Response schema `$ref` changed
-- Response top-level type changed (array ↔ object)
-
-Minor (New Feature) changes:
-
-- Operation added
-- Optional query parameter added
-- Parameter enum widened (options added)
-
-Patch (Non-breaking) changes:
-
-- Everything else (descriptions, metadata, etc.)
-
-**Implementation:**
-
-- Detection script: `scripts/detect-schema-changes.ts`
-- Workflow integration: `.github/workflows/update-esi-schema.yml`
-- Fallback: If detection fails, defaults to `patch`
+If a schema update requires a different version bump (minor/major), manually edit the changefile in `/change/` directory before merging the PR.
 
 ### Version Management (Beachball)
 
@@ -513,54 +471,6 @@ test('getAlliance returns alliance data', async () => {
 - Ensures generated client works in real-world scenarios
 - Tests network/auth handling
 
-### Schema Change Detection Tests
-
-**Location**: `scripts/test/detect-schema-changes.test.ts`
-
-**Approach**:
-
-- Tests the automated version bump detection script
-- Uses subprocess testing (executes the script with `child_process.execSync`)
-- Tests with minimal but valid OpenAPI test fixtures
-- Fast execution (< 5 seconds for all 23 tests)
-
-**Test Fixtures** (`scripts/test/fixtures/`):
-
-- `base-schema.json` - Reference schema with 3 basic operations
-- `major-schema.json` - Breaking changes (operation removed, required param added, enum narrowed, response $ref changed)
-- `minor-schema.json` - New features (operation added, optional param added, enum widened)
-- `patch-schema.json` - Documentation changes only (identical operations)
-- `invalid.json` - Malformed JSON for error testing
-
-**Test Coverage**:
-
-- **Change Detection**: Identical schemas, major/minor/patch scenarios, multiple simultaneous changes
-- **Error Handling**: Missing files, invalid JSON, missing arguments, empty schemas
-- **Edge Cases**: Parameter type changes, response type changes, required flag changes
-
-**Running Tests**:
-
-```bash
-# Run all tests (client + detection)
-pnpm test
-
-# Run only detection tests
-pnpm test detect-schema-changes
-
-# Manually verify fixtures
-node --experimental-strip-types scripts/detect-schema-changes.ts \
-  scripts/test/fixtures/base-schema.json \
-  scripts/test/fixtures/major-schema.json
-# Output: major
-```
-
-**Why Schema Detection Tests?**
-
-- Ensures automated version bumping stays correct as code evolves
-- Prevents regressions in CI/CD automation
-- Documents expected behavior with concrete examples
-- Enables confident refactoring of detection logic
-
 ## CI/CD Automation
 
 ### Daily Schema Updates
@@ -572,13 +482,16 @@ node --experimental-strip-types scripts/detect-schema-changes.ts \
 **Process**:
 
 1. Fetch latest schema from `https://esi.evetech.net/meta/openapi.json`
-2. Check if schema changed with `git diff`
+2. Check if schema changed with `git diff scripts/static/openapi.json`
 3. If changed:
    - Run `pnpm compile` (regenerate + build + test)
-   - Create Beachball changefile (patch bump)
-   - Open PR: `automated/update-esi-schema-{timestamp}`
+   - Commit generated changes
+   - Create Beachball changefile (always `patch` type)
+   - Open PR: `chore: Update EVE ESI schema`
 
 **Why Daily?** EVE Online updates their API regularly. This keeps the client in sync automatically.
+
+**Why Patch Only?** Schema updates are typically additive or non-breaking. Breaking changes are rare and can be handled manually.
 
 ### PR Validation
 
@@ -928,16 +841,6 @@ See `.oxfmtrc.json`
 - **Query param extraction**: `scripts/generate.ts:715` - `extractQueryParams()`
 - **Response header extraction**: `scripts/generate.ts:730` - `extractResponseHeaders()`
 - **JSDoc generation**: `scripts/generate.ts:466` - `generateJSDoc()`
-
-### Schema Change Detection
-
-- **Main CLI**: `scripts/detect-schema-changes.ts:495` - `main()`
-- **Schema loading**: `scripts/detect-schema-changes.ts:113` - `loadSchema()`
-- **Operation extraction**: `scripts/detect-schema-changes.ts:130` - `extractOperations()`
-- **Operation comparison**: `scripts/detect-schema-changes.ts:256` - `compareOperations()`
-- **Breaking change detection**: `scripts/detect-schema-changes.ts:348` - `hasBreakingChanges()`
-- **New feature detection**: `scripts/detect-schema-changes.ts:457` - `hasNewFeatures()`
-- **Version bump determination**: `scripts/detect-schema-changes.ts:487` - `determineVersionBump()`
 
 ## Troubleshooting
 

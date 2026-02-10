@@ -34,38 +34,16 @@ jobs:
       - name: Fetch schema and check for changes
         id: schema-check
         run: |
-          # Backup current schema for comparison
-          if [ -f scripts/static/openapi.json ]; then
-            cp scripts/static/openapi.json scripts/static/openapi.old.json
-          else
-            echo "No existing schema to backup"
-          fi
-
           # Fetch latest schema
           pnpm fetch-schema
 
-          # Check if ONLY the schema file changed
+          # Check if the schema file changed
           if git diff --quiet scripts/static/openapi.json; then
             echo "changed=false" >> $GITHUB_OUTPUT
-            echo "bump_type=patch" >> $GITHUB_OUTPUT
             echo "No schema changes detected"
-            rm -f scripts/static/openapi.old.json
           else
             echo "changed=true" >> $GITHUB_OUTPUT
             echo "Schema changes detected"
-
-            # Detect change type if we have an old schema to compare
-            if [ -f scripts/static/openapi.old.json ]; then
-              BUMP_TYPE=$(node --experimental-strip-types scripts/detect-schema-changes.ts scripts/static/openapi.old.json scripts/static/openapi.json 2>/dev/null || echo "patch")
-              echo "bump_type=$BUMP_TYPE" >> $GITHUB_OUTPUT
-              echo "Detected change type: $BUMP_TYPE"
-            else
-              echo "bump_type=patch" >> $GITHUB_OUTPUT
-              echo "No old schema for comparison, defaulting to patch"
-            fi
-
-            # Cleanup backup
-            rm -f scripts/static/openapi.old.json
           fi
 
       - name: Build
@@ -84,12 +62,11 @@ jobs:
       - name: Create changefile
         if: steps.schema-check.outputs.changed == 'true'
         run: |
-          BUMP_TYPE="${{ steps.schema-check.outputs.bump_type }}"
           pnpm beachball change \
             --branch master \
-            --type "$BUMP_TYPE" \
+            --type patch \
             --dependent-change-type patch \
-            --message "Automated: Update ESI OpenAPI schema ($BUMP_TYPE changes detected)" \
+            --message "Automated: Update ESI OpenAPI schema" \
             --no-commit
 
       - name: Create Pull Request
@@ -98,18 +75,14 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: |
-            Update EVE ESI schema (${{ steps.schema-check.outputs.bump_type }})
+            Update EVE ESI schema
 
             🤖 Automated update from latest ESI OpenAPI schema
-          title: 'chore: Update EVE ESI schema (${{ steps.schema-check.outputs.bump_type }})'
+          title: 'chore: Update EVE ESI schema'
           body: |
             ## ESI Schema Update
 
             This PR contains an automated update to the EVE ESI schema.
-
-            **Change Type:** `${{ steps.schema-check.outputs.bump_type }}`
-
-            The new version is automatically detected by diffing the OpenAPI schema.
 
           branch: automated/update-esi-schema
           branch-suffix: timestamp
