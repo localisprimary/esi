@@ -1,8 +1,16 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Sat, 07 Feb 2026 18:19:00 GMT and should not be manually modified. -->
+<!-- This log was last generated on Tue, 10 Feb 2026 13:58:36 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 2.0.11
+
+Tue, 10 Feb 2026 13:58:36 GMT
+
+### Patches
+
+- Automated: Update ESI OpenAPI schema (1719791+Nfinished@users.noreply.github.com)
 
 ## 2.0.10
 
