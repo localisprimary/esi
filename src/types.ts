@@ -1740,7 +1740,7 @@ export interface GetCharacterPortraitResponseHeaders {
 }
 
 export interface GetCharacterRolesResponse {
-  roles?:
+  roles?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -1794,8 +1794,9 @@ export interface GetCharacterRolesResponse {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  roles_at_base?:
+    | 'Trader'
+  )[]
+  roles_at_base?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -1849,8 +1850,9 @@ export interface GetCharacterRolesResponse {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  roles_at_hq?:
+    | 'Trader'
+  )[]
+  roles_at_hq?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -1904,8 +1906,9 @@ export interface GetCharacterRolesResponse {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  roles_at_other?:
+    | 'Trader'
+  )[]
+  roles_at_other?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -1959,7 +1962,8 @@ export interface GetCharacterRolesResponse {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
+    | 'Trader'
+  )[]
 }
 
 export interface GetCharacterRolesParams {
@@ -1988,7 +1992,7 @@ export interface GetCharacterSearchResponse {
 
 export interface GetCharacterSearchParams {
   character_id: number | string
-  categories?:
+  categories?: (
     | 'agent'
     | 'alliance'
     | 'character'
@@ -1999,7 +2003,8 @@ export interface GetCharacterSearchParams {
     | 'region'
     | 'solar_system'
     | 'station'
-    | 'structure'[]
+    | 'structure'
+  )[]
   search?: string
   strict?: boolean
 }
@@ -3468,7 +3473,7 @@ export interface GetCorporationOrdersHistoryResponseHeaders {
 
 export type GetCorporationRolesResponse = {
   character_id: number
-  grantable_roles:
+  grantable_roles: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3522,8 +3527,9 @@ export type GetCorporationRolesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  grantable_roles_at_base:
+    | 'Trader'
+  )[]
+  grantable_roles_at_base: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3577,8 +3583,9 @@ export type GetCorporationRolesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  grantable_roles_at_hq:
+    | 'Trader'
+  )[]
+  grantable_roles_at_hq: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3632,8 +3639,9 @@ export type GetCorporationRolesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  grantable_roles_at_other:
+    | 'Trader'
+  )[]
+  grantable_roles_at_other: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3687,8 +3695,9 @@ export type GetCorporationRolesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  roles:
+    | 'Trader'
+  )[]
+  roles: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3742,8 +3751,9 @@ export type GetCorporationRolesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  roles_at_base:
+    | 'Trader'
+  )[]
+  roles_at_base: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3797,8 +3807,9 @@ export type GetCorporationRolesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  roles_at_hq:
+    | 'Trader'
+  )[]
+  roles_at_hq: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3852,8 +3863,9 @@ export type GetCorporationRolesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  roles_at_other:
+    | 'Trader'
+  )[]
+  roles_at_other: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3907,7 +3919,8 @@ export type GetCorporationRolesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
+    | 'Trader'
+  )[]
 }[]
 
 export interface GetCorporationRolesParams {
@@ -3924,7 +3937,7 @@ export type GetCorporationRolesHistoryResponse = {
   changed_at: string
   character_id: number
   issuer_id: number
-  new_roles:
+  new_roles: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3978,8 +3991,9 @@ export type GetCorporationRolesHistoryResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  old_roles:
+    | 'Trader'
+  )[]
+  old_roles: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4033,7 +4047,8 @@ export type GetCorporationRolesHistoryResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
+    | 'Trader'
+  )[]
   role_type:
     | 'grantable_roles'
     | 'grantable_roles_at_base'
@@ -4214,7 +4229,7 @@ export interface GetCorporationStructuresResponseHeaders {
 }
 
 export type GetCorporationTitlesResponse = {
-  grantable_roles:
+  grantable_roles: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4268,8 +4283,9 @@ export type GetCorporationTitlesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  grantable_roles_at_base:
+    | 'Trader'
+  )[]
+  grantable_roles_at_base: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4323,8 +4339,9 @@ export type GetCorporationTitlesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  grantable_roles_at_hq:
+    | 'Trader'
+  )[]
+  grantable_roles_at_hq: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4378,8 +4395,9 @@ export type GetCorporationTitlesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  grantable_roles_at_other:
+    | 'Trader'
+  )[]
+  grantable_roles_at_other: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4433,9 +4451,10 @@ export type GetCorporationTitlesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
+    | 'Trader'
+  )[]
   name: string
-  roles:
+  roles: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4489,8 +4508,9 @@ export type GetCorporationTitlesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  roles_at_base:
+    | 'Trader'
+  )[]
+  roles_at_base: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4544,8 +4564,9 @@ export type GetCorporationTitlesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  roles_at_hq:
+    | 'Trader'
+  )[]
+  roles_at_hq: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4599,8 +4620,9 @@ export type GetCorporationTitlesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
-  roles_at_other:
+    | 'Trader'
+  )[]
+  roles_at_other: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4654,7 +4676,8 @@ export type GetCorporationTitlesResponse = {
     | 'Starbase_Defense_Operator'
     | 'Starbase_Fuel_Technician'
     | 'Station_Manager'
-    | 'Trader'[]
+    | 'Trader'
+  )[]
   title_id: number
 }[]
 
@@ -6206,7 +6229,7 @@ export interface GetUniverseStationResponse {
   race_id?: number
   reprocessing_efficiency: number
   reprocessing_stations_take: number
-  services:
+  services: (
     | 'bounty-missions'
     | 'assasination-missions'
     | 'courier-missions'
@@ -6233,7 +6256,8 @@ export interface GetUniverseStationResponse {
     | 'jump-clone-facility'
     | 'loyalty-point-store'
     | 'navy-offices'
-    | 'security-offices'[]
+    | 'security-offices'
+  )[]
   station_id: number
   system_id: number
   type_id: number
