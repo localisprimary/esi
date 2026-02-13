@@ -127,7 +127,7 @@ describe('EsiClient - Live API Tests', () => {
       await expect(
         client.getCharacter({ character_id: 1 })
       ).rejects.toMatchObject({
-        status: 404,
+        status: 422,
       })
     })
 
@@ -135,7 +135,7 @@ describe('EsiClient - Live API Tests', () => {
       await expect(
         client.getCorporation({ corporation_id: 1 })
       ).rejects.toMatchObject({
-        status: 404,
+        status: 422,
       })
     })
 
