@@ -1,8 +1,16 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Tue, 10 Feb 2026 14:15:54 GMT and should not be manually modified. -->
+<!-- This log was last generated on Fri, 13 Feb 2026 19:25:57 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 2.0.13
+
+Fri, 13 Feb 2026 19:25:57 GMT
+
+### Patches
+
+- Fix array types (thanks @LakMoore) (atrager@ramp.com)
 
 ## 2.0.12
 

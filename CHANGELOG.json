@@ -2,6 +2,21 @@
   "name": "@localisprimary/esi",
   "entries": [
     {
+      "date": "Fri, 13 Feb 2026 19:25:57 GMT",
+      "version": "2.0.13",
+      "tag": "@localisprimary/esi_v2.0.13",
+      "comments": {
+        "patch": [
+          {
+            "author": "atrager@ramp.com",
+            "package": "@localisprimary/esi",
+            "commit": "994fd5e8e648f4eb5d67ccc9d8dc8c609e305cf2",
+            "comment": "Fix array types (thanks @LakMoore)"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 10 Feb 2026 14:15:54 GMT",
       "version": "2.0.12",
       "tag": "@localisprimary/esi_v2.0.12",
