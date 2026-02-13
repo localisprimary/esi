@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "Fix array types (thanks @LakMoore)",
+  "packageName": "@localisprimary/esi",
+  "email": "atrager@ramp.com",
+  "dependentChangeType": "patch"
+}
