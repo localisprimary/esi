@@ -50,8 +50,21 @@ jobs:
         if: steps.schema-check.outputs.changed == 'true'
         run: pnpm compile
 
-      - name: Commit generated changes
+      - name: Check for meaningful generated changes
         if: steps.schema-check.outputs.changed == 'true'
+        id: generated-check
+        run: |
+          # COMPATIBILITY_DATE always changes on regeneration.
+          # If that's the only changed line in src/, skip the PR.
+          if git diff --quiet -I COMPATIBILITY_DATE src/; then
+            echo "meaningful=false" >> $GITHUB_OUTPUT
+            echo "Only COMPATIBILITY_DATE changed in generated output, skipping PR"
+          else
+            echo "meaningful=true" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Commit generated changes
+        if: steps.schema-check.outputs.changed == 'true' && steps.generated-check.outputs.meaningful == 'true'
         run: |
           git config user.name "${{ github.actor }}"
           git config user.email "${{ github.actor_id }}+${{ github.actor }}@users.noreply.github.com"
@@ -60,7 +73,7 @@ jobs:
           git commit -m "chore: Update ESI schema and generated files"
 
       - name: Create changefile
-        if: steps.schema-check.outputs.changed == 'true'
+        if: steps.schema-check.outputs.changed == 'true' && steps.generated-check.outputs.meaningful == 'true'
         run: |
           pnpm beachball change \
             --branch master \
@@ -70,7 +83,7 @@ jobs:
             --no-commit
 
       - name: Create Pull Request
-        if: steps.schema-check.outputs.changed == 'true'
+        if: steps.schema-check.outputs.changed == 'true' && steps.generated-check.outputs.meaningful == 'true'
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
