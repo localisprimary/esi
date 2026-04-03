@@ -1,7 +1,0 @@
-{
-  "type": "patch",
-  "comment": "Fix empty-body responses, required query params, and lowercase response header typing.",
-  "packageName": "@localisprimary/esi",
-  "email": "hello@adamtrager.com",
-  "dependentChangeType": "patch"
-}

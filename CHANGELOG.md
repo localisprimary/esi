@@ -1,8 +1,16 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Fri, 13 Feb 2026 19:25:57 GMT and should not be manually modified. -->
+<!-- This log was last generated on Fri, 03 Apr 2026 17:13:51 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 2.0.14
+
+Fri, 03 Apr 2026 17:13:51 GMT
+
+### Patches
+
+- Fix empty-body responses, required query params, and lowercase response header typing. (hello@adamtrager.com)
 
 ## 2.0.13
 
