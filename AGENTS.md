@@ -81,11 +81,9 @@ This is not optional. Outdated documentation causes repeated mistakes.
 │       └── client.test.ts
 │
 ├── scripts/                      # Code generation (EDIT THESE)
-│   ├── generate.ts              # Main generator (816 lines) - CORE LOGIC
-│   ├── fetch-schema.ts          # Downloads OpenAPI schema from ESI
+│   ├── generate.ts              # Main generator (824 lines) - CORE LOGIC
 │   ├── generate-readme.ts       # Generates README method table
 │   └── static/
-│       ├── openapi.json         # Cached OpenAPI schema (847KB)
 │       └── boilerplate.md       # README template
 │
 ├── dist/                         # Compiled output (gitignored)
@@ -106,15 +104,10 @@ This is not optional. Outdated documentation causes repeated mistakes.
 ### Pipeline Flow
 
 ```
-1. FETCH SCHEMA
-   $ pnpm fetch-schema
-   ├─ Downloads: https://esi.evetech.net/meta/openapi.json
-   └─ Saves to: scripts/static/openapi.json
-
-2. GENERATE CODE
+1. GENERATE CODE
    $ pnpm generate
-   ├─ loadSchema() - Parse OpenAPI JSON (scripts/generate.ts:109)
-   ├─ generateTypes() - Create TypeScript types (scripts/generate.ts:121)
+   ├─ loadSchema() - Fetch OpenAPI JSON from https://esi.evetech.net/meta/openapi.json (scripts/generate.ts:109)
+   ├─ generateTypes() - Create TypeScript types (scripts/generate.ts:120)
    │  ├─ Extract components/parameters
    │  ├─ For each path + method:
    │  │  ├─ Transform operation ID (simplify name)
@@ -123,7 +116,7 @@ This is not optional. Outdated documentation causes repeated mistakes.
    │  │  └─ Generate response header types (*ResponseHeaders)
    │  └─ Handle schema references (dependency-first)
    │
-   ├─ generateClient() - Create EsiClient class (scripts/generate.ts:481)
+   ├─ generateClient() - Create EsiClient class (scripts/generate.ts:488)
    │  ├─ EsiClient constructor with options
    │  ├─ Private request() helper method
    │  └─ For each endpoint:
@@ -138,11 +131,11 @@ This is not optional. Outdated documentation causes repeated mistakes.
       ├─ Build markdown table of methods
       └─ Replace {methodsTable} placeholder
 
-3. BUILD
+2. BUILD
    $ pnpm build
    └─ Compile TypeScript to JavaScript in dist/
 
-4. TEST
+3. TEST
    $ pnpm test
    └─ Run Vitest tests against live EVE ESI API
 ```
@@ -151,7 +144,7 @@ This is not optional. Outdated documentation causes repeated mistakes.
 
 The generator simplifies verbose OpenAPI operation IDs for better developer experience.
 
-**Location**: `scripts/generate.ts:771` - `transformOperationId()`
+**Location**: `scripts/generate.ts:780` - `transformOperationId()`
 
 **Transformations Applied**:
 
@@ -215,7 +208,7 @@ async getAlliance(params: GetAllianceParams): Promise<EsiResponse<GetAllianceRes
 
 All parameters (path, query, body) are merged into a single `Params` interface for simplicity.
 
-**Location**: `scripts/generate.ts:392` - `generateParameterType()`
+**Location**: `scripts/generate.ts:395` - `generateParameterType()`
 
 **Example**: `POST /characters/{character_id}/mail`
 
@@ -248,13 +241,13 @@ await esi.postCharacterMail({
 })
 ```
 
-**Conflict Detection**: Generator validates no naming conflicts occur via `assertNoConflict()` (scripts/generate.ts:378-390)
+**Conflict Detection**: Generator validates no naming conflicts occur via `assertNoConflict()` (scripts/generate.ts:381-393)
 
 ### Schema Component Generation
 
 **Challenge**: Avoid circular references and duplicate generation.
 
-**Strategy** (scripts/generate.ts:307-345):
+**Strategy** (scripts/generate.ts:310-348):
 
 1. **Dependency-first**: Referenced schemas generated before consumers
 2. **Deduplication**: `generatedSchemaComponents` Set tracks generated types
@@ -274,7 +267,7 @@ await esi.postCharacterMail({
 
 Each method gets JSDoc with description and API explorer link.
 
-**Location**: `scripts/generate.ts:466` - `generateJSDoc()`
+**Location**: `scripts/generate.ts:473` - `generateJSDoc()`
 
 **Format**:
 
@@ -303,7 +296,7 @@ Note: The `@see` link uses the **original** operation ID (not transformed) to li
 | `type: object`                     | `interface` or `{ key: type }` |
 | `$ref: "#/components/schemas/Foo"` | `Foo`                          |
 
-**Implementation**: `scripts/generate.ts:347` - `getTypeScriptType()`
+**Implementation**: `scripts/generate.ts:350` - `getTypeScriptType()`
 
 ### Special Cases
 
@@ -355,11 +348,10 @@ Alliance[]
 
 ```bash
 # Full pipeline (recommended)
-pnpm compile           # fetch-schema + generate + build + test
+pnpm compile           # generate + build + test
 
 # Individual steps
-pnpm fetch-schema      # Download latest OpenAPI schema from ESI
-pnpm generate          # Generate client/types + run linter
+pnpm generate          # Fetch latest OpenAPI schema, generate client/types, and run linter
 pnpm build             # Compile TypeScript to dist/
 pnpm test              # Run Vitest tests against live API
 
@@ -388,8 +380,9 @@ Schema updates from the daily workflow are automatically treated as **patch** bu
 **How It Works:**
 
 1. Workflow fetches latest schema from ESI
-2. If schema changed (detected via `git diff`):
-   - Run `pnpm compile` (regenerate + build + test)
+2. Run `pnpm compile` (fetch schema, regenerate, build, test)
+3. If generated output changed beyond `COMPATIBILITY_DATE`:
+   - Commit generated changes
    - Create Beachball changefile with type `patch`
    - Open PR: `automated/update-esi-schema-{timestamp}`
 
@@ -482,9 +475,8 @@ test('getAlliance returns alliance data', async () => {
 **Process**:
 
 1. Fetch latest schema from `https://esi.evetech.net/meta/openapi.json`
-2. Check if schema changed with `git diff scripts/static/openapi.json`
-3. If changed:
-   - Run `pnpm compile` (regenerate + build + test)
+2. Run `pnpm compile` (regenerate + build + test)
+3. If generated output changed beyond `COMPATIBILITY_DATE`:
    - Commit generated changes
    - Create Beachball changefile (always `patch` type)
    - Open PR: `chore: Update EVE ESI schema`
@@ -542,7 +534,7 @@ test('getAlliance returns alliance data', async () => {
 
 **Steps**:
 
-1. Edit `scripts/generate.ts:771` - `transformOperationId()`
+1. Edit `scripts/generate.ts:780` - `transformOperationId()`
 2. Add transformation logic (regex or string replace)
 3. Regenerate: `pnpm generate`
 4. Verify: Check `src/client.ts` for expected method names
@@ -571,11 +563,11 @@ function transformOperationId(operationId: string): string {
 **Steps**:
 
 1. Locate relevant function:
-   - `generateTypes()` - Main entry (line 121)
-   - `generateResponseType()` - Response types (line 217)
-   - `generateTypeFromSchema()` - Schema components (line 283)
-   - `buildTypeDefinition()` - Type definition builder (line 262)
-   - `getTypeScriptType()` - Type mapping (line 347)
+   - `generateTypes()` - Main entry (line 120)
+   - `generateResponseType()` - Response types (line 220)
+   - `generateTypeFromSchema()` - Schema components (line 286)
+   - `buildTypeDefinition()` - Type definition builder (line 265)
+   - `getTypeScriptType()` - Type mapping (line 350)
 2. Modify generation logic
 3. Regenerate: `pnpm generate`
 4. Verify: Check `src/types.ts` for expected output
@@ -596,7 +588,7 @@ function transformOperationId(operationId: string): string {
    - Check that Set deduplication is working
 
 3. **Parameter name conflicts**
-   - Look for error thrown via `assertNoConflict()` (lines 378-390)
+   - Look for error thrown via `assertNoConflict()` (lines 381-393)
    - Check if path/query/body params have overlapping names
    - Consider renaming in transformation logic
 
@@ -618,7 +610,7 @@ function transformOperationId(operationId: string): string {
 
 **Current Behavior**: Already implemented!
 
-**How it Works** (scripts/generate.ts:448):
+**How it Works** (scripts/generate.ts:455):
 
 1. `generateResponseHeaderType()` extracts headers from response
 2. Creates `{OperationName}ResponseHeaders` interface
@@ -695,9 +687,9 @@ console.log(result.headers['X-Pages']) // Typed as number | undefined
    - Integration tests validate against real API
    - They catch regressions and API changes
 
-4. **Don't modify** `scripts/static/openapi.json` manually
-   - It's fetched from upstream via `pnpm fetch-schema`
-   - Changes will be overwritten
+4. **Don't reintroduce** a checked-in OpenAPI schema snapshot
+   - `pnpm generate` fetches the schema directly from ESI
+   - Generated `src/*` and README updates are the committed source of truth
 
 5. **Don't break parameter flattening**
    - Users expect single params object
@@ -782,7 +774,7 @@ new EsiClient({
 - **Auto-update**: Date updated on each generation
 - **Transparency**: Users know which API version client targets
 
-**Implementation** (scripts/generate.ts:492):
+**Implementation** (scripts/generate.ts:499):
 
 ```typescript
 const COMPATIBILITY_DATE = '${new Date().toISOString().slice(0, 10)}'
@@ -806,41 +798,41 @@ See `.oxfmtrc.json`
 - **Files**: `kebab-case.ts` (e.g., `generate-readme.ts`)
 - **Types/Interfaces**: `PascalCase` (e.g., `EsiResponse`, `GetAllianceParams`)
 - **Functions**: `camelCase` (e.g., `generateTypes`, `transformOperationId`)
-- **Constants**: `SCREAMING_SNAKE_CASE` (e.g., `SCHEMA_FILE`, `COMPATIBILITY_DATE`)
+- **Constants**: `SCREAMING_SNAKE_CASE` (e.g., `SCHEMA_URL`, `COMPATIBILITY_DATE`)
 - **Methods**: `camelCase` (e.g., `getAlliance`, `postCharacterMail`)
 
 ## Useful Code Locations
 
 ### Core Generation Logic
 
-- **Main generator**: `scripts/generate.ts:794` - `main()`
+- **Main generator**: `scripts/generate.ts:803` - `main()`
 - **Schema loading**: `scripts/generate.ts:109` - `loadSchema()`
-- **Type generation**: `scripts/generate.ts:121` - `generateTypes()`
-- **Client generation**: `scripts/generate.ts:481` - `generateClient()`
-- **Method generation**: `scripts/generate.ts:592` - `generateMethod()`
+- **Type generation**: `scripts/generate.ts:120` - `generateTypes()`
+- **Client generation**: `scripts/generate.ts:488` - `generateClient()`
+- **Method generation**: `scripts/generate.ts:604` - `generateMethod()`
 
 ### Transformation Logic
 
-- **Operation ID transform**: `scripts/generate.ts:771` - `transformOperationId()`
-- **Type mapping**: `scripts/generate.ts:347` - `getTypeScriptType()`
-- **Parameter flattening**: `scripts/generate.ts:392` - `generateParameterType()`
+- **Operation ID transform**: `scripts/generate.ts:780` - `transformOperationId()`
+- **Type mapping**: `scripts/generate.ts:350` - `getTypeScriptType()`
+- **Parameter flattening**: `scripts/generate.ts:395` - `generateParameterType()`
 
 ### Schema Handling
 
-- **Schema component generation**: `scripts/generate.ts:283` - `generateTypeFromSchema()`
-- **Type definition builder**: `scripts/generate.ts:262` - `buildTypeDefinition()`
-- **Reference collection**: `scripts/generate.ts:307` - `collectAndGenerateReferencedSchemas()`
-- **Response type generation**: `scripts/generate.ts:217` - `generateResponseType()`
+- **Schema component generation**: `scripts/generate.ts:286` - `generateTypeFromSchema()`
+- **Type definition builder**: `scripts/generate.ts:265` - `buildTypeDefinition()`
+- **Reference collection**: `scripts/generate.ts:310` - `collectAndGenerateReferencedSchemas()`
+- **Response type generation**: `scripts/generate.ts:220` - `generateResponseType()`
 
 ### Helper Functions
 
 - **Ref name extraction**: `scripts/generate.ts:96` - `extractRefName()`
 - **Success response getter**: `scripts/generate.ts:102` - `getSuccessResponse()`
-- **Conflict assertion**: `scripts/generate.ts:378` - `assertNoConflict()`
-- **Path param extraction**: `scripts/generate.ts:695` - `extractPathParams()`
-- **Query param extraction**: `scripts/generate.ts:715` - `extractQueryParams()`
-- **Response header extraction**: `scripts/generate.ts:730` - `extractResponseHeaders()`
-- **JSDoc generation**: `scripts/generate.ts:466` - `generateJSDoc()`
+- **Conflict assertion**: `scripts/generate.ts:381` - `assertNoConflict()`
+- **Path param extraction**: `scripts/generate.ts:704` - `extractPathParams()`
+- **Query param extraction**: `scripts/generate.ts:724` - `extractQueryParams()`
+- **Response header extraction**: `scripts/generate.ts:739` - `extractResponseHeaders()`
+- **JSDoc generation**: `scripts/generate.ts:473` - `generateJSDoc()`
 
 ## Troubleshooting
 

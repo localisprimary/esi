@@ -7,10 +7,9 @@
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "fetch-schema": "node scripts/fetch-schema.ts",
     "generate": "node scripts/generate.ts && pnpm lint:fix && pnpm format",
     "build": "rimraf dist && tsc",
-    "compile": "pnpm fetch-schema && pnpm generate && pnpm build && pnpm test",
+    "compile": "pnpm generate && pnpm build && pnpm test",
     "lint": "oxlint src",
     "lint:fix": "oxlint src --fix",
     "format": "oxfmt",

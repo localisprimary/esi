@@ -5,7 +5,7 @@ import assert from 'assert'
 import { generateReadme, type MethodInfo } from './generate-readme.ts'
 
 const __dirname = path.dirname(new URL(import.meta.url).pathname)
-const SCHEMA_FILE = path.join(__dirname, './static/openapi.json')
+const SCHEMA_URL = 'https://esi.evetech.net/meta/openapi.json'
 const TYPES_FILE = path.join(__dirname, '../src/types.ts')
 const CLIENT_FILE = path.join(__dirname, '../src/client.ts')
 
@@ -106,16 +106,15 @@ function getSuccessResponse(
   return responses['200'] || responses['201'] || Object.values(responses)[0]
 }
 
-function loadSchema(): OpenAPISchema {
-  console.log('Loading OpenAPI schema from local file...')
+async function loadSchema(): Promise<OpenAPISchema> {
+  console.log(`Fetching OpenAPI schema from ${SCHEMA_URL}...`)
 
-  if (!fs.existsSync(SCHEMA_FILE)) {
-    console.error('Schema file not found. Run "yarn fetch-schema" first.')
-    process.exit(1)
+  const response = await fetch(SCHEMA_URL)
+  if (!response.ok) {
+    throw new Error(`Failed to fetch schema: HTTP ${response.status}`)
   }
 
-  const schemaData = fs.readFileSync(SCHEMA_FILE, 'utf8')
-  return JSON.parse(schemaData) as OpenAPISchema
+  return (await response.json()) as OpenAPISchema
 }
 
 function generateTypes(schema: OpenAPISchema): string {
@@ -803,7 +802,7 @@ function transformOperationId(operationId: string): string {
 
 async function main(): Promise<void> {
   try {
-    const schema = loadSchema()
+    const schema = await loadSchema()
 
     const types = generateTypes(schema)
     fs.writeFileSync(TYPES_FILE, types)
