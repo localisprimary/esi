@@ -8,10 +8,10 @@
   "sideEffects": false,
   "scripts": {
     "generate": "node scripts/generate.ts && pnpm lint:fix && pnpm format",
-    "build": "rimraf dist && tsc",
+    "build": "tsc -p scripts/tsconfig.json && rimraf dist && tsc && tsc -p tsconfig.test.json",
     "compile": "pnpm generate && pnpm build && pnpm test",
-    "lint": "oxlint src",
-    "lint:fix": "oxlint src --fix",
+    "lint": "oxlint src scripts vitest.config.ts",
+    "lint:fix": "oxlint src scripts vitest.config.ts --fix",
     "format": "oxfmt",
     "test": "vitest run",
     "change": "beachball change"

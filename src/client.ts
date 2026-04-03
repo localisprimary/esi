@@ -2,7 +2,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Types from './types'
 
-const COMPATIBILITY_DATE = '2026-02-13'
+const COMPATIBILITY_DATE = '2026-04-03'
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
@@ -65,25 +65,29 @@ export class EsiClient {
     const response = await fetch(url.toString(), {
       method,
       headers: this.useRequestHeaders ? headers : undefined,
-      body: body ? JSON.stringify(body) : undefined,
+      body: body === undefined ? undefined : JSON.stringify(body),
     })
+
+    const responseText = await response.text()
 
     if (!response.ok) {
       let error = 'Request failed'
-      try {
-        const errorData = await response.json()
-        error = errorData.error || error
-      } catch {}
+      if (responseText) {
+        try {
+          const errorData = JSON.parse(responseText)
+          error = errorData.error || error
+        } catch {}
+      }
       throw {
         error,
         status: response.status,
       } as Types.EsiError
     }
 
-    const data = await response.json()
+    const data = responseText ? JSON.parse(responseText) : undefined
 
     return {
-      data,
+      data: data as TData,
       status: response.status,
       headers: Object.fromEntries(response.headers.entries()) as THeaders,
     }
@@ -2419,15 +2423,13 @@ in the past need to be applied on top of this list to get an accurate view of th
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostUiAutopilotWaypoint
    */
-  async postUiAutopilotWaypoint(params?: Types.PostUiAutopilotWaypointParams) {
+  async postUiAutopilotWaypoint(params: Types.PostUiAutopilotWaypointParams) {
     const path = `/ui/autopilot/waypoint`
-    const queryParams = params
-      ? {
-          add_to_beginning: params.add_to_beginning,
-          clear_other_waypoints: params.clear_other_waypoints,
-          destination_id: params.destination_id,
-        }
-      : undefined
+    const queryParams = {
+      add_to_beginning: params.add_to_beginning,
+      clear_other_waypoints: params.clear_other_waypoints,
+      destination_id: params.destination_id,
+    }
     return this.request<
       undefined,
       Types.PostUiAutopilotWaypointResponseHeaders
@@ -2439,11 +2441,9 @@ in the past need to be applied on top of this list to get an accurate view of th
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostUiOpenwindowContract
    */
-  async postUiOpenwindowContract(
-    params?: Types.PostUiOpenwindowContractParams
-  ) {
+  async postUiOpenwindowContract(params: Types.PostUiOpenwindowContractParams) {
     const path = `/ui/openwindow/contract`
-    const queryParams = params ? { contract_id: params.contract_id } : undefined
+    const queryParams = { contract_id: params.contract_id }
     return this.request<
       undefined,
       Types.PostUiOpenwindowContractResponseHeaders
@@ -2456,10 +2456,10 @@ in the past need to be applied on top of this list to get an accurate view of th
    * @see https://developers.eveonline.com/api-explorer#/operations/PostUiOpenwindowInformation
    */
   async postUiOpenwindowInformation(
-    params?: Types.PostUiOpenwindowInformationParams
+    params: Types.PostUiOpenwindowInformationParams
   ) {
     const path = `/ui/openwindow/information`
-    const queryParams = params ? { target_id: params.target_id } : undefined
+    const queryParams = { target_id: params.target_id }
     return this.request<
       undefined,
       Types.PostUiOpenwindowInformationResponseHeaders
@@ -2472,10 +2472,10 @@ in the past need to be applied on top of this list to get an accurate view of th
    * @see https://developers.eveonline.com/api-explorer#/operations/PostUiOpenwindowMarketdetails
    */
   async postUiOpenwindowMarketdetails(
-    params?: Types.PostUiOpenwindowMarketdetailsParams
+    params: Types.PostUiOpenwindowMarketdetailsParams
   ) {
     const path = `/ui/openwindow/marketdetails`
-    const queryParams = params ? { type_id: params.type_id } : undefined
+    const queryParams = { type_id: params.type_id }
     return this.request<
       undefined,
       Types.PostUiOpenwindowMarketdetailsResponseHeaders

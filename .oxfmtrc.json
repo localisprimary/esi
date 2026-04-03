@@ -8,9 +8,5 @@
   "useTabs": false,
   "bracketSpacing": true,
   "arrowParens": "avoid",
-  "experimentalSortPackageJson": false,
-  "ignorePatterns": [
-    "scripts/test/fixtures/invalid.json",
-    "scripts/static/openapi.json"
-  ]
+  "experimentalSortPackageJson": false
 }

@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { afterEach, describe, expect, it } from 'vitest'
 import { EsiClient } from '../../dist'
 
 const TEST_IDS = {
@@ -84,6 +84,7 @@ describe('EsiClient - Live API Tests', () => {
   describe('Paginated Endpoints', () => {
     it('should get paginated market orders and return pagination headers', async () => {
       const page1 = await client.getRegionOrders({
+        order_type: 'all',
         region_id: TEST_IDS.region,
         page: 1,
         type_id: TEST_IDS.item,
@@ -165,5 +166,33 @@ describe('EsiClient - Missing user agent', () => {
   it('should throw when userAgent is not provided', () => {
     // @ts-expect-error Testing missing userAgent
     expect(() => new EsiClient({})).toThrow()
+  })
+})
+
+describe('EsiClient - Empty response bodies', () => {
+  const originalFetch = globalThis.fetch
+
+  afterEach(() => {
+    globalThis.fetch = originalFetch
+  })
+
+  it('should return undefined data for successful empty responses', async () => {
+    globalThis.fetch = async () =>
+      new Response(null, {
+        status: 204,
+        headers: {
+          'cache-control': 'no-cache',
+        },
+      })
+
+    const client = new EsiClient({ userAgent: 'testClient' })
+    const response = await client.deleteFleetWing({
+      fleet_id: 1,
+      wing_id: 2,
+    })
+
+    expect(response.status).toBe(204)
+    expect(response.data).toBeUndefined()
+    expect(response.headers['cache-control']).toBe('no-cache')
   })
 })

@@ -6,7 +6,12 @@
   },
   "overrides": [
     {
-      "files": ["src/**/*.ts", "!src/test/**"],
+      "files": [
+        "src/**/*.ts",
+        "scripts/**/*.ts",
+        "vitest.config.ts",
+        "!src/test/**"
+      ],
       "rules": {
         "@typescript-eslint/ban-ts-comment": "error",
         "no-array-constructor": "error",

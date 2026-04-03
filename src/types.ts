@@ -27,9 +27,9 @@ export type Tenant = string
 export type GetAlliancesResponse = number[]
 
 export interface GetAlliancesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type CorporationID = number
@@ -53,9 +53,9 @@ export interface GetAllianceParams {
 }
 
 export interface GetAllianceResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetAllianceContactsResponse = {
@@ -71,10 +71,10 @@ export interface GetAllianceContactsParams {
 }
 
 export interface GetAllianceContactsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetAllianceContactsLabelsResponse = {
@@ -87,9 +87,9 @@ export interface GetAllianceContactsLabelsParams {
 }
 
 export interface GetAllianceContactsLabelsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetAllianceCorporationsResponse = number[]
@@ -99,9 +99,9 @@ export interface GetAllianceCorporationsParams {
 }
 
 export interface GetAllianceCorporationsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetAllianceIconsResponse {
@@ -114,9 +114,9 @@ export interface GetAllianceIconsParams {
 }
 
 export interface GetAllianceIconsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type PostCharactersAffiliationResponse = {
@@ -131,9 +131,9 @@ export interface PostCharactersAffiliationParams {
 }
 
 export interface PostCharactersAffiliationResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type AllianceID = number
@@ -161,9 +161,9 @@ export interface GetCharacterParams {
 }
 
 export interface GetCharacterResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterAgentsResearchResponse = {
@@ -179,9 +179,9 @@ export interface GetCharacterAgentsResearchParams {
 }
 
 export interface GetCharacterAgentsResearchResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterAssetsResponse = {
@@ -290,10 +290,10 @@ export interface GetCharacterAssetsParams {
 }
 
 export interface GetCharacterAssetsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type PostCharacterAssetsLocationsResponse = {
@@ -307,9 +307,9 @@ export interface PostCharacterAssetsLocationsParams {
 }
 
 export interface PostCharacterAssetsLocationsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type PostCharacterAssetsNamesResponse = {
@@ -323,9 +323,9 @@ export interface PostCharacterAssetsNamesParams {
 }
 
 export interface PostCharacterAssetsNamesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterAttributesResponse {
@@ -344,9 +344,9 @@ export interface GetCharacterAttributesParams {
 }
 
 export interface GetCharacterAttributesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterBlueprintsResponse = {
@@ -442,10 +442,10 @@ export interface GetCharacterBlueprintsParams {
 }
 
 export interface GetCharacterBlueprintsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCharacterCalendarResponse = {
@@ -462,9 +462,9 @@ export interface GetCharacterCalendarParams {
 }
 
 export interface GetCharacterCalendarResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterCalendarEventIdResponse {
@@ -491,9 +491,9 @@ export interface GetCharacterCalendarEventIdParams {
 }
 
 export interface GetCharacterCalendarEventIdResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PutCharacterCalendarEventIdParams {
@@ -503,9 +503,9 @@ export interface PutCharacterCalendarEventIdParams {
 }
 
 export interface PutCharacterCalendarEventIdResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterCalendarEventAttendeesResponse = {
@@ -519,9 +519,9 @@ export interface GetCharacterCalendarEventAttendeesParams {
 }
 
 export interface GetCharacterCalendarEventAttendeesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterClonesResponse {
@@ -545,20 +545,20 @@ export interface GetCharacterClonesParams {
 }
 
 export interface GetCharacterClonesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface DeleteCharacterContactsParams {
   character_id: number | string
-  contact_ids?: number[]
+  contact_ids: number[]
 }
 
 export interface DeleteCharacterContactsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterContactsResponse = {
@@ -576,10 +576,10 @@ export interface GetCharacterContactsParams {
 }
 
 export interface GetCharacterContactsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type PostCharacterContactsResponse = number[]
@@ -587,29 +587,29 @@ export type PostCharacterContactsResponse = number[]
 export interface PostCharacterContactsParams {
   character_id: number | string
   label_ids?: number[]
-  standing?: number
+  standing: number
   watched?: boolean
   body: number[]
 }
 
 export interface PostCharacterContactsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PutCharacterContactsParams {
   character_id: number | string
   label_ids?: number[]
-  standing?: number
+  standing: number
   watched?: boolean
   body: number[]
 }
 
 export interface PutCharacterContactsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterContactsLabelsResponse = {
@@ -622,9 +622,9 @@ export interface GetCharacterContactsLabelsParams {
 }
 
 export interface GetCharacterContactsLabelsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterContractsResponse = {
@@ -668,10 +668,10 @@ export interface GetCharacterContractsParams {
 }
 
 export interface GetCharacterContractsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCharacterContractBidsResponse = {
@@ -687,9 +687,9 @@ export interface GetCharacterContractBidsParams {
 }
 
 export interface GetCharacterContractBidsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterContractItemsResponse = {
@@ -707,9 +707,9 @@ export interface GetCharacterContractItemsParams {
 }
 
 export interface GetCharacterContractItemsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterCorporationhistoryResponse = {
@@ -724,9 +724,9 @@ export interface GetCharacterCorporationhistoryParams {
 }
 
 export interface GetCharacterCorporationhistoryResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type PostCharacterCspaResponse = number
@@ -737,9 +737,9 @@ export interface PostCharacterCspaParams {
 }
 
 export interface PostCharacterCspaResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterFatigueResponse {
@@ -753,9 +753,9 @@ export interface GetCharacterFatigueParams {
 }
 
 export interface GetCharacterFatigueResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterFittingsResponse = {
@@ -818,9 +818,9 @@ export interface GetCharacterFittingsParams {
 }
 
 export interface GetCharacterFittingsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PostCharacterFittingsResponse {
@@ -883,9 +883,9 @@ export interface PostCharacterFittingsParams {
 }
 
 export interface PostCharacterFittingsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface DeleteCharacterFittingParams {
@@ -894,9 +894,9 @@ export interface DeleteCharacterFittingParams {
 }
 
 export interface DeleteCharacterFittingResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterFleetResponse {
@@ -916,9 +916,9 @@ export interface GetCharacterFleetParams {
 }
 
 export interface GetCharacterFleetResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterFwStatsResponse {
@@ -935,9 +935,9 @@ export interface GetCharacterFwStatsParams {
 }
 
 export interface GetCharacterFwStatsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterImplantsResponse = number[]
@@ -947,9 +947,9 @@ export interface GetCharacterImplantsParams {
 }
 
 export interface GetCharacterImplantsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterIndustryJobsResponse = {
@@ -983,9 +983,9 @@ export interface GetCharacterIndustryJobsParams {
 }
 
 export interface GetCharacterIndustryJobsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterKillmailsRecentResponse = {
@@ -999,10 +999,10 @@ export interface GetCharacterKillmailsRecentParams {
 }
 
 export interface GetCharacterKillmailsRecentResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export interface GetCharacterLocationResponse {
@@ -1016,9 +1016,9 @@ export interface GetCharacterLocationParams {
 }
 
 export interface GetCharacterLocationResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterLoyaltyPointsResponse = {
@@ -1031,9 +1031,9 @@ export interface GetCharacterLoyaltyPointsParams {
 }
 
 export interface GetCharacterLoyaltyPointsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterMailResponse = {
@@ -1056,9 +1056,9 @@ export interface GetCharacterMailParams {
 }
 
 export interface GetCharacterMailResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type PostCharacterMailResponse = number
@@ -1075,9 +1075,9 @@ export interface PostCharacterMailParams {
 }
 
 export interface PostCharacterMailResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterMailLabelsResponse {
@@ -1113,9 +1113,9 @@ export interface GetCharacterMailLabelsParams {
 }
 
 export interface GetCharacterMailLabelsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type PostCharacterMailLabelsResponse = number
@@ -1145,9 +1145,9 @@ export interface PostCharacterMailLabelsParams {
 }
 
 export interface PostCharacterMailLabelsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface DeleteCharacterMailLabelParams {
@@ -1156,9 +1156,9 @@ export interface DeleteCharacterMailLabelParams {
 }
 
 export interface DeleteCharacterMailLabelResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterMailListsResponse = {
@@ -1171,9 +1171,9 @@ export interface GetCharacterMailListsParams {
 }
 
 export interface GetCharacterMailListsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface DeleteCharacterMailMailIdParams {
@@ -1182,9 +1182,9 @@ export interface DeleteCharacterMailMailIdParams {
 }
 
 export interface DeleteCharacterMailMailIdResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterMailMailIdResponse {
@@ -1206,9 +1206,9 @@ export interface GetCharacterMailMailIdParams {
 }
 
 export interface GetCharacterMailMailIdResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PutCharacterMailMailIdParams {
@@ -1219,9 +1219,9 @@ export interface PutCharacterMailMailIdParams {
 }
 
 export interface PutCharacterMailMailIdResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterMedalsResponse = {
@@ -1241,9 +1241,9 @@ export interface GetCharacterMedalsParams {
 }
 
 export interface GetCharacterMedalsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterMiningResponse = {
@@ -1259,10 +1259,10 @@ export interface GetCharacterMiningParams {
 }
 
 export interface GetCharacterMiningResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCharacterNotificationsResponse = {
@@ -1527,9 +1527,9 @@ export interface GetCharacterNotificationsParams {
 }
 
 export interface GetCharacterNotificationsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterNotificationsContactsResponse = {
@@ -1545,9 +1545,9 @@ export interface GetCharacterNotificationsContactsParams {
 }
 
 export interface GetCharacterNotificationsContactsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterOnlineResponse {
@@ -1562,9 +1562,9 @@ export interface GetCharacterOnlineParams {
 }
 
 export interface GetCharacterOnlineResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterOrdersResponse = {
@@ -1601,9 +1601,9 @@ export interface GetCharacterOrdersParams {
 }
 
 export interface GetCharacterOrdersResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterOrdersHistoryResponse = {
@@ -1642,10 +1642,10 @@ export interface GetCharacterOrdersHistoryParams {
 }
 
 export interface GetCharacterOrdersHistoryResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCharacterPlanetsResponse = {
@@ -1671,9 +1671,9 @@ export interface GetCharacterPlanetsParams {
 }
 
 export interface GetCharacterPlanetsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterPlanetResponse {
@@ -1717,9 +1717,9 @@ export interface GetCharacterPlanetParams {
 }
 
 export interface GetCharacterPlanetResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterPortraitResponse {
@@ -1734,9 +1734,9 @@ export interface GetCharacterPortraitParams {
 }
 
 export interface GetCharacterPortraitResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterRolesResponse {
@@ -1971,9 +1971,9 @@ export interface GetCharacterRolesParams {
 }
 
 export interface GetCharacterRolesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterSearchResponse {
@@ -1992,7 +1992,7 @@ export interface GetCharacterSearchResponse {
 
 export interface GetCharacterSearchParams {
   character_id: number | string
-  categories?: (
+  categories: (
     | 'agent'
     | 'alliance'
     | 'character'
@@ -2005,15 +2005,15 @@ export interface GetCharacterSearchParams {
     | 'station'
     | 'structure'
   )[]
-  search?: string
+  search: string
   strict?: boolean
 }
 
 export interface GetCharacterSearchResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCharacterShipResponse {
@@ -2027,9 +2027,9 @@ export interface GetCharacterShipParams {
 }
 
 export interface GetCharacterShipResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type TypeID = number
@@ -2052,9 +2052,9 @@ export interface GetCharacterSkillqueueParams {
 }
 
 export interface GetCharacterSkillqueueResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface CharactersSkillsSkill {
@@ -2075,9 +2075,9 @@ export interface GetCharacterSkillsParams {
 }
 
 export interface GetCharacterSkillsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterStandingsResponse = {
@@ -2091,9 +2091,9 @@ export interface GetCharacterStandingsParams {
 }
 
 export interface GetCharacterStandingsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterTitlesResponse = { name: string; title_id: number }[]
@@ -2103,9 +2103,9 @@ export interface GetCharacterTitlesParams {
 }
 
 export interface GetCharacterTitlesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterWalletResponse = number
@@ -2115,9 +2115,9 @@ export interface GetCharacterWalletParams {
 }
 
 export interface GetCharacterWalletResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterWalletJournalResponse = {
@@ -2309,10 +2309,10 @@ export interface GetCharacterWalletJournalParams {
 }
 
 export interface GetCharacterWalletJournalResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCharacterWalletTransactionsResponse = {
@@ -2334,9 +2334,9 @@ export interface GetCharacterWalletTransactionsParams {
 }
 
 export interface GetCharacterWalletTransactionsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetContractsPublicBidsResponse = {
@@ -2351,10 +2351,10 @@ export interface GetContractsPublicBidsParams {
 }
 
 export interface GetContractsPublicBidsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetContractsPublicItemsResponse = {
@@ -2375,10 +2375,10 @@ export interface GetContractsPublicItemsParams {
 }
 
 export interface GetContractsPublicItemsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetContractsPublicRegionIdResponse = {
@@ -2406,10 +2406,10 @@ export interface GetContractsPublicRegionIdParams {
 }
 
 export interface GetContractsPublicRegionIdResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationCorporationMiningExtractionsResponse = {
@@ -2426,10 +2426,10 @@ export interface GetCorporationCorporationMiningExtractionsParams {
 }
 
 export interface GetCorporationCorporationMiningExtractionsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationCorporationMiningObserversResponse = {
@@ -2444,10 +2444,10 @@ export interface GetCorporationCorporationMiningObserversParams {
 }
 
 export interface GetCorporationCorporationMiningObserversResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationCorporationMiningObserverResponse = {
@@ -2465,18 +2465,18 @@ export interface GetCorporationCorporationMiningObserverParams {
 }
 
 export interface GetCorporationCorporationMiningObserverResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationsNpccorpsResponse = number[]
 
 export interface GetCorporationsNpccorpsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type StationID = number
@@ -2503,9 +2503,9 @@ export interface GetCorporationParams {
 }
 
 export interface GetCorporationResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationAlliancehistoryResponse = {
@@ -2520,9 +2520,9 @@ export interface GetCorporationAlliancehistoryParams {
 }
 
 export interface GetCorporationAlliancehistoryResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationAssetsResponse = {
@@ -2667,10 +2667,10 @@ export interface GetCorporationAssetsParams {
 }
 
 export interface GetCorporationAssetsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type PostCorporationAssetsLocationsResponse = {
@@ -2684,9 +2684,9 @@ export interface PostCorporationAssetsLocationsParams {
 }
 
 export interface PostCorporationAssetsLocationsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type PostCorporationAssetsNamesResponse = {
@@ -2700,9 +2700,9 @@ export interface PostCorporationAssetsNamesParams {
 }
 
 export interface PostCorporationAssetsNamesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationBlueprintsResponse = {
@@ -2847,10 +2847,10 @@ export interface GetCorporationBlueprintsParams {
 }
 
 export interface GetCorporationBlueprintsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationContactsResponse = {
@@ -2867,10 +2867,10 @@ export interface GetCorporationContactsParams {
 }
 
 export interface GetCorporationContactsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationContactsLabelsResponse = {
@@ -2883,9 +2883,9 @@ export interface GetCorporationContactsLabelsParams {
 }
 
 export interface GetCorporationContactsLabelsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationContainersLogsResponse = {
@@ -3044,10 +3044,10 @@ export interface GetCorporationContainersLogsParams {
 }
 
 export interface GetCorporationContainersLogsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationContractsResponse = {
@@ -3091,10 +3091,10 @@ export interface GetCorporationContractsParams {
 }
 
 export interface GetCorporationContractsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationContractBidsResponse = {
@@ -3111,10 +3111,10 @@ export interface GetCorporationContractBidsParams {
 }
 
 export interface GetCorporationContractBidsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationContractItemsResponse = {
@@ -3132,9 +3132,9 @@ export interface GetCorporationContractItemsParams {
 }
 
 export interface GetCorporationContractItemsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationCustomsOfficesResponse = {
@@ -3160,10 +3160,10 @@ export interface GetCorporationCustomsOfficesParams {
 }
 
 export interface GetCorporationCustomsOfficesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export interface GetCorporationDivisionsResponse {
@@ -3176,9 +3176,9 @@ export interface GetCorporationDivisionsParams {
 }
 
 export interface GetCorporationDivisionsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationFacilitiesResponse = {
@@ -3192,9 +3192,9 @@ export interface GetCorporationFacilitiesParams {
 }
 
 export interface GetCorporationFacilitiesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCorporationFwStatsResponse {
@@ -3210,9 +3210,9 @@ export interface GetCorporationFwStatsParams {
 }
 
 export interface GetCorporationFwStatsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetCorporationIconsResponse {
@@ -3226,9 +3226,9 @@ export interface GetCorporationIconsParams {
 }
 
 export interface GetCorporationIconsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationIndustryJobsResponse = {
@@ -3263,10 +3263,10 @@ export interface GetCorporationIndustryJobsParams {
 }
 
 export interface GetCorporationIndustryJobsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationKillmailsRecentResponse = {
@@ -3280,10 +3280,10 @@ export interface GetCorporationKillmailsRecentParams {
 }
 
 export interface GetCorporationKillmailsRecentResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationMedalsResponse = {
@@ -3300,10 +3300,10 @@ export interface GetCorporationMedalsParams {
 }
 
 export interface GetCorporationMedalsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationMedalsIssuedResponse = {
@@ -3321,10 +3321,10 @@ export interface GetCorporationMedalsIssuedParams {
 }
 
 export interface GetCorporationMedalsIssuedResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationMembersResponse = number[]
@@ -3334,9 +3334,9 @@ export interface GetCorporationMembersParams {
 }
 
 export interface GetCorporationMembersResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationMembersLimitResponse = number
@@ -3346,9 +3346,9 @@ export interface GetCorporationMembersLimitParams {
 }
 
 export interface GetCorporationMembersLimitResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationMembersTitlesResponse = {
@@ -3361,9 +3361,9 @@ export interface GetCorporationMembersTitlesParams {
 }
 
 export interface GetCorporationMembersTitlesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationMembertrackingResponse = {
@@ -3381,9 +3381,9 @@ export interface GetCorporationMembertrackingParams {
 }
 
 export interface GetCorporationMembertrackingResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationOrdersResponse = {
@@ -3422,10 +3422,10 @@ export interface GetCorporationOrdersParams {
 }
 
 export interface GetCorporationOrdersResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationOrdersHistoryResponse = {
@@ -3465,10 +3465,10 @@ export interface GetCorporationOrdersHistoryParams {
 }
 
 export interface GetCorporationOrdersHistoryResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationRolesResponse = {
@@ -3928,9 +3928,9 @@ export interface GetCorporationRolesParams {
 }
 
 export interface GetCorporationRolesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationRolesHistoryResponse = {
@@ -4066,10 +4066,10 @@ export interface GetCorporationRolesHistoryParams {
 }
 
 export interface GetCorporationRolesHistoryResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationShareholdersResponse = {
@@ -4084,10 +4084,10 @@ export interface GetCorporationShareholdersParams {
 }
 
 export interface GetCorporationShareholdersResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationStandingsResponse = {
@@ -4102,10 +4102,10 @@ export interface GetCorporationStandingsParams {
 }
 
 export interface GetCorporationStandingsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationStarbasesResponse = {
@@ -4125,10 +4125,10 @@ export interface GetCorporationStarbasesParams {
 }
 
 export interface GetCorporationStarbasesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export interface GetCorporationStarbaseResponse {
@@ -4175,13 +4175,13 @@ export interface GetCorporationStarbaseResponse {
 export interface GetCorporationStarbaseParams {
   corporation_id: number | string
   starbase_id: number | string
-  system_id?: number
+  system_id: number
 }
 
 export interface GetCorporationStarbaseResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationStructuresResponse = {
@@ -4221,11 +4221,11 @@ export interface GetCorporationStructuresParams {
 }
 
 export interface GetCorporationStructuresResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationTitlesResponse = {
@@ -4686,9 +4686,9 @@ export interface GetCorporationTitlesParams {
 }
 
 export interface GetCorporationTitlesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationWalletsResponse = {
@@ -4701,9 +4701,9 @@ export interface GetCorporationWalletsParams {
 }
 
 export interface GetCorporationWalletsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationWalletsDivisionJournalResponse = {
@@ -4896,10 +4896,10 @@ export interface GetCorporationWalletsDivisionJournalParams {
 }
 
 export interface GetCorporationWalletsDivisionJournalResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetCorporationWalletsDivisionTransactionsResponse = {
@@ -4921,17 +4921,17 @@ export interface GetCorporationWalletsDivisionTransactionsParams {
 }
 
 export interface GetCorporationWalletsDivisionTransactionsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetDogmaAttributesResponse = number[]
 
 export interface GetDogmaAttributesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetDogmaAttributeResponse {
@@ -4952,9 +4952,9 @@ export interface GetDogmaAttributeParams {
 }
 
 export interface GetDogmaAttributeResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetDogmaDynamicTypeItemIdResponse {
@@ -4971,17 +4971,17 @@ export interface GetDogmaDynamicTypeItemIdParams {
 }
 
 export interface GetDogmaDynamicTypeItemIdResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetDogmaEffectsResponse = number[]
 
 export interface GetDogmaEffectsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetDogmaEffectResponse {
@@ -5020,9 +5020,9 @@ export interface GetDogmaEffectParams {
 }
 
 export interface GetDogmaEffectResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetFleetResponse {
@@ -5037,9 +5037,9 @@ export interface GetFleetParams {
 }
 
 export interface GetFleetResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PutFleetParams {
@@ -5049,9 +5049,9 @@ export interface PutFleetParams {
 }
 
 export interface PutFleetResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetFleetMembersResponse = {
@@ -5076,10 +5076,10 @@ export interface GetFleetMembersParams {
 }
 
 export interface GetFleetMembersResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PostFleetMembersParams {
@@ -5095,9 +5095,9 @@ export interface PostFleetMembersParams {
 }
 
 export interface PostFleetMembersResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface DeleteFleetMemberParams {
@@ -5106,9 +5106,9 @@ export interface DeleteFleetMemberParams {
 }
 
 export interface DeleteFleetMemberResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PutFleetMemberParams {
@@ -5124,9 +5124,9 @@ export interface PutFleetMemberParams {
 }
 
 export interface PutFleetMemberResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface DeleteFleetSquadParams {
@@ -5135,9 +5135,9 @@ export interface DeleteFleetSquadParams {
 }
 
 export interface DeleteFleetSquadResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PutFleetSquadParams {
@@ -5147,9 +5147,9 @@ export interface PutFleetSquadParams {
 }
 
 export interface PutFleetSquadResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetFleetWingsResponse = {
@@ -5163,10 +5163,10 @@ export interface GetFleetWingsParams {
 }
 
 export interface GetFleetWingsResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PostFleetWingsResponse {
@@ -5178,9 +5178,9 @@ export interface PostFleetWingsParams {
 }
 
 export interface PostFleetWingsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface DeleteFleetWingParams {
@@ -5189,9 +5189,9 @@ export interface DeleteFleetWingParams {
 }
 
 export interface DeleteFleetWingResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PutFleetWingParams {
@@ -5201,9 +5201,9 @@ export interface PutFleetWingParams {
 }
 
 export interface PutFleetWingResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PostFleetWingSquadsResponse {
@@ -5216,9 +5216,9 @@ export interface PostFleetWingSquadsParams {
 }
 
 export interface PostFleetWingSquadsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetFwLeaderboardsResponse {
@@ -5235,9 +5235,9 @@ export interface GetFwLeaderboardsResponse {
 }
 
 export interface GetFwLeaderboardsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetFwLeaderboardsCharactersResponse {
@@ -5254,9 +5254,9 @@ export interface GetFwLeaderboardsCharactersResponse {
 }
 
 export interface GetFwLeaderboardsCharactersResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetFwLeaderboardsCorporationsResponse {
@@ -5273,9 +5273,9 @@ export interface GetFwLeaderboardsCorporationsResponse {
 }
 
 export interface GetFwLeaderboardsCorporationsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetFwStatsResponse = {
@@ -5287,9 +5287,9 @@ export type GetFwStatsResponse = {
 }[]
 
 export interface GetFwStatsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetFwSystemsResponse = {
@@ -5302,17 +5302,17 @@ export type GetFwSystemsResponse = {
 }[]
 
 export interface GetFwSystemsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetFwWarsResponse = { against_id: number; faction_id: number }[]
 
 export interface GetFwWarsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetIncursionsResponse = {
@@ -5327,9 +5327,9 @@ export type GetIncursionsResponse = {
 }[]
 
 export interface GetIncursionsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetIndustryFacilitiesResponse = {
@@ -5342,9 +5342,9 @@ export type GetIndustryFacilitiesResponse = {
 }[]
 
 export interface GetIndustryFacilitiesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetIndustrySystemsResponse = {
@@ -5366,9 +5366,9 @@ export type GetIndustrySystemsResponse = {
 }[]
 
 export interface GetIndustrySystemsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetInsurancePricesResponse = {
@@ -5377,10 +5377,10 @@ export type GetInsurancePricesResponse = {
 }[]
 
 export interface GetInsurancePricesResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetKillmailKillmailHashResponse {
@@ -5431,9 +5431,9 @@ export interface GetKillmailKillmailHashParams {
 }
 
 export interface GetKillmailKillmailHashResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetLoyaltyCorporationOffersResponse = {
@@ -5451,17 +5451,17 @@ export interface GetLoyaltyCorporationOffersParams {
 }
 
 export interface GetLoyaltyCorporationOffersResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetMarketsGroupsResponse = number[]
 
 export interface GetMarketsGroupsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetMarketsGroupsMarketGroupIdResponse {
@@ -5477,10 +5477,10 @@ export interface GetMarketsGroupsMarketGroupIdParams {
 }
 
 export interface GetMarketsGroupsMarketGroupIdResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetMarketsPricesResponse = {
@@ -5490,9 +5490,9 @@ export type GetMarketsPricesResponse = {
 }[]
 
 export interface GetMarketsPricesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetMarketsStructureResponse = {
@@ -5527,10 +5527,10 @@ export interface GetMarketsStructureParams {
 }
 
 export interface GetMarketsStructureResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetRegionHistoryResponse = {
@@ -5544,13 +5544,13 @@ export type GetRegionHistoryResponse = {
 
 export interface GetRegionHistoryParams {
   region_id: number | string
-  type_id?: number
+  type_id: number
 }
 
 export interface GetRegionHistoryResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetRegionOrdersResponse = {
@@ -5582,16 +5582,16 @@ export type GetRegionOrdersResponse = {
 
 export interface GetRegionOrdersParams {
   region_id: number | string
-  order_type?: 'buy' | 'sell' | 'all'
+  order_type: 'buy' | 'sell' | 'all'
   page?: number
   type_id?: number
 }
 
 export interface GetRegionOrdersResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export type GetRegionTypesResponse = number[]
@@ -5602,10 +5602,10 @@ export interface GetRegionTypesParams {
 }
 
 export interface GetRegionTypesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export interface GetMetaChangelogResponse {
@@ -5613,9 +5613,9 @@ export interface GetMetaChangelogResponse {
 }
 
 export interface GetMetaChangelogResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetMetaCompatibilityDatesResponse {
@@ -5623,9 +5623,9 @@ export interface GetMetaCompatibilityDatesResponse {
 }
 
 export interface GetMetaCompatibilityDatesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetRouteOriginDestinationResponse = number[]
@@ -5639,9 +5639,9 @@ export interface GetRouteOriginDestinationParams {
 }
 
 export interface GetRouteOriginDestinationResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetSovereigntyCampaignsResponse = {
@@ -5662,9 +5662,9 @@ export type GetSovereigntyCampaignsResponse = {
 }[]
 
 export interface GetSovereigntyCampaignsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetSovereigntyMapResponse = {
@@ -5675,9 +5675,9 @@ export type GetSovereigntyMapResponse = {
 }[]
 
 export interface GetSovereigntyMapResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetSovereigntyStructuresResponse = {
@@ -5691,9 +5691,9 @@ export type GetSovereigntyStructuresResponse = {
 }[]
 
 export interface GetSovereigntyStructuresResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetStatusResponse {
@@ -5704,51 +5704,51 @@ export interface GetStatusResponse {
 }
 
 export interface GetStatusResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PostUiAutopilotWaypointParams {
-  add_to_beginning?: boolean
-  clear_other_waypoints?: boolean
-  destination_id?: number
+  add_to_beginning: boolean
+  clear_other_waypoints: boolean
+  destination_id: number
 }
 
 export interface PostUiAutopilotWaypointResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PostUiOpenwindowContractParams {
-  contract_id?: number
+  contract_id: number
 }
 
 export interface PostUiOpenwindowContractResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PostUiOpenwindowInformationParams {
-  target_id?: number
+  target_id: number
 }
 
 export interface PostUiOpenwindowInformationResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PostUiOpenwindowMarketdetailsParams {
-  type_id?: number
+  type_id: number
 }
 
 export interface PostUiOpenwindowMarketdetailsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PostUiOpenwindowNewmailParams {
@@ -5760,9 +5760,9 @@ export interface PostUiOpenwindowNewmailParams {
 }
 
 export interface PostUiOpenwindowNewmailResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseAncestriesResponse = {
@@ -5775,10 +5775,10 @@ export type GetUniverseAncestriesResponse = {
 }[]
 
 export interface GetUniverseAncestriesResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniverseAsteroidBeltsAsteroidBeltIdResponse {
@@ -5792,9 +5792,9 @@ export interface GetUniverseAsteroidBeltsAsteroidBeltIdParams {
 }
 
 export interface GetUniverseAsteroidBeltsAsteroidBeltIdResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseBloodlinesResponse = {
@@ -5812,18 +5812,18 @@ export type GetUniverseBloodlinesResponse = {
 }[]
 
 export interface GetUniverseBloodlinesResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseCategoriesResponse = number[]
 
 export interface GetUniverseCategoriesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniverseCategoryResponse {
@@ -5838,18 +5838,18 @@ export interface GetUniverseCategoryParams {
 }
 
 export interface GetUniverseCategoryResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseConstellationsResponse = number[]
 
 export interface GetUniverseConstellationsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniverseConstellationResponse {
@@ -5865,10 +5865,10 @@ export interface GetUniverseConstellationParams {
 }
 
 export interface GetUniverseConstellationResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseFactionsResponse = {
@@ -5885,18 +5885,18 @@ export type GetUniverseFactionsResponse = {
 }[]
 
 export interface GetUniverseFactionsResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseGraphicsResponse = number[]
 
 export interface GetUniverseGraphicsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniverseGraphicResponse {
@@ -5915,9 +5915,9 @@ export interface GetUniverseGraphicParams {
 }
 
 export interface GetUniverseGraphicResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseGroupsResponse = number[]
@@ -5927,10 +5927,10 @@ export interface GetUniverseGroupsParams {
 }
 
 export interface GetUniverseGroupsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export interface GetUniverseGroupResponse {
@@ -5946,10 +5946,10 @@ export interface GetUniverseGroupParams {
 }
 
 export interface GetUniverseGroupResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface PostUniverseIdsResponse {
@@ -5970,10 +5970,10 @@ export interface PostUniverseIdsParams {
 }
 
 export interface PostUniverseIdsResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniverseMoonResponse {
@@ -5988,9 +5988,9 @@ export interface GetUniverseMoonParams {
 }
 
 export interface GetUniverseMoonResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type PostUniverseNamesResponse = {
@@ -6013,9 +6013,9 @@ export interface PostUniverseNamesParams {
 }
 
 export interface PostUniverseNamesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniversePlanetResponse {
@@ -6031,9 +6031,9 @@ export interface GetUniversePlanetParams {
 }
 
 export interface GetUniversePlanetResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseRacesResponse = {
@@ -6044,18 +6044,18 @@ export type GetUniverseRacesResponse = {
 }[]
 
 export interface GetUniverseRacesResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseRegionsResponse = number[]
 
 export interface GetUniverseRegionsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniverseRegionResponse {
@@ -6070,10 +6070,10 @@ export interface GetUniverseRegionParams {
 }
 
 export interface GetUniverseRegionResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniverseSchematicResponse {
@@ -6086,9 +6086,9 @@ export interface GetUniverseSchematicParams {
 }
 
 export interface GetUniverseSchematicResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniverseStargateResponse {
@@ -6105,9 +6105,9 @@ export interface GetUniverseStargateParams {
 }
 
 export interface GetUniverseStargateResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniverseStarResponse {
@@ -6215,9 +6215,9 @@ export interface GetUniverseStarParams {
 }
 
 export interface GetUniverseStarResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniverseStationResponse {
@@ -6268,9 +6268,9 @@ export interface GetUniverseStationParams {
 }
 
 export interface GetUniverseStationResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseStructuresResponse = number[]
@@ -6280,9 +6280,9 @@ export interface GetUniverseStructuresParams {
 }
 
 export interface GetUniverseStructuresResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniverseStructureResponse {
@@ -6298,9 +6298,9 @@ export interface GetUniverseStructureParams {
 }
 
 export interface GetUniverseStructureResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseSystemJumpsResponse = {
@@ -6309,9 +6309,9 @@ export type GetUniverseSystemJumpsResponse = {
 }[]
 
 export interface GetUniverseSystemJumpsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseSystemKillsResponse = {
@@ -6322,17 +6322,17 @@ export type GetUniverseSystemKillsResponse = {
 }[]
 
 export interface GetUniverseSystemKillsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseSystemsResponse = number[]
 
 export interface GetUniverseSystemsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetUniverseSystemResponse {
@@ -6353,10 +6353,10 @@ export interface GetUniverseSystemParams {
 }
 
 export interface GetUniverseSystemResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetUniverseTypesResponse = number[]
@@ -6366,10 +6366,10 @@ export interface GetUniverseTypesParams {
 }
 
 export interface GetUniverseTypesResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }
 
 export interface GetUniverseTypeResponse {
@@ -6396,10 +6396,10 @@ export interface GetUniverseTypeParams {
 }
 
 export interface GetUniverseTypeResponseHeaders {
-  'Cache-Control'?: string
-  'Content-Language'?: 'en' | 'de' | 'fr' | 'ja' | 'ru' | 'zh' | 'ko' | 'es'
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  'content-language'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetWarsResponse = number[]
@@ -6409,9 +6409,9 @@ export interface GetWarsParams {
 }
 
 export interface GetWarsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export interface GetWarResponse {
@@ -6442,9 +6442,9 @@ export interface GetWarParams {
 }
 
 export interface GetWarResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetWarKillmailsResponse = {
@@ -6458,8 +6458,8 @@ export interface GetWarKillmailsParams {
 }
 
 export interface GetWarKillmailsResponseHeaders {
-  'Cache-Control'?: string
-  ETag?: string
-  'Last-Modified'?: string
-  'X-Pages'?: number
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+  'x-pages'?: string
 }

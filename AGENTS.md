@@ -92,10 +92,11 @@ This is not optional. Outdated documentation causes repeated mistakes.
 │   ├── update-esi-schema.yml    # Daily cron to fetch schema updates
 │   ├── publish.yml              # Manual npm publish workflow
 │   ├── test.yml                 # PR validation (lint, build, test)
-│   └── check-changelog.yml      # Changefile check (skipped for dependabot)
+│   └── check-changefile.yml     # Changefile check (skipped for dependabot)
 │
 ├── package.json                  # Project config (ES module, Node ^24.13.0)
 ├── tsconfig.json                 # TypeScript config (strict mode, ES2020)
+├── tsconfig.test.json            # Type-checks src/test against generated dist/
 └── README.md                     # User-facing documentation
 ```
 
@@ -116,7 +117,7 @@ This is not optional. Outdated documentation causes repeated mistakes.
    │  │  └─ Generate response header types (*ResponseHeaders)
    │  └─ Handle schema references (dependency-first)
    │
-   ├─ generateClient() - Create EsiClient class (scripts/generate.ts:488)
+   ├─ generateClient() - Create EsiClient class (scripts/generate.ts:487)
    │  ├─ EsiClient constructor with options
    │  ├─ Private request() helper method
    │  └─ For each endpoint:
@@ -133,7 +134,9 @@ This is not optional. Outdated documentation causes repeated mistakes.
 
 2. BUILD
    $ pnpm build
-   └─ Compile TypeScript to JavaScript in dist/
+   ├─ Type-check scripts/ with scripts/tsconfig.json
+   ├─ Compile src/ TypeScript to JavaScript in dist/
+   └─ Type-check src/test against generated dist/ with tsconfig.test.json
 
 3. TEST
    $ pnpm test
@@ -144,7 +147,7 @@ This is not optional. Outdated documentation causes repeated mistakes.
 
 The generator simplifies verbose OpenAPI operation IDs for better developer experience.
 
-**Location**: `scripts/generate.ts:780` - `transformOperationId()`
+**Location**: `scripts/generate.ts:782` - `transformOperationId()`
 
 **Transformations Applied**:
 
@@ -267,7 +270,7 @@ await esi.postCharacterMail({
 
 Each method gets JSDoc with description and API explorer link.
 
-**Location**: `scripts/generate.ts:473` - `generateJSDoc()`
+**Location**: `scripts/generate.ts:472` - `generateJSDoc()`
 
 **Format**:
 
@@ -352,12 +355,12 @@ pnpm compile           # generate + build + test
 
 # Individual steps
 pnpm generate          # Fetch latest OpenAPI schema, generate client/types, and run linter
-pnpm build             # Compile TypeScript to dist/
+pnpm build             # Type-check scripts/, compile src/ to dist/, and type-check src/test
 pnpm test              # Run Vitest tests against live API
 
 # Code quality
-pnpm lint              # Run oxlint
-pnpm lint:fix          # Fix auto-fixable issues
+pnpm lint              # Run oxlint on src/, scripts/, and vitest.config.ts
+pnpm lint:fix          # Fix auto-fixable issues in src/, scripts/, and vitest.config.ts
 pnpm format            # Run oxfmt
 
 # Version management
@@ -432,6 +435,7 @@ $ pnpm change
 - Tests call the **real** EVE ESI API (not mocks)
 - Uses hardcoded real game entity IDs (characters, corporations, systems, etc.)
 - 30-second timeout per test (live API can be slow)
+- `pnpm build` type-checks tests against generated `dist/`
 - Tests validate response structure, types, and headers
 
 **Test Coverage**:
@@ -440,7 +444,7 @@ $ pnpm change
 - Character endpoints (public info, skills, assets, etc.)
 - Corporation endpoints
 - Universe endpoints (solar systems, stations, etc.)
-- Paginated responses (verify `X-Pages` header)
+- Paginated responses (verify `x-pages` header)
 - Error handling (404s, invalid IDs)
 - Query parameter mode (`useRequestHeaders: false`)
 
@@ -499,7 +503,7 @@ test('getAlliance returns alliance data', async () => {
 
 ### Changelog Validation
 
-**Workflow**: `.github/workflows/check-changelog.yml`
+**Workflow**: `.github/workflows/check-changefile.yml`
 
 **Trigger**: Pull requests to master (skipped for dependabot)
 
@@ -523,7 +527,7 @@ test('getAlliance returns alliance data', async () => {
    - Bumps version in `package.json`
    - Generates `CHANGELOG.md` entry
    - Creates git tag
-   - Publishes to npm (requires `NPM_TOKEN` secret)
+   - Publishes to npm with OIDC provenance
 3. Commits version bump + changelog
 
 ## Common Tasks
@@ -534,7 +538,7 @@ test('getAlliance returns alliance data', async () => {
 
 **Steps**:
 
-1. Edit `scripts/generate.ts:780` - `transformOperationId()`
+1. Edit `scripts/generate.ts:782` - `transformOperationId()`
 2. Add transformation logic (regex or string replace)
 3. Regenerate: `pnpm generate`
 4. Verify: Check `src/client.ts` for expected method names
@@ -610,11 +614,11 @@ function transformOperationId(operationId: string): string {
 
 **Current Behavior**: Already implemented!
 
-**How it Works** (scripts/generate.ts:455):
+**How it Works** (scripts/generate.ts:456):
 
 1. `generateResponseHeaderType()` extracts headers from response
 2. Creates `{OperationName}ResponseHeaders` interface
-3. Marks headers as optional (`?`) since not always present
+3. Lowercases header names to match `fetch()` and marks them optional (`?`)
 4. Headers passed as second type param to `EsiResponse<TData, THeaders>`
 
 **Example**:
@@ -622,8 +626,8 @@ function transformOperationId(operationId: string): string {
 ```typescript
 // Generated type
 export interface GetCharacterAssetsResponseHeaders {
-  'X-Pages'?: number;
-  'X-Page'?: number;
+  'x-pages'?: string;
+  'x-page'?: string;
 }
 
 // Method signature
@@ -633,7 +637,7 @@ async getCharacterAssets(
 
 // Usage
 const result = await esi.getCharacterAssets({ character_id: 123 })
-console.log(result.headers['X-Pages']) // Typed as number | undefined
+console.log(result.headers['x-pages']) // Typed as string | undefined
 ```
 
 ## Critical Conventions
@@ -737,7 +741,7 @@ console.log(result.headers['X-Pages']) // Typed as number | undefined
 
 **Rationale**:
 
-- **Pagination**: ESI uses `X-Pages` header for pagination
+- **Pagination**: ESI uses `X-Pages`, surfaced as `x-pages` because Fetch lowercases response headers
 - **Type safety**: Catch typos in header names at compile time
 - **Autocomplete**: IDE suggests available headers
 - **Optional by design**: Headers may not be present, marked `?`
@@ -774,7 +778,7 @@ new EsiClient({
 - **Auto-update**: Date updated on each generation
 - **Transparency**: Users know which API version client targets
 
-**Implementation** (scripts/generate.ts:499):
+**Implementation** (scripts/generate.ts:498):
 
 ```typescript
 const COMPATIBILITY_DATE = '${new Date().toISOString().slice(0, 10)}'
@@ -791,6 +795,7 @@ See `.oxfmtrc.json`
 - TypeScript linting via `@typescript-eslint` rules (native support)
 - oxfmt handles formatting separately (no conflicts)
 - Strict type checking enforced
+- Lint coverage includes `src/`, `scripts/`, and `vitest.config.ts`
 - Config: `.oxlintrc.json`
 
 ### Naming Conventions
@@ -805,15 +810,15 @@ See `.oxfmtrc.json`
 
 ### Core Generation Logic
 
-- **Main generator**: `scripts/generate.ts:803` - `main()`
+- **Main generator**: `scripts/generate.ts:805` - `main()`
 - **Schema loading**: `scripts/generate.ts:109` - `loadSchema()`
 - **Type generation**: `scripts/generate.ts:120` - `generateTypes()`
-- **Client generation**: `scripts/generate.ts:488` - `generateClient()`
-- **Method generation**: `scripts/generate.ts:604` - `generateMethod()`
+- **Client generation**: `scripts/generate.ts:487` - `generateClient()`
+- **Method generation**: `scripts/generate.ts:607` - `generateMethod()`
 
 ### Transformation Logic
 
-- **Operation ID transform**: `scripts/generate.ts:780` - `transformOperationId()`
+- **Operation ID transform**: `scripts/generate.ts:782` - `transformOperationId()`
 - **Type mapping**: `scripts/generate.ts:350` - `getTypeScriptType()`
 - **Parameter flattening**: `scripts/generate.ts:395` - `generateParameterType()`
 
@@ -829,10 +834,10 @@ See `.oxfmtrc.json`
 - **Ref name extraction**: `scripts/generate.ts:96` - `extractRefName()`
 - **Success response getter**: `scripts/generate.ts:102` - `getSuccessResponse()`
 - **Conflict assertion**: `scripts/generate.ts:381` - `assertNoConflict()`
-- **Path param extraction**: `scripts/generate.ts:704` - `extractPathParams()`
-- **Query param extraction**: `scripts/generate.ts:724` - `extractQueryParams()`
-- **Response header extraction**: `scripts/generate.ts:739` - `extractResponseHeaders()`
-- **JSDoc generation**: `scripts/generate.ts:473` - `generateJSDoc()`
+- **Path param extraction**: `scripts/generate.ts:710` - `extractPathParams()`
+- **Query param extraction**: `scripts/generate.ts:730` - `extractQueryParams()`
+- **Response header extraction**: `scripts/generate.ts:745` - `extractResponseHeaders()`
+- **JSDoc generation**: `scripts/generate.ts:472` - `generateJSDoc()`
 
 ## Troubleshooting
 

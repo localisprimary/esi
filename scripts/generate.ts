@@ -61,6 +61,7 @@ interface HeaderRef {
 }
 
 interface RequestBody {
+  required?: boolean
   content?: {
     'application/json'?: {
       schema?: Schema
@@ -87,7 +88,6 @@ interface QueryParam {
 
 interface ResponseHeader {
   name: string
-  type: string
   description?: string
 }
 
@@ -418,7 +418,8 @@ function generateParameterType(
       operationName,
       'query parameter'
     )
-    allParamTypes.push(`${param.name}?: ${param.type}`)
+    const optional = param.required ? '' : '?'
+    allParamTypes.push(`${param.name}${optional}: ${param.type}`)
   }
 
   if (requestBodySchema) {
@@ -463,9 +464,7 @@ function generateResponseHeaderType(
   const responseHeaders = extractResponseHeaders(successResponse, schema)
   if (responseHeaders.length === 0) return ''
 
-  const headerTypes = responseHeaders.map(
-    header => `'${header.name}'?: ${header.type}`
-  )
+  const headerTypes = responseHeaders.map(header => `'${header.name}'?: string`)
 
   return `export interface ${operationName}ResponseHeaders {\n  ${headerTypes.join(';\n  ')};\n}\n\n`
 }
@@ -553,25 +552,29 @@ export class EsiClient {
     const response = await fetch(url.toString(), {
       method,
       headers: this.useRequestHeaders ? headers : undefined,
-      body: body ? JSON.stringify(body) : undefined,
+      body: body === undefined ? undefined : JSON.stringify(body),
     });
+
+    const responseText = await response.text();
 
     if (!response.ok) {
       let error = 'Request failed';
-      try {
-        const errorData = await response.json();
-        error = errorData.error || error;
-      } catch {}
+      if (responseText) {
+        try {
+          const errorData = JSON.parse(responseText);
+          error = errorData.error || error;
+        } catch {}
+      }
       throw {
         error,
         status: response.status,
       } as Types.EsiError;
     }
 
-    const data = await response.json();
+    const data = responseText ? JSON.parse(responseText) : undefined;
 
     return {
-      data,
+      data: data as TData,
       status: response.status,
       headers: Object.fromEntries(response.headers.entries()) as THeaders,
     };
@@ -622,7 +625,10 @@ function generateMethod(
 
   const hasParams =
     pathParams.length > 0 || queryParams.length > 0 || requestBodySchema
-  const hasRequiredParams = pathParams.length > 0 || requestBodySchema
+  const hasRequiredParams =
+    pathParams.length > 0 ||
+    queryParams.some(param => param.required) ||
+    requestBodySchema
 
   // Build method signature
   let paramsArg = ''
@@ -743,7 +749,6 @@ function extractResponseHeaders(
   if (!response.headers) return []
 
   return Object.entries(response.headers).map(([headerName, headerRef]) => {
-    let headerSchema: Schema | undefined
     let description: string | undefined
 
     if (headerRef.$ref) {
@@ -752,16 +757,13 @@ function extractResponseHeaders(
       if (!headerDef) {
         throw new Error(`Could not resolve header reference: ${headerRef.$ref}`)
       }
-      headerSchema = headerDef.schema
       description = headerDef.description
     } else {
-      headerSchema = headerRef.schema
       description = headerRef.description
     }
 
     return {
-      name: headerName,
-      type: getTypeScriptType(headerSchema || { type: 'string' }),
+      name: headerName.toLowerCase(),
       description,
     }
   })
