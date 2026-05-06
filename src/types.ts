@@ -3152,6 +3152,7 @@ export type GetCorporationCustomsOfficesResponse = {
   standing_level: 'bad' | 'excellent' | 'good' | 'neutral' | 'terrible'
   system_id: number
   terrible_standing_tax_rate: number
+  type_id: number
 }[]
 
 export interface GetCorporationCustomsOfficesParams {
