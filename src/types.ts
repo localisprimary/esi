@@ -5722,7 +5722,7 @@ export interface GetStatusResponse {
   players: number
   server_version: string
   start_time: string
-  vip?: boolean
+  vip: boolean
 }
 
 export interface GetStatusResponseHeaders {
