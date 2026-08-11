@@ -3,7 +3,6 @@
   "compilerOptions": {
     "module": "ES2022",
     "target": "ES2024",
-    "moduleResolution": "node",
     "allowSyntheticDefaultImports": true,
     "noEmit": true,
     "allowImportingTsExtensions": true,
