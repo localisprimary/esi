@@ -2,6 +2,21 @@
   "name": "@localisprimary/esi",
   "entries": [
     {
+      "date": "Tue, 11 Aug 2026 15:46:55 GMT",
+      "version": "2.0.17",
+      "tag": "@localisprimary/esi_v2.0.17",
+      "comments": {
+        "patch": [
+          {
+            "author": "1719791+Nfinished@users.noreply.github.com",
+            "package": "@localisprimary/esi",
+            "commit": "709d5f68cc0bbfb59881e67de06747131d38b95a",
+            "comment": "Automated: Update ESI OpenAPI schema"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 02 Jun 2026 16:47:00 GMT",
       "version": "2.0.16",
       "tag": "@localisprimary/esi_v2.0.16",
