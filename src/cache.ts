@@ -135,5 +135,3 @@ class EsiMemoryCache {
 
 // Shared per JavaScript runtime: browser tab, Node process, or warm serverless instance.
 export const esiMemoryCache = new EsiMemoryCache()
-
-// TODO: expose an injectable cache-store interface for persistent/distributed adapters.
