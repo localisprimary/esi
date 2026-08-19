@@ -494,6 +494,13 @@ function generateClient(schema: OpenAPISchema): {
   let client = `// Auto-generated API client for EVE ESI API
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import * as Types from './types';
+import {
+  createCacheEntry,
+  createCacheKey,
+  esiMemoryCache,
+  isFresh,
+  refreshCacheEntry,
+} from './cache';
 
 const COMPATIBILITY_DATE = '${new Date().toISOString().slice(0, 10)}';
 
@@ -502,10 +509,17 @@ export class EsiClient {
   private readonly userAgent: string = 'localisprimary/esi';
   private readonly token?: string;
   private readonly useRequestHeaders: boolean;
+  private readonly cacheEnabled: boolean;
 
-  constructor(options: { userAgent: string; token?: string; useRequestHeaders?: boolean }) {
+  constructor(options: {
+    userAgent: string
+    token?: string
+    useRequestHeaders?: boolean
+    cache?: boolean
+  }) {
     this.token = options.token
     this.useRequestHeaders = options.useRequestHeaders ?? true;
+    this.cacheEnabled = options.cache ?? true;
 
     if (options.userAgent?.length) {
       this.userAgent += \` \${options.userAgent}\`
@@ -549,35 +563,91 @@ export class EsiClient {
       headers['Authorization'] = \`Bearer \${this.token}\`;
     }
 
-    const response = await fetch(url.toString(), {
-      method,
-      headers: this.useRequestHeaders ? headers : undefined,
-      body: body === undefined ? undefined : JSON.stringify(body),
-    });
+    const getResponse = async (etag?: string) => {
+      const requestHeaders = etag
+        ? { ...headers, 'If-None-Match': etag }
+        : headers
+      const response = await fetch(url.toString(), {
+        method,
+        headers: this.useRequestHeaders ? requestHeaders : undefined,
+        body: body === undefined ? undefined : JSON.stringify(body),
+      })
+      const responseText = await response.text()
+      const responseHeaders = Object.fromEntries(
+        response.headers.entries()
+      ) as Record<string, string>
 
-    const responseText = await response.text();
-
-    if (!response.ok) {
-      let error = 'Request failed';
-      if (responseText) {
-        try {
-          const errorData = JSON.parse(responseText);
-          error = errorData.error || error;
-        } catch {}
+      if (response.status === 304) {
+        return { response, responseText, headers: responseHeaders }
       }
-      throw {
-        error,
-        status: response.status,
-      } as Types.EsiError;
+
+      if (!response.ok) {
+        let error = 'Request failed'
+        if (responseText) {
+          try {
+            const errorData = JSON.parse(responseText)
+            error = errorData.error || error
+          } catch {}
+        }
+        throw {
+          error,
+          status: response.status,
+        } as Types.EsiError
+      }
+
+      return { response, responseText, headers: responseHeaders }
     }
 
-    const data = responseText ? JSON.parse(responseText) : undefined;
+    if (method === 'GET' && this.cacheEnabled) {
+      const key = await createCacheKey(url.toString(), COMPATIBILITY_DATE, this.token)
+      const cached = esiMemoryCache.get(key)
+      if (cached && isFresh(cached)) {
+        return cached.response as Types.EsiResponse<TData, THeaders>
+      }
+
+      const result = await esiMemoryCache.getOrCreate(key, async () => {
+        const existing = esiMemoryCache.get(key)
+        if (existing && isFresh(existing)) return existing.response
+
+        const fetched = await getResponse(existing?.etag)
+        if (fetched.response.status === 304 && existing) {
+          const refreshed = refreshCacheEntry(existing, fetched.headers)
+          if (refreshed) {
+            esiMemoryCache.set(key, refreshed)
+            return refreshed.response
+          }
+          esiMemoryCache.delete(key)
+          return existing.response
+        }
+
+        if (fetched.response.status === 304) {
+          throw {
+            error: 'Received 304 Not Modified without a cached response',
+            status: 304,
+          } as Types.EsiError
+        }
+
+        const response = {
+          data: fetched.responseText ? JSON.parse(fetched.responseText) : undefined,
+          status: fetched.response.status,
+          headers: fetched.headers,
+        }
+        const entry = createCacheEntry(response)
+        if (entry) esiMemoryCache.set(key, entry)
+        return response
+      })
+
+      return result as Types.EsiResponse<TData, THeaders>
+    }
+
+    const fetched = await getResponse()
+    const data = fetched.responseText ? JSON.parse(fetched.responseText) : undefined
 
     return {
       data: data as TData,
-      status: response.status,
-      headers: Object.fromEntries(response.headers.entries()) as THeaders,
-    };
+      status: fetched.response.status,
+      headers: fetched.headers as THeaders,
+    }
   }
 
 `

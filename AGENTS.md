@@ -76,12 +76,13 @@ This is not optional. Outdated documentation causes repeated mistakes.
 ├── src/                          # Generated client code (DO NOT EDIT MANUALLY)
 │   ├── client.ts                 # Generated EsiClient class
 │   ├── types.ts                  # Generated TypeScript types
+│   ├── cache.ts                  # Hand-written shared HTTP cache runtime
 │   ├── index.ts                  # Main export (can be edited)
 │   └── test/                     # Vitest integration tests
 │       └── client.test.ts
 │
 ├── scripts/                      # Code generation (EDIT THESE)
-│   ├── generate.ts              # Main generator (824 lines) - CORE LOGIC
+│   ├── generate.ts              # Main generator (896 lines) - CORE LOGIC
 │   ├── generate-readme.ts       # Generates README method table
 │   └── static/
 │       └── boilerplate.md       # README template
@@ -119,7 +120,7 @@ This is not optional. Outdated documentation causes repeated mistakes.
    │
    ├─ generateClient() - Create EsiClient class (scripts/generate.ts:487)
    │  ├─ EsiClient constructor with options
-   │  ├─ Private request() helper method
+   │  ├─ Private request() helper method with ESI Cache-Control handling
    │  └─ For each endpoint:
    │     ├─ Transform operation ID to method name
    │     ├─ Generate JSDoc with description + API explorer link
@@ -746,6 +747,26 @@ console.log(result.headers['x-pages']) // Typed as string | undefined
 - **Autocomplete**: IDE suggests available headers
 - **Optional by design**: Headers may not be present, marked `?`
 
+### Why Shared In-Memory Caching?
+
+**Decision**: Cache successful `GET` responses by their ESI `Cache-Control`
+directives in a shared, 1,000-entry LRU cache (`src/cache.ts`).
+
+**Rationale**:
+
+- **ESI compliance**: Do not request fresh data before its cache lifetime ends.
+- **Cross-instance reuse**: All clients in one browser tab, Node process, or
+  warm serverless instance use the same cache.
+- **Safe authenticated responses**: Cache keys include a SHA-256 credential
+  scope, so responses cannot be shared between tokens.
+- **Efficient revalidation**: Stale ETag entries send `If-None-Match` and reuse
+  their data after a `304` response.
+
+**Scope**: The built-in cache is in-memory only. It does not survive browser
+reloads, serverless cold starts, or separate server instances. Persistent or
+distributed cache adapters are intentionally deferred (see the TODO in
+`src/cache.ts`).
+
 ### Why Dual Auth Modes?
 
 **Decision**: Support both header-based and query-param auth
@@ -810,15 +831,15 @@ See `.oxfmtrc.json`
 
 ### Core Generation Logic
 
-- **Main generator**: `scripts/generate.ts:805` - `main()`
+- **Main generator**: `scripts/generate.ts:875` - `main()`
 - **Schema loading**: `scripts/generate.ts:109` - `loadSchema()`
 - **Type generation**: `scripts/generate.ts:120` - `generateTypes()`
 - **Client generation**: `scripts/generate.ts:487` - `generateClient()`
-- **Method generation**: `scripts/generate.ts:607` - `generateMethod()`
+- **Method generation**: `scripts/generate.ts:677` - `generateMethod()`
 
 ### Transformation Logic
 
-- **Operation ID transform**: `scripts/generate.ts:782` - `transformOperationId()`
+- **Operation ID transform**: `scripts/generate.ts:852` - `transformOperationId()`
 - **Type mapping**: `scripts/generate.ts:350` - `getTypeScriptType()`
 - **Parameter flattening**: `scripts/generate.ts:395` - `generateParameterType()`
 
@@ -834,9 +855,9 @@ See `.oxfmtrc.json`
 - **Ref name extraction**: `scripts/generate.ts:96` - `extractRefName()`
 - **Success response getter**: `scripts/generate.ts:102` - `getSuccessResponse()`
 - **Conflict assertion**: `scripts/generate.ts:381` - `assertNoConflict()`
-- **Path param extraction**: `scripts/generate.ts:710` - `extractPathParams()`
-- **Query param extraction**: `scripts/generate.ts:730` - `extractQueryParams()`
-- **Response header extraction**: `scripts/generate.ts:745` - `extractResponseHeaders()`
+- **Path param extraction**: `scripts/generate.ts:780` - `extractPathParams()`
+- **Query param extraction**: `scripts/generate.ts:800` - `extractQueryParams()`
+- **Response header extraction**: `scripts/generate.ts:815` - `extractResponseHeaders()`
 - **JSDoc generation**: `scripts/generate.ts:472` - `generateJSDoc()`
 
 ## Troubleshooting

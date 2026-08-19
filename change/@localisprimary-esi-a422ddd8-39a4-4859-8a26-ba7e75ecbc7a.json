@@ -1,0 +1,7 @@
+{
+  "type": "minor",
+  "comment": "Respect ESI Cache-Control headers. Opt out with `cache: false`",
+  "packageName": "@localisprimary/esi",
+  "email": "hello@adamtrager.com",
+  "dependentChangeType": "patch"
+}
