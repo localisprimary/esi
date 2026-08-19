@@ -29,12 +29,26 @@ console.log(alliance.data)
 ## Options
 
 The `EsiClient` constructor requires an options object with the following properties:
-
 | Parameter           | Description                                            | Type      | Default     | Required |
 | ------------------- | ------------------------------------------------------ | --------- | ----------- | -------- |
 | `userAgent`         | Resolves to `"localisprimary/esi <userAgent>"`         | `string`  |             | Yes      |
 | `token`             | Optional auth token                                    | `string`  | `undefined` | No       |
 | `useRequestHeaders` | If false, use query parameters for userAgent and token | `boolean` | `true`      | No       |
+| `cache`             | Cache eligible GET responses using ESI `Cache-Control` | `boolean` | `true`      | No       |
+
+## Caching
+
+The client caches successful `GET` responses when ESI returns a cacheable
+`Cache-Control` policy. Cache entries are shared by all `EsiClient` instances
+in the current JavaScript runtime and use an LRU limit of 1,000 entries. This
+works in browser tabs, Node.js processes, and warm Next.js server-function
+instances, but does not persist across reloads, cold starts, or server
+instances.
+
+Fresh entries are returned without a network request. Stale entries are
+revalidated with `ETag` and `If-None-Match` when request headers are enabled;
+a `304 Not Modified` response reuses the cached body. Set `cache: false` to
+always make a network request.
 
 ## Methods
 
