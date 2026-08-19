@@ -1,8 +1,16 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Tue, 11 Aug 2026 15:46:55 GMT and should not be manually modified. -->
+<!-- This log was last generated on Wed, 19 Aug 2026 17:00:41 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 2.1.0
+
+Wed, 19 Aug 2026 17:00:41 GMT
+
+### Minor changes
+
+- Respect ESI Cache-Control headers. Opt out with `cache: false` (hello@adamtrager.com)
 
 ## 2.0.17
 

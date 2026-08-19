@@ -2,6 +2,21 @@
   "name": "@localisprimary/esi",
   "entries": [
     {
+      "date": "Wed, 19 Aug 2026 17:00:41 GMT",
+      "version": "2.1.0",
+      "tag": "@localisprimary/esi_v2.1.0",
+      "comments": {
+        "minor": [
+          {
+            "author": "hello@adamtrager.com",
+            "package": "@localisprimary/esi",
+            "commit": "9bd955d5f6648b1607480644284dd2fded37dba4",
+            "comment": "Respect ESI Cache-Control headers. Opt out with `cache: false`"
+          }
+        ]
+      }
+    },
+    {
       "date": "Tue, 11 Aug 2026 15:46:55 GMT",
       "version": "2.0.17",
       "tag": "@localisprimary/esi_v2.0.17",
