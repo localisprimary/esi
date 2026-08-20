@@ -9,7 +9,7 @@ import {
   refreshCacheEntry,
 } from './cache'
 
-const COMPATIBILITY_DATE = '2026-08-19'
+const COMPATIBILITY_DATE = '2026-08-20'
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
