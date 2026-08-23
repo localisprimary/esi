@@ -1,4 +1,4 @@
-import type { EsiResponse } from './types'
+import type { EsiResponse } from './types.js'
 
 type CacheHeaders = Record<string, string>
 

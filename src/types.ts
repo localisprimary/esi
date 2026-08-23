@@ -61,7 +61,7 @@ export interface GetAllianceResponseHeaders {
 export type GetAllianceContactsResponse = {
   contact_id: number
   contact_type: 'character' | 'corporation' | 'alliance' | 'faction'
-  label_ids: number[]
+  label_ids?: number[]
   standing: number
 }[]
 
@@ -120,10 +120,10 @@ export interface GetAllianceIconsResponseHeaders {
 }
 
 export type PostCharactersAffiliationResponse = {
-  alliance_id: number
+  alliance_id?: number
   character_id: number
   corporation_id: number
-  faction_id: number
+  faction_id?: number
 }[]
 
 export interface PostCharactersAffiliationParams {
@@ -185,7 +185,7 @@ export interface GetCharacterAgentsResearchResponseHeaders {
 }
 
 export type GetCharacterAssetsResponse = {
-  is_blueprint_copy: boolean
+  is_blueprint_copy?: boolean
   is_singleton: boolean
   item_id: number
   location_flag:
@@ -449,11 +449,11 @@ export interface GetCharacterBlueprintsResponseHeaders {
 }
 
 export type GetCharacterCalendarResponse = {
-  event_date: string
-  event_id: number
-  event_response: 'declined' | 'not_responded' | 'accepted' | 'tentative'
-  importance: number
-  title: string
+  event_date?: string
+  event_id?: number
+  event_response?: 'declined' | 'not_responded' | 'accepted' | 'tentative'
+  importance?: number
+  title?: string
 }[]
 
 export interface GetCharacterCalendarParams {
@@ -509,8 +509,8 @@ export interface PutCharacterCalendarEventIdResponseHeaders {
 }
 
 export type GetCharacterCalendarEventAttendeesResponse = {
-  character_id: number
-  event_response: 'declined' | 'not_responded' | 'accepted' | 'tentative'
+  character_id?: number
+  event_response?: 'declined' | 'not_responded' | 'accepted' | 'tentative'
 }[]
 
 export interface GetCharacterCalendarEventAttendeesParams {
@@ -526,15 +526,15 @@ export interface GetCharacterCalendarEventAttendeesResponseHeaders {
 
 export interface GetCharacterClonesResponse {
   home_location?: {
-    location_id: number
-    location_type: 'station' | 'structure'
+    location_id?: number
+    location_type?: 'station' | 'structure'
   }
   jump_clones: {
     implants: number[]
     jump_clone_id: number
     location_id: number
     location_type: 'station' | 'structure'
-    name: string
+    name?: string
   }[]
   last_clone_jump_date?: string
   last_station_change_date?: string
@@ -564,9 +564,9 @@ export interface DeleteCharacterContactsResponseHeaders {
 export type GetCharacterContactsResponse = {
   contact_id: number
   contact_type: 'character' | 'corporation' | 'alliance' | 'faction'
-  is_blocked: boolean
-  is_watched: boolean
-  label_ids: number[]
+  is_blocked?: boolean
+  is_watched?: boolean
+  label_ids?: number[]
   standing: number
 }[]
 
@@ -631,21 +631,21 @@ export type GetCharacterContractsResponse = {
   acceptor_id: number
   assignee_id: number
   availability: 'public' | 'personal' | 'corporation' | 'alliance'
-  buyout: number
-  collateral: number
+  buyout?: number
+  collateral?: number
   contract_id: number
-  date_accepted: string
-  date_completed: string
+  date_accepted?: string
+  date_completed?: string
   date_expired: string
   date_issued: string
-  days_to_complete: number
-  end_location_id: number
+  days_to_complete?: number
+  end_location_id?: number
   for_corporation: boolean
   issuer_corporation_id: number
   issuer_id: number
-  price: number
-  reward: number
-  start_location_id: number
+  price?: number
+  reward?: number
+  start_location_id?: number
   status:
     | 'outstanding'
     | 'in_progress'
@@ -657,9 +657,9 @@ export type GetCharacterContractsResponse = {
     | 'failed'
     | 'deleted'
     | 'reversed'
-  title: string
+  title?: string
   type: 'unknown' | 'item_exchange' | 'auction' | 'courier' | 'loan'
-  volume: number
+  volume?: number
 }[]
 
 export interface GetCharacterContractsParams {
@@ -696,7 +696,7 @@ export type GetCharacterContractItemsResponse = {
   is_included: boolean
   is_singleton: boolean
   quantity: number
-  raw_quantity: number
+  raw_quantity?: number
   record_id: number
   type_id: number
 }[]
@@ -714,7 +714,7 @@ export interface GetCharacterContractItemsResponseHeaders {
 
 export type GetCharacterCorporationhistoryResponse = {
   corporation_id: number
-  is_deleted: boolean
+  is_deleted?: boolean
   record_id: number
   start_date: string
 }[]
@@ -957,24 +957,24 @@ export type GetCharacterIndustryJobsResponse = {
   blueprint_id: number
   blueprint_location_id: number
   blueprint_type_id: number
-  completed_character_id: number
-  completed_date: string
-  cost: number
+  completed_character_id?: number
+  completed_date?: string
+  cost?: number
   duration: number
   end_date: string
   facility_id: number
   installer_id: number
   job_id: number
-  licensed_runs: number
+  licensed_runs?: number
   output_location_id: number
-  pause_date: string
-  probability: number
-  product_type_id: number
+  pause_date?: string
+  probability?: number
+  product_type_id?: number
   runs: number
   start_date: string
   station_id: number
   status: 'active' | 'cancelled' | 'delivered' | 'paused' | 'ready' | 'reverted'
-  successful_runs: number
+  successful_runs?: number
 }[]
 
 export interface GetCharacterIndustryJobsParams {
@@ -1037,16 +1037,16 @@ export interface GetCharacterLoyaltyPointsResponseHeaders {
 }
 
 export type GetCharacterMailResponse = {
-  from: number
-  is_read: boolean
-  labels: number[]
-  mail_id: number
-  recipients: {
+  from?: number
+  is_read?: boolean
+  labels?: number[]
+  mail_id?: number
+  recipients?: {
     recipient_id: number
     recipient_type: 'alliance' | 'character' | 'corporation' | 'mailing_list'
   }[]
-  subject: string
-  timestamp: string
+  subject?: string
+  timestamp?: string
 }[]
 
 export interface GetCharacterMailParams {
@@ -1082,7 +1082,7 @@ export interface PostCharacterMailResponseHeaders {
 
 export interface GetCharacterMailLabelsResponse {
   labels?: {
-    color:
+    color?:
       | '#0000fe'
       | '#006634'
       | '#0099ff'
@@ -1101,9 +1101,9 @@ export interface GetCharacterMailLabelsResponse {
       | '#ffff01'
       | '#ffffcd'
       | '#ffffff'
-    label_id: number
-    name: string
-    unread_count: number
+    label_id?: number
+    name?: string
+    unread_count?: number
   }[]
   total_unread_count?: number
 }
@@ -1228,7 +1228,7 @@ export type GetCharacterMedalsResponse = {
   corporation_id: number
   date: string
   description: string
-  graphics: { color: number; graphic: string; layer: number; part: number }[]
+  graphics: { color?: number; graphic: string; layer: number; part: number }[]
   issuer_id: number
   medal_id: number
   reason: string
@@ -1266,11 +1266,11 @@ export interface GetCharacterMiningResponseHeaders {
 }
 
 export type GetCharacterNotificationsResponse = {
-  is_read: boolean
+  is_read?: boolean
   notification_id: number
   sender_id: number
   sender_type: 'character' | 'corporation' | 'alliance' | 'faction' | 'other'
-  text: string
+  text?: string
   timestamp: string
   type:
     | 'AcceptedAlly'
@@ -1576,12 +1576,12 @@ export interface GetCharacterOnlineResponseHeaders {
 
 export type GetCharacterOrdersResponse = {
   duration: number
-  escrow: number
-  is_buy_order: boolean
+  escrow?: number
+  is_buy_order?: boolean
   is_corporation: boolean
   issued: string
   location_id: number
-  min_volume: number
+  min_volume?: number
   order_id: number
   price: number
   range:
@@ -1615,12 +1615,12 @@ export interface GetCharacterOrdersResponseHeaders {
 
 export type GetCharacterOrdersHistoryResponse = {
   duration: number
-  escrow: number
-  is_buy_order: boolean
+  escrow?: number
+  is_buy_order?: boolean
   is_corporation: boolean
   issued: string
   location_id: number
-  min_volume: number
+  min_volume?: number
   order_id: number
   price: number
   range:
@@ -1690,22 +1690,22 @@ export interface GetCharacterPlanetResponse {
     source_pin_id: number
   }[]
   pins: {
-    contents: { amount: number; type_id: number }[]
-    expiry_time: string
-    extractor_details: {
-      cycle_time: number
-      head_radius: number
+    contents?: { amount: number; type_id: number }[]
+    expiry_time?: string
+    extractor_details?: {
+      cycle_time?: number
+      head_radius?: number
       heads: { head_id: number; latitude: number; longitude: number }[]
-      product_type_id: number
-      qty_per_cycle: number
+      product_type_id?: number
+      qty_per_cycle?: number
     }
-    factory_details: { schematic_id: number }
-    install_time: string
-    last_cycle_start: string
+    factory_details?: { schematic_id: number }
+    install_time?: string
+    last_cycle_start?: string
     latitude: number
     longitude: number
     pin_id: number
-    schematic_id: number
+    schematic_id?: number
     type_id: number
   }[]
   routes: {
@@ -1714,7 +1714,7 @@ export interface GetCharacterPlanetResponse {
     quantity: number
     route_id: number
     source_pin_id: number
-    waypoints: number[]
+    waypoints?: number[]
   }[]
 }
 
@@ -2103,7 +2103,7 @@ export interface GetCharacterStandingsResponseHeaders {
   'last-modified'?: string
 }
 
-export type GetCharacterTitlesResponse = { name: string; title_id: number }[]
+export type GetCharacterTitlesResponse = { name?: string; title_id?: number }[]
 
 export interface GetCharacterTitlesParams {
   character_id: number | string
@@ -2128,10 +2128,10 @@ export interface GetCharacterWalletResponseHeaders {
 }
 
 export type GetCharacterWalletJournalResponse = {
-  amount: number
-  balance: number
-  context_id: number
-  context_id_type:
+  amount?: number
+  balance?: number
+  context_id?: number
+  context_id_type?:
     | 'structure_id'
     | 'station_id'
     | 'market_transaction_id'
@@ -2146,9 +2146,9 @@ export type GetCharacterWalletJournalResponse = {
     | 'type_id'
   date: string
   description: string
-  first_party_id: number
+  first_party_id?: number
   id: number
-  reason: string
+  reason?: string
   ref_type:
     | 'acceleration_gate_fee'
     | 'achievement_category_milestone_reward'
@@ -2312,9 +2312,9 @@ export type GetCharacterWalletJournalResponse = {
     | 'war_ally_contract'
     | 'war_fee'
     | 'war_fee_surrender'
-  second_party_id: number
-  tax: number
-  tax_receiver_id: number
+  second_party_id?: number
+  tax?: number
+  tax_receiver_id?: number
 }[]
 
 export interface GetCharacterWalletJournalParams {
@@ -2372,14 +2372,14 @@ export interface GetContractsPublicBidsResponseHeaders {
 }
 
 export type GetContractsPublicItemsResponse = {
-  is_blueprint_copy: boolean
+  is_blueprint_copy?: boolean
   is_included: boolean
-  item_id: number
-  material_efficiency: number
+  item_id?: number
+  material_efficiency?: number
   quantity: number
   record_id: number
-  runs: number
-  time_efficiency: number
+  runs?: number
+  time_efficiency?: number
   type_id: number
 }[]
 
@@ -2396,22 +2396,22 @@ export interface GetContractsPublicItemsResponseHeaders {
 }
 
 export type GetContractsPublicRegionIdResponse = {
-  buyout: number
-  collateral: number
+  buyout?: number
+  collateral?: number
   contract_id: number
   date_expired: string
   date_issued: string
-  days_to_complete: number
-  end_location_id: number
-  for_corporation: boolean
+  days_to_complete?: number
+  end_location_id?: number
+  for_corporation?: boolean
   issuer_corporation_id: number
   issuer_id: number
-  price: number
-  reward: number
-  start_location_id: number
-  title: string
+  price?: number
+  reward?: number
+  start_location_id?: number
+  title?: string
   type: 'unknown' | 'item_exchange' | 'auction' | 'courier' | 'loan'
-  volume: number
+  volume?: number
 }[]
 
 export interface GetContractsPublicRegionIdParams {
@@ -2523,8 +2523,8 @@ export interface GetCorporationResponseHeaders {
 }
 
 export type GetCorporationAlliancehistoryResponse = {
-  alliance_id: number
-  is_deleted: boolean
+  alliance_id?: number
+  is_deleted?: boolean
   record_id: number
   start_date: string
 }[]
@@ -2540,7 +2540,7 @@ export interface GetCorporationAlliancehistoryResponseHeaders {
 }
 
 export type GetCorporationAssetsResponse = {
-  is_blueprint_copy: boolean
+  is_blueprint_copy?: boolean
   is_singleton: boolean
   item_id: number
   location_flag:
@@ -2870,8 +2870,8 @@ export interface GetCorporationBlueprintsResponseHeaders {
 export type GetCorporationContactsResponse = {
   contact_id: number
   contact_type: 'character' | 'corporation' | 'alliance' | 'faction'
-  is_watched: boolean
-  label_ids: number[]
+  is_watched?: boolean
+  label_ids?: number[]
   standing: number
 }[]
 
@@ -3045,11 +3045,11 @@ export type GetCorporationContainersLogsResponse = {
     | 'Wardrobe'
   location_id: number
   logged_at: string
-  new_config_bitmask: number
-  old_config_bitmask: number
-  password_type: 'config' | 'general'
-  quantity: number
-  type_id: number
+  new_config_bitmask?: number
+  old_config_bitmask?: number
+  password_type?: 'config' | 'general'
+  quantity?: number
+  type_id?: number
 }[]
 
 export interface GetCorporationContainersLogsParams {
@@ -3068,21 +3068,21 @@ export type GetCorporationContractsResponse = {
   acceptor_id: number
   assignee_id: number
   availability: 'public' | 'personal' | 'corporation' | 'alliance'
-  buyout: number
-  collateral: number
+  buyout?: number
+  collateral?: number
   contract_id: number
-  date_accepted: string
-  date_completed: string
+  date_accepted?: string
+  date_completed?: string
   date_expired: string
   date_issued: string
-  days_to_complete: number
-  end_location_id: number
+  days_to_complete?: number
+  end_location_id?: number
   for_corporation: boolean
   issuer_corporation_id: number
   issuer_id: number
-  price: number
-  reward: number
-  start_location_id: number
+  price?: number
+  reward?: number
+  start_location_id?: number
   status:
     | 'outstanding'
     | 'in_progress'
@@ -3094,9 +3094,9 @@ export type GetCorporationContractsResponse = {
     | 'failed'
     | 'deleted'
     | 'reversed'
-  title: string
+  title?: string
   type: 'unknown' | 'item_exchange' | 'auction' | 'courier' | 'loan'
-  volume: number
+  volume?: number
 }[]
 
 export interface GetCorporationContractsParams {
@@ -3135,7 +3135,7 @@ export type GetCorporationContractItemsResponse = {
   is_included: boolean
   is_singleton: boolean
   quantity: number
-  raw_quantity: number
+  raw_quantity?: number
   record_id: number
   type_id: number
 }[]
@@ -3152,21 +3152,21 @@ export interface GetCorporationContractItemsResponseHeaders {
 }
 
 export type GetCorporationCustomsOfficesResponse = {
-  alliance_tax_rate: number
+  alliance_tax_rate?: number
   allow_access_with_standings: boolean
   allow_alliance_access: boolean
-  bad_standing_tax_rate: number
-  corporation_tax_rate: number
-  excellent_standing_tax_rate: number
-  good_standing_tax_rate: number
-  neutral_standing_tax_rate: number
+  bad_standing_tax_rate?: number
+  corporation_tax_rate?: number
+  excellent_standing_tax_rate?: number
+  good_standing_tax_rate?: number
+  neutral_standing_tax_rate?: number
   office_id: number
   reinforce_exit_end: number
   reinforce_exit_start: number
-  standing_level: 'bad' | 'excellent' | 'good' | 'neutral' | 'terrible'
+  standing_level?: 'bad' | 'excellent' | 'good' | 'neutral' | 'terrible'
   system_id: number
-  terrible_standing_tax_rate: number
-  type_id: number
+  terrible_standing_tax_rate?: number
+  type_id?: number
 }[]
 
 export interface GetCorporationCustomsOfficesParams {
@@ -3182,8 +3182,8 @@ export interface GetCorporationCustomsOfficesResponseHeaders {
 }
 
 export interface GetCorporationDivisionsResponse {
-  hangar?: { division: number; name: string }[]
-  wallet?: { division: number; name: string }[]
+  hangar?: { division?: number; name?: string }[]
+  wallet?: { division?: number; name?: string }[]
 }
 
 export interface GetCorporationDivisionsParams {
@@ -3251,24 +3251,24 @@ export type GetCorporationIndustryJobsResponse = {
   blueprint_id: number
   blueprint_location_id: number
   blueprint_type_id: number
-  completed_character_id: number
-  completed_date: string
-  cost: number
+  completed_character_id?: number
+  completed_date?: string
+  cost?: number
   duration: number
   end_date: string
   facility_id: number
   installer_id: number
   job_id: number
-  licensed_runs: number
+  licensed_runs?: number
   location_id: number
   output_location_id: number
-  pause_date: string
-  probability: number
-  product_type_id: number
+  pause_date?: string
+  probability?: number
+  product_type_id?: number
   runs: number
   start_date: string
   status: 'active' | 'cancelled' | 'delivered' | 'paused' | 'ready' | 'reverted'
-  successful_runs: number
+  successful_runs?: number
 }[]
 
 export interface GetCorporationIndustryJobsParams {
@@ -3382,13 +3382,13 @@ export interface GetCorporationMembersTitlesResponseHeaders {
 }
 
 export type GetCorporationMembertrackingResponse = {
-  base_id: number
+  base_id?: number
   character_id: number
-  location_id: number
-  logoff_date: string
-  logon_date: string
-  ship_type_id: number
-  start_date: string
+  location_id?: number
+  logoff_date?: string
+  logon_date?: string
+  ship_type_id?: number
+  start_date?: string
 }[]
 
 export interface GetCorporationMembertrackingParams {
@@ -3403,12 +3403,12 @@ export interface GetCorporationMembertrackingResponseHeaders {
 
 export type GetCorporationOrdersResponse = {
   duration: number
-  escrow: number
-  is_buy_order: boolean
+  escrow?: number
+  is_buy_order?: boolean
   issued: string
   issued_by: number
   location_id: number
-  min_volume: number
+  min_volume?: number
   order_id: number
   price: number
   range:
@@ -3445,12 +3445,12 @@ export interface GetCorporationOrdersResponseHeaders {
 
 export type GetCorporationOrdersHistoryResponse = {
   duration: number
-  escrow: number
-  is_buy_order: boolean
+  escrow?: number
+  is_buy_order?: boolean
   issued: string
-  issued_by: number
+  issued_by?: number
   location_id: number
-  min_volume: number
+  min_volume?: number
   order_id: number
   price: number
   range:
@@ -3488,7 +3488,7 @@ export interface GetCorporationOrdersHistoryResponseHeaders {
 
 export type GetCorporationRolesResponse = {
   character_id: number
-  grantable_roles: (
+  grantable_roles?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3544,7 +3544,7 @@ export type GetCorporationRolesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  grantable_roles_at_base: (
+  grantable_roles_at_base?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3600,7 +3600,7 @@ export type GetCorporationRolesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  grantable_roles_at_hq: (
+  grantable_roles_at_hq?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3656,7 +3656,7 @@ export type GetCorporationRolesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  grantable_roles_at_other: (
+  grantable_roles_at_other?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3712,7 +3712,7 @@ export type GetCorporationRolesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  roles: (
+  roles?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3768,7 +3768,7 @@ export type GetCorporationRolesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  roles_at_base: (
+  roles_at_base?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3824,7 +3824,7 @@ export type GetCorporationRolesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  roles_at_hq: (
+  roles_at_hq?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -3880,7 +3880,7 @@ export type GetCorporationRolesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  roles_at_other: (
+  roles_at_other?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4124,14 +4124,14 @@ export interface GetCorporationStandingsResponseHeaders {
 }
 
 export type GetCorporationStarbasesResponse = {
-  moon_id: number
-  onlined_since: string
-  reinforced_until: string
+  moon_id?: number
+  onlined_since?: string
+  reinforced_until?: string
   starbase_id: number
-  state: 'offline' | 'online' | 'onlining' | 'reinforced' | 'unanchoring'
+  state?: 'offline' | 'online' | 'onlining' | 'reinforced' | 'unanchoring'
   system_id: number
   type_id: number
-  unanchor_at: string
+  unanchor_at?: string
 }[]
 
 export interface GetCorporationStarbasesParams {
@@ -4201,13 +4201,13 @@ export interface GetCorporationStarbaseResponseHeaders {
 
 export type GetCorporationStructuresResponse = {
   corporation_id: number
-  fuel_expires: string
-  name: string
-  next_reinforce_apply: string
-  next_reinforce_hour: number
+  fuel_expires?: string
+  name?: string
+  next_reinforce_apply?: string
+  next_reinforce_hour?: number
   profile_id: number
-  reinforce_hour: number
-  services: { name: string; state: 'online' | 'offline' | 'cleanup' }[]
+  reinforce_hour?: number
+  services?: { name: string; state: 'online' | 'offline' | 'cleanup' }[]
   state:
     | 'anchor_vulnerable'
     | 'anchoring'
@@ -4222,12 +4222,12 @@ export type GetCorporationStructuresResponse = {
     | 'shield_vulnerable'
     | 'unanchored'
     | 'unknown'
-  state_timer_end: string
-  state_timer_start: string
+  state_timer_end?: string
+  state_timer_start?: string
   structure_id: number
   system_id: number
   type_id: number
-  unanchors_at: string
+  unanchors_at?: string
 }[]
 
 export interface GetCorporationStructuresParams {
@@ -4244,7 +4244,7 @@ export interface GetCorporationStructuresResponseHeaders {
 }
 
 export type GetCorporationTitlesResponse = {
-  grantable_roles: (
+  grantable_roles?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4300,7 +4300,7 @@ export type GetCorporationTitlesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  grantable_roles_at_base: (
+  grantable_roles_at_base?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4356,7 +4356,7 @@ export type GetCorporationTitlesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  grantable_roles_at_hq: (
+  grantable_roles_at_hq?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4412,7 +4412,7 @@ export type GetCorporationTitlesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  grantable_roles_at_other: (
+  grantable_roles_at_other?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4468,8 +4468,8 @@ export type GetCorporationTitlesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  name: string
-  roles: (
+  name?: string
+  roles?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4525,7 +4525,7 @@ export type GetCorporationTitlesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  roles_at_base: (
+  roles_at_base?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4581,7 +4581,7 @@ export type GetCorporationTitlesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  roles_at_hq: (
+  roles_at_hq?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4637,7 +4637,7 @@ export type GetCorporationTitlesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  roles_at_other: (
+  roles_at_other?: (
     | 'Account_Take_1'
     | 'Account_Take_2'
     | 'Account_Take_3'
@@ -4693,7 +4693,7 @@ export type GetCorporationTitlesResponse = {
     | 'Station_Manager'
     | 'Trader'
   )[]
-  title_id: number
+  title_id?: number
 }[]
 
 export interface GetCorporationTitlesParams {
@@ -4722,10 +4722,10 @@ export interface GetCorporationWalletsResponseHeaders {
 }
 
 export type GetCorporationWalletsDivisionJournalResponse = {
-  amount: number
-  balance: number
-  context_id: number
-  context_id_type:
+  amount?: number
+  balance?: number
+  context_id?: number
+  context_id_type?:
     | 'structure_id'
     | 'station_id'
     | 'market_transaction_id'
@@ -4740,9 +4740,9 @@ export type GetCorporationWalletsDivisionJournalResponse = {
     | 'type_id'
   date: string
   description: string
-  first_party_id: number
+  first_party_id?: number
   id: number
-  reason: string
+  reason?: string
   ref_type:
     | 'acceleration_gate_fee'
     | 'achievement_category_milestone_reward'
@@ -4906,9 +4906,9 @@ export type GetCorporationWalletsDivisionJournalResponse = {
     | 'war_ally_contract'
     | 'war_fee'
     | 'war_fee_surrender'
-  second_party_id: number
-  tax: number
-  tax_receiver_id: number
+  second_party_id?: number
+  tax?: number
+  tax_receiver_id?: number
 }[]
 
 export interface GetCorporationWalletsDivisionJournalParams {
@@ -5021,12 +5021,12 @@ export interface GetDogmaEffectResponse {
   is_offensive?: boolean
   is_warp_safe?: boolean
   modifiers?: {
-    domain: string
-    effect_id: number
+    domain?: string
+    effect_id?: number
     func: string
-    modified_attribute_id: number
-    modifying_attribute_id: number
-    operator: number
+    modified_attribute_id?: number
+    modifying_attribute_id?: number
+    operator?: number
   }[]
   name?: string
   post_expression?: number
@@ -5088,7 +5088,7 @@ export type GetFleetMembersResponse = {
   ship_type_id: number
   solar_system_id: number
   squad_id: number
-  station_id: number
+  station_id?: number
   takes_fleet_warp: boolean
   wing_id: number
 }[]
@@ -5245,14 +5245,14 @@ export interface PostFleetWingSquadsResponseHeaders {
 
 export interface GetFwLeaderboardsResponse {
   kills: {
-    active_total: { amount: number; faction_id: number }[]
-    last_week: { amount: number; faction_id: number }[]
-    yesterday: { amount: number; faction_id: number }[]
+    active_total: { amount?: number; faction_id?: number }[]
+    last_week: { amount?: number; faction_id?: number }[]
+    yesterday: { amount?: number; faction_id?: number }[]
   }
   victory_points: {
-    active_total: { amount: number; faction_id: number }[]
-    last_week: { amount: number; faction_id: number }[]
-    yesterday: { amount: number; faction_id: number }[]
+    active_total: { amount?: number; faction_id?: number }[]
+    last_week: { amount?: number; faction_id?: number }[]
+    yesterday: { amount?: number; faction_id?: number }[]
   }
 }
 
@@ -5264,14 +5264,14 @@ export interface GetFwLeaderboardsResponseHeaders {
 
 export interface GetFwLeaderboardsCharactersResponse {
   kills: {
-    active_total: { amount: number; character_id: number }[]
-    last_week: { amount: number; character_id: number }[]
-    yesterday: { amount: number; character_id: number }[]
+    active_total: { amount?: number; character_id?: number }[]
+    last_week: { amount?: number; character_id?: number }[]
+    yesterday: { amount?: number; character_id?: number }[]
   }
   victory_points: {
-    active_total: { amount: number; character_id: number }[]
-    last_week: { amount: number; character_id: number }[]
-    yesterday: { amount: number; character_id: number }[]
+    active_total: { amount?: number; character_id?: number }[]
+    last_week: { amount?: number; character_id?: number }[]
+    yesterday: { amount?: number; character_id?: number }[]
   }
 }
 
@@ -5283,14 +5283,14 @@ export interface GetFwLeaderboardsCharactersResponseHeaders {
 
 export interface GetFwLeaderboardsCorporationsResponse {
   kills: {
-    active_total: { amount: number; corporation_id: number }[]
-    last_week: { amount: number; corporation_id: number }[]
-    yesterday: { amount: number; corporation_id: number }[]
+    active_total: { amount?: number; corporation_id?: number }[]
+    last_week: { amount?: number; corporation_id?: number }[]
+    yesterday: { amount?: number; corporation_id?: number }[]
   }
   victory_points: {
-    active_total: { amount: number; corporation_id: number }[]
-    last_week: { amount: number; corporation_id: number }[]
-    yesterday: { amount: number; corporation_id: number }[]
+    active_total: { amount?: number; corporation_id?: number }[]
+    last_week: { amount?: number; corporation_id?: number }[]
+    yesterday: { amount?: number; corporation_id?: number }[]
   }
 }
 
@@ -5359,7 +5359,7 @@ export type GetIndustryFacilitiesResponse = {
   owner_id: number
   region_id: number
   solar_system_id: number
-  tax: number
+  tax?: number
   type_id: number
 }[]
 
@@ -5407,41 +5407,41 @@ export interface GetInsurancePricesResponseHeaders {
 
 export interface GetKillmailKillmailHashResponse {
   attackers: {
-    alliance_id: number
-    character_id: number
-    corporation_id: number
+    alliance_id?: number
+    character_id?: number
+    corporation_id?: number
     damage_done: number
-    faction_id: number
+    faction_id?: number
     final_blow: boolean
     security_status: number
-    ship_type_id: number
-    weapon_type_id: number
+    ship_type_id?: number
+    weapon_type_id?: number
   }[]
   killmail_id: number
   killmail_time: string
   moon_id?: number
   solar_system_id: number
   victim: {
-    alliance_id: number
-    character_id: number
-    corporation_id: number
+    alliance_id?: number
+    character_id?: number
+    corporation_id?: number
     damage_taken: number
-    faction_id: number
-    items: {
+    faction_id?: number
+    items?: {
       flag: number
       item_type_id: number
-      items: {
+      items?: {
         flag: number
         item_type_id: number
-        quantity_destroyed: number
-        quantity_dropped: number
+        quantity_destroyed?: number
+        quantity_dropped?: number
         singleton: number
       }[]
-      quantity_destroyed: number
-      quantity_dropped: number
+      quantity_destroyed?: number
+      quantity_dropped?: number
       singleton: number
     }[]
-    position: { x: number; y: number; z: number }
+    position?: { x: number; y: number; z: number }
     ship_type_id: number
   }
   war_id?: number
@@ -5459,7 +5459,7 @@ export interface GetKillmailKillmailHashResponseHeaders {
 }
 
 export type GetLoyaltyCorporationOffersResponse = {
-  ak_cost: number
+  ak_cost?: number
   isk_cost: number
   lp_cost: number
   offer_id: number
@@ -5506,8 +5506,8 @@ export interface GetMarketsGroupsMarketGroupIdResponseHeaders {
 }
 
 export type GetMarketsPricesResponse = {
-  adjusted_price: number
-  average_price: number
+  adjusted_price?: number
+  average_price?: number
   type_id: number
 }[]
 
@@ -5630,8 +5630,16 @@ export interface GetRegionTypesResponseHeaders {
   'x-pages'?: string
 }
 
+export interface MetaChangelogEntry {
+  compatibility_date: CompatibilityDate
+  description: string
+  is_breaking: boolean
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE'
+  path: string
+}
+
 export interface GetMetaChangelogResponse {
-  changelog: Record<string, unknown>
+  changelog: Record<string, MetaChangelogEntry[]>
 }
 
 export interface GetMetaChangelogResponseHeaders {
@@ -5667,17 +5675,17 @@ export interface GetRouteOriginDestinationResponseHeaders {
 }
 
 export type GetSovereigntyCampaignsResponse = {
-  attackers_score: number
+  attackers_score?: number
   campaign_id: number
   constellation_id: number
-  defender_id: number
-  defender_score: number
+  defender_id?: number
+  defender_score?: number
   event_type:
     | 'tcu_defense'
     | 'ihub_defense'
     | 'station_defense'
     | 'station_freeport'
-  participants: { alliance_id: number; score: number }[]
+  participants?: { alliance_id: number; score: number }[]
   solar_system_id: number
   start_time: string
   structure_id: number
@@ -5690,9 +5698,9 @@ export interface GetSovereigntyCampaignsResponseHeaders {
 }
 
 export type GetSovereigntyMapResponse = {
-  alliance_id: number
-  corporation_id: number
-  faction_id: number
+  alliance_id?: number
+  corporation_id?: number
+  faction_id?: number
   system_id: number
 }[]
 
@@ -5707,9 +5715,9 @@ export type GetSovereigntyStructuresResponse = {
   solar_system_id: number
   structure_id: number
   structure_type_id: number
-  vulnerability_occupancy_level: number
-  vulnerable_end_time: string
-  vulnerable_start_time: string
+  vulnerability_occupancy_level?: number
+  vulnerable_end_time?: string
+  vulnerable_start_time?: string
 }[]
 
 export interface GetSovereigntyStructuresResponseHeaders {
@@ -5790,10 +5798,10 @@ export interface PostUiOpenwindowNewmailResponseHeaders {
 export type GetUniverseAncestriesResponse = {
   bloodline_id: number
   description: string
-  icon_id: number
+  icon_id?: number
   id: number
   name: string
-  short_description: string
+  short_description?: string
 }[]
 
 export interface GetUniverseAncestriesResponseHeaders {
@@ -5894,14 +5902,14 @@ export interface GetUniverseConstellationResponseHeaders {
 }
 
 export type GetUniverseFactionsResponse = {
-  corporation_id: number
+  corporation_id?: number
   description: string
   faction_id: number
   is_unique: boolean
-  militia_corporation_id: number
+  militia_corporation_id?: number
   name: string
   size_factor: number
-  solar_system_id: number
+  solar_system_id?: number
   station_count: number
   station_system_count: number
 }[]
@@ -5975,16 +5983,16 @@ export interface GetUniverseGroupResponseHeaders {
 }
 
 export interface PostUniverseIdsResponse {
-  agents?: { id: number; name: string }[]
-  alliances?: { id: number; name: string }[]
-  characters?: { id: number; name: string }[]
-  constellations?: { id: number; name: string }[]
-  corporations?: { id: number; name: string }[]
-  factions?: { id: number; name: string }[]
-  inventory_types?: { id: number; name: string }[]
-  regions?: { id: number; name: string }[]
-  stations?: { id: number; name: string }[]
-  systems?: { id: number; name: string }[]
+  agents?: { id?: number; name?: string }[]
+  alliances?: { id?: number; name?: string }[]
+  characters?: { id?: number; name?: string }[]
+  constellations?: { id?: number; name?: string }[]
+  corporations?: { id?: number; name?: string }[]
+  factions?: { id?: number; name?: string }[]
+  inventory_types?: { id?: number; name?: string }[]
+  regions?: { id?: number; name?: string }[]
+  stations?: { id?: number; name?: string }[]
+  systems?: { id?: number; name?: string }[]
 }
 
 export interface PostUniverseIdsParams {
@@ -6360,7 +6368,7 @@ export interface GetUniverseSystemsResponseHeaders {
 export interface GetUniverseSystemResponse {
   constellation_id: number
   name: string
-  planets?: { asteroid_belts: number[]; moons: number[]; planet_id: number }[]
+  planets?: { asteroid_belts?: number[]; moons?: number[]; planet_id: number }[]
   position: { x: number; y: number; z: number }
   security_class?: string
   security_status: number
@@ -6438,16 +6446,16 @@ export interface GetWarsResponseHeaders {
 
 export interface GetWarResponse {
   aggressor: {
-    alliance_id: number
-    corporation_id: number
+    alliance_id?: number
+    corporation_id?: number
     isk_destroyed: number
     ships_killed: number
   }
-  allies?: { alliance_id: number; corporation_id: number }[]
+  allies?: { alliance_id?: number; corporation_id?: number }[]
   declared: string
   defender: {
-    alliance_id: number
-    corporation_id: number
+    alliance_id?: number
+    corporation_id?: number
     isk_destroyed: number
     ships_killed: number
   }

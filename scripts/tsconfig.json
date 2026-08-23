@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
-    "module": "ES2022",
+    "module": "NodeNext",
     "target": "ES2024",
     "allowSyntheticDefaultImports": true,
     "noEmit": true,

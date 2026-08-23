@@ -1,15 +1,16 @@
 import fs from 'fs'
 import path from 'path'
+import { fileURLToPath, pathToFileURL } from 'url'
 import camelcase from 'camelcase'
 import assert from 'assert'
 import { generateReadme, type MethodInfo } from './generate-readme.ts'
 
-const __dirname = path.dirname(new URL(import.meta.url).pathname)
+const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const SCHEMA_URL = 'https://esi.evetech.net/meta/openapi.json'
 const TYPES_FILE = path.join(__dirname, '../src/types.ts')
 const CLIENT_FILE = path.join(__dirname, '../src/client.ts')
 
-interface OpenAPISchema {
+export interface OpenAPISchema {
   paths?: Record<string, PathItem>
   headers?: Record<string, HeaderDefinition>
   components?: {
@@ -69,7 +70,7 @@ interface RequestBody {
   }
 }
 
-interface Schema {
+export interface Schema {
   type?: 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object'
   properties?: Record<string, Schema>
   required?: string[]
@@ -77,6 +78,7 @@ interface Schema {
   enum?: string[]
   $ref?: string
   description?: string
+  additionalProperties?: boolean | Schema
 }
 
 interface QueryParam {
@@ -99,11 +101,22 @@ function extractRefName(ref: string): string {
   return name
 }
 
-function getSuccessResponse(
+export function getSuccessResponse(
   responses: Record<string, Response> | undefined
 ): Response | undefined {
   if (!responses) return undefined
-  return responses['200'] || responses['201'] || Object.values(responses)[0]
+
+  const explicitSuccess = Object.entries(responses)
+    .filter(([status]) => /^2\d{2}$/.test(status))
+    .toSorted(([left], [right]) => Number(left) - Number(right))[0]?.[1]
+
+  if (explicitSuccess) return explicitSuccess
+
+  const rangeSuccess = Object.entries(responses).find(([status]) =>
+    /^2xx$/i.test(status)
+  )?.[1]
+
+  return rangeSuccess || Object.values(responses)[0]
 }
 
 async function loadSchema(): Promise<OpenAPISchema> {
@@ -117,7 +130,7 @@ async function loadSchema(): Promise<OpenAPISchema> {
   return (await response.json()) as OpenAPISchema
 }
 
-function generateTypes(schema: OpenAPISchema): string {
+export function generateTypes(schema: OpenAPISchema): string {
   console.log('Generating TypeScript types...')
 
   let types = `// Auto-generated TypeScript types for EVE ESI API
@@ -328,7 +341,10 @@ function collectAndGenerateReferencedSchemas(
         onGenerate(buildTypeDefinition(refName, referencedSchema))
       }
     }
-  } else if (schema.type === 'object' && schema.properties) {
+    return
+  }
+
+  if (schema.type === 'object' && schema.properties) {
     for (const propSchema of Object.values(schema.properties)) {
       collectAndGenerateReferencedSchemas(
         propSchema,
@@ -337,7 +353,21 @@ function collectAndGenerateReferencedSchemas(
         onGenerate
       )
     }
-  } else if (schema.type === 'array' && schema.items) {
+  }
+
+  if (
+    schema.type === 'object' &&
+    typeof schema.additionalProperties === 'object'
+  ) {
+    collectAndGenerateReferencedSchemas(
+      schema.additionalProperties,
+      fullSchema,
+      generatedSchemaComponents,
+      onGenerate
+    )
+  }
+
+  if (schema.type === 'array' && schema.items) {
     collectAndGenerateReferencedSchemas(
       schema.items,
       fullSchema,
@@ -347,7 +377,7 @@ function collectAndGenerateReferencedSchemas(
   }
 }
 
-function getTypeScriptType(schema: Schema): string {
+export function getTypeScriptType(schema: Schema): string {
   if (!schema) return 'unknown'
 
   if (schema.$ref) {
@@ -368,9 +398,15 @@ function getTypeScriptType(schema: Schema): string {
     case 'object':
       if (schema.properties) {
         const props = Object.entries(schema.properties)
-          .map(([key, value]) => `${key}: ${getTypeScriptType(value)}`)
+          .map(([key, value]) => {
+            const optional = schema.required?.includes(key) ? '' : '?'
+            return `${key}${optional}: ${getTypeScriptType(value)}`
+          })
           .join('; ')
         return `{ ${props} }`
+      }
+      if (typeof schema.additionalProperties === 'object') {
+        return `Record<string, ${getTypeScriptType(schema.additionalProperties)}>`
       }
       return 'Record<string, unknown>'
     default:
@@ -484,7 +520,7 @@ function generateJSDoc(methodObj: Operation, pathTemplate: string): string {
   return `  /**\n   * ${description.replaceAll(/\n\n/g, '\n\n   * ')}\n\n   * @see ${apiExplorerUrl}\n   */\n`
 }
 
-function generateClient(schema: OpenAPISchema): {
+export function generateClient(schema: OpenAPISchema): {
   client: string
   methods: MethodInfo[]
 } {
@@ -493,14 +529,14 @@ function generateClient(schema: OpenAPISchema): {
 
   let client = `// Auto-generated API client for EVE ESI API
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as Types from './types';
+import type * as Types from './types.js';
 import {
   createCacheEntry,
   createCacheKey,
   esiMemoryCache,
   isFresh,
   refreshCacheEntry,
-} from './cache';
+} from './cache.js';
 
 const COMPATIBILITY_DATE = '${new Date().toISOString().slice(0, 10)}';
 
@@ -539,7 +575,8 @@ export class EsiClient {
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined) {
-          url.searchParams.append(key, String(value));
+          const values = Array.isArray(value) ? value : [value];
+          values.forEach(item => url.searchParams.append(key, String(item)));
         }
       });
     }
@@ -849,7 +886,7 @@ function getResponseType(
   }
 }
 
-function transformOperationId(operationId: string): string {
+export function transformOperationId(operationId: string): string {
   // Remove redundant plurals and Id suffixes to make method names more human-friendly
   // GetAlliancesAllianceIdContactsLabels -> GetAllianceContactsLabels
   // GetCharactersCharacterIdAgentsResearch -> GetCharacterAgentsResearch
@@ -893,4 +930,9 @@ async function main(): Promise<void> {
   }
 }
 
-main()
+if (
+  process.argv[1] &&
+  import.meta.url === pathToFileURL(process.argv[1]).href
+) {
+  await main()
+}
