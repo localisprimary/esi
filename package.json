@@ -14,6 +14,9 @@
     "lint:fix": "oxlint src scripts vitest.config.ts --fix",
     "format": "oxfmt",
     "test": "vitest run",
+    "test:unit": "vitest run --exclude src/test/client.test.ts",
+    "test:coverage": "vitest run --coverage --exclude src/test/client.test.ts",
+    "test:live": "vitest run src/test/client.test.ts",
     "change": "beachball change"
   },
   "keywords": [
@@ -34,6 +37,7 @@
   "license": "ISC",
   "devDependencies": {
     "@types/node": "^24.13.3",
+    "@vitest/coverage-v8": "^4.1.11",
     "@vitest/ui": "^4.1.11",
     "beachball": "^2.65.5",
     "camelcase": "^9.0.0",

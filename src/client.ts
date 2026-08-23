@@ -1,15 +1,15 @@
 // Auto-generated API client for EVE ESI API
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import * as Types from './types'
+import type * as Types from './types.js'
 import {
   createCacheEntry,
   createCacheKey,
   esiMemoryCache,
   isFresh,
   refreshCacheEntry,
-} from './cache'
+} from './cache.js'
 
-const COMPATIBILITY_DATE = '2026-08-20'
+const COMPATIBILITY_DATE = '2026-08-23'
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
@@ -48,7 +48,8 @@ export class EsiClient {
     if (params) {
       Object.entries(params).forEach(([key, value]) => {
         if (value !== undefined) {
-          url.searchParams.append(key, String(value))
+          const values = Array.isArray(value) ? value : [value]
+          values.forEach(item => url.searchParams.append(key, String(item)))
         }
       })
     }

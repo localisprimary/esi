@@ -1,0 +1,7 @@
+{
+  "type": "patch",
+  "comment": "Fix Node ESM packaging, generated type accuracy, and query serialization with deterministic coverage",
+  "packageName": "@localisprimary/esi",
+  "email": "hello@adamtrager.com",
+  "dependentChangeType": "patch"
+}

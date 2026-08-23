@@ -84,7 +84,7 @@ esi.postCharacterMail({
   character_id: 91884358,
 
   // request body
-  approved_cost: 0,
+  subject: 'Test mail',
   body: 'Hello from the ESI!',
   recipients: [{ recipient_type: 'character', recipient_id: 96135698 }],
 })

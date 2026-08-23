@@ -28,5 +28,8 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Run tests
-        run: pnpm test
+      - name: Run deterministic tests with coverage
+        run: pnpm test:coverage
+
+      - name: Run live integration tests
+        run: pnpm test:live

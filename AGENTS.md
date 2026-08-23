@@ -1,944 +1,456 @@
-# AGENTS.md - AI Agent Reference Guide
+# AGENTS.md - ESI TypeScript Client Guide
 
-This document provides comprehensive guidance for AI agents (and humans) working on the EVE ESI TypeScript client generator codebase.
+This is the primary reference for agents and contributors working on this
+repository. It describes the checked-in project as of 2026-08-23.
 
 ## Project Overview
 
-**Purpose**: Automatically generate a fully-typed TypeScript client for the EVE Online ESI API from OpenAPI schemas.
+This project generates a strict, fully typed TypeScript client for the EVE
+Online ESI API from the authoritative OpenAPI schema at
+`https://esi.evetech.net/meta/openapi.json`.
 
-**Key Principles**:
+Core constraints:
 
-- Zero runtime dependencies (uses native `fetch()`)
-- 100% TypeScript with strict type checking
-- Auto-generated from authoritative OpenAPI schema
-- Developer-friendly API (simplified naming, flat parameters)
+- The published client has zero runtime dependencies and uses native `fetch()`.
+- Source and generator code use strict TypeScript.
+- Path, query, and request-body inputs are flattened into one `Params` object.
+- Operation IDs are simplified into shorter public method names.
+- Generated source and documentation are committed to the repository.
 
-**What This Generates**:
+Current generated snapshot:
 
-- `src/types.ts` - TypeScript type definitions (~145KB, ~270 types)
-- `src/client.ts` - EsiClient class with ~270 methods (~102KB)
-- `README.md` - Updated method documentation table
+- `src/client.ts`: 197 client methods, 3,084 lines, about 105 KB.
+- `src/types.ts`: 556 exported interfaces/type aliases, 6,495 lines, about
+  146 KB.
+- `README.md`: 197 generated method-table rows.
+- The current official schema is OpenAPI 3.1 with 182 paths and 197
+  operations using GET, POST, PUT, and DELETE.
 
-## 🚨 Critical Rules
+These counts change when ESI changes. Update this section after regeneration.
+
+## Critical Rules
 
 ### Never Manually Edit Generated Files
 
-**DO NOT** edit these files directly - they are auto-generated:
+Do not edit these files directly:
 
 - `src/client.ts`
 - `src/types.ts`
-- `README.md` (method table section)
+- `README.md`
 
-Instead, modify `scripts/generate.ts` and run `pnpm generate`.
+`README.md` is generated in full, not only its method table. Edit
+`scripts/static/boilerplate.md` for prose changes and `scripts/generate-readme.ts`
+for table-generation changes. Edit `scripts/generate.ts` for client or type
+generation changes, then run `pnpm generate`.
 
 ### Never Add Runtime Dependencies
 
-The client must remain zero-dependency. Use only:
+The published package must remain dependency-free. Runtime code may use native
+`fetch()` and standard TypeScript/JavaScript APIs only. Development dependencies
+are allowed when justified.
 
-- Native `fetch()` for HTTP requests
-- Standard TypeScript/JavaScript features
+### Never Change the Project Version Manually
 
-Development dependencies (for generation/testing) are fine.
+If you are an automated agent, do not edit the version in `package.json`.
+Beachball owns release versioning. Add a changefile for a package-facing change;
+release CI applies the version bump.
 
-### Always Update AGENTS.md After Code Changes
+### Always Keep This File Current
 
-**Before finishing any task that modifies `scripts/generate.ts` or project structure**, update this document:
+**Future agents must always keep `AGENTS.md` up to date with the actual project
+before finishing any task that changes code, tests, scripts, configuration,
+commands, workflows, generated output, or repository structure.** Verify all
+line references and current-state claims instead of copying stale values.
 
-- Changed line numbers? Update the "Useful Code Locations" section
-- Added/removed/renamed functions? Update relevant sections
-- Changed workflows or commands? Update the workflow documentation
+At minimum, update the relevant sections when any of these change:
 
-This is not optional. Outdated documentation causes repeated mistakes.
-
-## 📝 AGENTS.md Update Reference
-
-### What Triggers an Update
-
-| Change Type                     | Sections to Update                                             |
-| ------------------------------- | -------------------------------------------------------------- |
-| Refactor `scripts/generate.ts`  | "Useful Code Locations", any section referencing line numbers  |
-| Add/remove/rename functions     | "Useful Code Locations", "Schema Handling", "Helper Functions" |
-| Change project structure        | "Repository Structure"                                         |
-| Modify CI/CD workflows          | "CI/CD Automation"                                             |
-| Add package.json scripts        | "Local Development Commands"                                   |
-| Change TypeScript/oxlint config | "Code Style Guide"                                             |
-
-### How to Update
-
-1. **Be specific**: Include file paths, line numbers, and concrete examples
-2. **Be accurate**: Verify line numbers match actual code before committing
-3. **Be concise**: Keep the document scannable
+| Change                              | Required documentation update                   |
+| ----------------------------------- | ----------------------------------------------- |
+| Generator functions or layout       | Architecture, schema handling, useful locations |
+| Generated output or schema size     | Current generated snapshot                      |
+| Files/directories                   | Repository structure                            |
+| `package.json` scripts              | Local commands and workflow                     |
+| Tests or Vitest config              | Testing strategy and coverage gaps              |
+| CI/CD                               | CI/CD automation                                |
+| TypeScript, oxlint, or oxfmt config | Code style and validation                       |
+| Known issue fixed or discovered     | Current known issues                            |
 
 ## Repository Structure
 
-```
+```text
 /
-├── src/                          # Generated client code (DO NOT EDIT MANUALLY)
-│   ├── client.ts                 # Generated EsiClient class
-│   ├── types.ts                  # Generated TypeScript types
+├── src/
+│   ├── client.ts                 # Generated EsiClient (do not edit)
+│   ├── types.ts                  # Generated public types (do not edit)
 │   ├── cache.ts                  # Hand-written shared HTTP cache runtime
-│   ├── index.ts                  # Main export (can be edited)
-│   └── test/                     # Vitest integration tests
-│       └── client.test.ts
-│
-├── scripts/                      # Code generation (EDIT THESE)
-│   ├── generate.ts              # Main generator (896 lines) - CORE LOGIC
-│   ├── generate-readme.ts       # Generates README method table
+│   ├── index.ts                  # Hand-written package entry point
+│   └── test/
+│       ├── cache.unit.test.ts     # Deterministic cache behavior tests
+│       ├── client.test.ts        # Live integration + two deterministic tests
+│       └── client.unit.test.ts   # Deterministic request/package/type tests
+├── scripts/
+│   ├── generate.ts               # Main schema-to-client generator
+│   ├── generate.test.ts          # Generator schema-fixture tests
+│   ├── generate-readme.ts        # README renderer
+│   ├── generate-readme.test.ts   # README renderer tests
+│   ├── tsconfig.json
 │   └── static/
-│       └── boilerplate.md       # README template
-│
-├── dist/                         # Compiled output (gitignored)
-├── change/                       # Beachball changefiles for versioning
-├── .github/workflows/            # CI/CD automation
-│   ├── update-esi-schema.yml    # Daily cron to fetch schema updates
-│   ├── publish.yml              # Manual npm publish workflow
-│   ├── test.yml                 # PR validation (lint, build, test)
-│   └── check-changefile.yml     # Changefile check (skipped for dependabot)
-│
-├── package.json                  # Project config (ES module, Node ^24.13.0)
-├── tsconfig.json                 # TypeScript config (strict mode, ES2020)
-├── tsconfig.test.json            # Type-checks src/test against generated dist/
-└── README.md                     # User-facing documentation
+│       └── boilerplate.md        # Source template for all of README.md
+├── .github/workflows/
+│   ├── check-changefile.yml
+│   ├── publish.yml
+│   ├── test.yml
+│   └── update-esi-schema.yml
+├── dist/                         # Build output; gitignored
+├── change/                       # Beachball changefiles when present
+├── AGENTS.md
+├── CHANGELOG.json
+├── CHANGELOG.md
+├── README.md                     # Generated in full (do not edit)
+├── package.json
+├── pnpm-lock.yaml
+├── pnpm-workspace.yaml
+├── tsconfig.json
+├── tsconfig.test.json
+├── vitest.config.ts
+└── mise.toml                     # Pins Node 24
 ```
 
-## Code Generation Architecture
+## Generation Architecture
 
-### Pipeline Flow
+### Pipeline
 
-```
-1. GENERATE CODE
-   $ pnpm generate
-   ├─ loadSchema() - Fetch OpenAPI JSON from https://esi.evetech.net/meta/openapi.json (scripts/generate.ts:109)
-   ├─ generateTypes() - Create TypeScript types (scripts/generate.ts:120)
-   │  ├─ Extract components/parameters
-   │  ├─ For each path + method:
-   │  │  ├─ Transform operation ID (simplify name)
-   │  │  ├─ Generate response types (*Response)
-   │  │  ├─ Generate parameter types (*Params)
-   │  │  └─ Generate response header types (*ResponseHeaders)
-   │  └─ Handle schema references (dependency-first)
-   │
-   ├─ generateClient() - Create EsiClient class (scripts/generate.ts:487)
-   │  ├─ EsiClient constructor with options
-   │  ├─ Private request() helper method with ESI Cache-Control handling
-   │  └─ For each endpoint:
-   │     ├─ Transform operation ID to method name
-   │     ├─ Generate JSDoc with description + API explorer link
-   │     ├─ Flatten path/query/body params into single interface
-   │     ├─ Build method body (path replacement, param extraction)
-   │     └─ Type return value as EsiResponse<TData, THeaders>
-   │
-   └─ generateReadme() - Update README method table (scripts/generate-readme.ts)
-      ├─ Read boilerplate.md template
-      ├─ Build markdown table of methods
-      └─ Replace {methodsTable} placeholder
+```text
+pnpm generate
+  scripts/generate.ts
+    loadSchema()       fetch current OpenAPI JSON directly from ESI
+    generateTypes()    produce src/types.ts
+    generateClient()   produce src/client.ts and collect method metadata
+    generateReadme()   render all of README.md from boilerplate + metadata
+  pnpm lint:fix
+  pnpm format
 
-2. BUILD
-   $ pnpm build
-   ├─ Type-check scripts/ with scripts/tsconfig.json
-   ├─ Compile src/ TypeScript to JavaScript in dist/
-   └─ Type-check src/test against generated dist/ with tsconfig.test.json
+pnpm build
+  type-check scripts with scripts/tsconfig.json
+  delete and rebuild dist/ from src/
+  type-check src/test against the generated dist declarations
 
-3. TEST
-   $ pnpm test
-   └─ Run Vitest tests against live EVE ESI API
+pnpm test:unit
+  run deterministic generator, request, type, README, and package tests
+
+pnpm test:coverage
+  run deterministic tests with V8 coverage and enforced baseline thresholds
+
+pnpm test:live
+  run the 19-test client suite, including 17 live ESI checks
+
+pnpm test
+  run all deterministic and live ESI tests
+
+pnpm compile
+  generate + build + test
 ```
 
-### Operation ID Transformations
+Running `pnpm generate` is intentionally mutating: it rewrites the generated
+files and stamps `COMPATIBILITY_DATE` with the current UTC date. Do not run it
+during a read-only audit unless regenerated output is part of the task.
 
-The generator simplifies verbose OpenAPI operation IDs for better developer experience.
+### Operation Naming
 
-**Location**: `scripts/generate.ts:782` - `transformOperationId()`
+`transformOperationId()` applies these rules before `camelcase` creates the
+method name:
 
-**Transformations Applied**:
+1. Remove a trailing `ContractId` for the public contract bid/item operations.
+2. Collapse `[PluralNoun][SingularNoun]Id`, for example
+   `CharactersCharacterId` to `Character`.
+3. Remove `Id` before a following word.
 
-```typescript
-// 1. Remove trailing ContractId
-"GetContractsPublicBidsContractId" → "GetContractsPublicBids"
-"GetContractsPublicItemsContractId" → "GetContractsPublicItems"
+Examples:
 
-// 2. Remove plural/singular redundancy: [Plural][Singular]Id pattern
-"GetAlliancesAllianceIdContacts" → "GetAllianceContacts"
-"GetCharactersCharacterIdSkills" → "GetCharacterSkills"
-"GetCorporationsCorporationIdMembers" → "GetCorporationMembers"
+- `GetAlliancesAllianceId` -> `GetAlliance` -> `getAlliance()`
+- `GetCharactersCharacterIdContacts` -> `GetCharacterContacts` ->
+  `getCharacterContacts()`
 
-// Regex: /([A-Z][a-z]+)s([A-Z][a-z]+)Id/g → '$2'
+The API Explorer link retains the original operation ID.
 
-// 3. Remove Id before next word
-"GetAllianceContactsLabels" → "GetAllianceContactsLabels" (no change)
+### Type Generation
 
-// Regex: /Id([A-Z][a-z]+)/g → '$1'
-```
+For a transformed operation ID such as `GetAlliance`, the generator can emit:
 
-**Result**: Operation ID → Transformed ID → camelCase method name
+- `GetAllianceResponse`
+- `GetAllianceParams`
+- `GetAllianceResponseHeaders`
 
-- `GetAlliancesAllianceId` → `GetAlliance` → `getAlliance()`
-- `GetCharactersCharacterIdContacts` → `GetCharacterContacts` → `getCharacterContacts()`
+Basic mappings are:
 
-### Type Generation Strategy
+| OpenAPI schema               | TypeScript                 |
+| ---------------------------- | -------------------------- |
+| `string`                     | `string`                   |
+| string `enum`                | string-literal union       |
+| `number` / `integer`         | `number`                   |
+| `boolean`                    | `boolean`                  |
+| `array`                      | `T[]`                      |
+| object with properties       | interface or inline object |
+| typed `additionalProperties` | `Record<string, T>`        |
+| `$ref`                       | referenced component name  |
+| unrecognized/missing type    | `unknown`                  |
 
-**Naming Convention**:
-
-- Response types: `{TransformedOperationId}Response`
-- Parameter types: `{TransformedOperationId}Params`
-- Response headers: `{TransformedOperationId}ResponseHeaders`
-
-**Example**: For operation `get_alliances_alliance_id`:
-
-```typescript
-// OpenAPI operationId: "GetAlliancesAllianceId"
-// Transformed: "GetAlliance"
-// Method name: "getAlliance"
-
-export interface GetAllianceParams {
-  alliance_id: number | string;
-}
-
-export interface GetAllianceResponse {
-  name: string;
-  ticker: string;
-  creator_id: number;
-  creator_corporation_id: number;
-  executor_corporation_id?: number;
-  date_founded: string;
-  faction_id?: number;
-}
-
-// Method signature:
-async getAlliance(params: GetAllianceParams): Promise<EsiResponse<GetAllianceResponse>>
-```
+Referenced schemas are collected depth-first and tracked in a `Set` to avoid
+duplicate declarations. The generator currently supports only the subset of
+OpenAPI used by ESI; new schema keywords must be added deliberately and covered
+by fixture tests.
 
 ### Parameter Flattening
 
-All parameters (path, query, body) are merged into a single `Params` interface for simplicity.
+Path parameters are extracted from `{name}` placeholders. Query parameters and
+JSON request-body properties are merged into the same generated `Params`
+interface. `assertNoConflict()` rejects duplicate names across those sources.
 
-**Location**: `scripts/generate.ts:395` - `generateParameterType()`
+Object request bodies are flattened by property. Root array/scalar bodies are
+exposed as a `body` property.
 
-**Example**: `POST /characters/{character_id}/mail`
+### Generated Request Runtime
 
-```typescript
-// OpenAPI specification:
-// - Path parameter: character_id (required)
-// - Query parameters: (none)
-// - Request body: { approved_cost, body, recipients, subject }
+The generated private `request()` method:
 
-// Generated interface (flattened):
-export interface PostCharacterMailParams {
-  character_id: number | string // from path
-  approved_cost?: number // from body
-  body: string // from body
-  recipients: Array<{
-    // from body
-    recipient_id: number
-    recipient_type: 'alliance' | 'character' | 'corporation' | 'mailing_list'
-  }>
-  subject: string // from body
-}
+- creates a URL relative to `https://esi.evetech.net`;
+- appends defined scalar query values and repeats keys for array values;
+- sends user-agent, compatibility-date, and optional bearer-token headers by
+  default;
+- can send those values as query parameters with `useRequestHeaders: false`;
+- JSON-stringifies a defined body;
+- caches eligible GET responses in a shared 1,000-entry in-memory LRU;
+- revalidates stale ETag entries with `If-None-Match` when headers are enabled;
+- reads the response as text and parses non-empty successful JSON;
+- throws a plain `EsiError`-shaped object for non-2xx responses;
+- lowercases response header names through `Headers.entries()`.
 
-// Usage:
-await esi.postCharacterMail({
-  character_id: 91884358, // path param
-  approved_cost: 0, // body field
-  body: 'Hello from ESI!', // body field
-  recipients: [{ recipient_type: 'character', recipient_id: 96135698 }],
-  subject: 'Test',
-})
-```
+## Resolved Audit Findings (2026-08-23)
 
-**Conflict Detection**: Generator validates no naming conflicts occur via `assertNoConflict()` (scripts/generate.ts:381-393)
+The 2026-08-23 audit fixes are now expected behavior with regression coverage:
 
-### Schema Component Generation
+- Node ESM imports use explicit `.js` specifiers, and a Node subprocess imports
+  the packed artifact in `client.unit.test.ts`.
+- Nested inline object properties preserve OpenAPI `required` metadata.
+- Typed `additionalProperties` preserve their value type and referenced schemas.
+- Array query parameters serialize as repeated keys, including nested route
+  connection arrays.
+- Success response selection prefers explicit 2xx responses, then `2XX`, before
+  falling back.
+- The README mail example includes its required `subject` property.
+- The unused `scripts/fetch-schema.ts` snapshot helper has been removed.
+- Generator modules use `fileURLToPath()` and a direct-execution guard, allowing
+  their pure functions to be imported safely in tests.
+- The cache runtime is preserved with explicit Node ESM imports and deterministic
+  cache-policy, coalescing, revalidation, opt-out, and LRU tests.
 
-**Challenge**: Avoid circular references and duplicate generation.
+### Shared In-Memory Caching
 
-**Strategy** (scripts/generate.ts:310-348):
+Successful GET responses are cached only when ESI returns a usable
+`Cache-Control` policy. The cache is shared across clients in one JavaScript
+runtime, keys include a SHA-256 credential scope, stale ETag entries are
+revalidated, and `cache: false` disables caching for a client. It is deliberately
+in-memory only and does not survive reloads, cold starts, or separate processes.
 
-1. **Dependency-first**: Referenced schemas generated before consumers
-2. **Deduplication**: `generatedSchemaComponents` Set tracks generated types
-3. **Recursive collection**: `collectAndGenerateReferencedSchemas()` walks schema tree depth-first
-4. **Type building**: `buildTypeDefinition()` generates the actual TypeScript type definition
+## Testing Strategy and Coverage Gaps
 
-**Example**:
+### Current Suite
 
-```typescript
-// If ResponseType references PersonType:
-// 1. Detect reference to PersonType
-// 2. Generate PersonType first (if not already generated)
-// 3. Then generate ResponseType that uses PersonType
-```
+The suite contains 40 tests:
 
-### JSDoc Generation
+- 17 depend on live `esi.evetech.net` behavior.
+- 23 are deterministic generator, README, cache, request, response, type,
+  constructor, empty-body, and packed-package tests. `pnpm test:unit` runs 21 of
+  these; the constructor and empty-body checks remain in `client.test.ts`.
+- 17 of 197 generated methods are invoked directly (about 9% method sampling,
+  not statement/branch coverage).
 
-Each method gets JSDoc with description and API explorer link.
+The live tests cover a small set of alliance, character, corporation, market,
+and universe GET operations; two 422 responses; one pagination header; and the
+query-auth mode at status-code level. Most successful endpoint checks assert
+only HTTP 200.
 
-**Location**: `scripts/generate.ts:472` - `generateJSDoc()`
+`pnpm test:coverage` uses `@vitest/coverage-v8`, writes text/HTML/LCOV reports,
+and enforces the current overall baseline: 20% statements, 35% branches, 12%
+functions, and 20% lines. Coverage output is gitignored. The low function/line
+percentages reflect the 197 generated endpoint wrappers; raise thresholds as
+fixture and request coverage grows.
 
-**Format**:
+### Missing High-Value Tests
 
-```typescript
-/**
- * {description from OpenAPI spec}
- *
- * @see https://developers.eveonline.com/api-explorer#/operations/{originalOperationId}
- */
-```
+Remaining high-value additions:
 
-Note: The `@see` link uses the **original** operation ID (not transformed) to link to correct API docs.
+1. Generator fixtures for reference cycles, conflict failures, response headers,
+   unsupported future OpenAPI keywords, and operation-name collisions.
+2. Mocked request tests for every HTTP verb and path substitution, plus malformed
+   success JSON and network failures.
+3. Type-level negative tests proving required fields cannot be omitted.
+4. More meaningful payload assertions in live tests; most currently check only
+   status codes.
 
-## Type Mapping Reference
-
-### OpenAPI → TypeScript
-
-| OpenAPI Type                       | TypeScript Type                |
-| ---------------------------------- | ------------------------------ |
-| `type: string`                     | `string`                       |
-| `type: string, enum: ['a', 'b']`   | `'a' \| 'b'`                   |
-| `type: number`                     | `number`                       |
-| `type: integer`                    | `number`                       |
-| `type: boolean`                    | `boolean`                      |
-| `type: array, items: T`            | `T[]`                          |
-| `type: object`                     | `interface` or `{ key: type }` |
-| `$ref: "#/components/schemas/Foo"` | `Foo`                          |
-
-**Implementation**: `scripts/generate.ts:350` - `getTypeScriptType()`
-
-### Special Cases
-
-**Inline enum**:
-
-```typescript
-// OpenAPI
-schema: {
-  type: "string",
-  enum: ["alliance", "character", "corporation"]
-}
-
-// Generated
-type: 'alliance' | 'character' | 'corporation'
-```
-
-**Inline object**:
-
-```typescript
-// OpenAPI
-schema: {
-  type: "object",
-  properties: {
-    foo: { type: "string" },
-    bar: { type: "number" }
-  }
-}
-
-// Generated
-{ foo: string; bar: number }
-```
-
-**Array with reference**:
-
-```typescript
-// OpenAPI
-schema: {
-  type: "array",
-  items: { $ref: "#/components/schemas/Alliance" }
-}
-
-// Generated
-Alliance[]
-```
-
-## Development Workflow
-
-### Local Development Commands
+## Local Development Commands
 
 ```bash
-# Full pipeline (recommended)
+pnpm generate          # Fetch schema, regenerate source/README, lint-fix, format
+pnpm build             # Type-check scripts, rebuild dist, type-check tests
+pnpm test:unit          # Run 21 fast deterministic regression tests
+pnpm test:coverage      # Run deterministic tests with V8 coverage thresholds
+pnpm test:live          # Run the 19-test client suite (network required)
+pnpm test              # Run all 40 tests (live network required)
 pnpm compile           # generate + build + test
-
-# Individual steps
-pnpm generate          # Fetch latest OpenAPI schema, generate client/types, and run linter
-pnpm build             # Type-check scripts/, compile src/ to dist/, and type-check src/test
-pnpm test              # Run Vitest tests against live API
-
-# Code quality
-pnpm lint              # Run oxlint on src/, scripts/, and vitest.config.ts
-pnpm lint:fix          # Fix auto-fixable issues in src/, scripts/, and vitest.config.ts
-pnpm format            # Run oxfmt
-
-# Version management
-pnpm change            # Create Beachball changefile (for releases)
+pnpm lint              # oxlint src, scripts, and vitest.config.ts
+pnpm lint:fix          # apply oxlint fixes
+pnpm format            # run oxfmt
+pnpm change            # create a Beachball changefile
 ```
 
-### Making Changes to Generation Logic
+The repository expects Node `^24.13.0` and pnpm 10.34.5. `mise.toml` selects
+Node 24; `packageManager` in `package.json` pins the pnpm release/integrity.
 
-1. **Edit** `scripts/generate.ts` (or related generator files)
-2. **Regenerate**: `pnpm generate`
-3. **Build**: `pnpm build`
-4. **Test**: `pnpm test`
-5. **Commit**: Include both generator changes AND regenerated files
-6. **Changefile**: `pnpm change` if this affects published package
+## Change Workflow
 
-### Automated Version Management
+For generator or runtime changes:
 
-Schema updates from the daily workflow are automatically treated as **patch** bumps:
+1. Edit hand-written sources (`scripts/generate.ts`, `src/index.ts`, tests, or
+   configuration). Never patch generated files as the source of truth.
+2. Add a deterministic regression test that fails for the defect.
+3. Run `pnpm generate` when generation output is affected.
+4. Inspect generated diffs in `src/client.ts`, `src/types.ts`, and `README.md`.
+5. Run `pnpm lint`, `pnpm build`, and the relevant deterministic tests.
+6. Run `pnpm test:coverage`, then `pnpm test:live` with network access.
+7. Update this file, including line references and known-issue status.
+8. Add a Beachball changefile for a package-facing change. Do not edit the
+   package version.
 
-**How It Works:**
-
-1. Workflow fetches latest schema from ESI
-2. Run `pnpm compile` (fetch schema, regenerate, build, test)
-3. If generated output changed beyond `COMPATIBILITY_DATE`:
-   - Commit generated changes
-   - Create Beachball changefile with type `patch`
-   - Open PR: `automated/update-esi-schema-{timestamp}`
-
-**Why Always Patch?**
-
-Schema updates are typically additive or documentation changes. Breaking changes in the EVE ESI API are rare and can be handled manually if they occur.
-
-**Manual Override:**
-
-If a schema update requires a different version bump (minor/major), manually edit the changefile in `/change/` directory before merging the PR.
-
-### Version Management (Beachball)
-
-This project uses [Beachball](https://microsoft.github.io/beachball/) for automated versioning.
-IF YOU ARE A ROBOT DO NOT MAKE ANY CHANGES TO THE PROJECT VERSION.
-
-**Workflow**:
-
-```bash
-# After making changes that affect the published package:
-$ pnpm change
-
-# Prompts:
-# - Change type? (patch/minor/major)
-# - Describe changes for changelog
-
-# Creates: change/{branch}-{timestamp}.json
-
-# On publish (CI only):
-# - Reads changefiles
-# - Updates package.json version
-# - Generates CHANGELOG.md entry
-# - Creates git tag
-# - Publishes to npm
-```
-
-**Changefile locations**: `/change/` directory
-
-## Testing Strategy
-
-### Integration Tests Against Live API
-
-**Location**: `src/test/client.test.ts`
-
-**Approach**:
-
-- Tests call the **real** EVE ESI API (not mocks)
-- Uses hardcoded real game entity IDs (characters, corporations, systems, etc.)
-- 30-second timeout per test (live API can be slow)
-- `pnpm build` type-checks tests against generated `dist/`
-- Tests validate response structure, types, and headers
-
-**Test Coverage**:
-
-- Alliance endpoints (`getAlliance`, `getAlliances`)
-- Character endpoints (public info, skills, assets, etc.)
-- Corporation endpoints
-- Universe endpoints (solar systems, stations, etc.)
-- Paginated responses (verify `x-pages` header)
-- Error handling (404s, invalid IDs)
-- Query parameter mode (`useRequestHeaders: false`)
-
-**Example Test**:
-
-```typescript
-test('getAlliance returns alliance data', async () => {
-  const result = await esi.getAlliance({ alliance_id: 434243723 })
-
-  expect(result.data.name).toBe('C C P Alliance')
-  expect(result.data.ticker).toBe('C C P')
-  expect(result.status).toBe(200)
-  expect(result.headers).toBeDefined()
-})
-```
-
-**Why Integration Tests?**
-
-- Validates against actual API behavior (not assumptions)
-- Catches breaking changes in ESI API
-- Ensures generated client works in real-world scenarios
-- Tests network/auth handling
+Preserve unrelated user changes in a dirty worktree.
 
 ## CI/CD Automation
 
-### Daily Schema Updates
+### Pull Requests
 
-**Workflow**: `.github/workflows/update-esi-schema.yml`
+`.github/workflows/test.yml` runs on pull requests to `master` and performs:
 
-**Trigger**: Cron at 12:00 UTC daily + manual dispatch
+1. `pnpm lint`
+2. `pnpm build`
+3. `pnpm test:coverage`
+4. `pnpm test:live`
 
-**Process**:
+`.github/workflows/check-changefile.yml` runs `pnpm beachball check` for pull
+requests except Dependabot PRs.
 
-1. Fetch latest schema from `https://esi.evetech.net/meta/openapi.json`
-2. Run `pnpm compile` (regenerate + build + test)
-3. If generated output changed beyond `COMPATIBILITY_DATE`:
-   - Commit generated changes
-   - Create Beachball changefile (always `patch` type)
-   - Open PR: `chore: Update EVE ESI schema`
+### Daily Schema Update
 
-**Why Daily?** EVE Online updates their API regularly. This keeps the client in sync automatically.
+`.github/workflows/update-esi-schema.yml` runs daily at 12:00 UTC and on manual
+dispatch. It runs `pnpm compile`, ignores a diff containing only
+`COMPATIBILITY_DATE`, commits meaningful generated changes, creates a patch
+changefile, and opens a timestamp-suffixed update PR.
 
-**Why Patch Only?** Schema updates are typically additive or non-breaking. Breaking changes are rare and can be handled manually.
-
-### PR Validation
-
-**Workflow**: `.github/workflows/test.yml`
-
-**Trigger**: Pull requests to master
-
-**Checks**:
-
-1. `pnpm lint` - oxlint validation
-2. `pnpm build` - TypeScript compilation
-3. `pnpm test` - Integration tests
-
-### Changelog Validation
-
-**Workflow**: `.github/workflows/check-changefile.yml`
-
-**Trigger**: Pull requests to master (skipped for dependabot)
-
-**Checks**:
-
-1. `pnpm beachball check` - Verify changefile exists
-
-**Note**: This check is skipped when `github.actor` is `dependabot[bot]` since dependency updates don't require changefiles.
+Schema automation assumes updates are patch-level. Handle an actual breaking
+schema change manually with the appropriate Beachball change type.
 
 ### Publishing
 
-**Workflow**: `.github/workflows/publish.yml`
-
-**Trigger**: Manual workflow dispatch only
-
-**Process**:
-
-1. Run build and tests
-2. `pnpm beachball publish`:
-   - Reads changefiles from `/change/`
-   - Bumps version in `package.json`
-   - Generates `CHANGELOG.md` entry
-   - Creates git tag
-   - Publishes to npm with OIDC provenance
-3. Commits version bump + changelog
-
-## Common Tasks
-
-### Adding a New Transformation Rule
-
-**Scenario**: Want to transform `GetFooBarsBarId` → `GetFooBar`
-
-**Steps**:
-
-1. Edit `scripts/generate.ts:782` - `transformOperationId()`
-2. Add transformation logic (regex or string replace)
-3. Regenerate: `pnpm generate`
-4. Verify: Check `src/client.ts` for expected method names
-5. Test: `pnpm test`
-6. Commit: Include both generator + generated files
-
-**Example**:
-
-```typescript
-function transformOperationId(operationId: string): string {
-  let transformed = operationId
-
-  // Existing transformations...
-
-  // Add new transformation
-  transformed = transformed.replace(/BarsBarId/g, 'Bar')
-
-  return transformed
-}
-```
-
-### Modifying Type Generation
-
-**Scenario**: Want to change how arrays are generated
-
-**Steps**:
-
-1. Locate relevant function:
-   - `generateTypes()` - Main entry (line 120)
-   - `generateResponseType()` - Response types (line 220)
-   - `generateTypeFromSchema()` - Schema components (line 286)
-   - `buildTypeDefinition()` - Type definition builder (line 265)
-   - `getTypeScriptType()` - Type mapping (line 350)
-2. Modify generation logic
-3. Regenerate: `pnpm generate`
-4. Verify: Check `src/types.ts` for expected output
-5. Test: `pnpm test` (ensure no type errors)
-
-### Debugging Generation Issues
-
-**Common Issues**:
-
-1. **Missing type reference**
-   - Check `generatedSchemaComponents` Set tracking
-   - Verify `collectAndGenerateReferencedSchemas()` logic
-   - Look for typos in `$ref` path parsing
-
-2. **Circular reference / infinite loop**
-   - Review dependency generation order
-   - Ensure `buildTypeDefinition()` is used correctly for final type generation
-   - Check that Set deduplication is working
-
-3. **Parameter name conflicts**
-   - Look for error thrown via `assertNoConflict()` (lines 381-393)
-   - Check if path/query/body params have overlapping names
-   - Consider renaming in transformation logic
-
-4. **Method not generated**
-   - Verify operation has supported HTTP method (get/post/put/delete)
-   - Check if `operationId` exists or can be inferred
-   - Look for errors during `generateMethod()` execution
-
-**Debugging Tips**:
-
-- Add `console.log()` statements in generator
-- Check generated file output line-by-line
-- Compare OpenAPI schema with expected TypeScript output
-- Run `pnpm generate` with verbose output
-
-### Adding Response Header Types
-
-**Scenario**: Want to type pagination headers (`X-Pages`, `X-Page`)
-
-**Current Behavior**: Already implemented!
-
-**How it Works** (scripts/generate.ts:456):
-
-1. `generateResponseHeaderType()` extracts headers from response
-2. Creates `{OperationName}ResponseHeaders` interface
-3. Lowercases header names to match `fetch()` and marks them optional (`?`)
-4. Headers passed as second type param to `EsiResponse<TData, THeaders>`
-
-**Example**:
-
-```typescript
-// Generated type
-export interface GetCharacterAssetsResponseHeaders {
-  'x-pages'?: string;
-  'x-page'?: string;
-}
-
-// Method signature
-async getCharacterAssets(
-  params: GetCharacterAssetsParams
-): Promise<EsiResponse<GetCharacterAssetsResponse, GetCharacterAssetsResponseHeaders>>
-
-// Usage
-const result = await esi.getCharacterAssets({ character_id: 123 })
-console.log(result.headers['x-pages']) // Typed as string | undefined
-```
-
-## Critical Conventions
-
-### DO's ✅
-
-1. **Always regenerate** after modifying `scripts/generate.ts`
-
-   ```bash
-   pnpm generate
-   ```
-
-2. **Run tests** to validate against live API
-
-   ```bash
-   pnpm test
-   ```
-
-3. **Create changefiles** for any package changes
-
-   ```bash
-   pnpm change
-   ```
-
-4. **Follow formatting rules** (`.oxfmtrc.json`):
-   - No semicolons
-   - Single quotes
-   - 80-char line width
-   - 2-space indentation
-   - Arrow parens: avoid
-
-5. **Preserve operation ID transformations** - They exist for better DX
-
-6. **Maintain strict type safety** - Use TypeScript strict mode
-
-7. **Test against live API** - Don't mock ESI responses
-
-8. **Document breaking changes** - Use major version bump in changefile
-
-### DON'Ts ❌
-
-1. **Don't manually edit** `src/client.ts` or `src/types.ts`
-   - These are auto-generated
-   - Edit `scripts/generate.ts` instead
-
-2. **Don't add runtime dependencies**
-   - Client must remain zero-dependency
-   - Use native `fetch()` and standard library only
-
-3. **Don't skip tests**
-   - Integration tests validate against real API
-   - They catch regressions and API changes
-
-4. **Don't reintroduce** a checked-in OpenAPI schema snapshot
-   - `pnpm generate` fetches the schema directly from ESI
-   - Generated `src/*` and README updates are the committed source of truth
-
-5. **Don't break parameter flattening**
-   - Users expect single params object
-   - Maintaining this convention is critical for DX
-
-6. **Don't remove type safety**
-   - Keep strict TypeScript checks
-   - Don't use `any` unless absolutely necessary
-
-7. **Don't skip changefile creation**
-   - CI requires changefiles for non-automated PRs
-   - Use `pnpm change` for every user-facing change
-
-## Design Decisions & Rationale
-
-### Why Zero Runtime Dependencies?
-
-**Decision**: No production dependencies in `package.json`
-
-**Rationale**:
-
-- **Security**: Smaller attack surface, no supply chain risks
-- **Bundle size**: Keep client tiny for browser/edge environments
-- **Compatibility**: Works anywhere `fetch()` is available (Node 18+, browsers, Deno, Bun)
-- **Maintenance**: No dependency updates or breaking changes to track
-
-### Why Flatten Parameters?
-
-**Decision**: Merge path/query/body into single `Params` interface
-
-**Rationale**:
-
-- **Developer experience**: Single object is simpler than multiple arguments
-- **Named parameters**: Avoids positional argument confusion
-- **Optional params**: Easy to omit optional query params
-- **Consistency**: Same pattern for all methods
-
-**Alternative considered**: Separate arguments `(pathParams, queryParams?, body?)`
-
-- Rejected: Too verbose, positional arguments error-prone
-
-### Why Typed Response Headers?
-
-**Decision**: Generate `{Operation}ResponseHeaders` interfaces
-
-**Rationale**:
-
-- **Pagination**: ESI uses `X-Pages`, surfaced as `x-pages` because Fetch lowercases response headers
-- **Type safety**: Catch typos in header names at compile time
-- **Autocomplete**: IDE suggests available headers
-- **Optional by design**: Headers may not be present, marked `?`
-
-### Why Shared In-Memory Caching?
-
-**Decision**: Cache successful `GET` responses by their ESI `Cache-Control`
-directives in a shared, 1,000-entry LRU cache (`src/cache.ts`).
-
-**Rationale**:
-
-- **ESI compliance**: Do not request fresh data before its cache lifetime ends.
-- **Cross-instance reuse**: All clients in one browser tab, Node process, or
-  warm serverless instance use the same cache.
-- **Safe authenticated responses**: Cache keys include a SHA-256 credential
-  scope, so responses cannot be shared between tokens.
-- **Efficient revalidation**: Stale ETag entries send `If-None-Match` and reuse
-  their data after a `304` response.
-
-**Scope**: The built-in cache is in-memory only. It does not survive browser
-reloads, serverless cold starts, or separate server instances. Persistent or
-distributed cache adapters are intentionally deferred (see the TODO in
-`src/cache.ts`).
-
-### Why Dual Auth Modes?
-
-**Decision**: Support both header-based and query-param auth
-
-**Rationale**:
-
-- **ESI requirement**: API supports both methods
-- **Backward compatibility**: Legacy systems may use query params
-- **Flexibility**: Let users choose based on their needs
-- **Default to headers**: More secure (not logged in URLs)
-
-**Constructor option**:
-
-```typescript
-new EsiClient({
-  userAgent: 'foo@example.com',
-  token: 'bearer-token',
-  useRequestHeaders: false, // Use query params instead
-})
-```
-
-### Why Compatibility Date?
-
-**Decision**: Hardcode `COMPATIBILITY_DATE` in generated client
-
-**Rationale**:
-
-- **ESI versioning**: API uses compatibility dates for breaking changes
-- **Stable behavior**: Client generated on date X works consistently
-- **Auto-update**: Date updated on each generation
-- **Transparency**: Users know which API version client targets
-
-**Implementation** (scripts/generate.ts:498):
-
-```typescript
-const COMPATIBILITY_DATE = '${new Date().toISOString().slice(0, 10)}'
-```
-
-## Code Style Guide
-
-### Formatter Configuration
-
-See `.oxfmtrc.json`
-
-### oxlint Configuration
-
-- TypeScript linting via `@typescript-eslint` rules (native support)
-- oxfmt handles formatting separately (no conflicts)
-- Strict type checking enforced
-- Lint coverage includes `src/`, `scripts/`, and `vitest.config.ts`
-- Config: `.oxlintrc.json`
-
-### Naming Conventions
-
-- **Files**: `kebab-case.ts` (e.g., `generate-readme.ts`)
-- **Types/Interfaces**: `PascalCase` (e.g., `EsiResponse`, `GetAllianceParams`)
-- **Functions**: `camelCase` (e.g., `generateTypes`, `transformOperationId`)
-- **Constants**: `SCREAMING_SNAKE_CASE` (e.g., `SCHEMA_URL`, `COMPATIBILITY_DATE`)
-- **Methods**: `camelCase` (e.g., `getAlliance`, `postCharacterMail`)
+`.github/workflows/publish.yml` is manually dispatched. It builds, runs the live
+tests, uses Beachball to prepare release files without publishing, syncs with
+`master`, publishes to npm with OIDC provenance, and creates a GitHub release
+from `CHANGELOG.json`.
+
+## Code Style
+
+- Oxfmt: no semicolons, single quotes, 80 columns, 2 spaces, avoid arrow
+  parentheses when possible.
+- Oxlint covers `src/`, `scripts/`, and `vitest.config.ts`; tests are excluded
+  from the stricter TypeScript override.
+- TypeScript strict mode and NodeNext module resolution are enabled.
+- Files use `kebab-case`; types/interfaces use `PascalCase`; functions and
+  methods use `camelCase`; constants use `SCREAMING_SNAKE_CASE`.
+- Use no `any` in hand-written runtime code unless there is a concrete reason.
+  Generated request code currently contains `any` and suppresses that lint rule.
 
 ## Useful Code Locations
 
-### Core Generation Logic
+Line references below match the 938-line `scripts/generate.ts` checked in on
+2026-08-23:
 
-- **Main generator**: `scripts/generate.ts:875` - `main()`
-- **Schema loading**: `scripts/generate.ts:109` - `loadSchema()`
-- **Type generation**: `scripts/generate.ts:120` - `generateTypes()`
-- **Client generation**: `scripts/generate.ts:487` - `generateClient()`
-- **Method generation**: `scripts/generate.ts:677` - `generateMethod()`
+### Generator Entry and Output
 
-### Transformation Logic
+- Schema URL/constants: `scripts/generate.ts:8-11`
+- Schema loading: `scripts/generate.ts:122`
+- Type generation: `scripts/generate.ts:133`
+- Client generation/runtime template: `scripts/generate.ts:523`
+- Method generation: `scripts/generate.ts:714`
+- Main/write orchestration/direct-execution guard: `scripts/generate.ts:912`
 
-- **Operation ID transform**: `scripts/generate.ts:852` - `transformOperationId()`
-- **Type mapping**: `scripts/generate.ts:350` - `getTypeScriptType()`
-- **Parameter flattening**: `scripts/generate.ts:395` - `generateParameterType()`
+### Schema and Type Handling
 
-### Schema Handling
+- Reference-name extraction: `scripts/generate.ts:98`
+- Success-response selection: `scripts/generate.ts:104`
+- Response type generation: `scripts/generate.ts:233`
+- Type definition builder: `scripts/generate.ts:278`
+- Component generation: `scripts/generate.ts:299`
+- Recursive reference collection: `scripts/generate.ts:323`
+- OpenAPI-to-TypeScript mapping: `scripts/generate.ts:380`
+- Conflict assertion: `scripts/generate.ts:417`
+- Parameter type generation/flattening: `scripts/generate.ts:431`
+- Response header type generation: `scripts/generate.ts:492`
 
-- **Schema component generation**: `scripts/generate.ts:286` - `generateTypeFromSchema()`
-- **Type definition builder**: `scripts/generate.ts:265` - `buildTypeDefinition()`
-- **Reference collection**: `scripts/generate.ts:310` - `collectAndGenerateReferencedSchemas()`
-- **Response type generation**: `scripts/generate.ts:220` - `generateResponseType()`
+### Client Method Helpers
 
-### Helper Functions
+- JSDoc/API Explorer link: `scripts/generate.ts:508`
+- Query serialization in generated runtime template:
+  `scripts/generate.ts:559-566`
+- Cache-aware request runtime template: `scripts/generate.ts:573-685`
+- Path parameter extraction: `scripts/generate.ts:817`
+- Parameter `$ref` resolution: `scripts/generate.ts:822`
+- Query parameter extraction: `scripts/generate.ts:837`
+- Response header extraction: `scripts/generate.ts:852`
+- Response type lookup: `scripts/generate.ts:879`
+- Operation ID transformation: `scripts/generate.ts:889`
 
-- **Ref name extraction**: `scripts/generate.ts:96` - `extractRefName()`
-- **Success response getter**: `scripts/generate.ts:102` - `getSuccessResponse()`
-- **Conflict assertion**: `scripts/generate.ts:381` - `assertNoConflict()`
-- **Path param extraction**: `scripts/generate.ts:780` - `extractPathParams()`
-- **Query param extraction**: `scripts/generate.ts:800` - `extractQueryParams()`
-- **Response header extraction**: `scripts/generate.ts:815` - `extractResponseHeaders()`
-- **JSDoc generation**: `scripts/generate.ts:472` - `generateJSDoc()`
+### Other Sources
+
+- README content generation: `scripts/generate-readme.ts:47`
+- README writing: `scripts/generate-readme.ts:59`
+- Shared cache runtime: `src/cache.ts:1`
+- Public package exports: `src/index.ts:1`
+- Live tests: `src/test/client.test.ts:13`
+- Deterministic cache tests: `src/test/cache.unit.test.ts:3`
+- Deterministic client/package tests: `src/test/client.unit.test.ts:36`
+- Generator tests: `scripts/generate.test.ts:10`
+- README tests: `scripts/generate-readme.test.ts:4`
+- Vitest coverage/retry/timeouts: `vitest.config.ts:3`
 
 ## Troubleshooting
 
-### Tests Failing Against Live API
+### Live Tests Fail Immediately
 
-**Symptoms**: Tests timing out or returning unexpected data
+If most tests fail with `fetch failed`, `EAI_AGAIN`, timeouts, or connection
+errors, first check network/DNS and ESI status. Run `pnpm test:unit` to verify the
+deterministic suite independently. Retry live tests only after distinguishing an
+environment failure from a client failure.
 
-**Causes**:
+### Generated Types Do Not Compile
 
-- EVE Online API may be down or slow
-- Test entity IDs may have been deleted/changed in-game
-- Rate limiting from too many requests
+Inspect the first invalid declaration and reduce the corresponding OpenAPI shape
+to a fixture. Check reference traversal, `getTypeScriptType()`, operation-name
+collisions, and parameter conflicts. Fix the generator, never the generated
+declaration.
 
-**Solutions**:
+### Generated Method Is Missing
 
-- Check https://esi.evetech.net/status/ for API status
-- Update test IDs to known-good entities
-- Add delays between tests if rate-limited
-- Increase timeout in `src/test/client.test.ts`
+Confirm the schema has a GET/POST/PUT/DELETE operation and an operation ID (or a
+usable fallback). Then inspect operation filtering and transformed-name
+collisions.
 
-### Generated Code Has TypeScript Errors
+### README Change Disappears
 
-**Symptoms**: `pnpm build` fails with type errors in generated files
+All README content comes from `scripts/static/boilerplate.md` plus the generated
+method table. Move the edit to the template and regenerate.
 
-**Causes**:
+## External References
 
-- Generator produced invalid TypeScript syntax
-- Missing type reference
-- Circular type dependency
-
-**Solutions**:
-
-- Check `src/types.ts` and `src/client.ts` for syntax errors
-- Review generator logic for recent changes
-- Validate OpenAPI schema is well-formed
-- Look for circular `$ref` in schema
-
-### CI Workflow Not Creating PR for Schema Updates
-
-**Symptoms**: Daily workflow runs but no PR created
-
-**Causes**:
-
-- Schema hasn't changed
-- Tests failing (PR not created on failure)
-- Git permissions issue
-
-**Solutions**:
-
-- Check workflow logs in GitHub Actions
-- Verify schema actually changed
-- Ensure tests pass locally: `pnpm compile`
-- Check repository permissions for GitHub Actions bot
-
-## Additional Resources
-
-- **EVE ESI Documentation**: https://developers.eveonline.com/
-- **EVE ESI OpenAPI Spec**: https://esi.evetech.net/meta/openapi.json
-- **EVE ESI Status**: https://esi.evetech.net/status/
-- **EVE API Explorer**: https://developers.eveonline.com/api-explorer
-- **Beachball Docs**: https://microsoft.github.io/beachball/
-- **TypeScript Handbook**: https://www.typescriptlang.org/docs/
-
-## Questions or Issues?
-
-When contributing or making changes:
-
-1. Read this entire document
-2. Review the approved plan (if in plan mode)
-3. Examine existing code patterns in `scripts/generate.ts`
-4. Test changes locally with `pnpm compile`
-5. Create changefile with `pnpm change`
-6. Submit PR with clear description
-
-For questions about EVE Online API behavior, consult:
-
-- ESI API documentation
-- ESI community forums
-- EVE Online developer Discord
-
----
-
-**For AI Agents**: This document is your primary reference. Follow the conventions strictly, especially around generated files and zero dependencies. When in doubt, ask for clarification rather than making assumptions.
+- ESI API Explorer: https://developers.eveonline.com/api-explorer
+- ESI OpenAPI schema: https://esi.evetech.net/meta/openapi.json
+- ESI status: https://esi.evetech.net/status/
+- Beachball: https://microsoft.github.io/beachball/
+- TypeScript: https://www.typescriptlang.org/docs/
