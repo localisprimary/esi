@@ -1,8 +1,17 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Wed, 19 Aug 2026 17:00:41 GMT and should not be manually modified. -->
+<!-- This log was last generated on Sun, 23 Aug 2026 16:13:52 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 2.1.1
+
+Sun, 23 Aug 2026 16:13:52 GMT
+
+### Patches
+
+- Automated: Update ESI OpenAPI schema (1719791+Nfinished@users.noreply.github.com)
+- Fix Node ESM packaging, generated type accuracy, and query serialization with deterministic coverage (hello@adamtrager.com)
 
 ## 2.1.0
 

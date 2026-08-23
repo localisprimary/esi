@@ -2,6 +2,27 @@
   "name": "@localisprimary/esi",
   "entries": [
     {
+      "date": "Sun, 23 Aug 2026 16:13:52 GMT",
+      "version": "2.1.1",
+      "tag": "@localisprimary/esi_v2.1.1",
+      "comments": {
+        "patch": [
+          {
+            "author": "1719791+Nfinished@users.noreply.github.com",
+            "package": "@localisprimary/esi",
+            "commit": "d4d0916353ab2bcbf3cd5e9e71cb6bff03120792",
+            "comment": "Automated: Update ESI OpenAPI schema"
+          },
+          {
+            "author": "hello@adamtrager.com",
+            "package": "@localisprimary/esi",
+            "commit": "cffcc8026386cc98090176bf51e2743a936c909e",
+            "comment": "Fix Node ESM packaging, generated type accuracy, and query serialization with deterministic coverage"
+          }
+        ]
+      }
+    },
+    {
       "date": "Wed, 19 Aug 2026 17:00:41 GMT",
       "version": "2.1.0",
       "tag": "@localisprimary/esi_v2.1.0",
