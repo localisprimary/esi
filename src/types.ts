@@ -1005,10 +1005,16 @@ export interface GetCharacterKillmailsRecentResponseHeaders {
   'x-pages'?: string
 }
 
+export type SolarSystemID = number
+
+export type StationID = number
+
+export type ItemID = number
+
 export interface GetCharacterLocationResponse {
-  solar_system_id: number
-  station_id?: number
-  structure_id?: number
+  solar_system_id: SolarSystemID
+  station_id?: StationID
+  structure_id?: ItemID
 }
 
 export interface GetCharacterLocationParams {
@@ -2023,10 +2029,12 @@ export interface GetCharacterSearchResponseHeaders {
   'last-modified'?: string
 }
 
+export type TypeID = number
+
 export interface GetCharacterShipResponse {
-  ship_item_id: number
+  ship_item_id: ItemID
   ship_name: string
-  ship_type_id: number
+  ship_type_id: TypeID
 }
 
 export interface GetCharacterShipParams {
@@ -2038,8 +2046,6 @@ export interface GetCharacterShipResponseHeaders {
   etag?: string
   'last-modified'?: string
 }
-
-export type TypeID = number
 
 export interface CharactersSkillqueueSkill {
   finish_date?: string
@@ -2492,8 +2498,6 @@ export interface GetCorporationsNpccorpsResponseHeaders {
   etag?: string
   'last-modified'?: string
 }
-
-export type StationID = number
 
 export interface GetCorporationResponse {
   alliance_id?: AllianceID
