@@ -9,7 +9,7 @@ import {
   refreshCacheEntry,
 } from './cache.js'
 
-const COMPATIBILITY_DATE = '2026-08-23'
+const COMPATIBILITY_DATE = '2026-08-31'
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
@@ -725,7 +725,7 @@ export class EsiClient {
   }
 
   /**
-   * Information about the characters current location. Returns the current solar system id, and also the current station or structure ID if applicable
+   * Get the current location of a character, including the station or structure it is docked in.
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdLocation
    */
@@ -943,7 +943,7 @@ export class EsiClient {
   }
 
   /**
-   * Checks if the character is currently online
+   * Get whether a character is online, and its login statistics.
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdOnline
    */
@@ -1057,7 +1057,7 @@ export class EsiClient {
   }
 
   /**
-   * Get the current ship type, name and id
+   * Get the ship a character is currently in.
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdShip
    */
