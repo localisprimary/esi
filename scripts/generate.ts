@@ -70,15 +70,30 @@ interface RequestBody {
   }
 }
 
+type SchemaType =
+  | 'string'
+  | 'number'
+  | 'integer'
+  | 'boolean'
+  | 'array'
+  | 'object'
+  | 'null'
+
 export interface Schema {
-  type?: 'string' | 'number' | 'integer' | 'boolean' | 'array' | 'object'
+  type?: SchemaType | SchemaType[]
   properties?: Record<string, Schema>
   required?: string[]
   items?: Schema
   enum?: string[]
+  oneOf?: Schema[]
   $ref?: string
   description?: string
   additionalProperties?: boolean | Schema
+}
+
+export interface LoadedSchema {
+  schema: OpenAPISchema
+  compatibilityDate: string
 }
 
 interface QueryParam {
@@ -119,15 +134,34 @@ export function getSuccessResponse(
   return rangeSuccess || Object.values(responses)[0]
 }
 
-async function loadSchema(): Promise<OpenAPISchema> {
-  console.log(`Fetching OpenAPI schema from ${SCHEMA_URL}...`)
+// ESI serves a different schema per compatibility date. Request the newest
+// version and stamp the date ESI resolved it to, so the generated client asks
+// for exactly the API version its types were generated from.
+export async function loadSchema(
+  requestedDate = new Date().toISOString().slice(0, 10)
+): Promise<LoadedSchema> {
+  console.log(
+    `Fetching OpenAPI schema from ${SCHEMA_URL} for compatibility date ${requestedDate}...`
+  )
 
-  const response = await fetch(SCHEMA_URL)
+  const response = await fetch(SCHEMA_URL, {
+    headers: { 'X-Compatibility-Date': requestedDate },
+  })
   if (!response.ok) {
     throw new Error(`Failed to fetch schema: HTTP ${response.status}`)
   }
 
-  return (await response.json()) as OpenAPISchema
+  const compatibilityDate = response.headers.get('x-compatibility-date')
+  if (!compatibilityDate || !/^\d{4}-\d{2}-\d{2}$/.test(compatibilityDate)) {
+    throw new Error(
+      `Schema response has a missing or invalid X-Compatibility-Date header: ${compatibilityDate}`
+    )
+  }
+
+  return {
+    schema: (await response.json()) as OpenAPISchema,
+    compatibilityDate,
+  }
 }
 
 export function generateTypes(schema: OpenAPISchema): string {
@@ -172,10 +206,10 @@ export interface EsiError {
       for (const [method, methodObj] of Object.entries(pathObj)) {
         if (!SUPPORTED_HTTP_METHODS.includes(method.toLowerCase())) continue
 
-        const operationId =
-          methodObj.operationId ||
-          `${method}${pathTemplate.replace(/[^a-zA-Z0-9]/g, '_')}`
-        const transformedOperationId = transformOperationId(operationId)
+        const transformedOperationId = transformOperationId(
+          getOperationId(pathTemplate, method, methodObj),
+          pathTemplate
+        )
 
         // Generate response type
         const successResponse = getSuccessResponse(methodObj.responses)
@@ -195,7 +229,8 @@ export interface EsiError {
           transformedOperationId,
           pathTemplate,
           methodObj,
-          schema
+          schema,
+          generatedSchemaComponents
         )
 
         // Generate response header type
@@ -258,17 +293,15 @@ function generateResponseType(
     )
     result += `export type ${operationName}Response = ${refName}[];\n\n`
     return result
-  } else if (responseSchema.type === 'object' && responseSchema.properties) {
-    for (const propSchema of Object.values(responseSchema.properties)) {
-      const ref = propSchema.$ref || propSchema.items?.$ref
-      if (ref) {
-        result += generateSchemaComponentIfNeeded(
-          extractRefName(ref),
-          fullSchema,
-          generatedSchemaComponents
-        )
+  } else {
+    collectAndGenerateReferencedSchemas(
+      responseSchema,
+      fullSchema,
+      generatedSchemaComponents,
+      schemaType => {
+        result += schemaType
       }
-    }
+    )
   }
 
   result += `export type ${operationName}Response = ${getTypeScriptType(responseSchema)};\n\n`
@@ -276,6 +309,13 @@ function generateResponseType(
 }
 
 function buildTypeDefinition(name: string, schema: Schema): string {
+  if (
+    schema.type === 'object' &&
+    (!schema.properties || Object.keys(schema.properties).length === 0)
+  ) {
+    return `export type ${name} = ${getTypeScriptType(schema)};\n\n`
+  }
+
   if (schema.type === 'object') {
     let type = `export interface ${name} {\n`
     if (schema.properties) {
@@ -375,6 +415,15 @@ function collectAndGenerateReferencedSchemas(
       onGenerate
     )
   }
+
+  for (const variant of schema.oneOf ?? []) {
+    collectAndGenerateReferencedSchemas(
+      variant,
+      fullSchema,
+      generatedSchemaComponents,
+      onGenerate
+    )
+  }
 }
 
 export function getTypeScriptType(schema: Schema): string {
@@ -384,7 +433,19 @@ export function getTypeScriptType(schema: Schema): string {
     return extractRefName(schema.$ref)
   }
 
+  if (schema.oneOf?.length) {
+    return schema.oneOf.map(variant => getTypeScriptType(variant)).join(' | ')
+  }
+
+  if (Array.isArray(schema.type)) {
+    return schema.type
+      .map(type => getTypeScriptType({ ...schema, type }))
+      .join(' | ')
+  }
+
   switch (schema.type) {
+    case 'null':
+      return 'null'
     case 'string':
       return schema.enum ? schema.enum.map(v => `'${v}'`).join(' | ') : 'string'
     case 'number':
@@ -428,16 +489,51 @@ function assertNoConflict(
   usedNames.add(name)
 }
 
+function getRequestBodySchema(
+  methodObj: Operation,
+  schema: OpenAPISchema
+): Schema | undefined {
+  const bodySchema =
+    methodObj.requestBody?.content?.['application/json']?.schema
+  if (!bodySchema?.$ref) return bodySchema
+
+  // Resolve referenced object bodies so their properties can be flattened.
+  const referenced =
+    schema.components?.schemas?.[extractRefName(bodySchema.$ref)]
+  return referenced?.type === 'object' && referenced.properties
+    ? referenced
+    : bodySchema
+}
+
 function generateParameterType(
   operationName: string,
   pathTemplate: string,
   methodObj: Operation,
-  schema: OpenAPISchema
+  schema: OpenAPISchema,
+  generatedSchemaComponents: Set<string>
 ): string {
   const pathParams = extractPathParams(pathTemplate)
   const queryParams = extractQueryParams(methodObj.parameters || [], schema)
-  const requestBodySchema =
-    methodObj.requestBody?.content?.['application/json']?.schema
+  const requestBodySchema = getRequestBodySchema(methodObj, schema)
+
+  let referencedTypes = ''
+  const collectReferences = (paramSchema: Schema | undefined) => {
+    if (!paramSchema) return
+    collectAndGenerateReferencedSchemas(
+      paramSchema,
+      schema,
+      generatedSchemaComponents,
+      schemaType => {
+        referencedTypes += schemaType
+      }
+    )
+  }
+
+  for (const param of methodObj.parameters || []) {
+    const resolved = resolveParameter(param, schema)
+    if (resolved.in === 'query') collectReferences(resolved.schema)
+  }
+  collectReferences(requestBodySchema)
 
   const allParamTypes: string[] = []
   const usedParamNames = new Set<string>()
@@ -483,10 +579,10 @@ function generateParameterType(
   }
 
   if (allParamTypes.length === 0) {
-    return ''
+    return referencedTypes
   }
 
-  return `export interface ${operationName}Params {\n  ${allParamTypes.join(';\n  ')};\n}\n\n`
+  return `${referencedTypes}export interface ${operationName}Params {\n  ${allParamTypes.join(';\n  ')};\n}\n\n`
 }
 
 function generateResponseHeaderType(
@@ -520,7 +616,10 @@ function generateJSDoc(methodObj: Operation, pathTemplate: string): string {
   return `  /**\n   * ${description.replaceAll(/\n\n/g, '\n\n   * ')}\n\n   * @see ${apiExplorerUrl}\n   */\n`
 }
 
-export function generateClient(schema: OpenAPISchema): {
+export function generateClient(
+  schema: OpenAPISchema,
+  compatibilityDate: string
+): {
   client: string
   methods: MethodInfo[]
 } {
@@ -538,7 +637,7 @@ import {
   refreshCacheEntry,
 } from './cache.js';
 
-const COMPATIBILITY_DATE = '${new Date().toISOString().slice(0, 10)}';
+const COMPATIBILITY_DATE = '${compatibilityDate}';
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net';
@@ -717,18 +816,14 @@ function generateMethod(
   methodObj: Operation,
   schema: OpenAPISchema
 ): { code: string; methodInfo: MethodInfo } {
-  const operationId =
-    methodObj.operationId ||
-    `${method}${pathTemplate.replace(/[^a-zA-Z0-9]/g, '_')}`
-
-  const transformedOperationId = transformOperationId(operationId)
+  const operationId = getOperationId(pathTemplate, method, methodObj)
+  const transformedOperationId = transformOperationId(operationId, pathTemplate)
   const methodName = camelcase(transformedOperationId, {
     preserveConsecutiveUppercase: true,
   })
   const pathParams = extractPathParams(pathTemplate)
   const queryParams = extractQueryParams(methodObj.parameters || [], schema)
-  const requestBodySchema =
-    methodObj.requestBody?.content?.['application/json']?.schema
+  const requestBodySchema = getRequestBodySchema(methodObj, schema)
 
   const hasParams =
     pathParams.length > 0 || queryParams.length > 0 || requestBodySchema
@@ -886,11 +981,17 @@ function getResponseType(
   }
 }
 
-export function transformOperationId(operationId: string): string {
+export function transformOperationId(
+  operationId: string,
+  pathTemplate?: string
+): string {
   // Remove redundant plurals and Id suffixes to make method names more human-friendly
   // GetAlliancesAllianceIdContactsLabels -> GetAllianceContactsLabels
   // GetCharactersCharacterIdAgentsResearch -> GetCharacterAgentsResearch
   // GetCharactersCharacterIdContractsContractIdBids -> GetCharacterContractBids
+
+  const override = OPERATION_NAME_OVERRIDES[operationId]
+  if (override) return override
 
   let transformed = operationId
 
@@ -903,21 +1004,113 @@ export function transformOperationId(operationId: string): string {
   // Match patterns like "AlliancesAllianceId", "CharactersCharacterId", etc.
   transformed = transformed.replace(/([A-Z][a-z]+)s([A-Z][a-z]+)Id/g, '$2')
 
+  // Collapse a doubled singular owner from singular route prefixes
+  // GetCorporationCorporationIdMiningExtractions -> GetCorporationMiningExtractions
+  transformed = transformed.replace(/([A-Z][a-z]+)\1Id/g, '$1')
+
   // Remove trailing Id when it doesn't add meaning and there's a following word
   transformed = transformed.replace(/Id([A-Z][a-z]+)/g, '$1')
+
+  // Newer ESI operation IDs use Listing/Detail suffixes instead of Id tokens
+  // GetFreelanceJobsListing -> GetFreelanceJobs
+  // GetFreelanceJobsDetail -> GetFreelanceJob
+  transformed = transformed.replace(/Listing$/, '').replace(/sDetail$/, '')
+
+  // Singularize the owner of newer owner-scoped routes to match older names
+  // GetCharactersAccessLists (/characters/{character_id}/...) -> GetCharacterAccessLists
+  if (
+    pathTemplate &&
+    /^\/(characters|corporations|alliances)\/\{/.test(pathTemplate)
+  ) {
+    transformed = transformed.replace(
+      /^(Get|Post|Put|Delete)(Character|Corporation|Alliance)s(?=[A-Z])/,
+      '$1$2'
+    )
+  }
+
+  // Singularize plural collection segments that are followed by an ID in the
+  // path and by another word in the name, matching GetCharacterContractBids
+  // GetCorporationProjectsContributors -> GetCorporationProjectContributors
+  if (pathTemplate) {
+    const segments = pathTemplate.split('/')
+    for (const [index, segment] of segments.entries()) {
+      if (!segments[index + 1]?.startsWith('{') || !segment.endsWith('s')) {
+        continue
+      }
+      const plural = segment
+        .split(/[-_]/)
+        .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+        .join('')
+      transformed = transformed.replace(
+        new RegExp(`${plural}(?=[A-Z])`),
+        plural.slice(0, -1)
+      )
+    }
+  }
 
   return transformed
 }
 
+// Operation IDs whose path parameters cannot be collapsed by the rules above
+const OPERATION_NAME_OVERRIDES: Record<string, string> = {
+  GetCharactersCharacterIdCalendarEventId: 'GetCharacterCalendarEvent',
+  PutCharactersCharacterIdCalendarEventId: 'PutCharacterCalendarEvent',
+  GetCharactersCharacterIdMailMailId: 'GetCharacterMailMessage',
+  PutCharactersCharacterIdMailMailId: 'PutCharacterMailMessage',
+  DeleteCharactersCharacterIdMailMailId: 'DeleteCharacterMailMessage',
+  GetMarketsGroupsMarketGroupId: 'GetMarketsGroup',
+  GetContractsPublicRegionId: 'GetContractsPublicRegion',
+  GetKillmailsKillmailIdKillmailHash: 'GetKillmail',
+  GetDogmaDynamicItemsTypeIdItemId: 'GetDogmaDynamicItem',
+  GetCorporationsCorporationIdWalletsDivisionJournal:
+    'GetCorporationWalletJournal',
+  GetCorporationsCorporationIdWalletsDivisionTransactions:
+    'GetCorporationWalletTransactions',
+}
+
+function getOperationId(
+  pathTemplate: string,
+  method: string,
+  methodObj: Operation
+): string {
+  return (
+    methodObj.operationId ||
+    `${method}${pathTemplate.replace(/[^a-zA-Z0-9]/g, '_')}`
+  )
+}
+
+export function assertUniqueOperationNames(schema: OpenAPISchema): void {
+  const seen = new Map<string, string>()
+
+  for (const [pathTemplate, pathObj] of Object.entries(schema.paths ?? {})) {
+    for (const [method, methodObj] of Object.entries(pathObj)) {
+      if (!SUPPORTED_HTTP_METHODS.includes(method.toLowerCase())) continue
+
+      const operationId = getOperationId(pathTemplate, method, methodObj)
+      const name = transformOperationId(operationId, pathTemplate)
+      const location = `${method.toUpperCase()} ${pathTemplate}`
+      const existing = seen.get(name)
+      if (existing) {
+        throw new Error(
+          `Operation name collision: ${location} and ${existing} both map to ${name}`
+        )
+      }
+      seen.set(name, location)
+    }
+  }
+}
+
 async function main(): Promise<void> {
   try {
-    const schema = await loadSchema()
+    const { schema, compatibilityDate } = await loadSchema()
+    console.log(`Using compatibility date ${compatibilityDate}`)
+    assertUniqueOperationNames(schema)
 
     const types = generateTypes(schema)
     fs.writeFileSync(TYPES_FILE, types)
     console.log('Generated types.ts')
 
-    const { client, methods } = generateClient(schema)
+    const { client, methods } = generateClient(schema, compatibilityDate)
     fs.writeFileSync(CLIENT_FILE, client)
     console.log('Generated client.ts')
 

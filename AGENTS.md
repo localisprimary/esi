@@ -1,7 +1,7 @@
 # AGENTS.md - ESI TypeScript Client Guide
 
 This is the primary reference for agents and contributors working on this
-repository. It describes the checked-in project as of 2026-08-23.
+repository. It describes the checked-in project as of 2026-11-21.
 
 ## Project Overview
 
@@ -19,11 +19,12 @@ Core constraints:
 
 Current generated snapshot:
 
-- `src/client.ts`: 197 client methods, 3,084 lines, about 105 KB.
-- `src/types.ts`: 556 exported interfaces/type aliases, 6,495 lines, about
-  146 KB.
-- `README.md`: 197 generated method-table rows.
-- The current official schema is OpenAPI 3.1 with 182 paths and 197
+- `src/client.ts`: 208 client methods, 3,282 lines, about 114 KB.
+- `src/types.ts`: 717 exported interfaces/type aliases, 7,414 lines, about
+  173 KB.
+- `README.md`: 208 generated method-table rows.
+- `COMPATIBILITY_DATE` is `2026-11-19`.
+- The schema for that compatibility date is OpenAPI 3.1 with 193 paths and 208
   operations using GET, POST, PUT, and DELETE.
 
 These counts change when ESI changes. Update this section after regeneration.
@@ -123,7 +124,9 @@ At minimum, update the relevant sections when any of these change:
 ```text
 pnpm generate
   scripts/generate.ts
-    loadSchema()       fetch current OpenAPI JSON directly from ESI
+    loadSchema()       fetch OpenAPI JSON from ESI for today's date and read
+                       the resolved X-Compatibility-Date response header
+    assertUniqueOperationNames()  fail on transformed method-name collisions
     generateTypes()    produce src/types.ts
     generateClient()   produce src/client.ts and collect method metadata
     generateReadme()   render all of README.md from boilerplate + metadata
@@ -152,26 +155,94 @@ pnpm compile
 ```
 
 Running `pnpm generate` is intentionally mutating: it rewrites the generated
-files and stamps `COMPATIBILITY_DATE` with the current UTC date. Do not run it
-during a read-only audit unless regenerated output is part of the task.
+files. Do not run it during a read-only audit unless regenerated output is part
+of the task.
+
+### Compatibility Date
+
+ESI serves a different schema per compatibility date, and routes can be
+removed in a new version. `loadSchema()` requests the schema with
+`X-Compatibility-Date` set to the current UTC date and stamps the date from
+ESI's `x-compatibility-date` response header (the newest published version) as
+`COMPATIBILITY_DATE`. Generated types and request dates therefore always
+describe the same API version, and `COMPATIBILITY_DATE` only changes when ESI
+publishes a new version. Never fetch the schema without the header: ESI then
+returns its legacy `2020-01-01` schema, which lists routes that 404 for newer
+dates. That mismatch broke the scheduled runs on 2026-11-19 through 2026-11-21.
 
 ### Operation Naming
 
 `transformOperationId()` applies these rules before `camelcase` creates the
 method name:
 
+0. Return an explicit `OPERATION_NAME_OVERRIDES` entry when one exists. It
+   covers operations whose path parameters don't match their collection name,
+   e.g. `GetCharactersCharacterIdMailMailId` -> `GetCharacterMailMessage`
+   (because `getCharacterMail()` is the list) and
+   `GetKillmailsKillmailIdKillmailHash` -> `GetKillmail`.
 1. Remove a trailing `ContractId` for the public contract bid/item operations.
 2. Collapse `[PluralNoun][SingularNoun]Id`, for example
    `CharactersCharacterId` to `Character`.
-3. Remove `Id` before a following word.
+3. Collapse a doubled `[SingularNoun][SingularNoun]Id`, for example
+   `CorporationCorporationId` (from `/corporation/{corporation_id}`) to
+   `Corporation`.
+4. Remove `Id` before a following word.
+5. Remove a trailing `Listing`, or replace a trailing `sDetail` with the
+   singular, for newer ESI operation IDs.
+6. When the path starts with `/characters/{`, `/corporations/{`, or
+   `/alliances/{`, singularize a leading `Characters`, `Corporations`, or
+   `Alliances` owner.
+7. Singularize a plural path segment followed by a `{param}` when the name
+   continues after it, e.g. `GetCorporationProjectsContributors` ->
+   `GetCorporationProjectContributors`.
 
 Examples:
 
 - `GetAlliancesAllianceId` -> `GetAlliance` -> `getAlliance()`
 - `GetCharactersCharacterIdContacts` -> `GetCharacterContacts` ->
   `getCharacterContacts()`
+- `GetCharactersDetail` -> `GetCharacter` -> `getCharacter()`
+- `GetCharactersAccessListsListing` -> `GetCharacterAccessLists`
+- `GetFreelanceJobsDetail` -> `GetFreelanceJob`
+- `GetMilitaryCampaignsObjectivesListing` -> `GetMilitaryCampaignObjectives`
 
-The API Explorer link retains the original operation ID.
+Prefer a general rule over an override. Keep overrides for names that can't be
+derived from the operation ID and path. `assertUniqueOperationNames()` fails
+generation if two operations transform to the same name. The API Explorer link
+retains the original operation ID.
+
+### Naming Review
+
+ESI keeps adding endpoints and changing its operation-ID style (for example,
+the `…Listing`/`…Detail` IDs introduced with compatibility date 2026-11-19).
+The rules above only cover patterns seen so far, so **review every added or
+renamed method name whenever generated output changes**. That includes
+schema-update PRs from automation. List the name changes with:
+
+```bash
+git diff -U0 src/client.ts | grep -E '^[-+]  async '
+```
+
+Flag a new name when it:
+
+- keeps an ID or path-parameter token (`…EventId`, `…MailMailId`,
+  `…KillmailHash`, `…Division…`);
+- repeats a word (`getCorporationCorporation…`);
+- keeps a plural parent where existing names use the singular
+  (`getCorporationProjectsContributors` vs `getCharacterContractBids`);
+- keeps a raw ESI suffix (`…Listing`, `…Detail`) or a new suffix style;
+- keeps a plural owner (`getCharactersX`) for a `/characters/{character_id}/…`
+  route;
+- differs in style from sibling methods on the same route family.
+
+For each finding, add a general rule to `transformOperationId()` if it
+generalizes, otherwise an `OPERATION_NAME_OVERRIDES` entry. Add a
+`transformOperationId` test case, and check that no unrelated names changed.
+Renaming an existing published method is breaking, so it needs a `major`
+changefile. Prefer fixing names when an endpoint is first added, before users
+depend on them. Run-together words from ESI paths (`Corporationhistory`,
+`Skillqueue`, `Openwindow`) are currently left as-is by decision. Don't split
+them without a deliberate major release.
 
 ### Type Generation
 
@@ -189,14 +260,19 @@ Basic mappings are:
 | string `enum`                | string-literal union       |
 | `number` / `integer`         | `number`                   |
 | `boolean`                    | `boolean`                  |
+| `null`                       | `null`                     |
+| type array (`["a", "null"]`) | union of each type         |
+| `oneOf`                      | union of variants          |
 | `array`                      | `T[]`                      |
 | object with properties       | interface or inline object |
+| object without properties    | `Record<string, unknown>`  |
 | typed `additionalProperties` | `Record<string, T>`        |
 | `$ref`                       | referenced component name  |
 | unrecognized/missing type    | `unknown`                  |
 
-Referenced schemas are collected depth-first and tracked in a `Set` to avoid
-duplicate declarations. The generator currently supports only the subset of
+Referenced schemas are collected depth-first, including through `oneOf`
+variants, query parameters, and request bodies, and are tracked in a `Set` to
+avoid duplicate declarations. The generator currently supports only the subset of
 OpenAPI used by ESI; new schema keywords must be added deliberately and covered
 by fixture tests.
 
@@ -206,8 +282,9 @@ Path parameters are extracted from `{name}` placeholders. Query parameters and
 JSON request-body properties are merged into the same generated `Params`
 interface. `assertNoConflict()` rejects duplicate names across those sources.
 
-Object request bodies are flattened by property. Root array/scalar bodies are
-exposed as a `body` property.
+Object request bodies are flattened by property, including `$ref` bodies that
+resolve to an object component (for example `postRoute()`). Root array/scalar
+bodies are exposed as a `body` property.
 
 ### Generated Request Runtime
 
@@ -215,8 +292,8 @@ The generated private `request()` method:
 
 - creates a URL relative to `https://esi.evetech.net`;
 - appends defined scalar query values and repeats keys for array values;
-- sends user-agent, compatibility-date, and optional bearer-token headers by
-  default;
+- sends user-agent, the generated `COMPATIBILITY_DATE`, and optional
+  bearer-token headers by default;
 - can send those values as query parameters with `useRequestHeaders: false`;
 - JSON-stringifies a defined body;
 - caches eligible GET responses in a shared 1,000-entry in-memory LRU;
@@ -256,32 +333,36 @@ in-memory only and does not survive reloads, cold starts, or separate processes.
 
 ### Current Suite
 
-The suite contains 40 tests:
+The suite contains 60 tests:
 
 - 17 depend on live `esi.evetech.net` behavior.
-- 23 are deterministic generator, README, cache, request, response, type,
-  constructor, empty-body, and packed-package tests. `pnpm test:unit` runs 21 of
+- 43 are deterministic generator, README, cache, request, response, type,
+  constructor, empty-body, and packed-package tests. `pnpm test:unit` runs 41 of
   these; the constructor and empty-body checks remain in `client.test.ts`.
-- 17 of 197 generated methods are invoked directly (about 9% method sampling,
+  Generator tests cover compatibility-date schema loading and stamping,
+  `oneOf`/nullable unions, `$ref` body flattening, property-less objects, and
+  operation-name collisions.
+- 17 of 208 generated methods are invoked directly (about 8% method sampling,
   not statement/branch coverage).
 
 The live tests cover a small set of alliance, character, corporation, market,
-and universe GET operations; two 422 responses; one pagination header; and the
-query-auth mode at status-code level. Most successful endpoint checks assert
-only HTTP 200.
+sovereignty, route (`postRoute()` with route endpoint assertions), and universe
+operations; two 422 responses; one pagination header; and the query-auth mode
+at status-code level. Most successful endpoint checks assert only HTTP 200.
 
 `pnpm test:coverage` uses `@vitest/coverage-v8`, writes text/HTML/LCOV reports,
 and enforces the current overall baseline: 20% statements, 35% branches, 12%
-functions, and 20% lines. Coverage output is gitignored. The low function/line
-percentages reflect the 197 generated endpoint wrappers; raise thresholds as
-fixture and request coverage grows.
+functions, and 20% lines (currently about 33%, 62%, 21%, and 33%). Coverage
+output is gitignored. The low function/line percentages reflect the 208
+generated endpoint wrappers; raise thresholds as fixture and request coverage
+grows.
 
 ### Missing High-Value Tests
 
 Remaining high-value additions:
 
 1. Generator fixtures for reference cycles, conflict failures, response headers,
-   unsupported future OpenAPI keywords, and operation-name collisions.
+   and unsupported future OpenAPI keywords (`allOf`, `anyOf`, discriminators).
 2. Mocked request tests for every HTTP verb and path substitution, plus malformed
    success JSON and network failures.
 3. Type-level negative tests proving required fields cannot be omitted.
@@ -293,10 +374,10 @@ Remaining high-value additions:
 ```bash
 pnpm generate          # Fetch schema, regenerate source/README, lint-fix, format
 pnpm build             # Type-check scripts, rebuild dist, type-check tests
-pnpm test:unit          # Run 21 fast deterministic regression tests
+pnpm test:unit          # Run 41 fast deterministic regression tests
 pnpm test:coverage      # Run deterministic tests with V8 coverage thresholds
 pnpm test:live          # Run the 19-test client suite (network required)
-pnpm test              # Run all 40 tests (live network required)
+pnpm test              # Run all 60 tests (live network required)
 pnpm compile           # generate + build + test
 pnpm lint              # oxlint src, scripts, and vitest.config.ts
 pnpm lint:fix          # apply oxlint fixes
@@ -315,7 +396,9 @@ For generator or runtime changes:
    configuration). Never patch generated files as the source of truth.
 2. Add a deterministic regression test that fails for the defect.
 3. Run `pnpm generate` when generation output is affected.
-4. Inspect generated diffs in `src/client.ts`, `src/types.ts`, and `README.md`.
+4. Inspect generated diffs in `src/client.ts`, `src/types.ts`, and `README.md`,
+   and do the [Naming Review](#naming-review) for any added or changed method
+   names.
 5. Run `pnpm lint`, `pnpm build`, and the relevant deterministic tests.
 6. Run `pnpm test:coverage`, then `pnpm test:live` with network access.
 7. Update this file, including line references and known-issue status.
@@ -341,12 +424,24 @@ requests except Dependabot PRs.
 ### Daily Schema Update
 
 `.github/workflows/update-esi-schema.yml` runs daily at 12:00 UTC and on manual
-dispatch. It runs `pnpm compile`, ignores a diff containing only
-`COMPATIBILITY_DATE`, commits meaningful generated changes, creates a patch
-changefile, and opens a timestamp-suffixed update PR.
+dispatch. It runs `pnpm compile`, skips the PR when generated files are
+unchanged, commits generated changes, creates a changefile, and opens a
+timestamp-suffixed update PR.
 
-Schema automation assumes updates are patch-level. Handle an actual breaking
-schema change manually with the appropriate Beachball change type.
+The changefile is `major` when `COMPATIBILITY_DATE` changed, since ESI publishes
+new compatibility dates for breaking changes, and `patch` otherwise. When the
+date changes, review removed routes and update live tests before merging. If a
+new version removes a route the live tests call, `pnpm compile` fails until the
+tests are updated.
+
+The workflow regenerates names mechanically and doesn't judge them. Its
+"Summarize method changes" step compares the `async` method lists in
+`src/client.ts` before and after regeneration. It writes the PR body (and the
+job summary) with any compatibility-date change warning, the added methods,
+the removed or renamed methods, and a pre-merge checklist. Before merging any
+schema-update PR, do the [Naming Review](#naming-review) on the added methods
+and push naming fixes to the PR branch. A renamed method shows up as one
+removal plus one addition.
 
 ### Publishing
 
@@ -369,43 +464,48 @@ from `CHANGELOG.json`.
 
 ## Useful Code Locations
 
-Line references below match the 938-line `scripts/generate.ts` checked in on
-2026-08-23:
+Line references below match the 1,131-line `scripts/generate.ts` checked in on
+2026-11-21:
 
 ### Generator Entry and Output
 
 - Schema URL/constants: `scripts/generate.ts:8-11`
-- Schema loading: `scripts/generate.ts:122`
-- Type generation: `scripts/generate.ts:133`
-- Client generation/runtime template: `scripts/generate.ts:523`
-- Method generation: `scripts/generate.ts:714`
-- Main/write orchestration/direct-execution guard: `scripts/generate.ts:912`
+- Compatibility-date schema loading: `scripts/generate.ts:140`
+- Type generation: `scripts/generate.ts:167`
+- Client generation/runtime template: `scripts/generate.ts:619`
+- `COMPATIBILITY_DATE` stamp in template: `scripts/generate.ts:640`
+- Method generation: `scripts/generate.ts:813`
+- Main/write orchestration/direct-execution guard: `scripts/generate.ts:1103`
 
 ### Schema and Type Handling
 
-- Reference-name extraction: `scripts/generate.ts:98`
-- Success-response selection: `scripts/generate.ts:104`
-- Response type generation: `scripts/generate.ts:233`
-- Type definition builder: `scripts/generate.ts:278`
-- Component generation: `scripts/generate.ts:299`
-- Recursive reference collection: `scripts/generate.ts:323`
-- OpenAPI-to-TypeScript mapping: `scripts/generate.ts:380`
-- Conflict assertion: `scripts/generate.ts:417`
-- Parameter type generation/flattening: `scripts/generate.ts:431`
-- Response header type generation: `scripts/generate.ts:492`
+- Reference-name extraction: `scripts/generate.ts:113`
+- Success-response selection: `scripts/generate.ts:119`
+- Response type generation: `scripts/generate.ts:268`
+- Type definition builder: `scripts/generate.ts:311`
+- Component generation: `scripts/generate.ts:339`
+- Recursive reference collection: `scripts/generate.ts:363`
+- OpenAPI-to-TypeScript mapping: `scripts/generate.ts:429`
+- Conflict assertion: `scripts/generate.ts:478`
+- Request body `$ref` resolution: `scripts/generate.ts:492`
+- Parameter type generation/flattening: `scripts/generate.ts:508`
+- Response header type generation: `scripts/generate.ts:588`
 
 ### Client Method Helpers
 
-- JSDoc/API Explorer link: `scripts/generate.ts:508`
+- JSDoc/API Explorer link: `scripts/generate.ts:604`
 - Query serialization in generated runtime template:
-  `scripts/generate.ts:559-566`
-- Cache-aware request runtime template: `scripts/generate.ts:573-685`
-- Path parameter extraction: `scripts/generate.ts:817`
-- Parameter `$ref` resolution: `scripts/generate.ts:822`
-- Query parameter extraction: `scripts/generate.ts:837`
-- Response header extraction: `scripts/generate.ts:852`
-- Response type lookup: `scripts/generate.ts:879`
-- Operation ID transformation: `scripts/generate.ts:889`
+  `scripts/generate.ts:674-681`
+- Cache-aware request runtime template: `scripts/generate.ts:671-787`
+- Path parameter extraction: `scripts/generate.ts:912`
+- Parameter `$ref` resolution: `scripts/generate.ts:917`
+- Query parameter extraction: `scripts/generate.ts:932`
+- Response header extraction: `scripts/generate.ts:947`
+- Response type lookup: `scripts/generate.ts:974`
+- Operation ID transformation: `scripts/generate.ts:984`
+- Operation name overrides: `scripts/generate.ts:1055`
+- Operation ID fallback: `scripts/generate.ts:1071`
+- Operation-name collision check: `scripts/generate.ts:1082`
 
 ### Other Sources
 

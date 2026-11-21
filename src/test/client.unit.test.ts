@@ -44,15 +44,6 @@ describe('EsiClient request construction', () => {
       search: 'needle',
       strict: false,
     })
-    await client.getRouteOriginDestination({
-      origin: 1,
-      destination: 2,
-      avoid: [3, 4],
-      connections: [
-        [5, 6],
-        [7, 8],
-      ],
-    })
 
     const searchUrl = new URL(requests[0].url)
     expect(searchUrl.searchParams.getAll('categories')).toEqual([
@@ -60,10 +51,28 @@ describe('EsiClient request construction', () => {
       'alliance',
     ])
     expect(searchUrl.searchParams.get('strict')).toBe('false')
+  })
 
-    const routeUrl = new URL(requests[1].url)
-    expect(routeUrl.searchParams.getAll('avoid')).toEqual(['3', '4'])
-    expect(routeUrl.searchParams.getAll('connections')).toEqual(['5,6', '7,8'])
+  it('flattens referenced request bodies into params', async () => {
+    const requests = captureSuccessfulFetch('{"route":[1,2]}')
+    const client = new EsiClient({ userAgent: 'unit-test' })
+
+    await client.postRoute({
+      origin_system_id: 1,
+      destination_system_id: 2,
+      avoid_systems: [3, 4],
+      connections: [{ from: 5, to: 6 }],
+      preference: 'Safer',
+    })
+
+    const request = requests[0]
+    expect(request.url).toBe('https://esi.evetech.net/route/1/2')
+    expect(request.init?.method).toBe('POST')
+    expect(JSON.parse(String(request.init?.body))).toEqual({
+      avoid_systems: [3, 4],
+      connections: [{ from: 5, to: 6 }],
+      preference: 'Safer',
+    })
   })
 
   it('sends the default headers, bearer token, and JSON request body', async () => {

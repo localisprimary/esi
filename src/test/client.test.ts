@@ -6,6 +6,7 @@ const TEST_IDS = {
   corporation: 98224639, // Dirt n Glitter
   alliance: 99005678, // Local Is Primary
   solarSystem: 30002693, // Egghelende
+  jita: 30000142,
   region: 10000002, // The Forge
   item: 34, // Tritanium
 }
@@ -96,18 +97,24 @@ describe('EsiClient - Live API Tests', () => {
   })
 
   describe('Solar System Endpoints', () => {
-    it('should get all solar systems', async () => {
-      const response = await client.getUniverseSystems()
+    it('should get sovereignty details for solar systems', async () => {
+      const response = await client.getSovereigntySystems()
 
       expect(response.status).toBe(200)
     })
 
-    it('should get specific solar system info', async () => {
-      const response = await client.getUniverseSystem({
-        system_id: TEST_IDS.solarSystem,
+    it('should calculate a route between solar systems', async () => {
+      const response = await client.postRoute({
+        origin_system_id: TEST_IDS.solarSystem,
+        destination_system_id: TEST_IDS.jita,
+        preference: 'Safer',
       })
 
       expect(response.status).toBe(200)
+      expect(response.data.route[0]).toBe(TEST_IDS.solarSystem)
+      expect(response.data.route[response.data.route.length - 1]).toBe(
+        TEST_IDS.jita
+      )
     })
 
     it('should get system jumps data', async () => {

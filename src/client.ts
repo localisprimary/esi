@@ -9,7 +9,7 @@ import {
   refreshCacheEntry,
 } from './cache.js'
 
-const COMPATIBILITY_DATE = '2026-08-31'
+const COMPATIBILITY_DATE = '2026-11-19'
 
 export class EsiClient {
   private readonly baseUrl: string = 'https://esi.evetech.net'
@@ -270,13 +270,39 @@ export class EsiClient {
   /**
    * Public information about a character
 
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterId
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersDetail
    */
   async getCharacter(params: Types.GetCharacterParams) {
     const path = `/characters/${params.character_id}`
     return this.request<
       Types.GetCharacterResponse,
       Types.GetCharacterResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Lists all Access Lists the character is Manager or Admin of.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersAccessListsListing
+   */
+  async getCharacterAccessLists(params: Types.GetCharacterAccessListsParams) {
+    const path = `/characters/${params.character_id}/access-lists`
+    return this.request<
+      Types.GetCharacterAccessListsResponse,
+      Types.GetCharacterAccessListsResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Get the details of an Access List.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersAccessListsDetail
+   */
+  async getCharacterAccessList(params: Types.GetCharacterAccessListParams) {
+    const path = `/characters/${params.character_id}/access-lists/${params.access_list_id}`
+    return this.request<
+      Types.GetCharacterAccessListResponse,
+      Types.GetCharacterAccessListResponseHeaders
     >('GET', path, undefined, undefined)
   }
 
@@ -385,13 +411,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdCalendarEventId
    */
-  async getCharacterCalendarEventId(
-    params: Types.GetCharacterCalendarEventIdParams
+  async getCharacterCalendarEvent(
+    params: Types.GetCharacterCalendarEventParams
   ) {
     const path = `/characters/${params.character_id}/calendar/${params.event_id}`
     return this.request<
-      Types.GetCharacterCalendarEventIdResponse,
-      Types.GetCharacterCalendarEventIdResponseHeaders
+      Types.GetCharacterCalendarEventResponse,
+      Types.GetCharacterCalendarEventResponseHeaders
     >('GET', path, undefined, undefined)
   }
 
@@ -400,14 +426,14 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PutCharactersCharacterIdCalendarEventId
    */
-  async putCharacterCalendarEventId(
-    params: Types.PutCharacterCalendarEventIdParams
+  async putCharacterCalendarEvent(
+    params: Types.PutCharacterCalendarEventParams
   ) {
     const path = `/characters/${params.character_id}/calendar/${params.event_id}`
     const body = { response: params.response }
     return this.request<
       undefined,
-      Types.PutCharacterCalendarEventIdResponseHeaders
+      Types.PutCharacterCalendarEventResponseHeaders
     >('PUT', path, undefined, body)
   }
 
@@ -580,6 +606,36 @@ export class EsiClient {
   }
 
   /**
+   * Listing of all SKINR licenses you own
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCosmeticsSkinr
+   */
+  async getCharacterCosmeticsSkinr(
+    params: Types.GetCharacterCosmeticsSkinrParams
+  ) {
+    const path = `/characters/${params.character_id}/cosmetics/skinr`
+    return this.request<
+      Types.GetCharacterCosmeticsSkinrResponse,
+      Types.GetCharacterCosmeticsSkinrResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Listing of all SKINR component licenses you own
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCosmeticsSkinrComponents
+   */
+  async getCharacterCosmeticsSkinrComponents(
+    params: Types.GetCharacterCosmeticsSkinrComponentsParams
+  ) {
+    const path = `/characters/${params.character_id}/cosmetics/skinr/components`
+    return this.request<
+      Types.GetCharacterCosmeticsSkinrComponentsResponse,
+      Types.GetCharacterCosmeticsSkinrComponentsResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
    * Takes a source character ID in the url and a set of target character ID's in the body, returns a CSPA charge cost
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostCharactersCharacterIdCspa
@@ -663,6 +719,36 @@ export class EsiClient {
     return this.request<
       Types.GetCharacterFleetResponse,
       Types.GetCharacterFleetResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Listing of all freelance jobs you are actively participating in.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersFreelanceJobsListing
+   */
+  async getCharacterFreelanceJobs(
+    params: Types.GetCharacterFreelanceJobsParams
+  ) {
+    const path = `/characters/${params.character_id}/freelance-jobs`
+    return this.request<
+      Types.GetCharacterFreelanceJobsResponse,
+      Types.GetCharacterFreelanceJobsResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Show your participation in a freelance job.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersFreelanceJobsParticipation
+   */
+  async getCharacterFreelanceJobParticipation(
+    params: Types.GetCharacterFreelanceJobParticipationParams
+  ) {
+    const path = `/characters/${params.character_id}/freelance-jobs/${params.job_id}/participation`
+    return this.request<
+      Types.GetCharacterFreelanceJobParticipationResponse,
+      Types.GetCharacterFreelanceJobParticipationResponseHeaders
     >('GET', path, undefined, undefined)
   }
 
@@ -846,13 +932,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/DeleteCharactersCharacterIdMailMailId
    */
-  async deleteCharacterMailMailId(
-    params: Types.DeleteCharacterMailMailIdParams
+  async deleteCharacterMailMessage(
+    params: Types.DeleteCharacterMailMessageParams
   ) {
     const path = `/characters/${params.character_id}/mail/${params.mail_id}`
     return this.request<
       undefined,
-      Types.DeleteCharacterMailMailIdResponseHeaders
+      Types.DeleteCharacterMailMessageResponseHeaders
     >('DELETE', path, undefined, undefined)
   }
 
@@ -861,11 +947,11 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdMailMailId
    */
-  async getCharacterMailMailId(params: Types.GetCharacterMailMailIdParams) {
+  async getCharacterMailMessage(params: Types.GetCharacterMailMessageParams) {
     const path = `/characters/${params.character_id}/mail/${params.mail_id}`
     return this.request<
-      Types.GetCharacterMailMailIdResponse,
-      Types.GetCharacterMailMailIdResponseHeaders
+      Types.GetCharacterMailMessageResponse,
+      Types.GetCharacterMailMessageResponseHeaders
     >('GET', path, undefined, undefined)
   }
 
@@ -874,15 +960,13 @@ export class EsiClient {
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PutCharactersCharacterIdMailMailId
    */
-  async putCharacterMailMailId(params: Types.PutCharacterMailMailIdParams) {
+  async putCharacterMailMessage(params: Types.PutCharacterMailMessageParams) {
     const path = `/characters/${params.character_id}/mail/${params.mail_id}`
     const body = { labels: params.labels, read: params.read }
-    return this.request<undefined, Types.PutCharacterMailMailIdResponseHeaders>(
-      'PUT',
-      path,
+    return this.request<
       undefined,
-      body
-    )
+      Types.PutCharacterMailMessageResponseHeaders
+    >('PUT', path, undefined, body)
   }
 
   /**
@@ -895,6 +979,71 @@ export class EsiClient {
     return this.request<
       Types.GetCharacterMedalsResponse,
       Types.GetCharacterMedalsResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Listing of all Mercenary Tactical Operations for the character.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersMercenaryTacticalOperationsListing
+   */
+  async getCharacterMercenaryTacticalOperations(
+    params: Types.GetCharacterMercenaryTacticalOperationsParams
+  ) {
+    const path = `/characters/${params.character_id}/mercenary-tactical-operations`
+    return this.request<
+      Types.GetCharacterMercenaryTacticalOperationsResponse,
+      Types.GetCharacterMercenaryTacticalOperationsResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Get the details of a Mercenary Tactical Operation.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersMercenaryTacticalOperationsDetail
+   */
+  async getCharacterMercenaryTacticalOperation(
+    params: Types.GetCharacterMercenaryTacticalOperationParams
+  ) {
+    const path = `/characters/${params.character_id}/mercenary-tactical-operations/${params.operation_id}`
+    return this.request<
+      Types.GetCharacterMercenaryTacticalOperationResponse,
+      Types.GetCharacterMercenaryTacticalOperationResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Listing of the military campaign objectives the character has participated in.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersMilitaryCampaignsObjectivesListing
+   */
+  async getCharacterMilitaryCampaignsObjectives(
+    params: Types.GetCharacterMilitaryCampaignsObjectivesParams
+  ) {
+    const path = `/characters/${params.character_id}/military-campaigns/objectives`
+    const queryParams = {
+      after: params.after,
+      before: params.before,
+      limit: params.limit,
+    }
+    return this.request<
+      Types.GetCharacterMilitaryCampaignsObjectivesResponse,
+      Types.GetCharacterMilitaryCampaignsObjectivesResponseHeaders
+    >('GET', path, queryParams, undefined)
+  }
+
+  /**
+   * Show your participation in a military campaign objective.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersMilitaryCampaignsObjectivesParticipation
+   */
+  async getCharacterMilitaryCampaignsObjectiveParticipation(
+    params: Types.GetCharacterMilitaryCampaignsObjectiveParticipationParams
+  ) {
+    const path = `/characters/${params.character_id}/military-campaigns/objectives/${params.objective_id}`
+    return this.request<
+      Types.GetCharacterMilitaryCampaignsObjectiveParticipationResponse,
+      Types.GetCharacterMilitaryCampaignsObjectiveParticipationResponseHeaders
     >('GET', path, undefined, undefined)
   }
 
@@ -981,6 +1130,26 @@ export class EsiClient {
     return this.request<
       Types.GetCharacterOrdersHistoryResponse,
       Types.GetCharacterOrdersHistoryResponseHeaders
+    >('GET', path, queryParams, undefined)
+  }
+
+  /**
+   * List the SKINR listings a character has posted on the Paragon Hub.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersParagonHubSkinr
+   */
+  async getCharacterParagonHubSkinr(
+    params: Types.GetCharacterParagonHubSkinrParams
+  ) {
+    const path = `/characters/${params.character_id}/paragon-hub/skinr`
+    const queryParams = {
+      after: params.after,
+      before: params.before,
+      limit: params.limit,
+    }
+    return this.request<
+      Types.GetCharacterParagonHubSkinrResponse,
+      Types.GetCharacterParagonHubSkinrResponseHeaders
     >('GET', path, queryParams, undefined)
   }
 
@@ -1116,6 +1285,36 @@ in the past need to be applied on top of this list to get an accurate view of th
   }
 
   /**
+   * Listing of all Mercenary Dens.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersStructuresMercenaryDensListing
+   */
+  async getCharacterStructuresMercenaryDens(
+    params: Types.GetCharacterStructuresMercenaryDensParams
+  ) {
+    const path = `/characters/${params.character_id}/structures/mercenary-dens`
+    return this.request<
+      Types.GetCharacterStructuresMercenaryDensResponse,
+      Types.GetCharacterStructuresMercenaryDensResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Get the details of a Mercenary Den.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersStructuresMercenaryDensDetail
+   */
+  async getCharacterStructuresMercenaryDen(
+    params: Types.GetCharacterStructuresMercenaryDenParams
+  ) {
+    const path = `/characters/${params.character_id}/structures/mercenary-dens/${params.mercenary_den_id}`
+    return this.request<
+      Types.GetCharacterStructuresMercenaryDenResponse,
+      Types.GetCharacterStructuresMercenaryDenResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
    * Returns a character's titles
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCharactersCharacterIdTitles
@@ -1206,14 +1405,12 @@ in the past need to be applied on top of this list to get an accurate view of th
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetContractsPublicRegionId
    */
-  async getContractsPublicRegionId(
-    params: Types.GetContractsPublicRegionIdParams
-  ) {
+  async getContractsPublicRegion(params: Types.GetContractsPublicRegionParams) {
     const path = `/contracts/public/${params.region_id}`
     const queryParams = { page: params.page }
     return this.request<
-      Types.GetContractsPublicRegionIdResponse,
-      Types.GetContractsPublicRegionIdResponseHeaders
+      Types.GetContractsPublicRegionResponse,
+      Types.GetContractsPublicRegionResponseHeaders
     >('GET', path, queryParams, undefined)
   }
 
@@ -1222,14 +1419,14 @@ in the past need to be applied on top of this list to get an accurate view of th
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationCorporationIdMiningExtractions
    */
-  async getCorporationCorporationMiningExtractions(
-    params: Types.GetCorporationCorporationMiningExtractionsParams
+  async getCorporationMiningExtractions(
+    params: Types.GetCorporationMiningExtractionsParams
   ) {
     const path = `/corporation/${params.corporation_id}/mining/extractions`
     const queryParams = { page: params.page }
     return this.request<
-      Types.GetCorporationCorporationMiningExtractionsResponse,
-      Types.GetCorporationCorporationMiningExtractionsResponseHeaders
+      Types.GetCorporationMiningExtractionsResponse,
+      Types.GetCorporationMiningExtractionsResponseHeaders
     >('GET', path, queryParams, undefined)
   }
 
@@ -1238,14 +1435,14 @@ in the past need to be applied on top of this list to get an accurate view of th
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationCorporationIdMiningObservers
    */
-  async getCorporationCorporationMiningObservers(
-    params: Types.GetCorporationCorporationMiningObserversParams
+  async getCorporationMiningObservers(
+    params: Types.GetCorporationMiningObserversParams
   ) {
     const path = `/corporation/${params.corporation_id}/mining/observers`
     const queryParams = { page: params.page }
     return this.request<
-      Types.GetCorporationCorporationMiningObserversResponse,
-      Types.GetCorporationCorporationMiningObserversResponseHeaders
+      Types.GetCorporationMiningObserversResponse,
+      Types.GetCorporationMiningObserversResponseHeaders
     >('GET', path, queryParams, undefined)
   }
 
@@ -1254,14 +1451,14 @@ in the past need to be applied on top of this list to get an accurate view of th
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationCorporationIdMiningObserversObserverId
    */
-  async getCorporationCorporationMiningObserver(
-    params: Types.GetCorporationCorporationMiningObserverParams
+  async getCorporationMiningObserver(
+    params: Types.GetCorporationMiningObserverParams
   ) {
     const path = `/corporation/${params.corporation_id}/mining/observers/${params.observer_id}`
     const queryParams = { page: params.page }
     return this.request<
-      Types.GetCorporationCorporationMiningObserverResponse,
-      Types.GetCorporationCorporationMiningObserverResponseHeaders
+      Types.GetCorporationMiningObserverResponse,
+      Types.GetCorporationMiningObserverResponseHeaders
     >('GET', path, queryParams, undefined)
   }
 
@@ -1501,6 +1698,46 @@ in the past need to be applied on top of this list to get an accurate view of th
   }
 
   /**
+   * Listing of all freelance jobs for your corporation.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsFreelanceJobsListing
+   */
+  async getCorporationFreelanceJobs(
+    params: Types.GetCorporationFreelanceJobsParams
+  ) {
+    const path = `/corporations/${params.corporation_id}/freelance-jobs`
+    const queryParams = {
+      after: params.after,
+      before: params.before,
+      limit: params.limit,
+    }
+    return this.request<
+      Types.GetCorporationFreelanceJobsResponse,
+      Types.GetCorporationFreelanceJobsResponseHeaders
+    >('GET', path, queryParams, undefined)
+  }
+
+  /**
+   * Listing of all participants of a freelance job.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsFreelanceJobsParticipants
+   */
+  async getCorporationFreelanceJobParticipants(
+    params: Types.GetCorporationFreelanceJobParticipantsParams
+  ) {
+    const path = `/corporations/${params.corporation_id}/freelance-jobs/${params.job_id}/participants`
+    const queryParams = {
+      after: params.after,
+      before: params.before,
+      limit: params.limit,
+    }
+    return this.request<
+      Types.GetCorporationFreelanceJobParticipantsResponse,
+      Types.GetCorporationFreelanceJobParticipantsResponseHeaders
+    >('GET', path, queryParams, undefined)
+  }
+
+  /**
    * Statistics about a corporation involved in faction warfare
 
    * This route expires daily at 11:05
@@ -1682,6 +1919,73 @@ in the past need to be applied on top of this list to get an accurate view of th
   }
 
   /**
+   * Listing of all (active) corporation projects.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsProjectsListing
+   */
+  async getCorporationProjects(params: Types.GetCorporationProjectsParams) {
+    const path = `/corporations/${params.corporation_id}/projects`
+    const queryParams = {
+      after: params.after,
+      before: params.before,
+      limit: params.limit,
+      state: params.state,
+    }
+    return this.request<
+      Types.GetCorporationProjectsResponse,
+      Types.GetCorporationProjectsResponseHeaders
+    >('GET', path, queryParams, undefined)
+  }
+
+  /**
+   * Get the details of a corporation project.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsProjectsDetail
+   */
+  async getCorporationProject(params: Types.GetCorporationProjectParams) {
+    const path = `/corporations/${params.corporation_id}/projects/${params.project_id}`
+    return this.request<
+      Types.GetCorporationProjectResponse,
+      Types.GetCorporationProjectResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Show your contribution to a corporation project.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsProjectsContribution
+   */
+  async getCorporationProjectContribution(
+    params: Types.GetCorporationProjectContributionParams
+  ) {
+    const path = `/corporations/${params.corporation_id}/projects/${params.project_id}/contribution/${params.character_id}`
+    return this.request<
+      Types.GetCorporationProjectContributionResponse,
+      Types.GetCorporationProjectContributionResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Listing of all contributors to a corporation project.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsProjectsContributors
+   */
+  async getCorporationProjectContributors(
+    params: Types.GetCorporationProjectContributorsParams
+  ) {
+    const path = `/corporations/${params.corporation_id}/projects/${params.project_id}/contributors`
+    const queryParams = {
+      after: params.after,
+      before: params.before,
+      limit: params.limit,
+    }
+    return this.request<
+      Types.GetCorporationProjectContributorsResponse,
+      Types.GetCorporationProjectContributorsResponseHeaders
+    >('GET', path, queryParams, undefined)
+  }
+
+  /**
    * Return the roles of all members if the character has the personnel manager role or any grantable role.
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdRoles
@@ -1783,6 +2087,66 @@ in the past need to be applied on top of this list to get an accurate view of th
   }
 
   /**
+   * Listing of all Skyhooks.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsStructuresSkyhooksListing
+   */
+  async getCorporationStructuresSkyhooks(
+    params: Types.GetCorporationStructuresSkyhooksParams
+  ) {
+    const path = `/corporations/${params.corporation_id}/structures/skyhooks`
+    return this.request<
+      Types.GetCorporationStructuresSkyhooksResponse,
+      Types.GetCorporationStructuresSkyhooksResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Get the details of a Skyhook.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsStructuresSkyhooksDetail
+   */
+  async getCorporationStructuresSkyhook(
+    params: Types.GetCorporationStructuresSkyhookParams
+  ) {
+    const path = `/corporations/${params.corporation_id}/structures/skyhooks/${params.skyhook_id}`
+    return this.request<
+      Types.GetCorporationStructuresSkyhookResponse,
+      Types.GetCorporationStructuresSkyhookResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Listing of all Sovereignty Hubs.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsStructuresSovereigntyHubsListing
+   */
+  async getCorporationStructuresSovereigntyHubs(
+    params: Types.GetCorporationStructuresSovereigntyHubsParams
+  ) {
+    const path = `/corporations/${params.corporation_id}/structures/sovereignty-hubs`
+    return this.request<
+      Types.GetCorporationStructuresSovereigntyHubsResponse,
+      Types.GetCorporationStructuresSovereigntyHubsResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Get the details of a Sovereignty Hub.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsStructuresSovereigntyHubsDetail
+   */
+  async getCorporationStructuresSovereigntyHub(
+    params: Types.GetCorporationStructuresSovereigntyHubParams
+  ) {
+    const path = `/corporations/${params.corporation_id}/structures/sovereignty-hubs/${params.sovereignty_hub_id}`
+    return this.request<
+      Types.GetCorporationStructuresSovereigntyHubResponse,
+      Types.GetCorporationStructuresSovereigntyHubResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
    * Returns a corporation's titles
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdTitles
@@ -1813,14 +2177,14 @@ in the past need to be applied on top of this list to get an accurate view of th
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdWalletsDivisionJournal
    */
-  async getCorporationWalletsDivisionJournal(
-    params: Types.GetCorporationWalletsDivisionJournalParams
+  async getCorporationWalletJournal(
+    params: Types.GetCorporationWalletJournalParams
   ) {
     const path = `/corporations/${params.corporation_id}/wallets/${params.division}/journal`
     const queryParams = { page: params.page }
     return this.request<
-      Types.GetCorporationWalletsDivisionJournalResponse,
-      Types.GetCorporationWalletsDivisionJournalResponseHeaders
+      Types.GetCorporationWalletJournalResponse,
+      Types.GetCorporationWalletJournalResponseHeaders
     >('GET', path, queryParams, undefined)
   }
 
@@ -1829,15 +2193,28 @@ in the past need to be applied on top of this list to get an accurate view of th
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetCorporationsCorporationIdWalletsDivisionTransactions
    */
-  async getCorporationWalletsDivisionTransactions(
-    params: Types.GetCorporationWalletsDivisionTransactionsParams
+  async getCorporationWalletTransactions(
+    params: Types.GetCorporationWalletTransactionsParams
   ) {
     const path = `/corporations/${params.corporation_id}/wallets/${params.division}/transactions`
     const queryParams = { from_id: params.from_id }
     return this.request<
-      Types.GetCorporationWalletsDivisionTransactionsResponse,
-      Types.GetCorporationWalletsDivisionTransactionsResponseHeaders
+      Types.GetCorporationWalletTransactionsResponse,
+      Types.GetCorporationWalletTransactionsResponseHeaders
     >('GET', path, queryParams, undefined)
+  }
+
+  /**
+   * All attributes of a SKINR license
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetCosmeticsSkinr
+   */
+  async getCosmeticsSkinr(params: Types.GetCosmeticsSkinrParams) {
+    const path = `/cosmetics/skinr/${params.skinr_id}`
+    return this.request<
+      Types.GetCosmeticsSkinrResponse,
+      Types.GetCosmeticsSkinrResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -1877,13 +2254,11 @@ in the past need to be applied on top of this list to get an accurate view of th
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetDogmaDynamicItemsTypeIdItemId
    */
-  async getDogmaDynamicTypeItemId(
-    params: Types.GetDogmaDynamicTypeItemIdParams
-  ) {
+  async getDogmaDynamicItem(params: Types.GetDogmaDynamicItemParams) {
     const path = `/dogma/dynamic/items/${params.type_id}/${params.item_id}`
     return this.request<
-      Types.GetDogmaDynamicTypeItemIdResponse,
-      Types.GetDogmaDynamicTypeItemIdResponseHeaders
+      Types.GetDogmaDynamicItemResponse,
+      Types.GetDogmaDynamicItemResponseHeaders
     >('GET', path, undefined, undefined)
   }
 
@@ -2119,6 +2494,46 @@ in the past need to be applied on top of this list to get an accurate view of th
   }
 
   /**
+   * Listing of all public freelance jobs.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetFreelanceJobsListing
+   */
+  async getFreelanceJobs(params?: Types.GetFreelanceJobsParams) {
+    const path = `/freelance-jobs`
+    const queryParams = params
+      ? {
+          after: params.after,
+          before: params.before,
+          limit: params.limit,
+          corporation_id: params.corporation_id,
+        }
+      : undefined
+    return this.request<
+      Types.GetFreelanceJobsResponse,
+      Types.GetFreelanceJobsResponseHeaders
+    >('GET', path, queryParams, undefined)
+  }
+
+  /**
+   * Get the details of a freelance job.
+
+   * Jobs without an ACL (public jobs) does not require authentication.
+
+   * Jobs with an ACL requires authentication, and requires that the character is:
+- An active participant of the job, or
+- A freelance job manager for the corporation that owns the job.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetFreelanceJobsDetail
+   */
+  async getFreelanceJob(params: Types.GetFreelanceJobParams) {
+    const path = `/freelance-jobs/${params.job_id}`
+    return this.request<
+      Types.GetFreelanceJobResponse,
+      Types.GetFreelanceJobResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
    * Top 4 leaderboard of factions for kills and victory points separated by total, last week and yesterday
 
    * This route expires daily at 11:05
@@ -2263,11 +2678,11 @@ in the past need to be applied on top of this list to get an accurate view of th
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetKillmailsKillmailIdKillmailHash
    */
-  async getKillmailKillmailHash(params: Types.GetKillmailKillmailHashParams) {
+  async getKillmail(params: Types.GetKillmailParams) {
     const path = `/killmails/${params.killmail_id}/${params.killmail_hash}`
     return this.request<
-      Types.GetKillmailKillmailHashResponse,
-      Types.GetKillmailKillmailHashResponseHeaders
+      Types.GetKillmailResponse,
+      Types.GetKillmailResponseHeaders
     >('GET', path, undefined, undefined)
   }
 
@@ -2310,13 +2725,11 @@ in the past need to be applied on top of this list to get an accurate view of th
 
    * @see https://developers.eveonline.com/api-explorer#/operations/GetMarketsGroupsMarketGroupId
    */
-  async getMarketsGroupsMarketGroupId(
-    params: Types.GetMarketsGroupsMarketGroupIdParams
-  ) {
+  async getMarketsGroup(params: Types.GetMarketsGroupParams) {
     const path = `/markets/groups/${params.market_group_id}`
     return this.request<
-      Types.GetMarketsGroupsMarketGroupIdResponse,
-      Types.GetMarketsGroupsMarketGroupIdResponseHeaders
+      Types.GetMarketsGroupResponse,
+      Types.GetMarketsGroupResponseHeaders
     >('GET', path, undefined, undefined)
   }
 
@@ -2422,23 +2835,198 @@ in the past need to be applied on top of this list to get an accurate view of th
   }
 
   /**
-   * Get the systems between origin and destination
+   * Get the name ESI is currently going by, plus the full and glorious history of every name it has ever had. The three letters have never once meant the same thing twice.
 
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetRouteOriginDestination
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetMetaName
    */
-  async getRouteOriginDestination(
-    params: Types.GetRouteOriginDestinationParams
+  async getMetaName() {
+    const path = `/meta/name`
+    return this.request<
+      Types.GetMetaNameResponse,
+      Types.GetMetaNameResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Get the health status of each API route.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetMetaStatus
+   */
+  async getMetaStatus() {
+    const path = `/meta/status`
+    return this.request<
+      Types.GetMetaStatusResponse,
+      Types.GetMetaStatusResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Listing of all active military campaigns.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetMilitaryCampaignsListing
+   */
+  async getMilitaryCampaigns() {
+    const path = `/military-campaigns`
+    return this.request<
+      Types.GetMilitaryCampaignsResponse,
+      Types.GetMilitaryCampaignsResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Get the details of a military campaign.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetMilitaryCampaignsDetail
+   */
+  async getMilitaryCampaign(params: Types.GetMilitaryCampaignParams) {
+    const path = `/military-campaigns/${params.campaign_id}`
+    return this.request<
+      Types.GetMilitaryCampaignResponse,
+      Types.GetMilitaryCampaignResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Listing of all active, completed or expired objectives of a military campaign.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetMilitaryCampaignsObjectivesListing
+   */
+  async getMilitaryCampaignObjectives(
+    params: Types.GetMilitaryCampaignObjectivesParams
   ) {
-    const path = `/route/${params.origin}/${params.destination}`
+    const path = `/military-campaigns/${params.campaign_id}/objectives`
     const queryParams = {
-      avoid: params.avoid,
-      connections: params.connections,
-      flag: params.flag,
+      after: params.after,
+      before: params.before,
+      limit: params.limit,
     }
     return this.request<
-      Types.GetRouteOriginDestinationResponse,
-      Types.GetRouteOriginDestinationResponseHeaders
+      Types.GetMilitaryCampaignObjectivesResponse,
+      Types.GetMilitaryCampaignObjectivesResponseHeaders
     >('GET', path, queryParams, undefined)
+  }
+
+  /**
+   * Get the details of an objective of a military campaign.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetMilitaryCampaignsObjectivesDetail
+   */
+  async getMilitaryCampaignObjective(
+    params: Types.GetMilitaryCampaignObjectiveParams
+  ) {
+    const path = `/military-campaigns/${params.campaign_id}/objectives/${params.objective_id}`
+    return this.request<
+      Types.GetMilitaryCampaignObjectiveResponse,
+      Types.GetMilitaryCampaignObjectiveResponseHeaders
+    >('GET', path, undefined, undefined)
+  }
+
+  /**
+   * Browse the SKINR listings publicly available on the Paragon Hub.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetParagonHubSkinr
+   */
+  async getParagonHubSkinr(params?: Types.GetParagonHubSkinrParams) {
+    const path = `/paragon-hub/skinr`
+    const queryParams = params
+      ? { after: params.after, before: params.before, limit: params.limit }
+      : undefined
+    return this.request<
+      Types.GetParagonHubSkinrResponse,
+      Types.GetParagonHubSkinrResponseHeaders
+    >('GET', path, queryParams, undefined)
+  }
+
+  /**
+   * Browse the SKINR listings on the Paragon Hub that are visible to the given alliance.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetParagonHubSkinrAlliances
+   */
+  async getParagonHubSkinrAlliances(
+    params: Types.GetParagonHubSkinrAlliancesParams
+  ) {
+    const path = `/paragon-hub/skinr/alliances/${params.alliance_id}`
+    const queryParams = {
+      after: params.after,
+      before: params.before,
+      limit: params.limit,
+    }
+    return this.request<
+      Types.GetParagonHubSkinrAlliancesResponse,
+      Types.GetParagonHubSkinrAlliancesResponseHeaders
+    >('GET', path, queryParams, undefined)
+  }
+
+  /**
+   * Browse the SKINR listings on the Paragon Hub that are visible to the given character.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetParagonHubSkinrCharacters
+   */
+  async getParagonHubSkinrCharacters(
+    params: Types.GetParagonHubSkinrCharactersParams
+  ) {
+    const path = `/paragon-hub/skinr/characters/${params.character_id}`
+    const queryParams = {
+      after: params.after,
+      before: params.before,
+      limit: params.limit,
+    }
+    return this.request<
+      Types.GetParagonHubSkinrCharactersResponse,
+      Types.GetParagonHubSkinrCharactersResponseHeaders
+    >('GET', path, queryParams, undefined)
+  }
+
+  /**
+   * Browse the SKINR listings on the Paragon Hub that are visible to the given corporation.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetParagonHubSkinrCorporations
+   */
+  async getParagonHubSkinrCorporations(
+    params: Types.GetParagonHubSkinrCorporationsParams
+  ) {
+    const path = `/paragon-hub/skinr/corporations/${params.corporation_id}`
+    const queryParams = {
+      after: params.after,
+      before: params.before,
+      limit: params.limit,
+    }
+    return this.request<
+      Types.GetParagonHubSkinrCorporationsResponse,
+      Types.GetParagonHubSkinrCorporationsResponseHeaders
+    >('GET', path, queryParams, undefined)
+  }
+
+  /**
+   * Calculate the systems between the given origin and destination.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/PostRoute
+   */
+  async postRoute(params: Types.PostRouteParams) {
+    const path = `/route/${params.origin_system_id}/${params.destination_system_id}`
+    const body = {
+      avoid_systems: params.avoid_systems,
+      connections: params.connections,
+      preference: params.preference,
+      security_penalty: params.security_penalty,
+    }
+    return this.request<
+      Types.PostRouteResponse,
+      Types.PostRouteResponseHeaders
+    >('POST', path, undefined, body)
+  }
+
+  /**
+   * Listing of all Skyhooks that currently or will shortly be raidable.
+
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetSkyhooksRaidable
+   */
+  async getSkyhooksRaidable() {
+    const path = `/skyhooks/raidable`
+    return this.request<
+      Types.GetSkyhooksRaidableResponse,
+      Types.GetSkyhooksRaidableResponseHeaders
+    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2455,28 +3043,15 @@ in the past need to be applied on top of this list to get an accurate view of th
   }
 
   /**
-   * Shows sovereignty information for solar systems
+   * Listing of sovereignty details for all K-space systems in New Eden.
 
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetSovereigntyMap
+   * @see https://developers.eveonline.com/api-explorer#/operations/GetSovereigntySystems
    */
-  async getSovereigntyMap() {
-    const path = `/sovereignty/map`
+  async getSovereigntySystems() {
+    const path = `/sovereignty/systems`
     return this.request<
-      Types.GetSovereigntyMapResponse,
-      Types.GetSovereigntyMapResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Shows sovereignty data for structures.
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetSovereigntyStructures
-   */
-  async getSovereigntyStructures() {
-    const path = `/sovereignty/structures`
-    return this.request<
-      Types.GetSovereigntyStructuresResponse,
-      Types.GetSovereigntyStructuresResponseHeaders
+      Types.GetSovereigntySystemsResponse,
+      Types.GetSovereigntySystemsResponseHeaders
     >('GET', path, undefined, undefined)
   }
 
@@ -2578,189 +3153,6 @@ in the past need to be applied on top of this list to get an accurate view of th
   }
 
   /**
-   * Get all character ancestries
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseAncestries
-   */
-  async getUniverseAncestries() {
-    const path = `/universe/ancestries`
-    return this.request<
-      Types.GetUniverseAncestriesResponse,
-      Types.GetUniverseAncestriesResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get information on an asteroid belt
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseAsteroidBeltsAsteroidBeltId
-   */
-  async getUniverseAsteroidBeltsAsteroidBeltId(
-    params: Types.GetUniverseAsteroidBeltsAsteroidBeltIdParams
-  ) {
-    const path = `/universe/asteroid_belts/${params.asteroid_belt_id}`
-    return this.request<
-      Types.GetUniverseAsteroidBeltsAsteroidBeltIdResponse,
-      Types.GetUniverseAsteroidBeltsAsteroidBeltIdResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get a list of bloodlines
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseBloodlines
-   */
-  async getUniverseBloodlines() {
-    const path = `/universe/bloodlines`
-    return this.request<
-      Types.GetUniverseBloodlinesResponse,
-      Types.GetUniverseBloodlinesResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get a list of item categories
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseCategories
-   */
-  async getUniverseCategories() {
-    const path = `/universe/categories`
-    return this.request<
-      Types.GetUniverseCategoriesResponse,
-      Types.GetUniverseCategoriesResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get information of an item category
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseCategoriesCategoryId
-   */
-  async getUniverseCategory(params: Types.GetUniverseCategoryParams) {
-    const path = `/universe/categories/${params.category_id}`
-    return this.request<
-      Types.GetUniverseCategoryResponse,
-      Types.GetUniverseCategoryResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get a list of constellations
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseConstellations
-   */
-  async getUniverseConstellations() {
-    const path = `/universe/constellations`
-    return this.request<
-      Types.GetUniverseConstellationsResponse,
-      Types.GetUniverseConstellationsResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get information on a constellation
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseConstellationsConstellationId
-   */
-  async getUniverseConstellation(params: Types.GetUniverseConstellationParams) {
-    const path = `/universe/constellations/${params.constellation_id}`
-    return this.request<
-      Types.GetUniverseConstellationResponse,
-      Types.GetUniverseConstellationResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get a list of factions
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseFactions
-   */
-  async getUniverseFactions() {
-    const path = `/universe/factions`
-    return this.request<
-      Types.GetUniverseFactionsResponse,
-      Types.GetUniverseFactionsResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get a list of graphics
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseGraphics
-   */
-  async getUniverseGraphics() {
-    const path = `/universe/graphics`
-    return this.request<
-      Types.GetUniverseGraphicsResponse,
-      Types.GetUniverseGraphicsResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get information on a graphic
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseGraphicsGraphicId
-   */
-  async getUniverseGraphic(params: Types.GetUniverseGraphicParams) {
-    const path = `/universe/graphics/${params.graphic_id}`
-    return this.request<
-      Types.GetUniverseGraphicResponse,
-      Types.GetUniverseGraphicResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get a list of item groups
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseGroups
-   */
-  async getUniverseGroups(params?: Types.GetUniverseGroupsParams) {
-    const path = `/universe/groups`
-    const queryParams = params ? { page: params.page } : undefined
-    return this.request<
-      Types.GetUniverseGroupsResponse,
-      Types.GetUniverseGroupsResponseHeaders
-    >('GET', path, queryParams, undefined)
-  }
-
-  /**
-   * Get information on an item group
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseGroupsGroupId
-   */
-  async getUniverseGroup(params: Types.GetUniverseGroupParams) {
-    const path = `/universe/groups/${params.group_id}`
-    return this.request<
-      Types.GetUniverseGroupResponse,
-      Types.GetUniverseGroupResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
    * Resolve a set of names to IDs in the following categories: agents, alliances, characters, constellations, corporations factions, inventory_types, regions, stations, and systems. Only exact matches will be returned. All names searched for are cached for 12 hours
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostUniverseIds
@@ -2775,21 +3167,6 @@ in the past need to be applied on top of this list to get an accurate view of th
   }
 
   /**
-   * Get information on a moon
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseMoonsMoonId
-   */
-  async getUniverseMoon(params: Types.GetUniverseMoonParams) {
-    const path = `/universe/moons/${params.moon_id}`
-    return this.request<
-      Types.GetUniverseMoonResponse,
-      Types.GetUniverseMoonResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
    * Resolve a set of IDs to names and categories. Supported ID's for resolving are: Characters, Corporations, Alliances, Stations, Solar Systems, Constellations, Regions, Types, Factions
 
    * @see https://developers.eveonline.com/api-explorer#/operations/PostUniverseNames
@@ -2801,124 +3178,6 @@ in the past need to be applied on top of this list to get an accurate view of th
       Types.PostUniverseNamesResponse,
       Types.PostUniverseNamesResponseHeaders
     >('POST', path, undefined, body)
-  }
-
-  /**
-   * Get information on a planet
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniversePlanetsPlanetId
-   */
-  async getUniversePlanet(params: Types.GetUniversePlanetParams) {
-    const path = `/universe/planets/${params.planet_id}`
-    return this.request<
-      Types.GetUniversePlanetResponse,
-      Types.GetUniversePlanetResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get a list of character races
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseRaces
-   */
-  async getUniverseRaces() {
-    const path = `/universe/races`
-    return this.request<
-      Types.GetUniverseRacesResponse,
-      Types.GetUniverseRacesResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get a list of regions
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseRegions
-   */
-  async getUniverseRegions() {
-    const path = `/universe/regions`
-    return this.request<
-      Types.GetUniverseRegionsResponse,
-      Types.GetUniverseRegionsResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get information on a region
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseRegionsRegionId
-   */
-  async getUniverseRegion(params: Types.GetUniverseRegionParams) {
-    const path = `/universe/regions/${params.region_id}`
-    return this.request<
-      Types.GetUniverseRegionResponse,
-      Types.GetUniverseRegionResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get information on a planetary factory schematic
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseSchematicsSchematicId
-   */
-  async getUniverseSchematic(params: Types.GetUniverseSchematicParams) {
-    const path = `/universe/schematics/${params.schematic_id}`
-    return this.request<
-      Types.GetUniverseSchematicResponse,
-      Types.GetUniverseSchematicResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get information on a stargate
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseStargatesStargateId
-   */
-  async getUniverseStargate(params: Types.GetUniverseStargateParams) {
-    const path = `/universe/stargates/${params.stargate_id}`
-    return this.request<
-      Types.GetUniverseStargateResponse,
-      Types.GetUniverseStargateResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get information on a star
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseStarsStarId
-   */
-  async getUniverseStar(params: Types.GetUniverseStarParams) {
-    const path = `/universe/stars/${params.star_id}`
-    return this.request<
-      Types.GetUniverseStarResponse,
-      Types.GetUniverseStarResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get information on a station
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseStationsStationId
-   */
-  async getUniverseStation(params: Types.GetUniverseStationParams) {
-    const path = `/universe/stations/${params.station_id}`
-    return this.request<
-      Types.GetUniverseStationResponse,
-      Types.GetUniverseStationResponseHeaders
-    >('GET', path, undefined, undefined)
   }
 
   /**
@@ -2971,67 +3230,6 @@ in the past need to be applied on top of this list to get an accurate view of th
     return this.request<
       Types.GetUniverseSystemKillsResponse,
       Types.GetUniverseSystemKillsResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get a list of solar systems
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseSystems
-   */
-  async getUniverseSystems() {
-    const path = `/universe/systems`
-    return this.request<
-      Types.GetUniverseSystemsResponse,
-      Types.GetUniverseSystemsResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get information on a solar system.
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseSystemsSystemId
-   */
-  async getUniverseSystem(params: Types.GetUniverseSystemParams) {
-    const path = `/universe/systems/${params.system_id}`
-    return this.request<
-      Types.GetUniverseSystemResponse,
-      Types.GetUniverseSystemResponseHeaders
-    >('GET', path, undefined, undefined)
-  }
-
-  /**
-   * Get a list of type ids
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseTypes
-   */
-  async getUniverseTypes(params?: Types.GetUniverseTypesParams) {
-    const path = `/universe/types`
-    const queryParams = params ? { page: params.page } : undefined
-    return this.request<
-      Types.GetUniverseTypesResponse,
-      Types.GetUniverseTypesResponseHeaders
-    >('GET', path, queryParams, undefined)
-  }
-
-  /**
-   * Get information on a type
-
-   * This route expires daily at 11:05
-
-   * @see https://developers.eveonline.com/api-explorer#/operations/GetUniverseTypesTypeId
-   */
-  async getUniverseType(params: Types.GetUniverseTypeParams) {
-    const path = `/universe/types/${params.type_id}`
-    return this.request<
-      Types.GetUniverseTypeResponse,
-      Types.GetUniverseTypeResponseHeaders
     >('GET', path, undefined, undefined)
   }
 

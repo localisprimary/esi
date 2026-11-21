@@ -37,14 +37,65 @@ jobs:
       - name: Check for meaningful generated changes
         id: generated-check
         run: |
-          # COMPATIBILITY_DATE always changes on regeneration.
-          # If that's the only changed line in src/, skip the PR.
-          if git diff --quiet -I COMPATIBILITY_DATE -- src/ README.md; then
+          if git diff --quiet -- src/ README.md; then
             echo "meaningful=false" >> $GITHUB_OUTPUT
             echo "No meaningful generated changes detected, skipping PR"
           else
             echo "meaningful=true" >> $GITHUB_OUTPUT
           fi
+
+          # COMPATIBILITY_DATE only changes when ESI publishes a new API
+          # version, which ESI reserves for breaking changes.
+          if git diff --quiet -G COMPATIBILITY_DATE -- src/client.ts; then
+            echo "change-type=patch" >> $GITHUB_OUTPUT
+          else
+            echo "change-type=major" >> $GITHUB_OUTPUT
+            echo "ESI compatibility date changed; using a major changefile"
+          fi
+
+      - name: Summarize method changes
+        if: steps.generated-check.outputs.meaningful == 'true'
+        run: |
+          list_methods() { grep -oP '^  async \K\w+' | sort; }
+          git show HEAD:src/client.ts | list_methods > "$RUNNER_TEMP/old-methods.txt"
+          list_methods < src/client.ts > "$RUNNER_TEMP/new-methods.txt"
+          added=$(comm -13 "$RUNNER_TEMP/old-methods.txt" "$RUNNER_TEMP/new-methods.txt")
+          removed=$(comm -23 "$RUNNER_TEMP/old-methods.txt" "$RUNNER_TEMP/new-methods.txt")
+          date_pattern="COMPATIBILITY_DATE = '\K[0-9-]+"
+          old_date=$(git show HEAD:src/client.ts | grep -oP "$date_pattern")
+          new_date=$(grep -oP "$date_pattern" src/client.ts)
+
+          format_list() {
+            if [ -z "$1" ]; then echo "_None_"; else echo "$1" | sed 's/.*/- `&()`/'; fi
+          }
+
+          {
+            echo "## ESI Schema Update"
+            echo
+            echo "This PR contains an automated update to the EVE ESI schema."
+            echo
+            if [ "$old_date" != "$new_date" ]; then
+              echo "> [!WARNING]"
+              echo "> ESI compatibility date changed from \`$old_date\` to \`$new_date\`."
+              echo "> This is a new API version and uses a **major** changefile."
+              echo "> Check removed routes and update the live tests before merging."
+              echo
+            fi
+            echo "### Added methods ($(echo -n "$added" | grep -c '^' || true))"
+            echo
+            format_list "$added"
+            echo
+            echo "### Removed or renamed methods ($(echo -n "$removed" | grep -c '^' || true))"
+            echo
+            format_list "$removed"
+            echo
+            echo "### Before merging"
+            echo
+            echo "- [ ] Do the [Naming Review]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/blob/master/AGENTS.md#naming-review) on the added methods and push fixes to this branch."
+            echo "- [ ] Confirm removed methods are actual ESI removals, not unintended renames."
+          } > "$RUNNER_TEMP/pr-body.md"
+
+          cat "$RUNNER_TEMP/pr-body.md" >> "$GITHUB_STEP_SUMMARY"
 
       - name: Commit generated changes
         if: steps.generated-check.outputs.meaningful == 'true'
@@ -60,7 +111,7 @@ jobs:
         run: |
           pnpm beachball change \
             --branch master \
-            --type patch \
+            --type ${{ steps.generated-check.outputs.change-type }} \
             --dependent-change-type patch \
             --message "Automated: Update ESI OpenAPI schema" \
             --no-commit
@@ -75,11 +126,7 @@ jobs:
 
             🤖 Automated update from latest ESI OpenAPI schema
           title: 'chore: Update EVE ESI schema'
-          body: |
-            ## ESI Schema Update
-
-            This PR contains an automated update to the EVE ESI schema.
-
+          body-path: ${{ runner.temp }}/pr-body.md
           branch: automated/update-esi-schema
           branch-suffix: timestamp
           delete-branch: true

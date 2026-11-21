@@ -19,7 +19,7 @@ export type AcceptLanguage =
   | 'zh'
   | 'ko'
   | 'es'
-export type CompatibilityDate = '2020-01-01'
+export type CompatibilityDate = '2026-11-19'
 export type IfModifiedSince = string
 export type IfNoneMatch = string
 export type Tenant = string
@@ -140,20 +140,24 @@ export type AllianceID = number
 
 export type BloodlineID = number
 
+export type UUID = string
+
 export type RaceID = number
 
 export interface GetCharacterResponse {
+  achievement_score: number
   alliance_id?: AllianceID
   birthday: string
   bloodline_id: BloodlineID
+  character_title_id?: UUID
   corporation_id: CorporationID
+  corporation_title?: string
   description?: string
   faction_id?: FactionID
   gender: 'male' | 'female'
   name: string
   race_id: RaceID
   security_status?: number
-  title?: string
 }
 
 export interface GetCharacterParams {
@@ -161,6 +165,66 @@ export interface GetCharacterParams {
 }
 
 export interface GetCharacterResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export type AccessListID = number
+
+export interface CharactersAccessListsListingAccesslist {
+  id: AccessListID
+}
+
+export interface GetCharacterAccessListsResponse {
+  access_lists: CharactersAccessListsListingAccesslist[]
+}
+
+export interface GetCharacterAccessListsParams {
+  character_id: number | string
+}
+
+export interface GetCharacterAccessListsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface CharactersAccessListsDetailAllianceentry {
+  access: 'Unspecified' | 'Allowed' | 'Blocked' | 'Manager' | 'Admin'
+  alliance_id: AllianceID
+}
+
+export interface CharactersAccessListsDetailCharacterentry {
+  access: 'Unspecified' | 'Allowed' | 'Blocked' | 'Manager' | 'Admin'
+  character_id: CharacterID
+}
+
+export interface CharactersAccessListsDetailCorporationentry {
+  access: 'Unspecified' | 'Allowed' | 'Blocked' | 'Manager' | 'Admin'
+  corporation_id: CorporationID
+}
+
+export interface CharactersAccessListsDetailMembership {
+  alliances: CharactersAccessListsDetailAllianceentry[]
+  allow_everyone: boolean
+  characters: CharactersAccessListsDetailCharacterentry[]
+  corporations: CharactersAccessListsDetailCorporationentry[]
+}
+
+export interface GetCharacterAccessListResponse {
+  description: string
+  id: AccessListID
+  membership: CharactersAccessListsDetailMembership
+  name: string
+}
+
+export interface GetCharacterAccessListParams {
+  character_id: number | string
+  access_list_id: number | string
+}
+
+export interface GetCharacterAccessListResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
@@ -467,7 +531,7 @@ export interface GetCharacterCalendarResponseHeaders {
   'last-modified'?: string
 }
 
-export interface GetCharacterCalendarEventIdResponse {
+export interface GetCharacterCalendarEventResponse {
   date: string
   duration: number
   event_id: number
@@ -485,24 +549,24 @@ export interface GetCharacterCalendarEventIdResponse {
   title: string
 }
 
-export interface GetCharacterCalendarEventIdParams {
+export interface GetCharacterCalendarEventParams {
   character_id: number | string
   event_id: number | string
 }
 
-export interface GetCharacterCalendarEventIdResponseHeaders {
+export interface GetCharacterCalendarEventResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
 }
 
-export interface PutCharacterCalendarEventIdParams {
+export interface PutCharacterCalendarEventParams {
   character_id: number | string
   event_id: number | string
   response: 'accepted' | 'declined' | 'tentative'
 }
 
-export interface PutCharacterCalendarEventIdResponseHeaders {
+export interface PutCharacterCalendarEventResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
@@ -729,6 +793,46 @@ export interface GetCharacterCorporationhistoryResponseHeaders {
   'last-modified'?: string
 }
 
+export interface CharactersCosmeticsSkinrItem {
+  activated: boolean
+  skinr_id: string
+  unactivated: number
+}
+
+export interface GetCharacterCosmeticsSkinrResponse {
+  licenses: CharactersCosmeticsSkinrItem[]
+}
+
+export interface GetCharacterCosmeticsSkinrParams {
+  character_id: number | string
+}
+
+export interface GetCharacterCosmeticsSkinrResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface CharactersCosmeticsSkinrComponentsItem {
+  component_id: number
+  runs: { remaining?: number } | { unlimited?: boolean }
+  type: 'nanocoating' | 'pattern'
+}
+
+export interface GetCharacterCosmeticsSkinrComponentsResponse {
+  licenses: CharactersCosmeticsSkinrComponentsItem[]
+}
+
+export interface GetCharacterCosmeticsSkinrComponentsParams {
+  character_id: number | string
+}
+
+export interface GetCharacterCosmeticsSkinrComponentsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
 export type PostCharacterCspaResponse = number
 
 export interface PostCharacterCspaParams {
@@ -916,6 +1020,62 @@ export interface GetCharacterFleetParams {
 }
 
 export interface GetCharacterFleetResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface FreelanceJobsDetailProgress {
+  current: number
+  desired: number
+}
+
+export interface FreelanceJobsDetailReward {
+  initial: number
+  remaining: number
+}
+
+export interface FreelanceJobsDetailFreelancejob {
+  id: UUID
+  last_modified: string
+  name: string
+  progress: FreelanceJobsDetailProgress
+  reward?: FreelanceJobsDetailReward
+  state:
+    | 'Unspecified'
+    | 'Active'
+    | 'Closed'
+    | 'Completed'
+    | 'Expired'
+    | 'Deleted'
+}
+
+export interface GetCharacterFreelanceJobsResponse {
+  freelance_jobs: FreelanceJobsDetailFreelancejob[]
+}
+
+export interface GetCharacterFreelanceJobsParams {
+  character_id: number | string
+}
+
+export interface GetCharacterFreelanceJobsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface GetCharacterFreelanceJobParticipationResponse {
+  contributed: number
+  last_modified: string
+  state: 'Unspecified' | 'Committed' | 'Kicked' | 'Resigned'
+}
+
+export interface GetCharacterFreelanceJobParticipationParams {
+  character_id: number | string
+  job_id: number | string
+}
+
+export interface GetCharacterFreelanceJobParticipationResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
@@ -1182,18 +1342,18 @@ export interface GetCharacterMailListsResponseHeaders {
   'last-modified'?: string
 }
 
-export interface DeleteCharacterMailMailIdParams {
+export interface DeleteCharacterMailMessageParams {
   character_id: number | string
   mail_id: number | string
 }
 
-export interface DeleteCharacterMailMailIdResponseHeaders {
+export interface DeleteCharacterMailMessageResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
 }
 
-export interface GetCharacterMailMailIdResponse {
+export interface GetCharacterMailMessageResponse {
   body?: string
   from?: number
   labels?: number[]
@@ -1206,25 +1366,25 @@ export interface GetCharacterMailMailIdResponse {
   timestamp?: string
 }
 
-export interface GetCharacterMailMailIdParams {
+export interface GetCharacterMailMessageParams {
   character_id: number | string
   mail_id: number | string
 }
 
-export interface GetCharacterMailMailIdResponseHeaders {
+export interface GetCharacterMailMessageResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
 }
 
-export interface PutCharacterMailMailIdParams {
+export interface PutCharacterMailMessageParams {
   character_id: number | string
   mail_id: number | string
   labels?: number[]
   read?: boolean
 }
 
-export interface PutCharacterMailMailIdResponseHeaders {
+export interface PutCharacterMailMessageResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
@@ -1247,6 +1407,102 @@ export interface GetCharacterMedalsParams {
 }
 
 export interface GetCharacterMedalsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface CharactersMercenaryTacticalOperationsListingOperation {
+  id: UUID
+  mercenary_den_id: ItemID
+}
+
+export interface GetCharacterMercenaryTacticalOperationsResponse {
+  operations: CharactersMercenaryTacticalOperationsListingOperation[]
+}
+
+export interface GetCharacterMercenaryTacticalOperationsParams {
+  character_id: number | string
+}
+
+export interface GetCharacterMercenaryTacticalOperationsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export type DungeonID = number
+
+export interface GetCharacterMercenaryTacticalOperationResponse {
+  dungeon_type_id: DungeonID
+  expires: string
+  id: UUID
+  mercenary_den_id: ItemID
+  state:
+    | 'Unspecified'
+    | 'Available'
+    | 'Started'
+    | 'Completed'
+    | 'Expired'
+    | 'Removed'
+}
+
+export interface GetCharacterMercenaryTacticalOperationParams {
+  character_id: number | string
+  operation_id: number | string
+}
+
+export interface GetCharacterMercenaryTacticalOperationResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface Cursor {
+  after?: string
+  before?: string
+}
+
+export interface CharactersMilitaryCampaignsObjectivesParticipationCharacterobjective {
+  campaign_id: UUID
+  contributed: number
+  id: UUID
+  is_committed: boolean
+  last_modified: string
+}
+
+export interface GetCharacterMilitaryCampaignsObjectivesResponse {
+  cursor?: Cursor
+  objectives: CharactersMilitaryCampaignsObjectivesParticipationCharacterobjective[]
+}
+
+export interface GetCharacterMilitaryCampaignsObjectivesParams {
+  character_id: number | string
+  after?: string
+  before?: string
+  limit?: number
+}
+
+export interface GetCharacterMilitaryCampaignsObjectivesResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface GetCharacterMilitaryCampaignsObjectiveParticipationResponse {
+  campaign_id: UUID
+  contributed: number
+  id: UUID
+  is_committed: boolean
+  last_modified: string
+}
+
+export interface GetCharacterMilitaryCampaignsObjectiveParticipationParams {
+  character_id: number | string
+  objective_id: number | string
+}
+
+export interface GetCharacterMilitaryCampaignsObjectiveParticipationResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
@@ -1659,6 +1915,41 @@ export interface GetCharacterOrdersHistoryResponseHeaders {
   etag?: string
   'last-modified'?: string
   'x-pages'?: string
+}
+
+export interface CharactersParagonHubSkinrItem {
+  created: string
+  expires: string
+  id: UUID
+  last_modified: string
+  price: { isk?: number } | { plex?: number }
+  quantity: number
+  seller_id: CharacterID
+  skinr_id: string
+  state: 'listed' | 'sold_out' | 'expired' | 'removed'
+  target:
+    | { character_id?: CharacterID }
+    | { corporation_id?: CorporationID }
+    | { alliance_id?: AllianceID }
+    | { public?: boolean }
+}
+
+export interface GetCharacterParagonHubSkinrResponse {
+  cursor?: Cursor
+  listings: CharactersParagonHubSkinrItem[]
+}
+
+export interface GetCharacterParagonHubSkinrParams {
+  character_id: number | string
+  after?: string
+  before?: string
+  limit?: number
+}
+
+export interface GetCharacterParagonHubSkinrResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCharacterPlanetsResponse = {
@@ -2109,6 +2400,77 @@ export interface GetCharacterStandingsResponseHeaders {
   'last-modified'?: string
 }
 
+export type PlanetID = number
+
+export interface CharactersStructuresMercenaryDensListingMercenaryden {
+  id: ItemID
+  planet_id: PlanetID
+}
+
+export interface GetCharacterStructuresMercenaryDensResponse {
+  mercenary_dens: CharactersStructuresMercenaryDensListingMercenaryden[]
+}
+
+export interface GetCharacterStructuresMercenaryDensParams {
+  character_id: number | string
+}
+
+export interface GetCharacterStructuresMercenaryDensResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface CharactersStructuresMercenaryDensDetailEvolutionanarchy {
+  amount: number
+  level: 'Unspecified' | 'Level0' | 'Level1' | 'Level2' | 'Level3' | 'Level4'
+}
+
+export interface CharactersStructuresMercenaryDensDetailEvolutiondevelopment {
+  amount: number
+  level: 'Unspecified' | 'Level0' | 'Level1' | 'Level2' | 'Level3' | 'Level4'
+}
+
+export interface CharactersStructuresMercenaryDensDetailEvolution {
+  anarchy: CharactersStructuresMercenaryDensDetailEvolutionanarchy
+  development: CharactersStructuresMercenaryDensDetailEvolutiondevelopment
+}
+
+export interface CharactersStructuresMercenaryDensDetailInfomorphs {
+  amount: number
+}
+
+export interface CharactersStructuresMercenaryDensDetailReinforcementtimer {
+  end: string
+}
+
+export interface CharactersStructuresMercenaryDensDetailSkyhook {
+  corporation_id: CorporationID
+  id: ItemID
+  planet_id: PlanetID
+}
+
+export interface GetCharacterStructuresMercenaryDenResponse {
+  evolution: CharactersStructuresMercenaryDensDetailEvolution
+  id: ItemID
+  infomorphs: CharactersStructuresMercenaryDensDetailInfomorphs
+  reinforcement_timer?: CharactersStructuresMercenaryDensDetailReinforcementtimer
+  skyhook: CharactersStructuresMercenaryDensDetailSkyhook
+  state: 'Unspecified' | 'Running' | 'Paused' | 'Disabled'
+  type_id: TypeID
+}
+
+export interface GetCharacterStructuresMercenaryDenParams {
+  character_id: number | string
+  mercenary_den_id: number | string
+}
+
+export interface GetCharacterStructuresMercenaryDenResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
 export type GetCharacterTitlesResponse = { name?: string; title_id?: number }[]
 
 export interface GetCharacterTitlesParams {
@@ -2401,7 +2763,7 @@ export interface GetContractsPublicItemsResponseHeaders {
   'x-pages'?: string
 }
 
-export type GetContractsPublicRegionIdResponse = {
+export type GetContractsPublicRegionResponse = {
   buyout?: number
   collateral?: number
   contract_id: number
@@ -2420,19 +2782,19 @@ export type GetContractsPublicRegionIdResponse = {
   volume?: number
 }[]
 
-export interface GetContractsPublicRegionIdParams {
+export interface GetContractsPublicRegionParams {
   region_id: number | string
   page?: number
 }
 
-export interface GetContractsPublicRegionIdResponseHeaders {
+export interface GetContractsPublicRegionResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
   'x-pages'?: string
 }
 
-export type GetCorporationCorporationMiningExtractionsResponse = {
+export type GetCorporationMiningExtractionsResponse = {
   chunk_arrival_time: string
   extraction_start_time: string
   moon_id: number
@@ -2440,37 +2802,37 @@ export type GetCorporationCorporationMiningExtractionsResponse = {
   structure_id: number
 }[]
 
-export interface GetCorporationCorporationMiningExtractionsParams {
+export interface GetCorporationMiningExtractionsParams {
   corporation_id: number | string
   page?: number
 }
 
-export interface GetCorporationCorporationMiningExtractionsResponseHeaders {
+export interface GetCorporationMiningExtractionsResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
   'x-pages'?: string
 }
 
-export type GetCorporationCorporationMiningObserversResponse = {
+export type GetCorporationMiningObserversResponse = {
   last_updated: string
   observer_id: number
   observer_type: 'structure'
 }[]
 
-export interface GetCorporationCorporationMiningObserversParams {
+export interface GetCorporationMiningObserversParams {
   corporation_id: number | string
   page?: number
 }
 
-export interface GetCorporationCorporationMiningObserversResponseHeaders {
+export interface GetCorporationMiningObserversResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
   'x-pages'?: string
 }
 
-export type GetCorporationCorporationMiningObserverResponse = {
+export type GetCorporationMiningObserverResponse = {
   character_id: number
   last_updated: string
   quantity: number
@@ -2478,13 +2840,13 @@ export type GetCorporationCorporationMiningObserverResponse = {
   type_id: number
 }[]
 
-export interface GetCorporationCorporationMiningObserverParams {
+export interface GetCorporationMiningObserverParams {
   corporation_id: number | string
   observer_id: number | string
   page?: number
 }
 
-export interface GetCorporationCorporationMiningObserverResponseHeaders {
+export interface GetCorporationMiningObserverResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
@@ -2499,21 +2861,36 @@ export interface GetCorporationsNpccorpsResponseHeaders {
   'last-modified'?: string
 }
 
+export interface CorporationsDetailPalette {
+  main_color: string
+  secondary_color?: string
+  tertiary_color?: string
+}
+
+export interface CorporationsDetailTaxrates {
+  isk: number
+  loyalty_point: number
+}
+
 export interface GetCorporationResponse {
   alliance_id?: AllianceID
-  ceo_id: CharacterID
-  creator_id: CharacterID
+  ceo_id?: CharacterID
+  creator_id?: CharacterID
   date_founded?: string
-  description?: string
-  faction_id?: FactionID
-  home_station_id?: StationID
+  description: string
+  enlisted_faction_id?: FactionID
+  friendly_fire: 'legal' | 'illegal'
+  home_station_id: StationID
   member_count: number
   name: string
-  shares?: number
-  tax_rate: number
+  palette?: CorporationsDetailPalette
+  shares: number
+  state: 'active' | 'closed'
+  tax_rates: CorporationsDetailTaxrates
   ticker: string
+  type: 'player_owned' | 'npc_owned'
   url?: string
-  war_eligible?: boolean
+  war_eligible: boolean
 }
 
 export interface GetCorporationParams {
@@ -3216,6 +3593,50 @@ export interface GetCorporationFacilitiesResponseHeaders {
   'last-modified'?: string
 }
 
+export interface GetCorporationFreelanceJobsResponse {
+  cursor?: Cursor
+  freelance_jobs: FreelanceJobsDetailFreelancejob[]
+}
+
+export interface GetCorporationFreelanceJobsParams {
+  corporation_id: number | string
+  after?: string
+  before?: string
+  limit?: number
+}
+
+export interface GetCorporationFreelanceJobsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface CorporationsFreelanceJobsParticipantsParticipant {
+  contributed: number
+  id: CharacterID
+  name: string
+  state: 'Unspecified' | 'Committed' | 'Kicked' | 'Resigned'
+}
+
+export interface GetCorporationFreelanceJobParticipantsResponse {
+  cursor?: Cursor
+  participants: CorporationsFreelanceJobsParticipantsParticipant[]
+}
+
+export interface GetCorporationFreelanceJobParticipantsParams {
+  corporation_id: number | string
+  job_id: number | string
+  after?: string
+  before?: string
+  limit?: number
+}
+
+export interface GetCorporationFreelanceJobParticipantsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
 export interface GetCorporationFwStatsResponse {
   enlisted_on?: string
   faction_id?: number
@@ -3488,6 +3909,376 @@ export interface GetCorporationOrdersHistoryResponseHeaders {
   etag?: string
   'last-modified'?: string
   'x-pages'?: string
+}
+
+export interface CorporationsProjectsDetailProgress {
+  current: number
+  desired: number
+}
+
+export interface CorporationsProjectsDetailReward {
+  initial: number
+  remaining: number
+}
+
+export interface CorporationsProjectsDetailProject {
+  id: UUID
+  last_modified: string
+  name: string
+  progress: CorporationsProjectsDetailProgress
+  reward?: CorporationsProjectsDetailReward
+  state:
+    | 'Unspecified'
+    | 'Active'
+    | 'Closed'
+    | 'Completed'
+    | 'Expired'
+    | 'Deleted'
+}
+
+export interface GetCorporationProjectsResponse {
+  cursor?: Cursor
+  projects: CorporationsProjectsDetailProject[]
+}
+
+export interface GetCorporationProjectsParams {
+  corporation_id: number | string
+  after?: string
+  before?: string
+  limit?: number
+  state?: 'All' | 'Active'
+}
+
+export interface GetCorporationProjectsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export type ArchetypeID = number
+
+export interface CorporationsProjectsDetailConfigurationmatcherarchetype {
+  archetype_id?: ArchetypeID
+}
+
+export interface CorporationsProjectsDetailConfigurationmatcherfaction {
+  faction_id?: FactionID
+}
+
+export type ConstellationID = number
+
+export type RegionID = number
+
+export interface CorporationsProjectsDetailConfigurationcapturefwcomplex {
+  archetypes?: CorporationsProjectsDetailConfigurationmatcherarchetype[]
+  factions?: CorporationsProjectsDetailConfigurationmatcherfaction[]
+  locations?: (
+    | { solar_system_id?: SolarSystemID }
+    | { constellation_id?: ConstellationID }
+    | { region_id?: RegionID }
+  )[]
+}
+
+export type ShipTreeGroupID = number
+
+export interface CorporationsProjectsDetailConfigurationdamageship {
+  identities?: (
+    | { character_id?: CharacterID }
+    | { corporation_id?: CorporationID }
+    | { alliance_id?: AllianceID }
+    | { faction_id?: FactionID }
+  )[]
+  locations?: (
+    | { solar_system_id?: SolarSystemID }
+    | { constellation_id?: ConstellationID }
+    | { region_id?: RegionID }
+  )[]
+  ships?: ({ type_id?: TypeID } | { group_id?: ShipTreeGroupID })[]
+}
+
+export interface CorporationsProjectsDetailConfigurationdefendfwcomplex {
+  archetypes?: CorporationsProjectsDetailConfigurationmatcherarchetype[]
+  factions?: CorporationsProjectsDetailConfigurationmatcherfaction[]
+  locations?: (
+    | { solar_system_id?: SolarSystemID }
+    | { constellation_id?: ConstellationID }
+    | { region_id?: RegionID }
+  )[]
+}
+
+export type GroupID = number
+
+export interface CorporationsProjectsDetailConfigurationdeliveritem {
+  docking_locations?: ({ structure_id?: ItemID } | { station_id?: StationID })[]
+  items?: ({ type_id?: TypeID } | { group_id?: GroupID })[]
+  office_id?: ItemID
+}
+
+export interface CorporationsProjectsDetailConfigurationdestroynpc {
+  locations?: (
+    | { solar_system_id?: SolarSystemID }
+    | { constellation_id?: ConstellationID }
+    | { region_id?: RegionID }
+  )[]
+}
+
+export interface CorporationsProjectsDetailConfigurationdestroyship {
+  identities?: (
+    | { character_id?: CharacterID }
+    | { corporation_id?: CorporationID }
+    | { alliance_id?: AllianceID }
+    | { faction_id?: FactionID }
+  )[]
+  locations?: (
+    | { solar_system_id?: SolarSystemID }
+    | { constellation_id?: ConstellationID }
+    | { region_id?: RegionID }
+  )[]
+  ships?: ({ type_id?: TypeID } | { group_id?: ShipTreeGroupID })[]
+}
+
+export interface CorporationsProjectsDetailConfigurationmatchercorporation {
+  corporation_id?: CorporationID
+}
+
+export interface CorporationsProjectsDetailConfigurationearnloyaltypoints {
+  corporations?: CorporationsProjectsDetailConfigurationmatchercorporation[]
+}
+
+export interface CorporationsProjectsDetailConfigurationlostship {
+  identities?: (
+    | { character_id?: CharacterID }
+    | { corporation_id?: CorporationID }
+    | { alliance_id?: AllianceID }
+    | { faction_id?: FactionID }
+  )[]
+  locations?: (
+    | { solar_system_id?: SolarSystemID }
+    | { constellation_id?: ConstellationID }
+    | { region_id?: RegionID }
+  )[]
+  ships?: ({ type_id?: TypeID } | { group_id?: ShipTreeGroupID })[]
+}
+
+export type CorporationsProjectsDetailConfigurationmanual = Record<
+  string,
+  unknown
+>
+
+export interface CorporationsProjectsDetailConfigurationmanufactureitem {
+  docking_locations?: ({ structure_id?: ItemID } | { station_id?: StationID })[]
+  items?: ({ type_id?: TypeID } | { group_id?: GroupID })[]
+  owner: 'Any' | 'Corporation' | 'Character'
+}
+
+export interface CorporationsProjectsDetailConfigurationminematerial {
+  locations?: (
+    | { solar_system_id?: SolarSystemID }
+    | { constellation_id?: ConstellationID }
+    | { region_id?: RegionID }
+  )[]
+  materials?: ({ type_id?: TypeID } | { group_id?: GroupID })[]
+}
+
+export interface CorporationsProjectsDetailConfigurationremoteboostshield {
+  identities?: (
+    | { character_id?: CharacterID }
+    | { corporation_id?: CorporationID }
+    | { alliance_id?: AllianceID }
+    | { faction_id?: FactionID }
+  )[]
+  locations?: (
+    | { solar_system_id?: SolarSystemID }
+    | { constellation_id?: ConstellationID }
+    | { region_id?: RegionID }
+  )[]
+  ships?: ({ type_id?: TypeID } | { group_id?: ShipTreeGroupID })[]
+}
+
+export interface CorporationsProjectsDetailConfigurationremoterepairarmor {
+  identities?: (
+    | { character_id?: CharacterID }
+    | { corporation_id?: CorporationID }
+    | { alliance_id?: AllianceID }
+    | { faction_id?: FactionID }
+  )[]
+  locations?: (
+    | { solar_system_id?: SolarSystemID }
+    | { constellation_id?: ConstellationID }
+    | { region_id?: RegionID }
+  )[]
+  ships?: ({ type_id?: TypeID } | { group_id?: ShipTreeGroupID })[]
+}
+
+export interface CorporationsProjectsDetailConfigurationsalvagewreck {
+  locations?: (
+    | { solar_system_id?: SolarSystemID }
+    | { constellation_id?: ConstellationID }
+    | { region_id?: RegionID }
+  )[]
+}
+
+export type AttributeID = number
+
+export interface CorporationsProjectsDetailConfigurationmatchersignature {
+  signature_type_id?: AttributeID
+}
+
+export interface CorporationsProjectsDetailConfigurationscansignature {
+  locations?: (
+    | { solar_system_id?: SolarSystemID }
+    | { constellation_id?: ConstellationID }
+    | { region_id?: RegionID }
+  )[]
+  signatures?: CorporationsProjectsDetailConfigurationmatchersignature[]
+}
+
+export interface CorporationsProjectsDetailConfigurationshipinsurance {
+  conflict_type: 'Any' | 'Pvp' | 'Pve'
+  identities?: (
+    | { character_id?: CharacterID }
+    | { corporation_id?: CorporationID }
+    | { alliance_id?: AllianceID }
+    | { faction_id?: FactionID }
+  )[]
+  locations?: (
+    | { solar_system_id?: SolarSystemID }
+    | { constellation_id?: ConstellationID }
+    | { region_id?: RegionID }
+  )[]
+  reimburse_implants: boolean
+  ships?: ({ type_id?: TypeID } | { group_id?: ShipTreeGroupID })[]
+}
+
+export interface CorporationsProjectsDetailConfigurationunknown {
+  data: unknown
+  type: string
+}
+
+export interface CorporationsProjectsDetailContribution {
+  participation_limit?: number
+  reward_per_contribution?: number
+  submission_limit?: number
+  submission_multiplier?: number
+}
+
+export interface CorporationsProjectsDetailCreator {
+  id: CharacterID
+  name: string
+}
+
+export interface CorporationsProjectsDetailDetails {
+  career:
+    | 'Unspecified'
+    | 'Explorer'
+    | 'Industrialist'
+    | 'Enforcer'
+    | 'Soldier of Fortune'
+  created: string
+  description: string
+  expires?: string
+  finished?: string
+}
+
+export interface GetCorporationProjectResponse {
+  configuration:
+    | {
+        capture_fw_complex?: CorporationsProjectsDetailConfigurationcapturefwcomplex
+      }
+    | { damage_ship?: CorporationsProjectsDetailConfigurationdamageship }
+    | {
+        defend_fw_complex?: CorporationsProjectsDetailConfigurationdefendfwcomplex
+      }
+    | { deliver_item?: CorporationsProjectsDetailConfigurationdeliveritem }
+    | { destroy_npc?: CorporationsProjectsDetailConfigurationdestroynpc }
+    | { destroy_ship?: CorporationsProjectsDetailConfigurationdestroyship }
+    | {
+        earn_loyalty_point?: CorporationsProjectsDetailConfigurationearnloyaltypoints
+      }
+    | { lost_ship?: CorporationsProjectsDetailConfigurationlostship }
+    | { manual?: CorporationsProjectsDetailConfigurationmanual }
+    | {
+        manufacture_item?: CorporationsProjectsDetailConfigurationmanufactureitem
+      }
+    | { mine_material?: CorporationsProjectsDetailConfigurationminematerial }
+    | {
+        remote_boost_shield?: CorporationsProjectsDetailConfigurationremoteboostshield
+      }
+    | {
+        remote_repair_armor?: CorporationsProjectsDetailConfigurationremoterepairarmor
+      }
+    | { salvage_wreck?: CorporationsProjectsDetailConfigurationsalvagewreck }
+    | { scan_signature?: CorporationsProjectsDetailConfigurationscansignature }
+    | { ship_insurance?: CorporationsProjectsDetailConfigurationshipinsurance }
+    | { unknown?: CorporationsProjectsDetailConfigurationunknown }
+  contribution?: CorporationsProjectsDetailContribution
+  creator: CorporationsProjectsDetailCreator
+  details: CorporationsProjectsDetailDetails
+  id: UUID
+  last_modified: string
+  name: string
+  progress: CorporationsProjectsDetailProgress
+  reward?: CorporationsProjectsDetailReward
+  state:
+    | 'Unspecified'
+    | 'Active'
+    | 'Closed'
+    | 'Completed'
+    | 'Expired'
+    | 'Deleted'
+}
+
+export interface GetCorporationProjectParams {
+  corporation_id: number | string
+  project_id: number | string
+}
+
+export interface GetCorporationProjectResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface GetCorporationProjectContributionResponse {
+  contributed: number
+  last_modified?: string
+}
+
+export interface GetCorporationProjectContributionParams {
+  corporation_id: number | string
+  project_id: number | string
+  character_id: number | string
+}
+
+export interface GetCorporationProjectContributionResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface CorporationsProjectsContributorsContributor {
+  contributed: number
+  id: CharacterID
+  name: string
+}
+
+export interface GetCorporationProjectContributorsResponse {
+  contributors: CorporationsProjectsContributorsContributor[]
+  cursor?: Cursor
+}
+
+export interface GetCorporationProjectContributorsParams {
+  corporation_id: number | string
+  project_id: number | string
+  after?: string
+  before?: string
+  limit?: number
+}
+
+export interface GetCorporationProjectContributorsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
 }
 
 export type GetCorporationRolesResponse = {
@@ -4247,6 +5038,192 @@ export interface GetCorporationStructuresResponseHeaders {
   'x-pages'?: string
 }
 
+export interface CorporationsStructuresSkyhooksListingSkyhook {
+  id: ItemID
+  planet_id: PlanetID
+}
+
+export interface GetCorporationStructuresSkyhooksResponse {
+  skyhooks: CorporationsStructuresSkyhooksListingSkyhook[]
+}
+
+export interface GetCorporationStructuresSkyhooksParams {
+  corporation_id: number | string
+}
+
+export interface GetCorporationStructuresSkyhooksResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface CorporationsStructuresSkyhooksDetailReagent {
+  last_cycle: string
+  secured_stock: number
+  type_id: TypeID
+  unsecured_stock: number
+}
+
+export interface CorporationsStructuresSkyhooksDetailReinforcementtimer {
+  end: string
+}
+
+export interface CorporationsStructuresSkyhooksDetailTheftvulnerability {
+  end: string
+  start: string
+}
+
+export interface GetCorporationStructuresSkyhookResponse {
+  effective_workforce?: number
+  id: ItemID
+  is_active: boolean
+  planet_id: PlanetID
+  reagents?: CorporationsStructuresSkyhooksDetailReagent[]
+  reinforcement_timer?: CorporationsStructuresSkyhooksDetailReinforcementtimer
+  state:
+    | 'Unspecified'
+    | 'ShieldVulnerable'
+    | 'ArmorReinforced'
+    | 'ArmorVulnerable'
+    | 'HullReinforced'
+    | 'HullVulnerable'
+  theft_vulnerability?: CorporationsStructuresSkyhooksDetailTheftvulnerability
+}
+
+export interface GetCorporationStructuresSkyhookParams {
+  corporation_id: number | string
+  skyhook_id: number | string
+}
+
+export interface GetCorporationStructuresSkyhookResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface CorporationsStructuresSovereigntyHubsListingSovereigntyhub {
+  id: ItemID
+  solar_system_id: SolarSystemID
+}
+
+export interface GetCorporationStructuresSovereigntyHubsResponse {
+  sovereignty_hubs: CorporationsStructuresSovereigntyHubsListingSovereigntyhub[]
+}
+
+export interface GetCorporationStructuresSovereigntyHubsParams {
+  corporation_id: number | string
+}
+
+export interface GetCorporationStructuresSovereigntyHubsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailReagent {
+  amount: number
+  burning_per_hour: number
+  type_id: TypeID
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailReagentbay {
+  last_updated: string
+  reagents: CorporationsStructuresSovereigntyHubsDetailReagent[]
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailResourcepower {
+  allocated: number
+  available: number
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailResourceworkforce {
+  allocated: number
+  available: number
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailResources {
+  power: CorporationsStructuresSovereigntyHubsDetailResourcepower
+  workforce: CorporationsStructuresSovereigntyHubsDetailResourceworkforce
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailUpgrade {
+  power_state: 'Unspecified' | 'Online' | 'Offline' | 'Low' | 'Pending'
+  type_id: TypeID
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailVulnerabilitywindow {
+  end: string
+  start: string
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailTransportconfigurationsource {
+  solar_system_id: SolarSystemID
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailTransportconfigurationimport {
+  sources: CorporationsStructuresSovereigntyHubsDetailTransportconfigurationsource[]
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailTransportconfigurationexport {
+  amount: number
+  solar_system_id?: SolarSystemID
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailTransportstateimportsource {
+  amount: number
+  solar_system_id: SolarSystemID
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailTransportstateimport {
+  sources: CorporationsStructuresSovereigntyHubsDetailTransportstateimportsource[]
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailTransportstateexport {
+  amount?: number
+  solar_system_id?: SolarSystemID
+}
+
+export interface CorporationsStructuresSovereigntyHubsDetailTransport {
+  configuration:
+    | {
+        import?: CorporationsStructuresSovereigntyHubsDetailTransportconfigurationimport
+      }
+    | {
+        export?: CorporationsStructuresSovereigntyHubsDetailTransportconfigurationexport
+      }
+    | { transit?: boolean | null }
+  state:
+    | {
+        import?: CorporationsStructuresSovereigntyHubsDetailTransportstateimport
+      }
+    | {
+        export?: CorporationsStructuresSovereigntyHubsDetailTransportstateexport
+      }
+    | { transit?: boolean | null }
+}
+
+export interface GetCorporationStructuresSovereigntyHubResponse {
+  fuel_access_list_id?: AccessListID
+  id: ItemID
+  reagent_bay: CorporationsStructuresSovereigntyHubsDetailReagentbay
+  resources: CorporationsStructuresSovereigntyHubsDetailResources
+  solar_system_id: SolarSystemID
+  upgrades: CorporationsStructuresSovereigntyHubsDetailUpgrade[]
+  vulnerability_window?: CorporationsStructuresSovereigntyHubsDetailVulnerabilitywindow
+  workforce_transport: CorporationsStructuresSovereigntyHubsDetailTransport
+}
+
+export interface GetCorporationStructuresSovereigntyHubParams {
+  corporation_id: number | string
+  sovereignty_hub_id: number | string
+}
+
+export interface GetCorporationStructuresSovereigntyHubResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
 export type GetCorporationTitlesResponse = {
   grantable_roles?: (
     | 'Account_Take_1'
@@ -4725,7 +5702,7 @@ export interface GetCorporationWalletsResponseHeaders {
   'last-modified'?: string
 }
 
-export type GetCorporationWalletsDivisionJournalResponse = {
+export type GetCorporationWalletJournalResponse = {
   amount?: number
   balance?: number
   context_id?: number
@@ -4915,20 +5892,20 @@ export type GetCorporationWalletsDivisionJournalResponse = {
   tax_receiver_id?: number
 }[]
 
-export interface GetCorporationWalletsDivisionJournalParams {
+export interface GetCorporationWalletJournalParams {
   corporation_id: number | string
   division: number | string
   page?: number
 }
 
-export interface GetCorporationWalletsDivisionJournalResponseHeaders {
+export interface GetCorporationWalletJournalResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
   'x-pages'?: string
 }
 
-export type GetCorporationWalletsDivisionTransactionsResponse = {
+export type GetCorporationWalletTransactionsResponse = {
   client_id: number
   date: string
   is_buy: boolean
@@ -4940,13 +5917,95 @@ export type GetCorporationWalletsDivisionTransactionsResponse = {
   unit_price: number
 }[]
 
-export interface GetCorporationWalletsDivisionTransactionsParams {
+export interface GetCorporationWalletTransactionsParams {
   corporation_id: number | string
   division: number | string
   from_id?: number
 }
 
-export interface GetCorporationWalletsDivisionTransactionsResponseHeaders {
+export interface GetCorporationWalletTransactionsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface CosmeticsSkinrSlotnanocoating {
+  id: number
+}
+
+export interface CosmeticsSkinrPatternprojection {
+  slot1: boolean
+  slot2: boolean
+  slot3: boolean
+  slot4: boolean
+}
+
+export interface CosmeticsSkinrVector3 {
+  x: number
+  y: number
+  z: number
+}
+
+export interface CosmeticsSkinrVector4 {
+  w: number
+  x: number
+  y: number
+  z: number
+}
+
+export interface CosmeticsSkinrPatterntransform {
+  position: CosmeticsSkinrVector3
+  rotation: CosmeticsSkinrVector4
+  scaling: CosmeticsSkinrVector3
+}
+
+export interface CosmeticsSkinrPatternconfiguration {
+  mirrored: boolean
+  projection: CosmeticsSkinrPatternprojection
+  transform: CosmeticsSkinrPatterntransform
+}
+
+export interface CosmeticsSkinrSlotpattern {
+  configuration: CosmeticsSkinrPatternconfiguration
+  id: number
+}
+
+export interface CosmeticsSkinrLayoutslot {
+  configuration:
+    | { nanocoating?: CosmeticsSkinrSlotnanocoating }
+    | { pattern?: CosmeticsSkinrSlotpattern }
+  id: number
+}
+
+export interface CosmeticsSkinrLayout {
+  pattern_blend_mode:
+    | 'normal'
+    | 'subtract'
+    | 'exclusion'
+    | 'nested'
+    | 'nested_inverted'
+  slots: CosmeticsSkinrLayoutslot[]
+}
+
+export interface CosmeticsSkinrTier {
+  level: number
+}
+
+export interface GetCosmeticsSkinrResponse {
+  creator_id: CharacterID
+  id: string
+  layout: CosmeticsSkinrLayout
+  line?: string
+  name: string
+  ship_type_id: TypeID
+  tier: CosmeticsSkinrTier
+}
+
+export interface GetCosmeticsSkinrParams {
+  skinr_id: number | string
+}
+
+export interface GetCosmeticsSkinrResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
@@ -4983,7 +6042,7 @@ export interface GetDogmaAttributeResponseHeaders {
   'last-modified'?: string
 }
 
-export interface GetDogmaDynamicTypeItemIdResponse {
+export interface GetDogmaDynamicItemResponse {
   created_by: number
   dogma_attributes: { attribute_id: number; value: number }[]
   dogma_effects: { effect_id: number; is_default: boolean }[]
@@ -4991,12 +6050,12 @@ export interface GetDogmaDynamicTypeItemIdResponse {
   source_type_id: number
 }
 
-export interface GetDogmaDynamicTypeItemIdParams {
+export interface GetDogmaDynamicItemParams {
   type_id: number | string
   item_id: number | string
 }
 
-export interface GetDogmaDynamicTypeItemIdResponseHeaders {
+export interface GetDogmaDynamicItemResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
@@ -5247,6 +6306,142 @@ export interface PostFleetWingSquadsResponseHeaders {
   'last-modified'?: string
 }
 
+export interface GetFreelanceJobsResponse {
+  cursor?: Cursor
+  freelance_jobs: FreelanceJobsDetailFreelancejob[]
+}
+
+export interface GetFreelanceJobsParams {
+  after?: string
+  before?: string
+  limit?: number
+  corporation_id?: CorporationID
+}
+
+export interface GetFreelanceJobsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface FreelanceJobsDetailBroadcastlocations {
+  id: SolarSystemID
+  name: string
+}
+
+export interface FreelanceJobsDetailRestrictions {
+  maximum_age?: number
+  minimum_age?: number
+}
+
+export interface FreelanceJobsDetailAccessandvisibility {
+  acl_protected: boolean
+  broadcast_locations?: FreelanceJobsDetailBroadcastlocations[]
+  restrictions?: FreelanceJobsDetailRestrictions
+}
+
+export interface FreelanceJobsDetailParametermatchervalue {
+  value_type: string
+  values: string[]
+}
+
+export interface FreelanceJobsDetailParametermatcher {
+  values: FreelanceJobsDetailParametermatchervalue[]
+}
+
+export interface FreelanceJobsDetailParameteroptions {
+  selected: string[]
+}
+
+export interface FreelanceJobsDetailParameterboolean {
+  value: boolean
+}
+
+export interface FreelanceJobsDetailParametercorporationitemdelivery {
+  corporation_office_location: FreelanceJobsDetailParametermatcher
+  item_type: FreelanceJobsDetailParametermatcher
+}
+
+export interface FreelanceJobsDetailConfiguration {
+  method: string
+  parameters: Record<
+    string,
+    | { matcher?: FreelanceJobsDetailParametermatcher }
+    | { options?: FreelanceJobsDetailParameteroptions }
+    | { boolean?: FreelanceJobsDetailParameterboolean }
+    | {
+        corporation_item_delivery?: FreelanceJobsDetailParametercorporationitemdelivery
+      }
+  >
+  version: number
+}
+
+export interface FreelanceJobsDetailContribution {
+  contribution_per_participant_limit?: number
+  max_committed_participants: number
+  reward_per_contribution?: number
+  submission_limit?: number
+  submission_multiplier?: number
+}
+
+export interface FreelanceJobsDetailCreatorcharacter {
+  id: CharacterID
+  name: string
+}
+
+export interface FreelanceJobsDetailCreatorcorporation {
+  id: CorporationID
+  name: string
+}
+
+export interface FreelanceJobsDetailCreator {
+  character: FreelanceJobsDetailCreatorcharacter
+  corporation: FreelanceJobsDetailCreatorcorporation
+}
+
+export interface FreelanceJobsDetailDetails {
+  career:
+    | 'Unspecified'
+    | 'Explorer'
+    | 'Industrialist'
+    | 'Enforcer'
+    | 'Soldier of Fortune'
+  created: string
+  creator: FreelanceJobsDetailCreator
+  description: string
+  expires?: string
+  finished?: string
+}
+
+export interface GetFreelanceJobResponse {
+  access_and_visibility: FreelanceJobsDetailAccessandvisibility
+  configuration: FreelanceJobsDetailConfiguration
+  contribution?: FreelanceJobsDetailContribution
+  details: FreelanceJobsDetailDetails
+  id: UUID
+  last_modified: string
+  name: string
+  progress: FreelanceJobsDetailProgress
+  reward?: FreelanceJobsDetailReward
+  state:
+    | 'Unspecified'
+    | 'Active'
+    | 'Closed'
+    | 'Completed'
+    | 'Expired'
+    | 'Deleted'
+}
+
+export interface GetFreelanceJobParams {
+  job_id: number | string
+}
+
+export interface GetFreelanceJobResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
 export interface GetFwLeaderboardsResponse {
   kills: {
     active_total: { amount?: number; faction_id?: number }[]
@@ -5409,7 +6604,7 @@ export interface GetInsurancePricesResponseHeaders {
   'last-modified'?: string
 }
 
-export interface GetKillmailKillmailHashResponse {
+export interface GetKillmailResponse {
   attackers: {
     alliance_id?: number
     character_id?: number
@@ -5451,12 +6646,12 @@ export interface GetKillmailKillmailHashResponse {
   war_id?: number
 }
 
-export interface GetKillmailKillmailHashParams {
+export interface GetKillmailParams {
   killmail_id: number | string
   killmail_hash: number | string
 }
 
-export interface GetKillmailKillmailHashResponseHeaders {
+export interface GetKillmailResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
@@ -5490,7 +6685,7 @@ export interface GetMarketsGroupsResponseHeaders {
   'last-modified'?: string
 }
 
-export interface GetMarketsGroupsMarketGroupIdResponse {
+export interface GetMarketsGroupResponse {
   description: string
   market_group_id: number
   name: string
@@ -5498,11 +6693,11 @@ export interface GetMarketsGroupsMarketGroupIdResponse {
   types: number[]
 }
 
-export interface GetMarketsGroupsMarketGroupIdParams {
+export interface GetMarketsGroupParams {
   market_group_id: number | string
 }
 
-export interface GetMarketsGroupsMarketGroupIdResponseHeaders {
+export interface GetMarketsGroupResponseHeaders {
   'cache-control'?: string
   'content-language'?: string
   etag?: string
@@ -5637,9 +6832,9 @@ export interface GetRegionTypesResponseHeaders {
 export interface MetaChangelogEntry {
   compatibility_date: CompatibilityDate
   description: string
-  is_breaking: boolean
   method: 'GET' | 'POST' | 'PUT' | 'DELETE'
   path: string
+  type: 'breaking' | 'changed' | 'new' | 'removed'
 }
 
 export interface GetMetaChangelogResponse {
@@ -5662,17 +6857,252 @@ export interface GetMetaCompatibilityDatesResponseHeaders {
   'last-modified'?: string
 }
 
-export type GetRouteOriginDestinationResponse = number[]
-
-export interface GetRouteOriginDestinationParams {
-  origin: number | string
-  destination: number | string
-  avoid?: number[]
-  connections?: number[][]
-  flag?: 'shortest' | 'secure' | 'insecure'
+export interface MetaNameEntry {
+  date: string
+  name: string
 }
 
-export interface GetRouteOriginDestinationResponseHeaders {
+export interface GetMetaNameResponse {
+  current: string
+  history: MetaNameEntry[]
+}
+
+export interface GetMetaNameResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface MetaStatusRoute {
+  method: 'GET' | 'POST' | 'PUT' | 'DELETE'
+  path: string
+  status: 'Unknown' | 'OK' | 'Degraded' | 'Down' | 'Recovering'
+}
+
+export interface GetMetaStatusResponse {
+  routes: MetaStatusRoute[]
+}
+
+export interface GetMetaStatusResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface MilitaryCampaignsDetailCampaign {
+  finished?: string
+  id: UUID
+  progress: number
+  started?: string
+  state: 'Unspecified' | 'Active' | 'Completed' | 'Expired'
+}
+
+export interface GetMilitaryCampaignsResponse {
+  campaigns: MilitaryCampaignsDetailCampaign[]
+}
+
+export interface GetMilitaryCampaignsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface GetMilitaryCampaignResponse {
+  finished?: string
+  id: UUID
+  progress: number
+  started?: string
+  state: 'Unspecified' | 'Active' | 'Completed' | 'Expired'
+}
+
+export interface GetMilitaryCampaignParams {
+  campaign_id: number | string
+}
+
+export interface GetMilitaryCampaignResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface MilitaryCampaignsObjectivesDetailParticipants {
+  committed: number
+  contributors: number
+  total: number
+}
+
+export interface MilitaryCampaignsObjectivesDetailObjective {
+  finished?: string
+  id: UUID
+  last_modified: string
+  participants: MilitaryCampaignsObjectivesDetailParticipants
+  progress: number
+  started?: string
+  state: 'Unspecified' | 'Active' | 'Completed' | 'Expired'
+}
+
+export interface GetMilitaryCampaignObjectivesResponse {
+  cursor?: Cursor
+  objectives: MilitaryCampaignsObjectivesDetailObjective[]
+}
+
+export interface GetMilitaryCampaignObjectivesParams {
+  campaign_id: number | string
+  after?: string
+  before?: string
+  limit?: number
+}
+
+export interface GetMilitaryCampaignObjectivesResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface GetMilitaryCampaignObjectiveResponse {
+  finished?: string
+  id: UUID
+  last_modified: string
+  participants: MilitaryCampaignsObjectivesDetailParticipants
+  progress: number
+  started?: string
+  state: 'Unspecified' | 'Active' | 'Completed' | 'Expired'
+}
+
+export interface GetMilitaryCampaignObjectiveParams {
+  campaign_id: number | string
+  objective_id: number | string
+}
+
+export interface GetMilitaryCampaignObjectiveResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface ParagonHubSkinrInternalItem {
+  created: string
+  expires: string
+  id: UUID
+  last_modified: string
+  price: { isk?: number } | { plex?: number }
+  quantity: number
+  seller_id: CharacterID
+  skinr_id: string
+  state: 'listed' | 'sold_out' | 'expired' | 'removed'
+}
+
+export interface GetParagonHubSkinrResponse {
+  cursor?: Cursor
+  listings: ParagonHubSkinrInternalItem[]
+}
+
+export interface GetParagonHubSkinrParams {
+  after?: string
+  before?: string
+  limit?: number
+}
+
+export interface GetParagonHubSkinrResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface GetParagonHubSkinrAlliancesResponse {
+  cursor?: Cursor
+  listings: ParagonHubSkinrInternalItem[]
+}
+
+export interface GetParagonHubSkinrAlliancesParams {
+  alliance_id: number | string
+  after?: string
+  before?: string
+  limit?: number
+}
+
+export interface GetParagonHubSkinrAlliancesResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface GetParagonHubSkinrCharactersResponse {
+  cursor?: Cursor
+  listings: ParagonHubSkinrInternalItem[]
+}
+
+export interface GetParagonHubSkinrCharactersParams {
+  character_id: number | string
+  after?: string
+  before?: string
+  limit?: number
+}
+
+export interface GetParagonHubSkinrCharactersResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface GetParagonHubSkinrCorporationsResponse {
+  cursor?: Cursor
+  listings: ParagonHubSkinrInternalItem[]
+}
+
+export interface GetParagonHubSkinrCorporationsParams {
+  corporation_id: number | string
+  after?: string
+  before?: string
+  limit?: number
+}
+
+export interface GetParagonHubSkinrCorporationsResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface PostRouteResponse {
+  route: SolarSystemID[]
+}
+
+export interface RouteConnection {
+  from: SolarSystemID
+  to: SolarSystemID
+}
+
+export interface PostRouteParams {
+  origin_system_id: number | string
+  destination_system_id: number | string
+  avoid_systems?: SolarSystemID[]
+  connections?: RouteConnection[]
+  preference?: 'Shorter' | 'Safer' | 'LessSecure'
+  security_penalty?: number
+}
+
+export interface PostRouteResponseHeaders {
+  'cache-control'?: string
+  etag?: string
+  'last-modified'?: string
+}
+
+export interface SkyhooksRaidableTheftvulnerability {
+  end: string
+  start: string
+}
+
+export interface SkyhooksRaidableVulnerableskyhook {
+  planet_id: PlanetID
+  solar_system_id: SolarSystemID
+  theft_vulnerability: SkyhooksRaidableTheftvulnerability
+}
+
+export interface GetSkyhooksRaidableResponse {
+  skyhooks: SkyhooksRaidableVulnerableskyhook[]
+}
+
+export interface GetSkyhooksRaidableResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
@@ -5701,30 +7131,49 @@ export interface GetSovereigntyCampaignsResponseHeaders {
   'last-modified'?: string
 }
 
-export type GetSovereigntyMapResponse = {
-  alliance_id?: number
-  corporation_id?: number
-  faction_id?: number
-  system_id: number
-}[]
-
-export interface GetSovereigntyMapResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
+export interface SovereigntySystemsFaction {
+  faction_id: FactionID
 }
 
-export type GetSovereigntyStructuresResponse = {
-  alliance_id: number
-  solar_system_id: number
-  structure_id: number
-  structure_type_id: number
-  vulnerability_occupancy_level?: number
-  vulnerable_end_time?: string
-  vulnerable_start_time?: string
-}[]
+export interface SovereigntySystemsDevelopment {
+  activity_defense_multiplier: number
+  industrial_level: number
+  military_level: number
+  strategic_level: number
+}
 
-export interface GetSovereigntyStructuresResponseHeaders {
+export interface SovereigntySystemsVulnerabilitywindow {
+  end: string
+  start: string
+}
+
+export interface SovereigntySystemsSovereigntyhub {
+  id: ItemID
+  vulnerability_window?: SovereigntySystemsVulnerabilitywindow
+}
+
+export interface SovereigntySystemsAlliance {
+  alliance_id: AllianceID
+  claimed_since: string
+  corporation_id: CorporationID
+  development: SovereigntySystemsDevelopment
+  is_capital_system: boolean
+  sovereignty_hub: SovereigntySystemsSovereigntyhub
+}
+
+export interface SovereigntySystemsSolarsystem {
+  claim:
+    | { faction?: SovereigntySystemsFaction }
+    | { alliance?: SovereigntySystemsAlliance }
+    | { unclaimed?: boolean }
+  solar_system_id: SolarSystemID
+}
+
+export interface GetSovereigntySystemsResponse {
+  solar_systems: SovereigntySystemsSolarsystem[]
+}
+
+export interface GetSovereigntySystemsResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
@@ -5799,193 +7248,6 @@ export interface PostUiOpenwindowNewmailResponseHeaders {
   'last-modified'?: string
 }
 
-export type GetUniverseAncestriesResponse = {
-  bloodline_id: number
-  description: string
-  icon_id?: number
-  id: number
-  name: string
-  short_description?: string
-}[]
-
-export interface GetUniverseAncestriesResponseHeaders {
-  'cache-control'?: string
-  'content-language'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export interface GetUniverseAsteroidBeltsAsteroidBeltIdResponse {
-  name: string
-  position: { x: number; y: number; z: number }
-  system_id: number
-}
-
-export interface GetUniverseAsteroidBeltsAsteroidBeltIdParams {
-  asteroid_belt_id: number | string
-}
-
-export interface GetUniverseAsteroidBeltsAsteroidBeltIdResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export type GetUniverseBloodlinesResponse = {
-  bloodline_id: number
-  charisma: number
-  corporation_id: number
-  description: string
-  intelligence: number
-  memory: number
-  name: string
-  perception: number
-  race_id: number
-  ship_type_id: number
-  willpower: number
-}[]
-
-export interface GetUniverseBloodlinesResponseHeaders {
-  'cache-control'?: string
-  'content-language'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export type GetUniverseCategoriesResponse = number[]
-
-export interface GetUniverseCategoriesResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export interface GetUniverseCategoryResponse {
-  category_id: number
-  groups: number[]
-  name: string
-  published: boolean
-}
-
-export interface GetUniverseCategoryParams {
-  category_id: number | string
-}
-
-export interface GetUniverseCategoryResponseHeaders {
-  'cache-control'?: string
-  'content-language'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export type GetUniverseConstellationsResponse = number[]
-
-export interface GetUniverseConstellationsResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export interface GetUniverseConstellationResponse {
-  constellation_id: number
-  name: string
-  position: { x: number; y: number; z: number }
-  region_id: number
-  systems: number[]
-}
-
-export interface GetUniverseConstellationParams {
-  constellation_id: number | string
-}
-
-export interface GetUniverseConstellationResponseHeaders {
-  'cache-control'?: string
-  'content-language'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export type GetUniverseFactionsResponse = {
-  corporation_id?: number
-  description: string
-  faction_id: number
-  is_unique: boolean
-  militia_corporation_id?: number
-  name: string
-  size_factor: number
-  solar_system_id?: number
-  station_count: number
-  station_system_count: number
-}[]
-
-export interface GetUniverseFactionsResponseHeaders {
-  'cache-control'?: string
-  'content-language'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export type GetUniverseGraphicsResponse = number[]
-
-export interface GetUniverseGraphicsResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export interface GetUniverseGraphicResponse {
-  collision_file?: string
-  graphic_file?: string
-  graphic_id: number
-  icon_folder?: string
-  sof_dna?: string
-  sof_fation_name?: string
-  sof_hull_name?: string
-  sof_race_name?: string
-}
-
-export interface GetUniverseGraphicParams {
-  graphic_id: number | string
-}
-
-export interface GetUniverseGraphicResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export type GetUniverseGroupsResponse = number[]
-
-export interface GetUniverseGroupsParams {
-  page?: number
-}
-
-export interface GetUniverseGroupsResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-  'x-pages'?: string
-}
-
-export interface GetUniverseGroupResponse {
-  category_id: number
-  group_id: number
-  name: string
-  published: boolean
-  types: number[]
-}
-
-export interface GetUniverseGroupParams {
-  group_id: number | string
-}
-
-export interface GetUniverseGroupResponseHeaders {
-  'cache-control'?: string
-  'content-language'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
 export interface PostUniverseIdsResponse {
   agents?: { id?: number; name?: string }[]
   alliances?: { id?: number; name?: string }[]
@@ -6010,23 +7272,6 @@ export interface PostUniverseIdsResponseHeaders {
   'last-modified'?: string
 }
 
-export interface GetUniverseMoonResponse {
-  moon_id: number
-  name: string
-  position: { x: number; y: number; z: number }
-  system_id: number
-}
-
-export interface GetUniverseMoonParams {
-  moon_id: number | string
-}
-
-export interface GetUniverseMoonResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
 export type PostUniverseNamesResponse = {
   category:
     | 'alliance'
@@ -6047,261 +7292,6 @@ export interface PostUniverseNamesParams {
 }
 
 export interface PostUniverseNamesResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export interface GetUniversePlanetResponse {
-  name: string
-  planet_id: number
-  position: { x: number; y: number; z: number }
-  system_id: number
-  type_id: number
-}
-
-export interface GetUniversePlanetParams {
-  planet_id: number | string
-}
-
-export interface GetUniversePlanetResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export type GetUniverseRacesResponse = {
-  alliance_id: number
-  description: string
-  name: string
-  race_id: number
-}[]
-
-export interface GetUniverseRacesResponseHeaders {
-  'cache-control'?: string
-  'content-language'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export type GetUniverseRegionsResponse = number[]
-
-export interface GetUniverseRegionsResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export interface GetUniverseRegionResponse {
-  constellations: number[]
-  description?: string
-  name: string
-  region_id: number
-}
-
-export interface GetUniverseRegionParams {
-  region_id: number | string
-}
-
-export interface GetUniverseRegionResponseHeaders {
-  'cache-control'?: string
-  'content-language'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export interface GetUniverseSchematicResponse {
-  cycle_time: number
-  schematic_name: string
-}
-
-export interface GetUniverseSchematicParams {
-  schematic_id: number | string
-}
-
-export interface GetUniverseSchematicResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export interface GetUniverseStargateResponse {
-  destination: { stargate_id: number; system_id: number }
-  name: string
-  position: { x: number; y: number; z: number }
-  stargate_id: number
-  system_id: number
-  type_id: number
-}
-
-export interface GetUniverseStargateParams {
-  stargate_id: number | string
-}
-
-export interface GetUniverseStargateResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export interface GetUniverseStarResponse {
-  age: number
-  luminosity: number
-  name: string
-  radius: number
-  solar_system_id: number
-  spectral_class:
-    | 'K2 V'
-    | 'K4 V'
-    | 'G2 V'
-    | 'G8 V'
-    | 'M7 V'
-    | 'K7 V'
-    | 'M2 V'
-    | 'K5 V'
-    | 'M3 V'
-    | 'G0 V'
-    | 'G7 V'
-    | 'G3 V'
-    | 'F9 V'
-    | 'G5 V'
-    | 'F6 V'
-    | 'K8 V'
-    | 'K9 V'
-    | 'K6 V'
-    | 'G9 V'
-    | 'G6 V'
-    | 'G4 VI'
-    | 'G4 V'
-    | 'F8 V'
-    | 'F2 V'
-    | 'F1 V'
-    | 'K3 V'
-    | 'F0 VI'
-    | 'G1 VI'
-    | 'G0 VI'
-    | 'K1 V'
-    | 'M4 V'
-    | 'M1 V'
-    | 'M6 V'
-    | 'M0 V'
-    | 'K2 IV'
-    | 'G2 VI'
-    | 'K0 V'
-    | 'K5 IV'
-    | 'F5 VI'
-    | 'G6 VI'
-    | 'F6 VI'
-    | 'F2 IV'
-    | 'G3 VI'
-    | 'M8 V'
-    | 'F1 VI'
-    | 'K1 IV'
-    | 'F7 V'
-    | 'G5 VI'
-    | 'M5 V'
-    | 'G7 VI'
-    | 'F5 V'
-    | 'F4 VI'
-    | 'F8 VI'
-    | 'K3 IV'
-    | 'F4 IV'
-    | 'F0 V'
-    | 'G7 IV'
-    | 'G8 VI'
-    | 'F2 VI'
-    | 'F4 V'
-    | 'F7 VI'
-    | 'F3 V'
-    | 'G1 V'
-    | 'G9 VI'
-    | 'F3 IV'
-    | 'F9 VI'
-    | 'M9 V'
-    | 'K0 IV'
-    | 'F1 IV'
-    | 'G4 IV'
-    | 'F3 VI'
-    | 'K4 IV'
-    | 'G5 IV'
-    | 'G3 IV'
-    | 'G1 IV'
-    | 'K7 IV'
-    | 'G0 IV'
-    | 'K6 IV'
-    | 'K9 IV'
-    | 'G2 IV'
-    | 'F9 IV'
-    | 'F0 IV'
-    | 'K8 IV'
-    | 'G8 IV'
-    | 'F6 IV'
-    | 'F5 IV'
-    | 'A0'
-    | 'A0IV'
-    | 'A0IV2'
-  temperature: number
-  type_id: number
-}
-
-export interface GetUniverseStarParams {
-  star_id: number | string
-}
-
-export interface GetUniverseStarResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export interface GetUniverseStationResponse {
-  max_dockable_ship_volume: number
-  name: string
-  office_rental_cost: number
-  owner?: number
-  position: { x: number; y: number; z: number }
-  race_id?: number
-  reprocessing_efficiency: number
-  reprocessing_stations_take: number
-  services: (
-    | 'bounty-missions'
-    | 'assasination-missions'
-    | 'courier-missions'
-    | 'interbus'
-    | 'reprocessing-plant'
-    | 'refinery'
-    | 'market'
-    | 'black-market'
-    | 'stock-exchange'
-    | 'cloning'
-    | 'surgery'
-    | 'dna-therapy'
-    | 'repair-facilities'
-    | 'factory'
-    | 'labratory'
-    | 'gambling'
-    | 'fitting'
-    | 'paintshop'
-    | 'news'
-    | 'storage'
-    | 'insurance'
-    | 'docking'
-    | 'office-rental'
-    | 'jump-clone-facility'
-    | 'loyalty-point-store'
-    | 'navy-offices'
-    | 'security-offices'
-  )[]
-  station_id: number
-  system_id: number
-  type_id: number
-}
-
-export interface GetUniverseStationParams {
-  station_id: number | string
-}
-
-export interface GetUniverseStationResponseHeaders {
   'cache-control'?: string
   etag?: string
   'last-modified'?: string
@@ -6357,81 +7347,6 @@ export type GetUniverseSystemKillsResponse = {
 
 export interface GetUniverseSystemKillsResponseHeaders {
   'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export type GetUniverseSystemsResponse = number[]
-
-export interface GetUniverseSystemsResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export interface GetUniverseSystemResponse {
-  constellation_id: number
-  name: string
-  planets?: { asteroid_belts?: number[]; moons?: number[]; planet_id: number }[]
-  position: { x: number; y: number; z: number }
-  security_class?: string
-  security_status: number
-  star_id?: number
-  stargates?: number[]
-  stations?: number[]
-  system_id: number
-}
-
-export interface GetUniverseSystemParams {
-  system_id: number | string
-}
-
-export interface GetUniverseSystemResponseHeaders {
-  'cache-control'?: string
-  'content-language'?: string
-  etag?: string
-  'last-modified'?: string
-}
-
-export type GetUniverseTypesResponse = number[]
-
-export interface GetUniverseTypesParams {
-  page?: number
-}
-
-export interface GetUniverseTypesResponseHeaders {
-  'cache-control'?: string
-  etag?: string
-  'last-modified'?: string
-  'x-pages'?: string
-}
-
-export interface GetUniverseTypeResponse {
-  capacity?: number
-  description: string
-  dogma_attributes?: { attribute_id: number; value: number }[]
-  dogma_effects?: { effect_id: number; is_default: boolean }[]
-  graphic_id?: number
-  group_id: number
-  icon_id?: number
-  market_group_id?: number
-  mass?: number
-  name: string
-  packaged_volume?: number
-  portion_size?: number
-  published: boolean
-  radius?: number
-  type_id: number
-  volume?: number
-}
-
-export interface GetUniverseTypeParams {
-  type_id: number | string
-}
-
-export interface GetUniverseTypeResponseHeaders {
-  'cache-control'?: string
-  'content-language'?: string
   etag?: string
   'last-modified'?: string
 }
