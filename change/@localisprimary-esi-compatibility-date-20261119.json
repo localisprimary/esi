@@ -1,7 +1,0 @@
-{
-  "type": "major",
-  "comment": "Target ESI compatibility date 2026-11-19 and generate from the matching schema version. Removes the static /universe/* data routes, /sovereignty/map, /sovereignty/structures, and GET /route (replaced by postRoute); adds 39 new endpoints. Renames methods with leftover ID tokens or doubled/plural parents, e.g. getCharacterMailMailId -> getCharacterMailMessage, getKillmailKillmailHash -> getKillmail, getMarketsGroupsMarketGroupId -> getMarketsGroup, getCorporationCorporationMiningExtractions -> getCorporationMiningExtractions, getCorporationWalletsDivisionJournal -> getCorporationWalletJournal.",
-  "packageName": "@localisprimary/esi",
-  "email": "hello@adamtrager.com",
-  "dependentChangeType": "patch"
-}

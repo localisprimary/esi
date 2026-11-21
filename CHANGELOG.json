@@ -2,6 +2,21 @@
   "name": "@localisprimary/esi",
   "entries": [
     {
+      "date": "Sat, 21 Nov 2026 19:35:55 GMT",
+      "version": "3.0.0",
+      "tag": "@localisprimary/esi_v3.0.0",
+      "comments": {
+        "major": [
+          {
+            "author": "hello@adamtrager.com",
+            "package": "@localisprimary/esi",
+            "commit": "ebd26a9903629ceec58a74a0f9eca38228f0ff03",
+            "comment": "Target ESI compatibility date 2026-11-19 and generate from the matching schema version. Removes the static /universe/* data routes, /sovereignty/map, /sovereignty/structures, and GET /route (replaced by postRoute); adds 39 new endpoints. Renames methods with leftover ID tokens or doubled/plural parents, e.g. getCharacterMailMailId -> getCharacterMailMessage, getKillmailKillmailHash -> getKillmail, getMarketsGroupsMarketGroupId -> getMarketsGroup, getCorporationCorporationMiningExtractions -> getCorporationMiningExtractions, getCorporationWalletsDivisionJournal -> getCorporationWalletJournal."
+          }
+        ]
+      }
+    },
+    {
       "date": "Mon, 31 Aug 2026 19:06:48 GMT",
       "version": "2.1.2",
       "tag": "@localisprimary/esi_v2.1.2",

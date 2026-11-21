@@ -1,8 +1,16 @@
 # Change Log - @localisprimary/esi
 
-<!-- This log was last generated on Mon, 31 Aug 2026 19:06:48 GMT and should not be manually modified. -->
+<!-- This log was last generated on Sat, 21 Nov 2026 19:35:55 GMT and should not be manually modified. -->
 
 <!-- Start content -->
+
+## 3.0.0
+
+Sat, 21 Nov 2026 19:35:55 GMT
+
+### Major changes
+
+- Target ESI compatibility date 2026-11-19 and generate from the matching schema version. Removes the static /universe/* data routes, /sovereignty/map, /sovereignty/structures, and GET /route (replaced by postRoute); adds 39 new endpoints. Renames methods with leftover ID tokens or doubled/plural parents, e.g. getCharacterMailMailId -> getCharacterMailMessage, getKillmailKillmailHash -> getKillmail, getMarketsGroupsMarketGroupId -> getMarketsGroup, getCorporationCorporationMiningExtractions -> getCorporationMiningExtractions, getCorporationWalletsDivisionJournal -> getCorporationWalletJournal. (hello@adamtrager.com)
 
 ## 2.1.2
 
