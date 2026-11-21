@@ -1,5 +1,0 @@
-[tools]
-node = "24"
-
-[env]
-MISE_NODE_COREPACK = "true"
