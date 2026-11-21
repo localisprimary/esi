@@ -12,6 +12,55 @@ Sat, 21 Nov 2026 19:35:55 GMT
 
 - Target ESI compatibility date 2026-11-19 and generate from the matching schema version. Removes the static /universe/* data routes, /sovereignty/map, /sovereignty/structures, and GET /route (replaced by postRoute); adds 39 new endpoints. Renames methods with leftover ID tokens or doubled/plural parents, e.g. getCharacterMailMailId -> getCharacterMailMessage, getKillmailKillmailHash -> getKillmail, getMarketsGroupsMarketGroupId -> getMarketsGroup, getCorporationCorporationMiningExtractions -> getCorporationMiningExtractions, getCorporationWalletsDivisionJournal -> getCorporationWalletJournal. (hello@adamtrager.com)
 
+### Breaking changes
+
+#### Removed
+
+- `getUniverseAncestries`, `getUniverseAsteroidBeltsAsteroidBeltId`, `getUniverseBloodlines`, `getUniverseCategories`, `getUniverseCategory`, `getUniverseConstellations`, `getUniverseConstellation`, `getUniverseFactions`, `getUniverseGraphics`, `getUniverseGraphic`, `getUniverseGroups`, `getUniverseGroup`, `getUniverseMoon`, `getUniversePlanet`, `getUniverseRaces`, `getUniverseRegions`, `getUniverseRegion`, `getUniverseSchematic`, `getUniverseStar`, `getUniverseStargate`, `getUniverseStation`, `getUniverseSystems`, `getUniverseSystem`, `getUniverseTypes`, `getUniverseType`: use the [SDE](https://developers.eveonline.com/docs/services/static-data/)
+- `getSovereigntyMap`, `getSovereigntyStructures`: use `getSovereigntySystems`
+- `getRouteOriginDestination`: use `postRoute`
+
+#### Renamed
+
+- `getCharacterCalendarEventId` → `getCharacterCalendarEvent`
+- `putCharacterCalendarEventId` → `putCharacterCalendarEvent`
+- `getCharacterMailMailId` → `getCharacterMailMessage`
+- `putCharacterMailMailId` → `putCharacterMailMessage`
+- `deleteCharacterMailMailId` → `deleteCharacterMailMessage`
+- `getContractsPublicRegionId` → `getContractsPublicRegion`
+- `getCorporationCorporationMiningExtractions` → `getCorporationMiningExtractions`
+- `getCorporationCorporationMiningObservers` → `getCorporationMiningObservers`
+- `getCorporationCorporationMiningObserver` → `getCorporationMiningObserver`
+- `getCorporationWalletsDivisionJournal` → `getCorporationWalletJournal`
+- `getCorporationWalletsDivisionTransactions` → `getCorporationWalletTransactions`
+- `getDogmaDynamicTypeItemId` → `getDogmaDynamicItem`
+- `getKillmailKillmailHash` → `getKillmail`
+- `getMarketsGroupsMarketGroupId` → `getMarketsGroup`
+
+Exported `Params`/`Response`/`ResponseHeaders` types are renamed to match.
+
+#### Changed
+
+- `postRoute` (replaces `getRouteOriginDestination`):
+  - `origin`/`destination` → `origin_system_id`/`destination_system_id`
+  - `avoid` → `avoid_systems`
+  - `connections: [from, to][]` → `{ from, to }[]`
+  - `flag` → `preference` (`'Shorter' | 'Safer' | 'LessSecure'`)
+  - new optional `security_penalty`
+  - response `number[]` → `{ route: number[] }`
+- `getCharacter`:
+  - `title` → `corporation_title`
+  - added `achievement_score` and `character_title_id`
+- `getCorporation`:
+  - `tax_rate` → `tax_rates.isk` (added `tax_rates.loyalty_point`)
+  - `faction_id` → `enlisted_faction_id`
+  - `ceo_id` and `creator_id` are now optional
+  - `description`, `home_station_id`, `shares`, and `war_eligible` are now required
+  - added `friendly_fire`, `state`, `type`, and `palette`
+- `getMetaChangelog`: `is_breaking` → `type` (`'breaking' | 'changed' | 'new' | 'removed'`)
+- `CompatibilityDate` type: `'2026-11-19'`
+
+
 ## 2.1.2
 
 Mon, 31 Aug 2026 19:06:48 GMT
