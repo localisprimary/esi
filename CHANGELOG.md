@@ -60,7 +60,6 @@ Exported `Params`/`Response`/`ResponseHeaders` types are renamed to match.
 - `getMetaChangelog`: `is_breaking` → `type` (`'breaking' | 'changed' | 'new' | 'removed'`)
 - `CompatibilityDate` type: `'2026-11-19'`
 
-
 ## 2.1.2
 
 Mon, 31 Aug 2026 19:06:48 GMT
