@@ -64,6 +64,8 @@ jobs:
           date_pattern="COMPATIBILITY_DATE = '\K[0-9-]+"
           old_date=$(git show HEAD:src/client.ts | grep -oP "$date_pattern")
           new_date=$(grep -oP "$date_pattern" src/client.ts)
+          git show HEAD:src/types.ts > "$RUNNER_TEMP/old-types.ts"
+          enum_changes=$(node scripts/summarize-enum-changes.ts "$RUNNER_TEMP/old-types.ts" src/types.ts)
 
           format_list() {
             if [ -z "$1" ]; then echo "_None_"; else echo "$1" | sed 's/.*/- `&()`/'; fi
@@ -80,6 +82,9 @@ jobs:
               echo "> This is a new API version and uses a **major** changefile."
               echo "> Check removed routes and update the live tests before merging."
               echo
+            else
+              echo "ESI compatibility date: \`$new_date\` (unchanged; ESI has not published a newer version)."
+              echo
             fi
             echo "### Added methods ($(echo -n "$added" | grep -c '^' || true))"
             echo
@@ -89,10 +94,13 @@ jobs:
             echo
             format_list "$removed"
             echo
+            echo "$enum_changes"
+            echo
             echo "### Before merging"
             echo
             echo "- [ ] Do the [Naming Review]($GITHUB_SERVER_URL/$GITHUB_REPOSITORY/blob/master/AGENTS.md#naming-review) on the added methods and push fixes to this branch."
             echo "- [ ] Confirm removed methods are actual ESI removals, not unintended renames."
+            echo "- [ ] Check removed enum values; removing a value consumers may compare against is breaking."
           } > "$RUNNER_TEMP/pr-body.md"
 
           cat "$RUNNER_TEMP/pr-body.md" >> "$GITHUB_STEP_SUMMARY"

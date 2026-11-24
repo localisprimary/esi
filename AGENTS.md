@@ -94,6 +94,8 @@ At minimum, update the relevant sections when any of these change:
 │   ├── generate.test.ts          # Generator schema-fixture tests
 │   ├── generate-readme.ts        # README renderer
 │   ├── generate-readme.test.ts   # README renderer tests
+│   ├── summarize-enum-changes.ts # Schema-update PR enum-diff summary
+│   ├── summarize-enum-changes.test.ts
 │   ├── tsconfig.json
 │   └── static/
 │       └── boilerplate.md        # Source template for all of README.md
@@ -333,11 +335,12 @@ in-memory only and does not survive reloads, cold starts, or separate processes.
 
 ### Current Suite
 
-The suite contains 60 tests:
+The suite contains 64 tests:
 
 - 17 depend on live `esi.evetech.net` behavior.
-- 43 are deterministic generator, README, cache, request, response, type,
-  constructor, empty-body, and packed-package tests. `pnpm test:unit` runs 41 of
+- 47 are deterministic generator, README, enum-summary, cache, request,
+  response, type, constructor, empty-body, and packed-package tests.
+  `pnpm test:unit` runs 45 of
   these; the constructor and empty-body checks remain in `client.test.ts`.
   Generator tests cover compatibility-date schema loading and stamping,
   `oneOf`/nullable unions, `$ref` body flattening, property-less objects, and
@@ -374,10 +377,10 @@ Remaining high-value additions:
 ```bash
 pnpm generate          # Fetch schema, regenerate source/README, lint-fix, format
 pnpm build             # Type-check scripts, rebuild dist, type-check tests
-pnpm test:unit          # Run 41 fast deterministic regression tests
+pnpm test:unit          # Run 45 fast deterministic regression tests
 pnpm test:coverage      # Run deterministic tests with V8 coverage thresholds
 pnpm test:live          # Run the 19-test client suite (network required)
-pnpm test              # Run all 60 tests (live network required)
+pnpm test              # Run all 64 tests (live network required)
 pnpm compile           # generate + build + test
 pnpm lint              # oxlint src, scripts, and vitest.config.ts
 pnpm lint:fix          # apply oxlint fixes
@@ -437,11 +440,23 @@ tests are updated.
 The workflow regenerates names mechanically and doesn't judge them. Its
 "Summarize method changes" step compares the `async` method lists in
 `src/client.ts` before and after regeneration. It writes the PR body (and the
-job summary) with any compatibility-date change warning, the added methods,
-the removed or renamed methods, and a pre-merge checklist. Before merging any
-schema-update PR, do the [Naming Review](#naming-review) on the added methods
-and push naming fixes to the PR branch. A renamed method shows up as one
-removal plus one addition.
+job summary) with the compatibility-date status (a warning when it changed),
+the added methods, the removed or renamed methods, enum value changes, and a
+pre-merge checklist. Before merging any schema-update PR, do the
+[Naming Review](#naming-review) on the added methods and push naming fixes to
+the PR branch. A renamed method shows up as one removal plus one addition.
+
+Enum changes come from `scripts/summarize-enum-changes.ts`, which compares
+string-literal unions by `Type.property` path between the committed and
+regenerated `src/types.ts`. Unions on added or removed types/properties are not
+listed; those show up as method changes.
+
+ESI also ships additive changes, such as new enum values, in place under an
+existing compatibility date. `/meta/changelog` lists them under the day they
+shipped but with the original `compatibility_date`, and
+`/meta/compatibility-dates` gets no new entry. `COMPATIBILITY_DATE` correctly
+stays unchanged for those updates, as with the 2026-11-23 wallet journal
+`ref_type` addition in PR #64.
 
 ### Publishing
 
@@ -518,6 +533,8 @@ Line references below match the 1,131-line `scripts/generate.ts` checked in on
 - Deterministic client/package tests: `src/test/client.unit.test.ts:36`
 - Generator tests: `scripts/generate.test.ts:10`
 - README tests: `scripts/generate-readme.test.ts:4`
+- Enum union extraction/diff: `scripts/summarize-enum-changes.ts:23`
+- Enum summary tests: `scripts/summarize-enum-changes.test.ts:50`
 - Vitest coverage/retry/timeouts: `vitest.config.ts:3`
 
 ## Troubleshooting
